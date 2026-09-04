@@ -1,0 +1,15 @@
+/* Port-side additions only. Everything visual comes from prototype.css, which
+   is extracted verbatim from the bundle — keep design changes out of this file
+   so a re-extract never has to be reconciled by hand. */
+
+/* The prototype was a standalone page and styled `body` directly; the room is a
+   panel inside the app shell, so those page-level rules are re-homed here. */
+.room-root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  --fs-xl: 22px;
+}
+
+/* Vyom rides on the shared stage overlay above the room, so the anchors are
+   pure measurement points and must never intercept a click. */
+.room-root .vyom-anchor { position: absolute; pointer-events: none; }
