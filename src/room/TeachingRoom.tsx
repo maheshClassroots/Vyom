@@ -266,13 +266,21 @@ export function TeachingRoom() {
                   {current.mode === 'intro' && (
                     <div className="bpop" style={css('position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;overflow:auto;padding:24px 34px 20px;text-align:center;')}>
                       <div id="introMascots" style={css('position:relative;display:flex;align-items:flex-end;gap:8px;flex:none;margin-bottom:8px;')}>
-                        <div style={css('position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:240px;height:158px;background:radial-gradient(ellipse,rgba(255,212,168,.6),rgba(190,170,255,.32) 46%,transparent 72%);filter:blur(15px);z-index:0;animation:halo 5s ease-in-out infinite;')} />
+                        <div style={css('position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:170px;height:130px;background:radial-gradient(ellipse,rgba(255,212,168,.6),rgba(190,170,255,.32) 46%,transparent 72%);filter:blur(15px);z-index:0;animation:halo 5s ease-in-out infinite;')} />
                         <div style={css('position:relative;z-index:1;width:92px;height:92px;')} />
-                        <SparkRive size={120} style={css('position:relative;z-index:1;margin-bottom:10px;filter:drop-shadow(0 10px 13px rgba(253,126,20,.3));')} />
                       </div>
-                      <h1 style={css('margin:0 0 14px;font-size:38px;line-height:1.1;font-weight:800;color:#212529;letter-spacing:-.01em;')}>
-                        <span className={`title-hi${titleHi ? ' title-hi-on' : ''}`} style={css('display:inline-block;padding:2px 14px;')}>{current.title}</span>
-                      </h1>
+                      {/* Spark rides beside the title rather than above it. It is
+                          taken out of flow and hung off the title's right edge, so
+                          the h1 keeps the same centre as the subtitle and formula
+                          below it — an in-flow Spark would shift the title left by
+                          half its width. The wrapper carries the h1's old bottom
+                          margin so the spacing below is unchanged. */}
+                      <div style={css('position:relative;flex:none;margin-bottom:14px;')}>
+                        <h1 style={css('margin:0;font-size:38px;line-height:1.1;font-weight:800;color:#212529;letter-spacing:-.01em;')}>
+                          <span className={`title-hi${titleHi ? ' title-hi-on' : ''}`} style={css('display:inline-block;padding:2px 14px;')}>{current.title}</span>
+                        </h1>
+                        <SparkRive size={144} style={css('position:absolute;left:100%;bottom:0;margin-left:6px;filter:drop-shadow(0 10px 13px rgba(253,126,20,.3));')} />
+                      </div>
                       <p style={css('margin:0 0 20px;font-size:20px;font-weight:500;color:#495057;max-width:560px;line-height:1.5;')}>{current.sub}</p>
                       <div style={css('display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;border-radius:16px;padding:12px 26px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#212529;white-space:nowrap;line-height:1.1;')}>
                         Area = {' '}
