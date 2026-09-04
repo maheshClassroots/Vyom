@@ -62,9 +62,27 @@ export function css(declarations: string): CSSProperties {
  * Asset paths, as unpacked by scripts/extract-prototype.mjs. The prototype's
  * Spark PNG is no longer referenced — Spark renders from `spark_placeholder.riv`
  * via `SparkRive`.
+ *
+ * The single-file build has no server to fetch these from, so it inlines them
+ * as data URIs and each path resolves through that table instead.
  */
+declare global {
+  interface Window {
+    __INLINE_IMAGES?: Record<string, string>;
+  }
+}
+
+const inlined = (typeof window === 'undefined' ? undefined : window.__INLINE_IMAGES) ?? {};
+const resolve = (assetPath: string) => inlined[assetPath] ?? assetPath;
+
 export const ASSET = {
-  logo: '/room/e4455d7b-b4c2-4533-84c1-19b32d99afd5.png',
-  poster: '/room/09c3320c-00f4-4416-ab5a-14ded088b03b.png',
+  logo: resolve('/room/e4455d7b-b4c2-4533-84c1-19b32d99afd5.png'),
+  poster: resolve('/room/09c3320c-00f4-4416-ab5a-14ded088b03b.png'),
   video: '/room/ff2c46c5-61a0-455a-9a75-bf9c539f818f.mp4',
 } as const;
+
+/**
+ * True when running from inlined assets. The lesson video is 11MB and does not
+ * fit the page budget, so the video slide shows its poster instead.
+ */
+export const HAS_VIDEO_FILE = Object.keys(inlined).length === 0;

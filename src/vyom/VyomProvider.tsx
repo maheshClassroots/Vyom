@@ -29,6 +29,7 @@ import {
 import { VyomBinder } from './binder';
 import { RiveComponentContext } from './RiveComponentContext';
 import { resolveArtboard } from './resolveArtboard';
+import { embeddedRive } from './embedded';
 import type { Point, SlotDefinition, SlotId, VyomProperty } from './types';
 
 interface AnchorEntry {
@@ -143,7 +144,10 @@ export function VyomProvider({ children }: { children: ReactNode }) {
   // file really contains. `useRive` reads its parameters once, at init, so the
   // name has to be settled before the instance is created — hence the null
   // params until the file resolves.
-  const { riveFile, status } = useRiveFile({ src: RIVE_CONFIG.src });
+  const embedded = embeddedRive(RIVE_CONFIG.src);
+  const { riveFile, status } = useRiveFile(
+    embedded ? { buffer: embedded } : { src: RIVE_CONFIG.src },
+  );
 
   const artboard = useMemo(() => {
     if (!riveFile || status !== 'success') return null;

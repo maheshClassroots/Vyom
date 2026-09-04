@@ -1,5 +1,6 @@
 import { Alignment, Fit, Layout, useRive } from '@rive-app/react-canvas';
 import type { CSSProperties } from 'react';
+import { embeddedRive } from '../vyom/embedded';
 
 /**
  * The Spark mascot, rendered from `spark_placeholder.riv`.
@@ -21,8 +22,9 @@ interface SparkRiveProps {
 }
 
 export function SparkRive({ size, style }: SparkRiveProps) {
+  const embedded = embeddedRive(SPARK_SRC);
   const { RiveComponent } = useRive({
-    src: SPARK_SRC,
+    ...(embedded ? { buffer: embedded } : { src: SPARK_SRC }),
     stateMachines: SPARK_STATE_MACHINE,
     autoplay: true,
     layout: new Layout({ fit: Fit.Contain, alignment: Alignment.Center }),

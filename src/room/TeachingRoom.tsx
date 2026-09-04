@@ -3,7 +3,7 @@ import { useVyom, useVyomStage, VyomAnchor } from '../vyom';
 import { MILESTONES, REWARD, STEPS } from './journey';
 import { ChatPanel, type ChatMessage } from './ChatPanel';
 import { RoomChrome } from './RoomChrome';
-import { ASSET, css } from './css';
+import { ASSET, HAS_VIDEO_FILE, css } from './css';
 import { Mcq } from './Mcq';
 import { SparkRive } from './SparkRive';
 import './prototype.css';
@@ -355,11 +355,12 @@ export function TeachingRoom() {
                       <video
                         ref={videoRef}
                         poster={ASSET.poster}
-                        src={ASSET.video}
-                        onClick={toggleVideo}
+                        // Omitted in the single-file build — see HAS_VIDEO_FILE.
+                        {...(HAS_VIDEO_FILE ? { src: ASSET.video } : {})}
+                        onClick={HAS_VIDEO_FILE ? toggleVideo : undefined}
                         style={css('width:100%;height:100%;object-fit:contain;cursor:pointer;')}
                       />
-                      {!videoPlaying && (
+                      {!videoPlaying && HAS_VIDEO_FILE && (
                         <button
                           type="button"
                           onClick={toggleVideo}
