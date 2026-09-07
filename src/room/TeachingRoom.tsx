@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useVyom, useVyomStage, VyomAnchor } from '../vyom';
+import { useVyom, useVyomBooleanValue, useVyomStage, VyomAnchor } from '../vyom';
 import { MILESTONES, REWARD, STEPS } from './journey';
 import { ChatPanel, type ChatMessage } from './ChatPanel';
 import { RoomChrome } from './RoomChrome';
@@ -205,10 +205,15 @@ export function TeachingRoom() {
   const teachWrapW = chatOpen ? 'calc(100% - 372px)' : '100%';
   const isIntroStep = current.mode === 'intro';
 
+  // The room's colour scheme follows Vyom's own `isDarkMode` property, so the
+  // character and the room behind him are never out of step — whatever moves
+  // it (the dev panel's checkbox, setFlag, the artboard) moves both.
+  const isDarkMode = useVyomBooleanValue('isDarkMode');
+
   return (
     <div
-      className="room-root"
-      style={css('height:100%;display:flex;flex-direction:column;position:relative;background-image:radial-gradient(18% 28% at 12% 22%,rgba(190,170,255,.22),transparent 70%),radial-gradient(20% 30% at 86% 78%,rgba(255,196,150,.2),transparent 70%),radial-gradient(rgba(96,74,190,.13) 1px,transparent 1px),linear-gradient(180deg,#eee9fd 0%,#f8f5fe 46%,#fdfaf0 100%);background-size:auto,auto,24px 24px,auto;color:#212529;overflow:hidden;')}
+      className={`room-root${isDarkMode ? ' room-root--dark' : ''}`}
+      style={css('height:100%;display:flex;flex-direction:column;position:relative;background-image:var(--room-bg);background-size:var(--room-bg-size);color:#212529;overflow:hidden;')}
     >
       {/* ambient light — spans the whole room with no clip boundary */}
       <div aria-hidden="true" style={css('position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;')}>

@@ -13,3 +13,33 @@
 /* Vyom rides on the shared stage overlay above the room, so the anchors are
    pure measurement points and must never intercept a click. */
 .room-root .vyom-anchor { position: absolute; pointer-events: none; }
+
+/* The room's background is the one painted surface that has to change with the
+   colour scheme, and an inline `style` cannot carry a media query — so it moves
+   here as a custom property and TeachingRoom references `var(--room-bg)`. The
+   light stack below is the prototype's, moved across unchanged. */
+.room-root {
+  --room-bg:
+    radial-gradient(18% 28% at 12% 22%, rgba(190, 170, 255, .22), transparent 70%),
+    radial-gradient(20% 30% at 86% 78%, rgba(255, 196, 150, .2), transparent 70%),
+    radial-gradient(rgba(96, 74, 190, .13) 1px, transparent 1px),
+    linear-gradient(180deg, #eee9fd 0%, #f8f5fe 46%, #fdfaf0 100%);
+  /* The third layer is the dot grid; the rest cover the room. */
+  --room-bg-size: auto, auto, 24px 24px, auto;
+}
+
+/* Dark scheme: same four layers, so the dot grid and the two corner glows keep
+   their geometry — only the palette drops to the deep indigo of the reference.
+   Room chrome (cards, type, chat) is still light-themed; this covers the
+   background only.
+
+   Driven by Vyom's `isDarkMode` ViewModel boolean rather than
+   `prefers-color-scheme`, so the room follows the character. TeachingRoom adds
+   the class from the live property. */
+.room-root--dark {
+  --room-bg:
+    radial-gradient(18% 28% at 12% 22%, rgba(150, 120, 255, .16), transparent 70%),
+    radial-gradient(20% 30% at 86% 78%, rgba(255, 170, 120, .10), transparent 70%),
+    radial-gradient(rgba(176, 152, 255, .07) 1px, transparent 1px),
+    linear-gradient(180deg, #241c33 0%, #1c1527 46%, #140f1c 100%);
+}
