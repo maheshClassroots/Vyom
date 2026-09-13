@@ -195,3 +195,45 @@ input[type='text'], input[type='search'], select {
 .slot__coords code { font-size: 0.7rem; color: var(--ink-soft); background: #f4f4f2; border-radius: 5px; padding: 0.1rem 0.3rem; }
 .slot__sliders { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.35rem; }
 .slot__sliders input { width: 100%; }
+
+/* ---------------------------------------------------------- spark panel */
+
+/*
+ * Spark's controls reuse every `devpanel` style and share Vyom's rail rather
+ * than adding a second one. Two 300px columns squeeze the teaching room enough
+ * to clip Spark himself at 1280px wide, so the rail splits vertically instead:
+ * Vyom on top, Spark below, each with its own scroll. Whichever panel is open
+ * alone takes the full height.
+ */
+.devpanel--spark {
+  top: auto;
+  height: 50%;
+  border-top: 1px solid var(--line);
+}
+
+.shell:has(.devpanel--spark) .devpanel:not(.devpanel--spark) {
+  bottom: auto;
+  height: 50%;
+}
+
+.shell:not(:has(.devpanel:not(.devpanel--spark))) .devpanel--spark {
+  top: 0;
+  height: auto;
+  border-top: none;
+}
+
+/*
+ * Reopen buttons sit at the top-right, which is behind an open rail — so a
+ * closed panel's button steps left of the rail when the other one is open,
+ * and stacks under Vyom's when neither is.
+ */
+.devpanel__reopen--spark { top: 48px; }
+
+.shell:has(.devpanel) .devpanel__reopen--spark {
+  top: 12px;
+  right: calc(var(--panel-w) + 12px);
+}
+
+.shell:has(.devpanel--spark) .devpanel__reopen:not(.devpanel__reopen--spark) {
+  right: calc(var(--panel-w) + 12px);
+}

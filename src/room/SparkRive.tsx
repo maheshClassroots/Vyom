@@ -1,74 +1,39 @@
-import {
-  Alignment,
-  Fit,
-  Layout,
-  useRive,
-  useViewModel,
-  useViewModelInstance,
-} from '@rive-app/react-canvas';
-import { useEffect, type CSSProperties } from 'react';
-import { embeddedRive } from '../vyom/embedded';
-
-/**
- * The Spark mascot, rendered from `spark_placeholder.riv`.
- *
- * Replaces the prototype's static PNG. It plays the default animation of the
- * `Spark` state machine and carries no CSS motion of its own — the float that
- * used to sit on the image is the artboard's job now.
- *
- * Unlike Vyom, Spark is a small inline element rather than a full-screen
- * overlay, so it uses `Fit.Contain` inside whatever box it is given rather
- * than resizing its artboard to the canvas.
- */
-const SPARK_SRC = '/spark_placeholder.riv';
-const SPARK_STATE_MACHINE = 'Spark';
-const SPARK_VIEW_MODEL = 'SparkAnimationControls';
-
-/**
- * How lively Spark is once the artboard has loaded. Written on bind rather
- * than left at the artboard's own default, so the room owns the setting.
- */
-const SPARK_ACTIVENESS = 40;
+import { useContext, type CSSProperties } from 'react';
+import { useSpark } from '../spark/hooks';
+import { SparkRiveComponentContext } from '../spark/SparkRiveComponentContext';
 
 interface SparkRiveProps {
   size: number;
   style?: CSSProperties;
 }
 
+/**
+ * Where Spark draws on the page.
+ *
+ * The Rive instance itself belongs to `SparkProvider`, the same way Vyom's
+ * belongs to `VyomProvider` — that is what lets the control panel drive the
+ * character from outside the room. This component only places the canvas and
+ * plays no part in loading it.
+ *
+ * Unlike Vyom, Spark is a small inline element rather than a full-screen
+ * overlay, so the box is a fixed square in the flow of the layout and the
+ * artboard is scaled into it with `Fit.Contain`.
+ *
+ * The box is rendered even when the artboard is missing, so a load failure
+ * leaves a gap rather than reflowing the title beside it.
+ */
 export function SparkRive({ size, style }: SparkRiveProps) {
-  const embedded = embeddedRive(SPARK_SRC);
-  const { rive, RiveComponent } = useRive({
-    ...(embedded ? { buffer: embedded } : { src: SPARK_SRC }),
-    stateMachines: SPARK_STATE_MACHINE,
-    autoplay: true,
-    // Bound explicitly below so the ViewModel's name is authoritative.
-    autoBind: false,
-    layout: new Layout({ fit: Fit.Contain, alignment: Alignment.Center }),
-  });
-
-  // Same fallback as VyomProvider: a rename in Rive degrades to the artboard
-  // default rather than to an unbound instance.
-  const namedViewModel = useViewModel(rive, { name: SPARK_VIEW_MODEL });
-  const defaultViewModel = useViewModel(rive, { useDefault: true });
-  const viewModel = namedViewModel ?? defaultViewModel;
-  const viewModelInstance = useViewModelInstance(viewModel, { rive });
-
-  useEffect(() => {
-    if (!viewModelInstance) return;
-    const activeness = viewModelInstance.number('activeness');
-    if (!activeness) {
-      console.warn(`[spark] no "activeness" number on ${SPARK_VIEW_MODEL}`);
-      return;
-    }
-    activeness.value = SPARK_ACTIVENESS;
-  }, [viewModelInstance]);
+  const RiveComponent = useContext(SparkRiveComponentContext);
+  const { loadError } = useSpark();
 
   return (
+    // No CSS motion here: every visual change is the artboard's own. The float
+    // that used to sit on the prototype's PNG is the state machine's job now.
     <div
       aria-hidden="true"
       style={{ width: size, height: size, flex: 'none', pointerEvents: 'none', ...style }}
     >
-      <RiveComponent />
+      {RiveComponent && !loadError && <RiveComponent />}
     </div>
   );
 }

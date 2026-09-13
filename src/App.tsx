@@ -1,10 +1,13 @@
 import { VyomProvider } from './vyom';
+import { SparkProvider } from './spark';
 import { AppShell } from './components/AppShell';
 
 export default function App() {
   return (
     <VyomProvider>
-      <AppShell />
+      <SparkProvider>
+        <AppShell />
+      </SparkProvider>
     </VyomProvider>
   );
 }

@@ -1,5 +1,6 @@
 import { TeachingRoom } from '../room/TeachingRoom';
 import { VyomDevPanel, VyomStage } from '../vyom';
+import { SparkDevPanel } from '../spark';
 
 /**
  * The platform frame. `shell__frame` hosts the teaching room; the Rive stage is
@@ -16,6 +17,7 @@ export function AppShell() {
       {/* Rendered last so the character draws above the UI. */}
       <VyomStage />
       <VyomDevPanel />
+      <SparkDevPanel />
     </div>
   );
 }

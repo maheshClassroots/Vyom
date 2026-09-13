@@ -7,6 +7,7 @@ import {
   useViewModelInstanceTrigger,
   type ViewModelInstance,
 } from '@rive-app/react-canvas';
+import { useEffect, useState } from 'react';
 import type { VyomProperty } from '../types';
 
 interface ControlProps {
@@ -71,7 +72,21 @@ function BooleanControl({ property, vmi }: ControlProps) {
 function NumberControl({ property, vmi }: ControlProps) {
   const { value, setValue } = useViewModelInstanceNumber(property.name, vmi);
   const { min = -1000, max = 1000, step = 1 } = property.meta;
-  const current = value ?? 0;
+  const reported = value ?? 0;
+
+  /**
+   * Local echo of what the slider was dragged to.
+   *
+   * Rive raises no change event for a value written from here, so the hook's
+   * `value` keeps reporting whatever the artboard last published. Feeding that
+   * straight back into a controlled input snaps the thumb to the stale number
+   * on the next render and the slider reads as broken — even though the write
+   * did reach the ViewModel. The echo is dropped as soon as the artboard
+   * reports a value of its own, so a property the animation drives still wins.
+   */
+  const [draft, setDraft] = useState<number | null>(null);
+  useEffect(() => setDraft(null), [reported]);
+  const current = draft ?? reported;
 
   return (
     <div className="ctrl ctrl--number">
@@ -85,7 +100,11 @@ function NumberControl({ property, vmi }: ControlProps) {
         max={max}
         step={step}
         value={current}
-        onChange={(event) => setValue(Number(event.target.value))}
+        onChange={(event) => {
+          const next = Number(event.target.value);
+          setDraft(next);
+          setValue(next);
+        }}
       />
     </div>
   );
