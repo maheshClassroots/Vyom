@@ -9,12 +9,30 @@ import type { PropertyMeta } from '../vyom/types';
  * the app hardcodes these names.
  */
 export const SPARK_CONFIG = {
-  src: '/sparkrigfinalallanimations.riv',
+  src: '/sparkanimations.riv',
   artboardCandidates: ['Spark'],
   /** The machine's entry state is Spark's default idle. */
-  stateMachineCandidates: ['Spark', 'SparkRender'],
+  stateMachineCandidates: ['SparkCharacter'],
   viewModel: 'SparkAnimationControls',
+  /**
+   * Like Vyom, Spark's artboard is screen-sized and drawn with Fit.Layout: it
+   * is resized to the canvas rather than scaled into it, so 1 artboard unit is
+   * 1 CSS pixel at a scale factor of 1.
+   */
+  layoutScaleFactor: 1,
 } as const;
+
+/**
+ * Properties the ViewModel computes for itself. Hidden from the control panel
+ * and never written — the counterpart of Vyom's `xref`/`yref`.
+ */
+export const SPARK_INTERNAL_PROPERTIES = new Set(['positionXRef', 'positionYRef']);
+
+/**
+ * Real ViewModel properties deliberately left out of the control panel
+ * because this app does not use them. They still exist on the artboard.
+ */
+export const SPARK_HIDDEN_PROPERTIES = new Set(['activeness']);
 
 /**
  * Grouping and slider ranges for Spark's ViewModel properties.
@@ -22,39 +40,24 @@ export const SPARK_CONFIG = {
  * Like Vyom's `PROPERTY_META`, this only decides which heading a property sits
  * under and what range a number scrubs over. Controls are generated from the
  * ViewModel's *actual* properties at runtime, so a property missing from this
- * map still gets a working control — it just lands under "Unsorted". Adding a
- * trigger in Rive therefore needs no code change here.
+ * map still gets a working control — it just lands under "Unsorted".
  */
 export const SPARK_PROPERTY_META: Record<string, PropertyMeta> = {
-  flyIn: { group: 'presence' },
-  flyOut: { group: 'presence' },
-  idleVariant: { group: 'presence', min: 0, max: 5, step: 1 },
-  activeness: { group: 'presence', min: 0, max: 100, step: 1 },
+  // Entrance, exit and placement live together: they are what decides where
+  // Spark is on screen.
+  flyIn: { group: 'position' },
+  flyOut: { group: 'position' },
+  moveToPoint: { group: 'position' },
+  sparkPositionX: { group: 'position', min: -2000, max: 4000, step: 1 },
+  sparkPositionY: { group: 'position', min: -2000, max: 4000, step: 1 },
+  chatPositionX: { group: 'position', min: -2000, max: 4000, step: 1 },
+  chatPositionY: { group: 'position', min: -2000, max: 4000, step: 1 },
 
   isSpeaking: { group: 'communication' },
-  isCurious: { group: 'communication' },
-  isConfused: { group: 'communication' },
+  expression: { group: 'feedback' },
 
-  delighted: { group: 'feedback' },
-  surprised: { group: 'feedback' },
-  ahaGlow: { group: 'feedback' },
-
-  point: { group: 'gesture' },
-  pointVariant: { group: 'gesture', min: 0, max: 3, step: 1 },
-  pointToSpark: { group: 'gesture' },
-  sparkToPoint: { group: 'gesture' },
-
-  moveToPoint: { group: 'position' },
-  moveToX: { group: 'position', min: -2000, max: 4000, step: 1 },
-  moveToY: { group: 'position', min: -2000, max: 4000, step: 1 },
-
-  isLookingAtPoint: { group: 'gaze' },
-  lookAtX: { group: 'gaze', min: -2000, max: 4000, step: 1 },
-  lookAtY: { group: 'gaze', min: -2000, max: 4000, step: 1 },
-  lookUp: { group: 'gaze' },
-  lookDown: { group: 'gaze' },
-  lookLeft: { group: 'gaze' },
-  lookRight: { group: 'gaze' },
-
-  height: { group: 'appearance', min: 0, max: 400, step: 1 },
+  lookLT: { group: 'gaze' },
+  lookRT: { group: 'gaze' },
+  lookLB: { group: 'gaze' },
+  lookRB: { group: 'gaze' },
 };

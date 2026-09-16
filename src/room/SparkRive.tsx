@@ -1,6 +1,4 @@
-import { useContext, type CSSProperties } from 'react';
-import { useSpark } from '../spark/hooks';
-import { SparkRiveComponentContext } from '../spark/SparkRiveComponentContext';
+import type { CSSProperties } from 'react';
 
 interface SparkRiveProps {
   size: number;
@@ -8,32 +6,19 @@ interface SparkRiveProps {
 }
 
 /**
- * Where Spark draws on the page.
+ * The spot Spark used to occupy inline in the room.
  *
- * The Rive instance itself belongs to `SparkProvider`, the same way Vyom's
- * belongs to `VyomProvider` — that is what lets the control panel drive the
- * character from outside the room. This component only places the canvas and
- * plays no part in loading it.
- *
- * Unlike Vyom, Spark is a small inline element rather than a full-screen
- * overlay, so the box is a fixed square in the flow of the layout and the
- * artboard is scaled into it with `Fit.Contain`.
- *
- * The box is rendered even when the artboard is missing, so a load failure
- * leaves a gap rather than reflowing the title beside it.
+ * Spark is now drawn on a full-viewport stage (`SparkStage`) and positioned by
+ * his artboard's own ViewModel coordinates, so nothing renders here. The box
+ * is kept, at its original size, so the title and outro layouts around it do
+ * not reflow — and so it can become a position anchor later without another
+ * layout change.
  */
 export function SparkRive({ size, style }: SparkRiveProps) {
-  const RiveComponent = useContext(SparkRiveComponentContext);
-  const { loadError } = useSpark();
-
   return (
-    // No CSS motion here: every visual change is the artboard's own. The float
-    // that used to sit on the prototype's PNG is the state machine's job now.
     <div
       aria-hidden="true"
       style={{ width: size, height: size, flex: 'none', pointerEvents: 'none', ...style }}
-    >
-      {RiveComponent && !loadError && <RiveComponent />}
-    </div>
+    />
   );
 }

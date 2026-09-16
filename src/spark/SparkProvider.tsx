@@ -1,4 +1,11 @@
-import { createContext, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import {
   Alignment,
   Fit,
@@ -14,7 +21,12 @@ import { VyomBinder } from '../vyom/binder';
 import { embeddedRive } from '../vyom/embedded';
 import { resolveArtboard, resolveStateMachine } from '../vyom/resolveArtboard';
 import type { VyomProperty } from '../vyom/types';
-import { SPARK_CONFIG, SPARK_PROPERTY_META } from './config';
+import {
+  SPARK_CONFIG,
+  SPARK_HIDDEN_PROPERTIES,
+  SPARK_INTERNAL_PROPERTIES,
+  SPARK_PROPERTY_META,
+} from './config';
 import { SparkRiveComponentContext } from './SparkRiveComponentContext';
 
 export interface SparkContextValue {
@@ -45,32 +57,33 @@ export const SparkContext = createContext<SparkContextValue | null>(null);
 function describeProperties(
   instanceProperties: { name: string; type: string }[],
 ): VyomProperty[] {
-  return instanceProperties.map(({ name, type }) => {
-    const meta = SPARK_PROPERTY_META[name] ?? { group: 'unsorted' as const };
-    return {
-      name,
-      type: type as VyomProperty['type'],
-      group: meta.group,
-      meta,
-      // Spark has no layout-driven coordinates and no computed reference
-      // values, so nothing is hidden from the panel.
-      isSlotDriven: false,
-      isInternal: false,
-    };
-  });
+  return instanceProperties
+    .filter(({ name }) => !SPARK_HIDDEN_PROPERTIES.has(name))
+    .map(({ name, type }) => {
+      const meta = SPARK_PROPERTY_META[name] ?? { group: 'unsorted' as const };
+      return {
+        name,
+        type: type as VyomProperty['type'],
+        group: meta.group,
+        meta,
+        isSlotDriven: false,
+        // `positionXRef`/`positionYRef` are the artboard's own working values.
+        isInternal: SPARK_INTERNAL_PROPERTIES.has(name),
+      };
+    });
 }
 
 /**
  * Owns Spark's Rive instance and exposes its ViewModel to the app.
  *
- * Deliberately the same shape as `VyomProvider`, minus the parts Vyom needs
- * and Spark does not: Spark stays where the layout puts him, so there are no
- * slots, no anchors and no coordinate plumbing. What is shared is the part
- * that matters — the file is read first, every name is resolved against what
- * the file actually contains, and the ViewModel is bound by name so the
- * control panel can be generated from the artboard rather than hardcoded.
+ * Deliberately the same shape as `VyomProvider`: the file is read first, every
+ * name is resolved against what the file actually contains, and the ViewModel
+ * is bound by name so the control panel is generated from the artboard rather
+ * than hardcoded.
  *
- * The canvas itself is rendered by `SparkRive`, wherever the room places it.
+ * Spark's artboard is screen-sized, so like Vyom he is drawn on one
+ * full-viewport canvas (`SparkStage`) and positioned inside the artboard by
+ * its own ViewModel coordinates, not by where a DOM box happens to sit.
  */
 export function SparkProvider({ children }: { children: ReactNode }) {
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -109,14 +122,17 @@ export function SparkProvider({ children }: { children: ReactNode }) {
             // `stateMachines` (plural) despite the runtime's deprecation
             // warning recommending `stateMachine`: this version's constructor
             // silently ignores the singular form and falls back to the
-            // artboard's first timeline (`flyIn`), so the machine never runs
-            // and the ViewModel appears dead. Verified against the file — the
+            // artboard's first timeline, so the machine never runs and the
+            // ViewModel appears dead. Verified against the file — the
             // plural form starts the machine, the singular one does not.
             stateMachines: resolved.stateMachine.name ?? undefined,
-            // Fit.Contain rather than Vyom's Fit.Layout: Spark is a small
-            // inline element scaled into its box, not a full-screen stage
-            // whose artboard is resized to match the viewport.
-            layout: new Layout({ fit: Fit.Contain, alignment: Alignment.Center }),
+            // Fit.Layout resizes the artboard to the canvas instead of scaling
+            // it, so the artboard fills the screen and 1 unit === 1 CSS pixel.
+            layout: new Layout({
+              fit: Fit.Layout,
+              alignment: Alignment.Center,
+              layoutScaleFactor: SPARK_CONFIG.layoutScaleFactor,
+            }),
             autoplay: true,
             // The ViewModel is bound explicitly below so its name is authoritative.
             autoBind: false,
@@ -125,7 +141,9 @@ export function SparkProvider({ children }: { children: ReactNode }) {
     [resolved, riveFile],
   );
 
-  const { rive, RiveComponent } = useRive(riveParams);
+  const { rive, RiveComponent } = useRive(riveParams, {
+    shouldResizeCanvasToContainer: true,
+  });
 
   // Prefer the ViewModel named in config; fall back to the artboard default so
   // a rename in Rive degrades to "still works" instead of "no controls".

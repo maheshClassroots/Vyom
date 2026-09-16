@@ -38,6 +38,8 @@ export function SparkDevPanel() {
 
     const buckets = new Map<PropertyGroupId, VyomProperty[]>();
     for (const property of matched) {
+      // Internal properties are the artboard's own working values.
+      if (property.isInternal) continue;
       const list = buckets.get(property.group) ?? [];
       list.push(property);
       buckets.set(property.group, list);
@@ -48,7 +50,15 @@ export function SparkDevPanel() {
         id,
         label: PROPERTY_GROUPS[id]?.label ?? id,
         order: PROPERTY_GROUPS[id]?.order ?? 50,
-        items: items.slice().sort((a, b) => a.name.localeCompare(b.name)),
+        // Buttons ahead of sliders within a group, so flyIn/flyOut/moveToPoint
+        // read as one row of actions above the coordinates they act on.
+        items: items
+          .slice()
+          .sort(
+            (a, b) =>
+              Number(a.type !== 'trigger') - Number(b.type !== 'trigger') ||
+              a.name.localeCompare(b.name),
+          ),
       }))
       .sort((a, b) => a.order - b.order);
   }, [properties, query]);

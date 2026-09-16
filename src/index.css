@@ -131,6 +131,23 @@ input[type='text'], input[type='search'], select {
   pointer-events: none;
 }
 
+/* Spark's stage mirrors Vyom's: one fixed full-viewport canvas that ignores
+   the pointer, drawn above Vyom's. */
+.spark-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 21;
+  pointer-events: none;
+}
+.spark-stage__canvas { width: 100%; height: 100%; display: block; }
+.spark-stage--error {
+  display: grid;
+  place-content: center;
+  color: #b23b3b;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
 .vyom-anchor { position: absolute; width: 0; height: 0; pointer-events: none; }
 .vyom-anchor--debug {
   width: 10px; height: 10px; margin: -5px 0 0 -5px;
