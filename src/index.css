@@ -1,0 +1,428 @@
+:root {
+  --bg: #f4f4f2;
+  --surface: #ffffff;
+  --line: #d9d9d6;
+  --line-strong: #6f6f6f;
+  --ink: #1c1c1a;
+  --ink-soft: #6a6a66;
+  --accent: #2f5fd8;
+  --radius: 14px;
+  --panel-w: 300px;
+
+  color-scheme: light;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; margin: 0; }
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 0.45rem 0.8rem;
+  color: inherit;
+}
+button:hover:not(:disabled) { border-color: var(--line-strong); }
+button:disabled { opacity: 0.4; cursor: default; }
+
+input[type='text'], input[type='search'], select {
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+  background: var(--surface);
+}
+
+/* ------------------------------------------------------------------ shell */
+
+.shell { height: 100%; padding: clamp(12px, 2vw, 28px); }
+/* Reserve the gutter only while the panel is on screen. */
+.shell:has(.devpanel) { padding-right: calc(var(--panel-w) + 28px); }
+
+/* The platform surface. The teaching room fills it edge to edge. */
+.shell__frame {
+  height: 100%;
+  min-height: 0;
+  border-radius: calc(var(--radius) + 10px);
+  overflow: hidden;
+  box-shadow: 0 20px 60px -30px rgba(70, 46, 146, 0.5);
+}
+
+@media (max-width: 900px) {
+  .shell:has(.devpanel) { padding-right: clamp(12px, 2vw, 28px); }
+}
+
+/* ------------------------------------------------------------------- chat */
+
+.chat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.chat__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.chat__head h2 { margin: 0; font-size: 0.9rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-soft); }
+.chat__ghost { padding: 0.25rem 0.55rem; font-size: 0.78rem; }
+
+.chat__log { flex: 1; min-height: 0; overflow-y: auto; padding: 0.9rem; display: flex; flex-direction: column; gap: 0.55rem; }
+
+.bubble { margin: 0; padding: 0.5rem 0.7rem; border-radius: 10px; font-size: 0.88rem; line-height: 1.45; max-width: 92%; }
+.bubble--vyom { background: #eef1fb; border: 1px solid #dde3f7; align-self: flex-start; }
+.bubble--learner { background: #f1f1ef; border: 1px solid var(--line); align-self: flex-end; }
+
+.chat__composer { display: flex; gap: 0.4rem; padding: 0.7rem; border-top: 1px solid var(--line); }
+.chat__composer input { flex: 1; min-width: 0; }
+
+/* ----------------------------------------------------------------- canvas */
+
+.canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.canvas__body { flex: 1; min-height: 0; overflow-y: auto; padding: clamp(2rem, 14%, 8rem) clamp(1.2rem, 6%, 4rem) 1.5rem; }
+.canvas__eyebrow { margin: 0 0 0.5rem; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.canvas h1 { margin: 0 0 0.7rem; font-size: clamp(1.3rem, 2.4vw, 2rem); }
+.canvas__prose { margin: 0; max-width: 52ch; line-height: 1.6; color: #33332f; }
+
+.canvas__answers { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+
+.canvas__foot { display: flex; gap: 0.5rem; justify-content: space-between; padding: 0.7rem 0.9rem; border-top: 1px solid var(--line); }
+.canvas__celebrate { border-color: var(--accent); color: var(--accent); }
+
+/* ------------------------------------------------------------ rive stage */
+
+/* The overlay tier.
+   Characters and dev tools are mounted above both screens, so they have to
+   clear everything either screen stacks — and the teaching room's own
+   overlays go as high as 9999 (fullscreen video, modals). These sit above
+   that rather than competing inside the page's range. */
+:root {
+  --z-vyom-stage: 10000;
+  --z-spark-stage: 10001;
+  --z-devpanel: 10010;
+  --z-sequencer: 10011;
+}
+
+
+.vyom-stage {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-vyom-stage);
+  pointer-events: none;
+}
+.vyom-stage__canvas { width: 100%; height: 100%; display: block; }
+.vyom-stage--error {
+  display: grid;
+  place-content: center;
+  color: #b23b3b;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+/* Spark's stage mirrors Vyom's: one fixed full-viewport canvas that ignores
+   the pointer, drawn above Vyom's. */
+.spark-stage {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-spark-stage);
+  pointer-events: none;
+}
+.spark-stage__canvas { width: 100%; height: 100%; display: block; }
+.spark-stage--error {
+  display: grid;
+  place-content: center;
+  color: #b23b3b;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.vyom-anchor { position: absolute; width: 0; height: 0; pointer-events: none; }
+.vyom-anchor--debug {
+  width: 10px; height: 10px; margin: -5px 0 0 -5px;
+  border-radius: 50%; background: #e04f4f; opacity: 0.9;
+}
+
+/* -------------------------------------------------------------- devpanel */
+
+.devpanel {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  z-index: var(--z-devpanel);
+  width: var(--panel-w);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  font-size: 0.82rem;
+}
+
+.devpanel__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; padding: 0.85rem 0.9rem 0.6rem; border-bottom: 1px solid var(--line); }
+.devpanel__head h2 { margin: 0; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.devpanel__status { margin: 0.25rem 0 0; font-size: 0.75rem; }
+.devpanel__status--ok { color: var(--ink-soft); }
+.devpanel__status--wait { color: #b07d2b; }
+.devpanel__artboard { margin: 0.15rem 0 0; font-size: 0.72rem; color: var(--ink-soft); }
+.devpanel__artboard code { background: #f4f4f2; border-radius: 4px; padding: 0 0.25rem; }
+.devpanel__close { border: none; background: none; font-size: 1.2rem; line-height: 1; padding: 0 0.2rem; }
+
+.devpanel__reopen { position: fixed; top: 12px; right: 12px; z-index: var(--z-devpanel); }
+
+.devpanel__search { margin: 0.6rem 0.9rem; }
+.devpanel__scroll { flex: 1; min-height: 0; overflow-y: auto; padding-bottom: 1.5rem; }
+
+.devpanel__section { padding: 0.5rem 0.9rem 0.9rem; }
+.devpanel__section h3 { margin: 0 0 0.5rem; font-size: 0.7rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-soft); }
+
+.devpanel__grid { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.devpanel__grid--position { flex-direction: column; }
+.devpanel__empty { padding: 0 0.9rem; color: var(--ink-soft); }
+
+.ctrl__label { font-size: 0.8rem; }
+.ctrl--trigger { padding: 0.3rem 0.55rem; font-size: 0.78rem; }
+.ctrl--boolean { display: flex; align-items: center; gap: 0.35rem; width: 100%; }
+.ctrl--number { width: 100%; }
+.ctrl--number .ctrl__row { display: flex; justify-content: space-between; }
+.ctrl--number input[type='range'] { width: 100%; }
+.ctrl--string, .ctrl--enum, .ctrl--color { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; width: 100%; }
+.ctrl__value { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.ctrl__badge { font-size: 0.7rem; color: var(--ink-soft); border: 1px dashed var(--line); border-radius: 5px; padding: 0 0.3rem; }
+.ctrl--unsupported { display: flex; gap: 0.4rem; align-items: center; }
+
+/* ---------------------------------------------------------------- slots */
+
+.slots { display: flex; flex-direction: column; gap: 0.5rem; }
+.slot { border: 1px solid var(--line); border-radius: 9px; padding: 0.5rem; }
+.slot--active { border-color: var(--accent); }
+.slot__head { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; }
+.slot__go { padding: 0.25rem 0.5rem; font-size: 0.78rem; }
+.slot__manual { display: flex; align-items: center; gap: 0.25rem; font-size: 0.72rem; color: var(--ink-soft); }
+.slot__coords { display: flex; gap: 0.4rem; margin-top: 0.35rem; }
+.slot__coords code { font-size: 0.7rem; color: var(--ink-soft); background: #f4f4f2; border-radius: 5px; padding: 0.1rem 0.3rem; }
+/* The coordinate read-outs double as drag sources for the sequencer, so each
+   carries the same grip the control rows use. */
+.slot__coord { display: inline-flex; align-items: center; gap: 0.15rem; }
+.slot__coord:hover .ctrl-row__grip { color: var(--ink-soft); }
+.slot__sliders { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.35rem; }
+.slot__sliders input { width: 100%; }
+
+/* ---------------------------------------------------------- spark panel */
+
+/*
+ * Spark's controls reuse every `devpanel` style and share Vyom's rail rather
+ * than adding a second one. Two 300px columns squeeze the teaching room enough
+ * to clip Spark himself at 1280px wide, so the rail splits vertically instead:
+ * Vyom on top, Spark below, each with its own scroll. Whichever panel is open
+ * alone takes the full height.
+ */
+.devpanel--spark {
+  top: auto;
+  height: 50%;
+  border-top: 1px solid var(--line);
+}
+
+.shell:has(.devpanel--spark) .devpanel:not(.devpanel--spark) {
+  bottom: auto;
+  height: 50%;
+}
+
+.shell:not(:has(.devpanel:not(.devpanel--spark))) .devpanel--spark {
+  top: 0;
+  height: auto;
+  border-top: none;
+}
+
+/*
+ * Reopen buttons sit at the top-right, which is behind an open rail — so a
+ * closed panel's button steps left of the rail when the other one is open,
+ * and stacks under Vyom's when neither is.
+ */
+.devpanel__reopen--spark { top: 48px; }
+
+.shell:has(.devpanel) .devpanel__reopen--spark {
+  top: 12px;
+  right: calc(var(--panel-w) + 12px);
+}
+
+.shell:has(.devpanel--spark) .devpanel__reopen:not(.devpanel__reopen--spark) {
+  right: calc(var(--panel-w) + 12px);
+}
+
+/* Properties listed in the file's own order: one column, so the sequence
+   reads top to bottom rather than wrapping into rows. */
+.devpanel__grid--ordered { flex-direction: column; align-items: stretch; }
+.devpanel__grid--ordered .ctrl--trigger { text-align: left; }
+.devpanel__note { float: right; text-transform: none; letter-spacing: 0; opacity: 0.7; }
+
+/* Read-only read-outs: no affordance to click or drag, so they cannot be
+   mistaken for controls. */
+.devpanel__hint { margin: -0.2rem 0 0.5rem; font-size: 0.72rem; color: var(--ink-soft); }
+.ctrl--readonly {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  border: 1px dashed var(--line);
+  border-radius: 7px;
+  background: #faf9fe;
+  cursor: default;
+}
+.ctrl--readonly .ctrl__label { color: var(--ink-soft); }
+.ctrl__flag { font-size: 0.75rem; font-weight: 700; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.ctrl__flag--on { color: #2f9e44; }
+
+/* ------------------------------------------------------------- sequencer */
+/*
+ * Dev tool, docked along the bottom so the two lanes can sit side by side —
+ * a sequence reads as a column, and two columns need width the right-hand
+ * rails do not have. It has no palette of its own: controls are dragged out
+ * of the character panels by their grip.
+ */
+.seq {
+  position: fixed;
+  left: 0;
+  right: var(--panel-w);
+  bottom: 0;
+  z-index: var(--z-sequencer);
+  height: min(46vh, 420px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -10px 24px -18px rgba(70, 46, 146, 0.5);
+  font-size: 0.82rem;
+}
+.devpanel__reopen--seq { top: 84px; }
+
+.seq__head {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.6rem 0.9rem 0.4rem;
+  border-bottom: 1px solid var(--line);
+}
+.seq__head h2 { margin: 0; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.seq__sub { margin: 0; flex: 1; font-size: 0.75rem; color: var(--ink-soft); }
+
+/* Side by side, each lane taking half the width. */
+.seq__lanes { flex: 1; min-height: 0; display: flex; }
+.lane {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.6rem 0.9rem 0.7rem;
+  border-right: 1px solid var(--line);
+}
+.lane:last-child { border-right: none; }
+.lane__head {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.seq__link { border: none; background: none; padding: 0; font: inherit; color: var(--accent); cursor: pointer; }
+
+.seq__list {
+  flex: 1;
+  min-height: 3rem;
+  margin: 0;
+  padding: 0.3rem;
+  list-style: none;
+  overflow-y: auto;
+  border: 1px dashed var(--line);
+  border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+/* Clear target while something is held over it. */
+.seq__list--over { border-color: var(--accent); background: #faf8ff; }
+.seq__empty { margin: auto; padding: 0.7rem; text-align: center; color: var(--ink-soft); font-size: 0.76rem; }
+
+.seq__step {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  cursor: grab;
+}
+.seq__step--playing { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(121, 80, 242, 0.14); }
+.seq__index {
+  width: 1.1rem;
+  flex: none;
+  text-align: center;
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.seq__name { flex: 1; min-width: 0; font-size: 0.78rem; }
+.seq__name--set, .seq__name--wait { display: flex; align-items: center; gap: 0.3rem; }
+.seq__prop { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.seq__name--wait { color: var(--ink-soft); }
+.seq__name--wait input, .seq__name--set input { width: 4.4rem; flex: none; padding: 0.05rem 0.2rem; font: inherit; font-size: 0.75rem; }
+.seq__name--set select { max-width: 7.5rem; flex: none; padding: 0.05rem 0.2rem; font: inherit; font-size: 0.72rem; }
+.seq__toggle { flex: none; padding: 0.05rem 0.4rem; font-size: 0.7rem; font-weight: 700; border-radius: 999px; color: var(--ink-soft); }
+.seq__toggle--on { border-color: #2f9e44; color: #2f9e44; }
+.seq__remove { border: none; background: none; padding: 0 0.15rem; font-size: 0.95rem; line-height: 1; color: var(--ink-soft); cursor: pointer; }
+.seq__remove:hover { color: #b23b3b; }
+
+.seq__foot { flex: none; display: flex; gap: 0.35rem; }
+.seq__wait { flex: none; padding: 0.4rem 0.6rem; font-size: 0.75rem; border-style: dashed; font-weight: 700; }
+.seq__play { flex: 1; padding: 0.4rem; font-weight: 700; font-size: 0.78rem; }
+/* Save / Load sit between the two: quieter than Play, which is the one thing
+   in the footer that changes what is on screen. */
+.seq__io { flex: none; padding: 0.4rem 0.5rem; font-size: 0.75rem; color: var(--ink-soft); }
+.seq__io:disabled { opacity: 0.45; cursor: not-allowed; }
+.seq__status { margin: 0; font-size: 0.72rem; color: var(--ink-soft); }
+.seq__status--warn { color: #b07d2b; }
+
+/* Controls carry a grip so they can be dragged into a lane; the control
+   itself stays fully interactive. */
+.ctrl-row { display: flex; align-items: center; gap: 0.3rem; width: 100%; }
+.ctrl-row > .ctrl { flex: 1; min-width: 0; }
+.ctrl-row__grip {
+  flex: none;
+  padding: 0 0.1rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: var(--line);
+  cursor: grab;
+  user-select: none;
+}
+.ctrl-row:hover .ctrl-row__grip { color: var(--ink-soft); }
+.ctrl-row__grip:active { cursor: grabbing; }

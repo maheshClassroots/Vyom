@@ -1,0 +1,408 @@
+/* ---------------------------------------------------------------- home page */
+/*
+ * Ported from the design's home screen (`Home Page.dc.html` → `app-cosmos.js`).
+ * Colours, shadows and the canvas gradient are the design's own values:
+ * Mantine blue as the single accent, cosmic-tinted grays for structure.
+ */
+
+.home {
+  --h-mascot: 190px;
+  --h-ring: 400px;
+  --h-glow: 240px;
+  --h-blue: #339af0;
+  --h-blue7: #1c7ed6;
+  --h-blue9: #1864ab;
+  --h-blue0: #e7f5ff;
+  --h-blue2: #a5d8ff;
+  --h-ink: #212529;
+  --h-dim: #868e96;
+  --h-border: #dee2e6;
+  --h-sh-xs: 0 2px 6px -3px rgba(70, 46, 146, 0.16);
+  --h-sh-sm: 0 6px 14px -8px rgba(70, 46, 146, 0.22);
+
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--h-ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* The design's canvas: a faint blue lattice over a top-down gradient. */
+  background-color: #f8f9fa;
+  background-image: radial-gradient(rgba(34, 139, 230, 0.07) 1px, transparent 1px),
+    linear-gradient(180deg, #e7f5ff 0%, #f8f9fa 52%, #ffffff 100%);
+  background-size: 24px 24px, 100% 100%;
+}
+
+/*
+ * Ring orbit, breathing glow and composer shimmer — taken from the design's
+ * own stylesheet. The ring size is a custom property because the rings are
+ * absolutely positioned and animate their own width, so the keyframe itself
+ * has to read the responsive value; scaling the parent has no effect.
+ */
+.home { --ringx-from: 196px; --ringx-to: 396px; }
+@media (max-width: 767px) { .home { --ringx-from: 132px; --ringx-to: 268px; } }
+
+@keyframes expand {
+  0% { width: var(--ringx-from); height: var(--ringx-from); opacity: 0; }
+  9% { opacity: 0.92; }
+  55% { opacity: 0.34; }
+  100% { width: var(--ringx-to); height: var(--ringx-to); opacity: 0; }
+}
+@keyframes panelbreathe { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+@keyframes hudglow { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.9; } }
+
+.home .ringx {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--ringx-from);
+  height: var(--ringx-from);
+  animation-name: expand;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+.home .ringx-line {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1c7ed6 0%, #74c0fc 52%, #ffffff 100%);
+  padding: 2px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* ------------------------------------------------------------- top chrome */
+
+.home__chrome {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 22px 4px;
+}
+
+.home__brand {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 19px;
+  background: linear-gradient(145deg, #7950f2, #5f3dc4);
+  box-shadow: var(--h-sh-sm);
+}
+
+.home__goal { flex: 0 1 340px; min-width: 0; }
+.home__goal-text {
+  margin: 0 0 5px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #5d5880;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.home__goal-text strong { color: #e8590c; font-size: 14px; font-weight: 800; }
+.home__goal-bar {
+  display: block;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(120, 120, 180, 0.18);
+  overflow: hidden;
+}
+.home__goal-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ff922b, #e8590c);
+}
+
+.home__stats { margin-left: auto; display: flex; align-items: center; gap: 12px; flex: none; }
+.home__stat { display: inline-flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 800; }
+.home__stat-star { color: #fab005; font-size: 17px; }
+.home__stat-divide { width: 1px; height: 20px; background: var(--h-border); }
+.home__orb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe066, #f59f00);
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.18);
+}
+.home__avatar {
+  margin-left: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px 4px 4px;
+  border: 1px solid var(--h-border);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--h-sh-xs);
+}
+.home__avatar img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; display: block; }
+.home__avatar i { font-size: 14px; color: var(--h-dim); }
+
+/* -------------------------------------------------------------------- hero */
+
+.home__hero {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  text-align: center;
+  padding: 8px 24px 8px;
+  /* The hero takes the squeeze on short viewports rather than growing into
+     the composer, which is what the design does with its own scroller. */
+  overflow-y: auto;
+}
+
+.home__mascot-wrap { position: relative; display: grid; place-items: center; margin-bottom: 8px; }
+.home__mascot-glow {
+  position: absolute;
+  width: var(--h-glow);
+  height: var(--h-glow);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(34, 139, 230, 0.2),
+    rgba(51, 154, 240, 0.12) 46%,
+    rgba(34, 139, 230, 0) 72%
+  );
+  animation: panelbreathe 3.4s ease-in-out infinite;
+}
+/* The rings are masked off towards the bottom so they read as an orbit the
+   mascot stands in front of, not a flat set of circles. */
+.home__rings {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--h-ring);
+  height: var(--h-ring);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0, 0, 0, 0.55) 60%, transparent 74%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0, 0, 0, 0.55) 60%, transparent 74%);
+}
+.home__ring-icon {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 6px rgba(28, 126, 214, 0.32);
+  z-index: 2;
+}
+.home__ring-icon i { font-size: 14px; color: #1c7ed6; -webkit-text-stroke: 0.6px #1c7ed6; }
+/* The canvas sits above the rings; the artboard's own idle supplies the
+   motion, so there is no CSS bob on top of it. */
+/* Vyom is drawn on the app-wide stage, not in here. This box reserves his
+   space in the layout and gives the slot anchor something to sit in. */
+.home__mascot {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  display: block;
+  width: var(--h-mascot);
+  height: var(--h-mascot);
+}
+
+.home__greeting { margin: 12px 0 0; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
+.home__sub { margin: 6px 0 0; max-width: 340px; font-size: 16px; line-height: 1.5; color: var(--h-dim); }
+
+/* ----------------------------------------------------------- resume a class */
+
+.home__resume {
+  width: 80%;
+  max-width: 600px;
+  margin-top: clamp(16px, 4vh, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.home__label {
+  margin: 0 0 2px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--h-dim);
+}
+
+.resume {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 25px 22px;
+  text-align: left;
+  color: inherit;
+  background: #fff;
+  border: 1.5px solid var(--h-border);
+  border-radius: 14px;
+  box-shadow: var(--h-sh-xs);
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+.resume:hover { border-color: var(--h-blue); background: var(--h-blue0); box-shadow: var(--h-sh-sm); }
+.resume:hover .resume__go { transform: scale(1.08); box-shadow: 0 6px 16px rgba(28, 126, 214, 0.45); }
+.resume:focus-visible { outline: 2px solid var(--h-blue7); outline-offset: 3px; }
+
+.resume__icon {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--h-blue0);
+  color: var(--h-blue);
+  font-size: 23px;
+}
+.resume__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.resume__chapter {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--h-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.resume__title {
+  margin-top: 1px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.resume__go {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 16px;
+  background: linear-gradient(180deg, #339af0, #1c7ed6);
+  box-shadow: 0 4px 12px rgba(28, 126, 214, 0.35);
+  transition: 0.18s ease;
+}
+
+/* ------------------------------------------------------- jumps and composer */
+
+.home__foot { flex: none; padding: 16px 22px 26px; }
+.home__jumps { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
+.home__jump {
+  padding: 11px 21px;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #1971c2, #1864ab);
+  box-shadow: 0 4px 12px rgba(24, 100, 171, 0.38);
+}
+/* The pages these lead to are not part of this app, so they are shown but
+   inert rather than wired to nothing. */
+.home__jump:disabled { cursor: default; opacity: 0.55; }
+
+.home__composer { position: relative; max-width: 820px; margin: 0 auto; }
+.home__composer-glow {
+  position: absolute;
+  inset: -12px -8px;
+  border-radius: 24px;
+  background: radial-gradient(
+    62% 130% at 50% 118%,
+    rgba(76, 110, 245, 0.22),
+    rgba(121, 80, 242, 0.1) 55%,
+    transparent 78%
+  );
+  filter: blur(11px);
+  pointer-events: none;
+  animation: hudglow 4s ease-in-out infinite;
+}
+.home__composer-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 54px;
+  padding: 0 11px;
+  border: 1px solid var(--h-border);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(28, 18, 74, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.home__composer-icon {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: var(--h-dim);
+  font-size: 19px;
+}
+.home__composer-input {
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--h-ink);
+}
+.home__composer-input::placeholder { color: #495057; opacity: 1; }
+.home__composer-send {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 18px;
+  background: linear-gradient(45deg, #228be6 0%, #15aabf 100%);
+  box-shadow: 0 4px 12px rgba(51, 154, 240, 0.23);
+}
+
+@media (max-width: 767px) {
+  .home__goal { display: none; }
+  .home__resume { width: 100%; }
+  .home { --h-ring: 300px; --h-glow: 150px; --h-mascot: 150px; }
+}
+
+/* Short viewports: the design compresses rather than scrolls, so the hero
+   gives up mascot size and spacing before the second class card is cut off. */
+@media (max-height: 850px) {
+  .home { --h-mascot: 150px; --h-ring: 320px; --h-glow: 190px; --ringx-from: 158px; --ringx-to: 318px; }
+  .home__greeting { margin-top: 4px; font-size: 22px; }
+  .home__sub { font-size: 15px; }
+  .home__resume { margin-top: 16px; gap: 9px; }
+  .resume { padding: 16px 20px; }
+  .home__foot { padding: 10px 22px 18px; }
+  .home__jumps { margin-bottom: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__mascot-glow,
+  .home__composer-glow,
+  .home .ringx { animation: none; }
+}

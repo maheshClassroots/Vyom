@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+
+<script src="952a622c-4756-4928-ab77-096fa481fef9"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://unpkg.com" crossorigin="">
+
+<script src="e4c03773-7fda-469e-997a-54a4f4189d26"></script>
+
+
+
+
+
+
+
+
+
+<script src="51113b85-70c2-48e0-a405-34811e8da7e2"></script>
+
+</helmet>
+
+<div class="{{ bgFxClass }}" style="height:100vh;display:flex;flex-direction:column;position:relative;background-image:radial-gradient(18% 28% at 12% 22%,rgba(190,170,255,.22),transparent 70%),radial-gradient(20% 30% at 86% 78%,rgba(255,196,150,.2),transparent 70%),radial-gradient(rgba(96,74,190,.13) 1px,transparent 1px),linear-gradient(180deg,#eee9fd 0%,#f8f5fe 46%,#fdfaf0 100%);background-size:auto,auto,24px 24px,auto;color:#212529;overflow:hidden;">
+
+  <!-- ambient light — lives on the page shell so it spans the whole room with no clip boundary -->
+  <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
+    <span style="position:absolute;left:16%;top:18%;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 9px 2px rgba(255,225,180,.9);animation:twn 3.5s ease-in-out infinite;"></span>
+    <span style="position:absolute;right:20%;top:14%;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(200,185,255,.9);animation:twn 4.4s ease-in-out .7s infinite;"></span>
+    <span style="position:absolute;right:12%;bottom:22%;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 9px 2px rgba(180,220,255,.9);animation:twn 3.8s ease-in-out 1.3s infinite;"></span>
+    <span style="position:absolute;left:12%;bottom:16%;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,205,190,.9);animation:twn 4.6s ease-in-out .4s infinite;"></span>
+  </div>
+
+
+
+  <!-- magical space backdrop (removed for clean blue→white bg) -->
+  <div aria-hidden="true" style="display:none;">
+    <div style="position:absolute;left:-10%;top:-16%;width:46vw;height:46vw;border-radius:50%;background:radial-gradient(circle,rgba(255,198,150,.5),transparent 66%);filter:blur(26px);animation:aur 17s ease-in-out infinite;"></div>
+    <div style="position:absolute;right:-12%;top:-12%;width:42vw;height:42vw;border-radius:50%;background:radial-gradient(circle,rgba(190,170,255,.5),transparent 66%);filter:blur(26px);animation:aur 21s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;left:16%;bottom:-22%;width:52vw;height:52vw;border-radius:50%;background:radial-gradient(circle,rgba(255,168,178,.4),transparent 66%);filter:blur(30px);animation:aur 19s ease-in-out 1s infinite;"></div>
+    <div style="position:absolute;right:4%;bottom:-16%;width:40vw;height:40vw;border-radius:50%;background:radial-gradient(circle,rgba(150,220,255,.36),transparent 66%);filter:blur(28px);animation:aur 23s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;left:38%;top:18%;width:30vw;height:30vw;border-radius:50%;background:radial-gradient(circle,rgba(178,245,200,.3),transparent 68%);filter:blur(30px);animation:aur 25s ease-in-out 2s infinite;"></div>
+    <span style="position:absolute;left:9%;top:24%;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px 2px rgba(255,236,190,.95);animation:twn 3.2s ease-in-out infinite;"></span>
+    <span style="position:absolute;left:24%;top:12%;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(210,190,255,.9);animation:twn 4.1s ease-in-out .6s infinite;"></span>
+    <span style="position:absolute;left:47%;top:8%;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 9px 2px rgba(255,200,170,.9);animation:twn 3.6s ease-in-out 1.1s infinite;"></span>
+    <span style="position:absolute;right:26%;top:16%;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(180,220,255,.9);animation:twn 4.6s ease-in-out .3s infinite;"></span>
+    <span style="position:absolute;right:11%;top:30%;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px 2px rgba(255,220,200,.95);animation:twn 3.9s ease-in-out 1.4s infinite;"></span>
+    <span style="position:absolute;left:6%;bottom:20%;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 9px 2px rgba(200,255,220,.9);animation:twn 4.3s ease-in-out .9s infinite;"></span>
+    <span style="position:absolute;left:33%;bottom:12%;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(210,190,255,.9);animation:twn 3.4s ease-in-out 1.7s infinite;"></span>
+    <span style="position:absolute;right:30%;bottom:16%;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 9px 2px rgba(255,205,175,.9);animation:twn 4.8s ease-in-out .2s infinite;"></span>
+    <span style="position:absolute;right:8%;bottom:26%;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(185,225,255,.9);animation:twn 3.7s ease-in-out 1.2s infinite;"></span>
+    <span style="position:absolute;left:52%;bottom:9%;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 9px 2px rgba(255,235,195,.9);animation:twn 4.2s ease-in-out .5s infinite;"></span>
+    <i class="ti ti-sparkles" style="position:absolute;left:20%;top:15%;font-size:20px;color:rgba(255,190,120,.62);animation:floaty 8s ease-in-out infinite;"></i>
+    <i class="ti ti-sparkles" style="position:absolute;right:15%;top:22%;font-size:16px;color:rgba(180,150,255,.6);animation:floaty 9.5s ease-in-out 1s infinite;"></i>
+    <i class="ti ti-star-filled" style="position:absolute;left:14%;bottom:24%;font-size:12px;color:rgba(120,200,255,.55);animation:floaty 7.5s ease-in-out .5s infinite;"></i>
+    <i class="ti ti-sparkles" style="position:absolute;right:22%;bottom:12%;font-size:16px;color:rgba(255,160,170,.55);animation:floaty 8.8s ease-in-out 1.6s infinite;"></i>
+  </div>
+
+  <!-- ============ FLOATING TOP CHROME ============ -->
+  <div style="flex:none;position:relative;z-index:2;display:flex;align-items:center;gap:14px;padding:24px 20px 4px 28px;">
+    <div sc-camel-on-click="{{ onClose }}" title="Home" role="button" tabindex="0" style="width:40px;height:40px;flex:none;border-radius:12px;overflow:hidden;display:grid;place-items:center;cursor:pointer;"><img src="/room/e4455d7b-b4c2-4533-84c1-19b32d99afd5.png" alt="Byjus.AI" style="width:100%;height:100%;object-fit:contain;"></div>
+    <div style="display:flex;align-items:center;gap:9px;flex:0 1 auto;min-width:0;padding:9px 16px 9px 0;border-radius:12px;">
+      <span style="font-size:14px;font-weight:700;color:#5d5880;flex:none;">Lesson</span>
+      <i class="ti ti-chevron-right" style="font-size:13px;color:#8b86a6;flex:none;"></i>
+      <span style="font-size:14px;font-weight:800;color:#5f3dc4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Area of a trapezoid</span>
+    </div>
+    <div style="flex:1;min-width:0;"></div>
+    <div style="display:flex;align-items:center;flex:none;gap:8px;">
+      <div id="xpWidget" class="{{ xpPulseClass }}" style="display:flex;align-items:center;gap:8px;padding:8px 15px 8px 12px;border-radius:12px;" title="Experience points">
+        <i class="ti ti-star-filled" style="font-size:20px;color:#fab005;filter:drop-shadow(0 1px 2px rgba(180,120,0,.35));"></i>
+        <span style="font-weight:800;color:#7a4700;font-size:18px;letter-spacing:-.01em;">{{ pointsDisp }}</span>
+      </div>
+      <span aria-hidden="true" style="width:1px;height:20px;flex:none;margin:0 6px;background:linear-gradient(180deg,rgba(120,90,200,0),rgba(120,90,200,.22) 30%,rgba(120,90,200,.22) 70%,rgba(120,90,200,0));"></span>
+      <div id="orbWidget" class="{{ orbPulseClass }}" style="display:flex;align-items:center;gap:8px;padding:8px 16px 8px 13px;border-radius:12px;" title="Energy orbs">
+        <span style="width:18px;height:18px;flex:none;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff,#ffe066 42%,#ff922b 78%,#e8590c);box-shadow:0 0 10px rgba(255,193,7,.95),0 0 3px rgba(255,255,255,.9);"></span>
+        <span style="font-weight:800;color:#7a4700;font-size:18px;letter-spacing:-.01em;">{{ orbsDisp }}</span>
+      </div>
+    </div>
+    <div style="position:relative;flex:none;margin-left:auto;">
+      <div sc-camel-on-click="{{ toggleFlag }}" title="Report an issue" style="width:44px;height:44px;background:{{ flagBtnBg }};backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid {{ flagBtnBorder }};box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:{{ flagBtnColor }};font-size:20px;"><i class="ti ti-flag-3"></i></div>
+      <sc-if value="{{ flagOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:52px;right:0;z-index:40;width:288px;background:#fff;border:1px solid #ececf3;border-radius:14px;box-shadow:0 18px 44px rgba(80,60,140,.22);padding:15px;text-align:left;">
+          <sc-if value="{{ flagNotSent }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:14px;font-weight:800;color:#212529;margin-bottom:3px;">Report an issue</div>
+            <div style="font-size:12px;color:#868e96;margin-bottom:11px;">Spotted a bug or something wrong? Tell us and we'll fix it.</div>
+            <textarea value="{{ flagText }}" sc-camel-on-change="{{ onFlagText }}" placeholder="Describe what happened…" style="width:100%;box-sizing:border-box;height:74px;resize:none;border:1px solid #dee2e6;border-radius:10px;padding:9px 11px;font-size:12px;font-family:inherit;color:#212529;outline:none;"></textarea>
+            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
+              <div sc-camel-on-click="{{ toggleFlag }}" style="padding:8px 14px;border-radius:10px;font-size:12px;font-weight:700;color:#868e96;cursor:pointer;">Cancel</div>
+              <div sc-camel-on-click="{{ submitFlag }}" style="padding:8px 16px;border-radius:10px;font-size:12px;font-weight:700;color:#fff;background:{{ flagSubmitBg }};cursor:{{ flagSubmitCursor }};">Submit</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ flagSent }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:10px 4px;gap:8px;"><div style="width:44px;height:44px;border-radius:50%;background:#ebfbee;color:#2f9e44;display:grid;place-items:center;font-size:24px;"><i class="ti ti-check"></i></div><div style="font-size:14px;font-weight:800;color:#212529;">Thanks for the report!</div><div style="font-size:12px;color:#868e96;">Our team will take a look.</div></div>
+          </sc-if>
+        </div>
+      </sc-if>
+    </div>
+    <div style="position:relative;flex:none;">
+      <div sc-camel-on-click="{{ toggleAudioMenu }}" title="Audio settings" style="width:44px;height:44px;background:{{ audioBtnBg }};backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid {{ audioBtnBorder }};box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:{{ audioBtnColor }};font-size:20px;"><i class="ti ti-volume"></i></div>
+      <sc-if value="{{ audioMenu }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:52px;right:0;z-index:40;width:262px;background:#fff;border:1px solid #ececf3;border-radius:14px;box-shadow:0 18px 44px rgba(80,60,140,.22);padding:8px;text-align:left;">
+          <div sc-camel-on-click="{{ toggleNarrator }}" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;cursor:pointer;">
+            <div style="width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;background:#eef6ff;color:#1c7ed6;"><i class="ti ti-microphone-2" style="font-size:16px;"></i></div>
+            <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:700;color:#212529;">Narrator voice</div><div style="font-size:11px;color:#adb5bd;">Vyom &amp; Spark speaking</div></div>
+            <div style="width:42px;height:24px;flex:none;border-radius:999px;background:{{ narratorTrack }};position:relative;transition:.2s;"><div style="position:absolute;top:3px;left:{{ narratorKnob }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s;"></div></div>
+          </div>
+          <div sc-camel-on-click="{{ toggleSystem }}" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;cursor:pointer;">
+            <div style="width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;background:#f3f0ff;color:#7048e8;"><i class="ti ti-device-speaker" style="font-size:16px;"></i></div>
+            <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:700;color:#212529;">System sounds</div><div style="font-size:11px;color:#adb5bd;">Interface &amp; effects</div></div>
+            <div style="width:42px;height:24px;flex:none;border-radius:999px;background:{{ systemTrack }};position:relative;transition:.2s;"><div style="position:absolute;top:3px;left:{{ systemKnob }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s;"></div></div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    <div sc-camel-on-click="{{ onClose }}" style="width:44px;height:44px;flex:none;background:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#6b6580;font-size:20px;" title="Close lesson"><i class="ti ti-x"></i></div>
+  </div>
+
+  <!-- ============ BODY: single unified card ============ -->
+  <div style="flex:1;display:flex;padding:4px 18px 18px;min-height:0;position:relative;z-index:{{ bodyZ }};">
+    <div style="flex:1;display:flex;min-height:0;background:transparent;border:4px solid transparent;border-radius:24px;overflow:hidden;transition:border-color .55s ease-in-out,box-shadow .55s ease-in-out;box-shadow:none;position:relative;">
+
+    <!-- docked mascot slot + morphing composer (absolute children -> mascot mounting never reflows the composer) -->
+    <div style="position:absolute;left:16px;bottom:8px;z-index:30;pointer-events:none;">
+      <div id="dockSlot" class="{{ dockMaxCollapseClass }}" style="position:absolute;left:-10px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">
+        <sc-if value="{{ dockMascotShow }}" hint-placeholder-val="{{ false }}">
+          <div id="dockMax" style="position:relative;width:60px;height:60px;display:grid;place-items:center;">
+            <sc-if value="{{ maxSpeaking }}" hint-placeholder-val="{{ false }}">
+              <span class="dock-ripple-lg"></span>
+              <span class="dock-ripple-lg" style="animation-delay:.87s;"></span>
+              <span class="dock-ripple-lg" style="animation-delay:1.73s;"></span>
+            </sc-if>
+            <vyom-rive art-scale="2.5" style="position:relative;z-index:2;width:48px;height:48px;object-fit:contain;"></vyom-rive>
+          </div>
+        </sc-if>
+      </div>
+      <div id="dockPill" class="{{ dockPillClass }}" style="pointer-events:auto;position:absolute;left:72px;bottom:6px;height:48px;width:{{ composerW }};border-radius:14px;overflow:hidden;background:#fff;border:1px solid {{ composerBorder }};box-shadow:{{ composerShadow }};transition:width .44s cubic-bezier(.34,1.12,.5,1),box-shadow .4s ease,border-color .4s ease,transform .72s cubic-bezier(.5,0,.2,1);">
+          <div style="position:absolute;inset:0;background:linear-gradient(45deg,#0c8599,#15aabf);opacity:{{ composerTealOp }};transition:opacity .4s ease;pointer-events:none;"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;opacity:{{ closedOp }};pointer-events:{{ closedPE }};transition:opacity .26s ease;">
+            <div sc-camel-on-click="{{ openChatMsg }}" title="Message" style="width:54px;height:48px;display:grid;place-items:center;cursor:pointer;color:#fff;border-right:1px solid rgba(255,255,255,.32);"><i class="ti ti-message-2" style="font-size:20px;"></i></div>
+            <div sc-camel-on-click="{{ openChatMic }}" title="Speak" style="width:54px;height:48px;display:grid;place-items:center;cursor:pointer;color:#fff;"><i class="ti ti-microphone" style="font-size:20px;"></i></div>
+          </div>
+          <div id="chatInputRow" style="position:absolute;inset:0;display:flex;align-items:center;gap:10px;padding:0 12px;opacity:{{ openOp }};pointer-events:{{ openPE }};transition:opacity .32s ease .06s;">
+            <i class="ti ti-paperclip" style="font-size:16px;color:#adb5bd;cursor:pointer;flex:none;"></i>
+            <sc-if value="{{ recording }}" hint-placeholder-val="{{ false }}">
+              <div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;color:#e03131;font-size:12px;font-weight:700;"><span style="width:9px;height:9px;border-radius:50%;background:#e03131;animation:recpulse 1s infinite;"></span>Listening…</div>
+            </sc-if>
+            <sc-if value="{{ notRecording }}" hint-placeholder-val="{{ true }}">
+              <input ref="{{ inputRef }}" value="{{ draft }}" sc-camel-on-change="{{ onDraft }}" sc-camel-on-key-down="{{ onKey }}" placeholder="What's on your mind?" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-size:12px;font-weight:500;color:#212529;font-family:inherit;">
+            </sc-if>
+            <div sc-camel-on-click="{{ toggleMic }}" style="width:32px;height:32px;flex:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:{{ micColor }};background:{{ micBg }};"><i class="ti ti-microphone" style="font-size:16px;"></i></div>
+            <div sc-camel-on-click="{{ sendMsg }}" style="width:34px;height:34px;flex:none;border-radius:10px;display:grid;place-items:center;cursor:pointer;color:#fff;background:linear-gradient(45deg,#228be6,#15aabf);box-shadow:0 3px 8px rgba(34,139,230,.35);"><i class="ti ti-send" style="font-size:16px;"></i></div>
+          </div>
+        </div>
+    </div>
+
+    <!-- (collapsed pop-in overlay removed — closed-chat now reuses the open-panel bubbles, filtered) -->
+
+    <!-- ----- CHAT WINDOW (floating layer, anchored bottom-left, on top in z; always present) ----- -->
+    <div style="position:absolute;left:0;top:0;bottom:0;z-index:30;width:372px;overflow:visible;pointer-events:none;">
+    <div style="width:372px;height:100%;display:flex;flex-direction:column;overflow:visible;position:relative;">
+      <div style="flex:1;display:flex;flex-direction:column;min-height:0;">
+      <div class="tr-scroll" style="flex:1;overflow-y:{{ chatScrollOv }};padding:16px 16px {{ chatListPadB }};display:flex;flex-direction:column;gap:14px;pointer-events:{{ chatScrollPE }};">
+        <div style="margin-top:auto;"></div>
+        <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="2">
+          <sc-if value="{{ m.isMax }}" hint-placeholder-val="{{ true }}">
+            <div class="brow" style="display:{{ m.disp }};gap:10px;align-items:flex-start;--brow-op:{{ m.op }};opacity:{{ m.op }};pointer-events:{{ m.pe }};">
+              <div style="min-width:0;">
+                <div class="{{ m.fsClass }}" style="background:rgba(244,241,255,.95);color:#3a3450;padding:10px 13px;border-radius:14px 14px 14px 4px;font-size:14px;line-height:1.5;"><sc-for list="{{ m.words }}" as="w" hint-placeholder-count="0"><span style="white-space:pre-wrap;opacity:{{ w.op }};transition:opacity .22s ease;">{{ w.t }}</span></sc-for><sc-if value="{{ m.showBtns }}" hint-placeholder-val="{{ false }}"><div class="btn-rise" style="display:flex;gap:9px;margin-top:11px;"><div sc-camel-on-click="{{ m.b1 }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#40c057;color:#fff;font-size:14px;font-weight:700;padding:10px 14px;border-radius:11px;cursor:pointer;box-shadow:0 6px 14px rgba(64,192,87,.35);"><i class="ti ti-check"></i>{{ m.b1Label }}</div><div sc-camel-on-click="{{ m.b2 }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#fa5252;color:#fff;font-size:14px;font-weight:700;padding:10px 14px;border-radius:11px;cursor:pointer;box-shadow:0 6px 14px rgba(250,82,82,.32);">{{ m.b2Label }}</div></div></sc-if></div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ m.isSpark }}" hint-placeholder-val="{{ false }}">
+            <div class="brow {{ m.sparkStageClass }}" style="display:{{ m.disp }};gap:8px;align-items:center;justify-content:flex-start;--brow-op:{{ m.op }};opacity:{{ m.op }};pointer-events:{{ m.pe }};">
+              <sc-if value="{{ m.sparkTypingNow }}" hint-placeholder-val="{{ false }}"><div class="vsk-dots"><span></span><span></span><span></span></div></sc-if>
+              <sc-if value="{{ m.showBubble }}" hint-placeholder-val="{{ true }}"><div class="{{ m.fsClass }} {{ m.bubbleClass }}" style="background:rgba(255,244,230,.95);color:#8a4712;padding:10px 13px;border-radius:14px 14px 14px 4px;font-size:14px;line-height:1.5;border:1px solid #ffe8cc;"><sc-for list="{{ m.words }}" as="w" hint-placeholder-count="0"><span style="white-space:pre-wrap;opacity:{{ w.op }};transition:opacity .22s ease;">{{ w.t }}</span></sc-for><sc-if value="{{ m.showVidBtns }}" hint-placeholder-val="{{ false }}"><div class="btn-rise" style="display:flex;gap:9px;margin-top:11px;"><div sc-camel-on-click="{{ m.onGotIt }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#40c057;color:#fff;font-size:14px;font-weight:700;padding:10px 14px;border-radius:11px;cursor:pointer;box-shadow:0 6px 14px rgba(64,192,87,.35);"><i class="ti ti-check"></i>Got it</div><div sc-camel-on-click="{{ m.onMissed }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#fa5252;color:#fff;font-size:14px;font-weight:700;padding:10px 14px;border-radius:11px;cursor:pointer;box-shadow:0 6px 14px rgba(250,82,82,.32);">I missed it</div></div></sc-if></div></sc-if>
+              <sc-if value="{{ m.showSparkMascot }}" hint-placeholder-val="{{ false }}"><div class="vsk-mascot vsk-bob"><img class="vsk-mascot-inner" src="/room/495ab231-48ff-45ab-8cdf-1020a2188fb3.png" style="width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(253,126,20,.32));"></div></sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ m.isUser }}" hint-placeholder-val="{{ false }}">
+            <div class="brow" style="display:{{ m.disp }};justify-content:flex-end;--brow-op:{{ m.op }};opacity:{{ m.op }};pointer-events:{{ m.pe }};">
+              <div class="{{ m.fsClass }}" style="max-width:82%;background:linear-gradient(45deg,rgba(34,139,230,.95),rgba(21,170,191,.95));color:#fff;padding:10px 13px;border-radius:14px 14px 4px 14px;font-size:14px;line-height:1.5;box-shadow:0 4px 12px rgba(34,139,230,.22);"><sc-for list="{{ m.words }}" as="w" hint-placeholder-count="0"><span style="white-space:pre-wrap;opacity:{{ w.op }};transition:opacity .22s ease;">{{ w.t }}</span></sc-for></div>
+            </div>
+          </sc-if>
+        </sc-for>
+        <!-- s3Action prompt now folded into msgs as a Max message (buttons inside bubble) -->
+        <sc-if value="{{ speaking }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:10px;align-items:center;">
+            <div style="background:#f4f1ff;padding:12px 15px;border-radius:14px 14px 14px 4px;display:flex;gap:5px;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#adb5bd;animation:dots 1.2s infinite"></span>
+              <span style="width:7px;height:7px;border-radius:50%;background:#adb5bd;animation:dots 1.2s .2s infinite"></span>
+              <span style="width:7px;height:7px;border-radius:50%;background:#adb5bd;animation:dots 1.2s .4s infinite"></span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </div>
+
+      <!-- (composer input bar merged into the single morphing #dockPill container above) -->
+      </div>
+    </div>
+
+    <!-- ----- TEACHING WRAPPER (Row B stage + Row C nav) — right-anchored, width animates 100% ↔ calc(100% - 372px) ----- -->
+    <div style="width:{{ teachWrapW }};flex:none;margin-left:auto;display:flex;flex-direction:column;min-width:0;position:relative;transition:width .42s cubic-bezier(.4,0,.2,1);">
+      <div style="flex:1;position:relative;overflow:hidden;">
+
+        <!-- collapsed-chat floating overlay (Brilliant-style) -->
+        <!-- collapsed overlay relocated to card level (see below) -->
+
+        <!-- 16:9 content stage — always centered, maximizes available space -->
+        <div style="position:absolute;inset:0;container-type:size;display:grid;place-items:center;padding:18px;z-index:1;">
+        <!-- chat toggle handle — latched to the chat window's right edge. The teaching wrapper is
+             right-anchored and shrinks by exactly the chat width, so its own left edge IS that edge;
+             when the chat is closed the wrapper is full-width and the handle rests at the frame edge. -->
+        <div sc-camel-on-click="{{ toggleChat }}" title="{{ chatToggleTitle }}" style="position:absolute;top:18px;bottom:18px;left:0;width:18px;z-index:26;cursor:pointer;display:flex;align-items:center;opacity:{{ chatHandleOp }};transition:{{ chatHandleTr }};">
+          <div style="position:absolute;left:0;top:-18px;bottom:-18px;width:1px;background:#e5dbff;opacity:{{ chatEdgeOp }};transition:opacity .34s ease;"></div>
+          <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:5px;height:190px;border-radius:0 5px 5px 0;background:linear-gradient(180deg,#228be6,#6741d9);"></div>
+          <div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;padding:26px 3px;background:#fff;border:1px solid #e5dbff;border-left:none;border-radius:0 10px 10px 0;box-shadow:4px 0 16px rgba(120,90,200,.16);color:#6741d9;">
+            <i class="ti {{ chatChevron }}" style="font-size:16px;"></i>
+          </div>
+        </div>
+        <div style="position:relative;width:min(100cqw, calc(100cqh * 16 / 9));aspect-ratio:16/9;overflow:hidden;border-radius:18px;background:transparent;box-shadow:none;transition:box-shadow .55s ease-in-out;">
+
+        <!-- INTRO -->
+        <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
+          <div class="bpop" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;overflow:auto;padding:24px 34px 20px;text-align:center;">
+            
+            <div id="introMascots" style="position:relative;display:flex;align-items:flex-end;gap:8px;flex:none;margin-bottom:8px;">
+              <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:240px;height:158px;background:radial-gradient(ellipse,rgba(255,212,168,.6),rgba(190,170,255,.32) 46%,transparent 72%);filter:blur(15px);z-index:0;animation:halo 5s ease-in-out infinite;"></div>
+              <vyom-rive id="introMaxImg" art-scale="1.5" class="{{ introMaxClass }}" style="position:relative;z-index:1;width:92px;height:92px;overflow:hidden;object-fit:contain;animation:bob 3.4s ease-in-out infinite;filter:drop-shadow(0 12px 16px rgba(120,90,220,.28));"></vyom-rive>
+              <img src="/room/495ab231-48ff-45ab-8cdf-1020a2188fb3.png" class="{{ sparkClass }}" style="position:relative;z-index:1;width:60px;height:60px;object-fit:contain;animation:bob2 2.8s ease-in-out infinite;margin-bottom:10px;filter:drop-shadow(0 10px 13px rgba(253,126,20,.3));">
+              <sc-if value="{{ sparkFly }}" hint-placeholder-val="{{ false }}"><span class="spark-exit"></span></sc-if>
+            </div>
+            <h1 style="margin:0 0 14px;font-size:38px;line-height:1.1;font-weight:800;color:#212529;letter-spacing:-.01em;"><span class="title-hi {{ titleHiClass }}" style="display:inline-block;padding:2px 14px;">{{ boardTitle }}</span></h1>
+            <p style="margin:0 0 20px;font-size:20px;font-weight:500;color:#495057;max-width:560px;line-height:1.5;">{{ boardSub }}</p>
+            <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;border-radius:16px;padding:12px 26px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#212529;white-space:nowrap;line-height:1.1;">Area = <span style="display:inline-flex;flex-direction:column;align-items:center;font-size:20px;font-weight:800;color:#7950f2;line-height:1.05;"><span style="border-bottom:2px solid #7950f2;padding:0 5px 2px;">b + a</span><span style="padding-top:2px;">2</span></span> × <span style="color:#e8590c;">h</span></div>
+          </div>
+        </sc-if>
+
+        <!-- TEACH -->
+        <sc-if value="{{ isTeach }}" hint-placeholder-val="{{ false }}">
+          <div class="bpop {{ defBoardClass }}" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;overflow:hidden;padding:24px 34px 20px;text-align:center;">
+            
+            <sc-if value="{{ showOutroLand }}" hint-placeholder-val="{{ false }}">
+              <div id="outroLand" style="display:flex;align-items:flex-end;justify-content:center;gap:10px;height:92px;margin-bottom:8px;flex:none;">
+                <vyom-rive art-scale="2.5" class="{{ outroMascotClass }}" style="width:84px;height:84px;object-fit:contain;animation:bob 3.4s ease-in-out infinite;filter:drop-shadow(0 12px 16px rgba(120,90,220,.28));"></vyom-rive>
+                <img src="/room/495ab231-48ff-45ab-8cdf-1020a2188fb3.png" class="{{ outroMascotClass }}" style="width:58px;height:58px;object-fit:contain;animation:bob2 2.8s ease-in-out infinite;margin-bottom:8px;filter:drop-shadow(0 10px 13px rgba(253,126,20,.3));">
+              </div>
+            </sc-if>
+            <sc-if value="{{ celebrate }}" hint-placeholder-val="{{ false }}">
+              <div id="celOverlay" style="position:absolute;inset:0;z-index:7;overflow:hidden;background:linear-gradient(158deg,#fff3e0 0%,#ffe6ef 32%,#f1e9ff 64%,#e6f1ff 100%);animation:celBgIn .5s ease both;">
+                <canvas id="celStarCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
+                <canvas id="celConfCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:9;pointer-events:none;"></canvas>
+                <div class="cel-smoke" aria-hidden="true" style="position:absolute;left:50%;bottom:8%;width:2px;height:40%;transform:translateX(-50%);pointer-events:none;">
+                  <span style="--kd:2.4s;--kdl:0s;"></span><span style="--kd:2.8s;--kdl:.5s;left:36%;"></span><span style="--kd:2.6s;--kdl:.9s;left:64%;"></span><span style="--kd:3s;--kdl:1.3s;"></span><span style="--kd:2.5s;--kdl:1.7s;left:42%;"></span>
+                </div>
+                <img src="/room/495ab231-48ff-45ab-8cdf-1020a2188fb3.png" class="{{ celSparkExitClass }}" style="position:absolute;left:60%;top:46%;width:60px;height:60px;object-fit:contain;filter:drop-shadow(0 10px 13px rgba(253,126,20,.3));z-index:2;">
+                <vyom-rive class="cel-vyom {{ celVyomIdleClass }}" style="position:absolute;left:50%;top:43%;width:84px;height:84px;object-fit:contain;filter:drop-shadow(0 18px 26px rgba(120,90,220,.4));z-index:3;"></vyom-rive>
+                <sc-if value="{{ celHead }}" hint-placeholder-val="{{ false }}">
+                  <div class="cel-pop" style="position:absolute;top:7%;left:0;right:0;text-align:center;z-index:4;">
+                    <div style="font-size:38px;font-weight:800;color:#212529;letter-spacing:-.01em;">First module complete!</div>
+                    <div style="margin-top:6px;font-size:20px;font-weight:700;color:#6b6580;">Let's see where your journey continues</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ celCollect }}" hint-placeholder-val="{{ false }}">
+                  <div id="celTray" class="cel-pop" style="position:absolute;bottom:23%;left:0;right:0;display:flex;justify-content:center;gap:18px;z-index:5;">
+                    <div style="position:relative;display:flex;align-items:center;gap:10px;white-space:nowrap;background:rgba(255,255,255,.86);border:1px solid rgba(250,176,5,.5);box-shadow:0 10px 28px rgba(250,176,5,.24);border-radius:16px;padding:12px 22px;">
+                      <div style="position:absolute;inset:0;pointer-events:none;"><sc-for list="{{ celBurstStars }}" as="b" hint-placeholder-count="20"><i class="ti ti-star-filled cel-burst-star" style="font-size:14px;color:#fab005;--bx:{{ b.bx }};--by:{{ b.by }};--bd:{{ b.bd }};--bdl:{{ b.bdl }};"></i></sc-for></div>
+                      <i class="ti ti-star-filled" style="font-size:24px;color:#fab005;filter:drop-shadow(0 1px 2px rgba(180,120,0,.35));"></i>
+                      <span style="font-size:20px;font-weight:800;color:#7a4700;">+20 XP</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;white-space:nowrap;background:rgba(255,255,255,.86);border:1px solid rgba(255,146,43,.5);box-shadow:0 10px 28px rgba(255,146,43,.24);border-radius:16px;padding:12px 22px;">
+                      <span style="width:22px;height:22px;flex:none;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff,#ffe066 42%,#ff922b 78%,#e8590c);box-shadow:0 0 10px rgba(255,193,7,.95);"></span>
+                      <span style="font-size:20px;font-weight:800;color:#7a4700;">+2 Orbs</span>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ celCollect }}" hint-placeholder-val="{{ false }}">
+                  <sc-if value="{{ ftueDone }}" hint-placeholder-val="{{ true }}">
+                    <div sc-camel-on-click="{{ finishCel }}" class="cel-pop cel-continue" style="position:absolute;bottom:8%;left:0;right:0;margin:0 auto;width:max-content;display:inline-flex;align-items:center;gap:9px;background:linear-gradient(180deg,#7950f2,#6741d9);color:#fff;font-size:16px;font-weight:800;padding:13px 34px;border-radius:12px;cursor:pointer;box-shadow:0 10px 26px rgba(103,65,217,.4);z-index:6;">Continue to my journey <i class="ti ti-arrow-right"></i></div>
+                  </sc-if>
+                </sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ showBoardTitle }}" hint-placeholder-val="{{ true }}"><h2 style="margin:0 0 16px;font-size:30px;font-weight:800;color:#212529;max-width:620px;line-height:1.2;flex:none;">{{ boardTitle }}</h2></sc-if>
+            <sc-if value="{{ noBullets }}" hint-placeholder-val="{{ true }}">
+            <svg width="320" height="216" sc-camel-view-box="0 0 260 180" style="overflow:visible;flex:none;">
+              <polygon points="80,30 180,30 230,150 30,150" fill="#f3f0ff" stroke="#7950f2" stroke-width="2.5" stroke-linejoin="round"></polygon>
+              <sc-if value="{{ isDefinition }}" hint-placeholder-val="{{ false }}">
+              <line x1="80" y1="30" x2="180" y2="30" stroke="#ffd43b" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="100" class="hl-line {{ hlClass }}"></line>
+              <line x1="30" y1="150" x2="230" y2="150" stroke="#ffd43b" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200" class="hl-line {{ hlClass }}"></line>
+              </sc-if>
+              <line x1="130" y1="30" x2="130" y2="150" stroke="#adb5bd" stroke-width="1.5" stroke-dasharray="6 4"></line>
+              <text x="130" y="20" text-anchor="middle" font-size="17" font-style="italic" fill="#6741d9" font-weight="700">b</text>
+              <text x="130" y="172" text-anchor="middle" font-size="17" font-style="italic" fill="#6741d9" font-weight="700">a</text>
+              <text x="142" y="94" font-size="17" font-style="italic" fill="#e8590c" font-weight="700">h</text>
+            </svg>
+            </sc-if>
+            <sc-if value="{{ defQuizShow }}" hint-placeholder-val="{{ false }}">
+              <div class="def-quiz popin" style="margin-top:50px;flex:none;width:min(92%,560px);pointer-events:auto;">
+                <div style="font-size:20px;font-weight:800;color:#212529;text-align:center;margin:0 0 14px;">What do <span style="font-style:italic;color:#7950f2;">a</span> and <span style="font-style:italic;color:#7950f2;">b</span> stand for?</div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <sc-for list="{{ defOptions }}" as="o" hint-placeholder-count="3">
+                    <div sc-camel-on-click="{{ o.onClick }}" class="def-opt" style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;cursor:pointer;border:2px solid {{ o.borderColor }};background:{{ o.bg }};box-shadow:0 4px 14px rgba(120,90,200,.08);transition:border-color .18s ease,background .18s ease;">
+                      <div style="width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;font-size:14px;font-weight:800;background:{{ o.letterBg }};color:{{ o.letterColor }};">{{ o.letter }}</div>
+                      <div style="flex:1;font-size:16px;font-weight:700;color:{{ o.textColor }};">{{ o.label }}</div>
+                      <div style="font-size:20px;color:{{ o.markColor }};">{{ o.mark }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ showBulletsBlock }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:14px;text-align:left;max-width:720px;width:100%;flex:0 1 auto;min-height:0;overflow-y:auto;padding:4px;">
+                <sc-for list="{{ boardBullets }}" as="b" hint-placeholder-count="3">
+                  <div class="obj-row {{ b.hlClass }}" style="position:relative;display:flex;align-items:flex-start;gap:14px;background:#f8f9fa;border:1px solid #e9ecef;border-radius:12px;padding:10px 16px;">
+                    <sc-if value="{{ b.celebrate }}" hint-placeholder-val="{{ false }}">
+                      <svg aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;"><rect class="lo-ring-r" sc-camel-path-length="100"></rect></svg>
+                    </sc-if>
+                    <div class="lo-badge {{ b.badgeClass }}" style="width:32px;height:32px;flex:none;border-radius:10px;color:#fff;display:grid;place-items:center;font-size:14px;font-weight:800;">
+                      <sc-if value="{{ b.done }}" hint-placeholder-val="{{ false }}"><i class="ti ti-check lo-tick" style="font-size:19px;"></i></sc-if>
+                      <sc-if value="{{ b.todo }}" hint-placeholder-val="{{ true }}"><span>{{ b.n }}</span></sc-if>
+                    </div>
+                    <div style="font-size:20px;font-weight:500;color:#495057;line-height:1.35;padding-top:2px;">{{ b.text }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ showSkipBtn }}" hint-placeholder-val="{{ true }}"><div sc-camel-on-click="{{ startSkip }}" style="flex:none;align-self:center;margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #e9ecef;color:#495057;font-size:14px;font-weight:700;padding:12px 22px;border-radius:12px;cursor:pointer;"><i class="ti ti-checks"></i>I already know these</div></sc-if>
+            </sc-if>
+            <sc-if value="{{ skipQuizShow }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:20px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:3;">
+                <sc-for list="{{ sqBars }}" as="bar" hint-placeholder-count="5">
+                  <div style="width:46px;height:6px;border-radius:999px;background:{{ bar.color }};transition:background .35s ease;"></div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ sqQuestionShow }}" hint-placeholder-val="{{ true }}">
+              <div class="def-quiz popin" style="margin-top:14px;flex:none;width:min(92%,560px);pointer-events:auto;">
+                <div style="font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#6f66a3;text-align:center;margin:0 0 6px;">Question {{ sqNum }} of 5</div>
+                <div style="font-size:20px;font-weight:800;color:#212529;text-align:center;margin:0 0 16px;line-height:1.3;">{{ sqQ }}</div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <sc-for list="{{ sqOptions }}" as="o" hint-placeholder-count="3">
+                    <div sc-camel-on-click="{{ o.onClick }}" class="def-opt" style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;cursor:{{ o.cursor }};border:2px solid {{ o.borderColor }};background:{{ o.bg }};box-shadow:0 4px 14px rgba(120,90,200,.08);transition:border-color .18s ease,background .18s ease;">
+                      <div style="width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;font-size:14px;font-weight:800;background:{{ o.letterBg }};color:{{ o.letterColor }};">{{ o.letter }}</div>
+                      <div style="flex:1;font-size:16px;font-weight:700;color:{{ o.textColor }};">{{ o.label }}</div>
+                      <div style="font-size:20px;color:{{ o.markColor }};">{{ o.mark }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{ skipResultShow }}" hint-placeholder-val="{{ false }}">
+                <div id="sqFeedback" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;margin-top:20px;flex:none;max-width:680px;width:100%;opacity:{{ sqFeedbackOpacity }};transition:opacity .22s ease;">
+                  <vyom-rive id="sqVyom" style="width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 16px 22px rgba(120,90,220,.34));"></vyom-rive>
+                  <div style="font-size:20px;font-weight:800;color:#212529;line-height:1.3;white-space:nowrap;">{{ sqScore }} of 5 questions answered correctly</div>
+                  <div style="font-size:16px;font-weight:500;color:#6b6580;line-height:1.55;max-width:520px;">We noticed a few gaps in your understanding of this concept. Let's quickly go through the module to strengthen it.</div>
+                </div>
+              </sc-if>
+            </sc-if>
+            <sc-if value="{{ showChip }}" hint-placeholder-val="{{ false }}">
+              <div sc-camel-on-click="{{ next }}" style="margin-top:20px;flex:none;display:inline-flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #dee2e6;color:#343a40;font-size:20px;font-weight:700;padding:13px 26px;border-radius:12px;cursor:pointer;">Got it <span>👍</span></div>
+            </sc-if>
+            <!-- objectives auto-advance once Max reads all points (Got it chip removed) -->
+            <sc-if value="{{ defOverlay }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:46%;left:0;right:0;bottom:0;overflow:visible;pointer-events:none;z-index:9;">
+              <sc-if value="{{ defSparkShow }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;inset:0;">
+                  <div class="spk-group {{ defSparkPhaseClass }}">
+                    <div class="spk-mascot"><img src="/room/495ab231-48ff-45ab-8cdf-1020a2188fb3.png" alt="Spark"></div>
+                    <div class="spk-bubble">
+                      <div class="spk-bubble-inner">
+                        <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:#e8590c;margin:0 0 4px 1px;">SPARK</div>
+                        <div style="font-size:24px;line-height:1.4;color:#8a4712;font-weight:500;">{{ defSparkText }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ defQuizShow }}" hint-placeholder-val="{{ false }}"></sc-if>
+            </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- VIDEO -->
+        <!-- VIDEO renders at column level (see below) -->
+        <sc-if value="{{ isVideoStage }}" hint-placeholder-val="{{ false }}"></sc-if>
+
+        <!-- HTML APPLET (embedded interaction) -->
+        <sc-if value="{{ isHtml }}" hint-placeholder-val="{{ false }}">
+          <div class="bpop" style="position:absolute;inset:0;background:transparent;overflow:hidden;">
+            <iframe id="appletFrame" allowtransparency="true" style="width:100%;height:100%;border:0;display:block;background:transparent;"></iframe>
+          </div>
+        </sc-if>
+
+        <!-- SCREEN: formula board -->
+        <sc-if value="{{ isScreen }}" hint-placeholder-val="{{ false }}">
+          <div class="bpop" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:safe center;overflow:auto;gap:40px;padding:44px 34px 20px;flex-wrap:wrap;">
+            <div style="position:absolute;top:16px;left:18px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;letter-spacing:.09em;color:#1c7ed6;background:#e7f5ff;padding:6px 12px;border-radius:8px;z-index:2;"><i class="ti ti-device-desktop"></i></div>
+            <svg width="340" height="235" sc-camel-view-box="0 0 260 180" style="overflow:visible;flex:none;">
+              <polygon points="80,30 180,30 230,150 30,150" fill="#f3f0ff" stroke="#7950f2" stroke-width="2.5" stroke-linejoin="round"></polygon>
+              <line x1="130" y1="30" x2="130" y2="150" stroke="#adb5bd" stroke-width="1.5" stroke-dasharray="6 4"></line>
+              <text x="130" y="20" text-anchor="middle" font-size="20" font-style="italic" fill="#7950f2" font-weight="800">b</text>
+              <text x="130" y="172" text-anchor="middle" font-size="20" font-style="italic" fill="#7950f2" font-weight="800">a</text>
+              <text x="142" y="94" font-size="20" font-style="italic" fill="#e8590c" font-weight="800">h</text>
+            </svg>
+            <div style="display:flex;flex-direction:column;gap:26px;">
+              <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;padding:16px 28px;border-radius:16px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#212529;">Area = <span style="display:inline-flex;flex-direction:column;align-items:center;font-size:20px;font-weight:800;color:#7950f2;line-height:1.15;"><span style="border-bottom:2px solid #7950f2;padding:0 6px 3px;">b + a</span><span style="padding-top:3px;">2</span></span> × <span style="color:#e8590c;">h</span></div>
+              <div style="display:flex;flex-direction:column;gap:14px;font-size:20px;font-weight:500;color:#495057;">
+                <div style="display:flex;align-items:center;gap:8px;"><span style="width:34px;height:4px;border-radius:999px;background:#7950f2;"></span>b = top base</div>
+                <div style="display:flex;align-items:center;gap:8px;"><span style="width:34px;height:4px;border-radius:999px;background:#7950f2;"></span>a = bottom base</div>
+                <div style="display:flex;align-items:center;gap:8px;"><span style="width:34px;height:0;border-top:1.5px dashed #adb5bd;"></span>h = height</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- COMPARE -->
+        <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ false }}">
+          <div class="bpop" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:20px;overflow:auto;padding:24px 34px 20px;">
+            <h2 style="margin:0;font-size:30px;font-weight:800;color:#212529;text-align:center;flex:none;">The transformed triangle has the <span style="color:#7950f2;">same area</span></h2>
+            <div style="display:flex;align-items:center;gap:40px;flex-wrap:wrap;justify-content:center;">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+                <span style="font-size:14px;font-weight:700;color:#868e96;padding:6px 12px;border-radius:999px;">Original trapezoid</span>
+                <svg width="250" height="166" sc-camel-view-box="0 0 240 160" style="overflow:visible;"><polygon points="70,24 170,24 220,140 20,140" fill="#f3f0ff" stroke="#7950f2" stroke-width="2.5" stroke-linejoin="round"></polygon><line x1="120" y1="24" x2="120" y2="140" stroke="#adb5bd" stroke-width="1.5" stroke-dasharray="6 4"></line><text x="120" y="156" text-anchor="middle" font-size="14" fill="#7950f2" font-style="italic" font-weight="800">a</text></svg>
+              </div>
+              <div style="position:relative;display:grid;place-items:center;">
+                <img src="/room/495ab231-48ff-45ab-8cdf-1020a2188fb3.png" style="width:56px;height:56px;object-fit:contain;position:absolute;top:-52px;animation:bob2 2.6s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(253,126,20,.24));">
+                <div style="width:46px;height:46px;border-radius:50%;background:#e7f5ff;display:grid;place-items:center;color:#228be6;font-size:20px;"><i class="ti ti-arrow-right"></i></div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+                <span style="font-size:16px;font-weight:700;color:#495057;background:#f1f3f5;padding:8px 18px;border-radius:999px;">Transformed triangle</span>
+                <svg width="250" height="166" sc-camel-view-box="0 0 240 160" style="overflow:visible;"><polygon points="20,24 20,140 220,140" fill="#fff4e6" stroke="#fd7e14" stroke-width="2.5" stroke-linejoin="round"></polygon><line x1="20" y1="24" x2="20" y2="140" stroke="#fd7e14" stroke-width="1.8" stroke-dasharray="6 5"></line><text x="120" y="156" text-anchor="middle" font-size="15" fill="#e8590c" font-style="italic" font-weight="700">a + b</text></svg>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- QUIZ -->
+        <sc-if value="{{ isQuiz }}" hint-placeholder-val="{{ false }}">
+          <div class="bpop" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:44px 34px 20px;overflow:auto;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex:none;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;letter-spacing:.09em;color:#e8590c;background:#fff4e6;padding:6px 12px;border-radius:8px;"><i class="ti ti-help-circle"></i></div>
+              <div style="font-size:14px;font-weight:700;color:#e03131;display:flex;align-items:center;gap:8px;"><i class="ti ti-clock"></i>0:20</div>
+            </div>
+            <h2 style="margin:14px 0 26px;font-size:30px;font-weight:800;color:#212529;line-height:1.25;flex:none;">{{ quizQ }}</h2>
+            <div style="display:flex;flex-direction:column;gap:14px;max-width:720px;">
+              <sc-for list="{{ optionRows }}" as="o" hint-placeholder-count="4">
+                <div sc-camel-on-click="{{ o.onClick }}" style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:12px;cursor:pointer;border:{{ o.borderWidth }} solid {{ o.borderColor }};background:{{ o.bg }};transition:.15s;">
+                  <div style="width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:14px;font-weight:800;background:{{ o.letterBg }};color:{{ o.letterColor }};">{{ o.letter }}</div>
+                  <div style="flex:1;font-size:20px;font-weight:500;color:{{ o.textColor }};">{{ o.label }}</div>
+                  <div style="font-size:20px;color:{{ o.markColor }};">{{ o.mark }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ quizSubmitted }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:26px;display:flex;align-items:center;gap:14px;font-size:20px;font-weight:500;color:{{ feedbackColor }};background:{{ feedbackBg }};padding:14px 16px;border-radius:12px;max-width:720px;"><i class="{{ feedbackIcon }}" style="font-size:20px;"></i>{{ feedbackText }}</div>
+            </sc-if>
+            <div style="flex:1;"></div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div sc-camel-on-click="{{ next }}" style="font-size:14px;font-weight:700;color:#868e96;cursor:pointer;padding:8px 4px;">Skip</div>
+              <div style="flex:1;"></div>
+              <div sc-camel-on-click="{{ submitQuiz }}" style="background:{{ submitBg }};color:#fff;font-size:14px;font-weight:700;padding:12px 26px;border-radius:12px;cursor:{{ submitCursor }};box-shadow:{{ submitShadow }};">Submit answer</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- APPLET -->
+        <sc-if value="{{ isApplet }}" hint-placeholder-val="{{ false }}">
+          <div class="bpop" style="position:absolute;inset:0;background:radial-gradient(130% 120% at 20% 0%,#123a86,#0a1f4d);display:flex;flex-direction:column;padding:22px 32px 18px;color:#fff;overflow:auto;">
+            <div style="position:absolute;top:16px;left:18px;display:flex;align-items:center;gap:7px;font-size:20px;font-weight:800;letter-spacing:.09em;color:#ffd43b;background:rgba(255,212,59,.14);padding:6px 12px;border-radius:8px;"><i class="ti ti-square-root-2"></i></div>
+            <div style="text-align:center;font-size:24px;font-weight:800;color:{{ appletTitleColor }};margin:2px 0 16px;flex:none;">{{ appletTitle }}</div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:safe center;gap:36px;flex-wrap:wrap;">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                <div style="font-size:16px;font-weight:700;">20 cm</div>
+                <svg width="260" height="165" sc-camel-view-box="0 0 240 160" style="overflow:visible;"><polygon points="55,20 155,20 220,140 20,140" fill="#22b8cf" fill-opacity="0.9" stroke="#e7fbff" stroke-width="2.5" stroke-linejoin="round"></polygon><line x1="155" y1="20" x2="185" y2="140" stroke="#ffd43b" stroke-width="2" stroke-dasharray="6 5"></line><text x="115" y="88" text-anchor="middle" font-size="16" font-weight="800" fill="#08243f">Area = 300 cm²</text><text x="172" y="104" font-size="15" font-weight="800" fill="#ffe066">h = {{ appletHeight }}</text></svg>
+                <div style="font-size:16px;font-weight:700;">40 cm</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <div style="display:grid;grid-template-columns:repeat(3,58px);gap:8px;">
+                  <sc-for list="{{ keys }}" as="k" hint-placeholder-count="12">
+                    <div sc-camel-on-click="{{ k.onClick }}" style="height:48px;border-radius:10px;display:grid;place-items:center;font-size:20px;font-weight:800;cursor:pointer;background:{{ k.bg }};color:{{ k.color }};">{{ k.label }}</div>
+                  </sc-for>
+                </div>
+                <div sc-camel-on-click="{{ checkApplet }}" style="height:46px;border-radius:10px;display:grid;place-items:center;font-size:16px;font-weight:800;letter-spacing:.04em;cursor:pointer;background:#fd7e14;color:#fff;">CHECK</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:20px;font-weight:700;margin:14px 0 8px;flex:none;">
+              <span style="background:rgba(255,255,255,.16);padding:9px 16px;border-radius:10px;">Height = 300 ÷ 30</span>
+              <span>=</span>
+              <span style="min-width:80px;text-align:center;padding:10px 18px;border-radius:10px;background:{{ appletBoxBg }};color:{{ appletBoxColor }};">{{ appletValueDisplay }}</span>
+              <span>cm</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div sc-camel-on-click="{{ startOver }}" style="font-size:16px;font-weight:700;color:rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="ti ti-refresh"></i>Start over</div>
+              <div style="font-size:16px;font-weight:700;color:rgba(255,255,255,.75);">{{ appletHint }}</div>
+            </div>
+          </div>
+        </sc-if>
+
+        </div>
+        </div>
+
+      <sc-if value="{{ isVideo }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;z-index:20;overflow:hidden;">
+          <div class="vid-frame {{ vidFrameClass }} {{ videoFullClass }}" sc-camel-on-mouse-move="{{ vidHover }}">
+            <video ref="{{ videoRef }}" src="/room/ff2c46c5-61a0-455a-9a75-bf9c539f818f.mp4" preload="metadata" playsinline="{{ true }}" controls="{{ false }}" sc-camel-on-click="{{ vidToggle }}" sc-camel-on-time-update="{{ onVideoTime }}" sc-camel-on-play="{{ onVideoPlay }}" sc-camel-on-pause="{{ onVideoPause }}" sc-camel-on-ended="{{ onVideoEnded }}" style="width:100%;height:100%;object-fit:contain;display:block;background:transparent;border-radius:inherit;cursor:pointer;"></video>
+            <sc-if value="{{ vidThumbShow }}" hint-placeholder-val="{{ true }}">
+              <div sc-camel-on-click="{{ vidThumb }}" class="vctl-center" style="background:rgba(121,80,242,.92);border-color:rgba(255,255,255,.5);"><i class="ti ti-player-play-filled" style="font-size:30px;margin-left:3px;"></i></div>
+            </sc-if>
+            <sc-if value="{{ vidCenterShow }}" hint-placeholder-val="{{ false }}">
+              <div sc-camel-on-click="{{ vidToggle }}" class="vctl-center"><i class="ti ti-player-play-filled" style="font-size:30px;margin-left:3px;"></i></div>
+            </sc-if>
+            <sc-if value="{{ vidBarShow }}" hint-placeholder-val="{{ false }}">
+              <div class="vctl-bar">
+                <div class="vctl-row">
+                  <div class="vctl-grp" style="flex:1;justify-content:flex-start;">
+                    <div class="vctl-btn" sc-camel-on-click="{{ vidMuteToggle }}" title="Mute"><i class="ti {{ vidVolIcon }}" style="font-size:20px;"></i></div>
+                    <input type="range" class="vctl-seek vctl-vol" min="0" max="1" step="0.01" value="{{ vidVol }}" sc-camel-on-input="{{ vidVolSet }}" style="background:{{ vidVolBg }};">
+                  </div>
+                  <div class="vctl-grp" style="justify-content:center;">
+                    <div class="vctl-btn" sc-camel-on-click="{{ vidBack10 }}" title="Rewind 10s"><i class="ti ti-player-track-prev-filled" style="font-size:20px;"></i></div>
+                    <div class="vctl-btn vctl-play" sc-camel-on-click="{{ vidToggle }}" title="Play / pause"><i class="ti {{ vidPlayIcon }}" style="font-size:24px;"></i></div>
+                    <div class="vctl-btn" sc-camel-on-click="{{ vidFwd10 }}" title="Forward 10s"><i class="ti ti-player-track-next-filled" style="font-size:20px;"></i></div>
+                  </div>
+                  <div class="vctl-grp" style="flex:1;justify-content:flex-end;">
+                    <div class="vctl-speed" sc-camel-on-click="{{ vidSpeedCycle }}" title="Playback speed">{{ vidRateLabel }}</div>
+                    <div class="vctl-btn" sc-camel-on-click="{{ vidFullToggle }}" title="Fullscreen"><i class="ti {{ vidFullIcon }}" style="font-size:20px;"></i></div>
+                  </div>
+                </div>
+                <div class="vctl-seekrow">
+                  <div class="vctl-time">{{ vidCurLabel }}</div>
+                  <div style="position:relative;flex:1;display:flex;align-items:center;">
+                    <input type="range" class="vctl-seek" min="0" max="{{ vidDur }}" step="0.1" value="{{ vidCur }}" sc-camel-on-input="{{ vidSeek }}" style="background:{{ vidSeekBg }};">
+                    <sc-if value="{{ vidBreakShow }}" hint-placeholder-val="{{ false }}">
+                      <span title="Spark checkpoint · 1:09" style="position:absolute;top:50%;left:{{ vidBreakLeft }};width:8px;height:8px;border-radius:50%;background:#fa5252;box-shadow:0 0 0 2px rgba(22,24,30,.55),0 0 6px rgba(250,82,82,.9);transform:translate(-50%,-50%);pointer-events:none;z-index:2;"></span>
+                    </sc-if>
+                  </div>
+                  <div class="vctl-time">{{ vidDurLabel }}</div>
+                </div>
+              </div>
+            </sc-if>
+            </div>
+          <!-- video Max caption removed: the video slide now uses the standard collapsed overlay (popMsgs) like every other slide -->
+
+        </div>
+      </sc-if>
+      </div>
+
+      <!-- teaching nav (inside teaching window) -->
+      <div style="position:relative;z-index:6;flex:none;display:{{ navRowDisp }};align-items:center;justify-content:center;gap:26px;padding:14px 26px;">
+        <div sc-camel-on-click="{{ back }}" title="Previous" style="display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;flex:none;background:#fff;border:1.5px solid #dee2e6;color:{{ backColor }};border-radius:12px;cursor:{{ backCursor }};opacity:{{ backOpacity }};"><i class="ti ti-chevron-left" style="font-size:20px;"></i></div>
+        <div style="position:relative;flex:none;width:min(714px,80%);min-width:294px;height:16px;">
+          <div style="position:absolute;left:6px;right:6px;top:50%;transform:translateY(-50%);height:6px;background:#dcd8e6;border-radius:999px;overflow:hidden;">
+            <div style="height:100%;width:{{ nodeFillPct }}%;background:#228be6;border-radius:999px;transition:width .4s cubic-bezier(.2,.7,.3,1);"></div>
+          </div>
+          <span class="tr-tip {{ tipClass }}" style="left:{{ tipLeft }};"><i class="ring"></i><i class="ring b"></i><i class="ring c"></i></span>
+          <sc-for list="{{ stepDots }}" as="d" hint-placeholder-count="4">
+            <span class="tr-snode {{ d.cls }}" style="left:{{ d.left }};">
+              <sc-if value="{{ d.cel }}" hint-placeholder-val="{{ false }}">
+                <span class="tr-flash"></span>
+                <span class="tr-ripple"></span>
+                <span class="tr-ripple r2"></span>
+                <span class="tr-ripple r3"></span>
+                <sc-for list="{{ d.sparks }}" as="p" hint-placeholder-count="0">
+                  <span class="tr-spark" style="--tx:{{ p.tx }};--ty:{{ p.ty }};background:{{ p.c }};animation-delay:{{ p.d }};"></span>
+                </sc-for>
+              </sc-if>
+            </span>
+          </sc-for>
+        </div>
+        <div sc-camel-on-click="{{ next }}" class="{{ introBtnPressClass }}" title="Next" style="position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;flex:none;background:{{ navBtnBg }};color:{{ navBtnColor }};border:{{ navBtnBorder }};border-radius:12px;cursor:{{ nextCursor }};opacity:{{ nextOpacity }};box-shadow:{{ navBtnShadow }};">
+          <sc-if value="{{ isIntroBtn }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;bottom:0;left:0;width:{{ introFill }}%;background:#228be6;z-index:0;transition:width .06s linear;"></div></sc-if>
+          <span class="{{ introInkClass }}" style="position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;transition:color .15s ease;"><i class="ti ti-chevron-right" style="font-size:20px;"></i></span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+  <sc-if value="{{ celFtue }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(40,30,70,.28);backdrop-filter:blur(14px) saturate(1.05);-webkit-backdrop-filter:blur(14px) saturate(1.05);animation:celBgIn .34s ease both;">
+      <div class="cel-pop" style="width:min(560px,88%);background:#fff;border:1px solid #ece5ff;box-shadow:0 34px 90px rgba(60,30,140,.34);border-radius:26px;padding:34px 34px 32px;display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center;">
+        <vyom-rive style="width:96px;height:96px;object-fit:contain;flex:none;filter:drop-shadow(0 10px 18px rgba(120,90,220,.42));"></vyom-rive>
+        <div style="font-size:30px;font-weight:800;color:#212529;line-height:1.24;letter-spacing:-.02em;text-wrap:pretty;">I can make your next lessons easier to follow.</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <div sc-camel-on-click="{{ ftueGoals }}" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#7950f2,#6741d9);color:#fff;font-size:14px;font-weight:800;padding:11px 20px;border-radius:11px;cursor:pointer;box-shadow:0 8px 20px rgba(103,65,217,.36);">Set up my goals</div>
+          <div sc-camel-on-click="{{ ftueSkip }}" style="display:inline-flex;align-items:center;background:#f1f0f6;color:#5b5670;font-size:14px;font-weight:700;padding:11px 18px;border-radius:11px;cursor:pointer;">Not now</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;studentName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Aarav&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Class&quot;},&quot;sparkOn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Class&quot;},&quot;streak&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:99,&quot;section&quot;:&quot;Gamification&quot;},&quot;points&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:120,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:9999,&quot;section&quot;:&quot;Gamification&quot;},&quot;orbs&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:99,&quot;section&quot;:&quot;Gamification&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this._AUTO = false; /* auto-progress master switch; OFF for all slides */
+    this._chatUserOpen = false; /* persists student's chat open/close choice across slides */
+    this.SKIPQ = [ {q:"How many pairs of parallel sides does a trapezoid have?", opts:["Two","One","None"], ans:1}, {q:"In the area formula, what do a and b represent?", opts:["The two slanting sides","The two parallel sides","The two diagonals"], ans:1}, {q:"What is the formula for the area of a trapezoid?", opts:["\u00bd \u00d7 (a + b) \u00d7 h","(a + b) \u00d7 h","a \u00d7 b \u00d7 h"], ans:0}, {q:"How is the height (h) of a trapezoid measured?", opts:["Along a slanting side","Half the longer base","Perpendicular distance between the parallel sides"], ans:2}, {q:"If a = 6, b = 10 and h = 4, what is the area of the trapezoid?", opts:["24 square units","32 square units","64 square units"], ans:1} ];
+    this.state = { step:0, maxStep:0, loCelOn:false, dotCel:null, chatCollapsed:true, recording:false, pops:[], chats:[], draft:'', showMsgs:false, speaking:true, narrating:true, revealCount:null, activeBullet:-1, objDone:false, skipQuiz:false, sqIdx:0, sqPicks:[], skipResult:false, skipReturn:false, sqFlying:false, gotItFill:0, gotItPressed:false, introReady:false, introFill:0, sparkFly:false, maxDocked:false, maxHideBoard:false, quizChoice:null, quizSubmitted:false, videoPlaying:false, videoFull:false, videoProgress:0, audioMenu:false, flagOpen:false, narratorOn:false, systemOn:true, pillDocked:false, celebrate:false, celPhase:0, pointsNow:null, orbsNow:null, xpPulse:false, orbPulse:false, alwaysChat:false, settingsMenu:false, vidVol:1, vidMuted:false, vidRate:1, vidCtlVis:false, flagText:'', flagSent:false, appletValue:'', appletSolved:false, s3Tried:false, s3Reached:false, s3Phase:null, s3Prompt:false, s3Buttons:false, bgFx:'' };
+    this.replyRef = React.createRef();
+    this.videoRef = React.createRef();
+    this.TABS = ['Standard','Teach','Screen','Video','Quiz','Applet'];
+    this.steps = [
+      // P1 — Title
+      {id:'intro', mode:'intro', title:'Area of a trapezoid', sub:"We'll learn how to find the area of a trapezoid together.",
+        msgs:[{who:'max',t:"Hi {name}! I'm Vyom. Today we're going to discover how to find the area of a trapezoid."}]},
+      // P2 — Learning Objectives
+      {id:'obj', mode:'teach', title:'What you will be able to do', chip:true, objSeq:true,
+        bullets:["Recognize a trapezoid by its parallel sides","Understand how its area relates to shapes you already know","Find the area of a trapezoid using the base(s) and height"],
+        msgs:[{who:'max',t:"First, you'll recognize a trapezoid by its parallel sides."},
+              {who:'max',t:"Next, you'll understand how its area relates to shapes you already know."},
+              {who:'max',t:"And finally, you'll find the area of a trapezoid using the base(s) and height."}]},
+      // P3 — Snapshot: parallelogram applet
+      {id:'applet', mode:'html', title:'Start with a shape you know — a parallelogram', chip:true,
+        msgs:[{who:'max',t:"Let's start with a shape we already know: a parallelogram. Drag the top corner and watch what happens to the sides."}]},
+      // LO recap 1
+      {id:'lo1', mode:'teach', title:'What you will be able to do', chip:true, loRecap:true, loDone:1, loCelebrate:0,
+        bullets:["Recognize a trapezoid by its parallel sides","Understand how its area relates to shapes you already know","Find the area of a trapezoid using the base(s) and height"],
+        msgs:[{who:'max',t:"Great — that's one down. You can now recognize a trapezoid by its parallel sides."}]},
+      // P4 — Definition
+      {id:'def', mode:'teach', title:'This new shape is a trapezoid', chip:true,
+        msgs:[{who:'max',t:"This new shape is called a trapezoid — a quadrilateral with only one pair of parallel sides."}]},
+      // LO recap 2
+      {id:'lo2', mode:'teach', title:'What you will be able to do', chip:true, loRecap:true, loDone:2, loCelebrate:1,
+        bullets:["Recognize a trapezoid by its parallel sides","Understand how its area relates to shapes you already know","Find the area of a trapezoid using the base(s) and height"],
+        msgs:[{who:'max',t:"Two down! You now understand how its area relates to shapes you already know."}]},
+      // P5 + P6 — Watch and Learn (video)
+      {id:'video', mode:'video', title:'',
+        msgs:[{who:'max',t:"Let's explore how to find the area of a trapezoid. Watch the video to see how the shape is changed to help find the area."}]},
+      // P14 — Module Complete (outro)
+      {id:'outro', mode:'teach', title:'Module complete!', chip:true, outro:true, loRecap:true, loDone:3, loCelebrate:2,
+        bullets:["Recognize a trapezoid by its parallel sides","Understand how its area relates to shapes you already know","Find the area of a trapezoid using the base(s) and height"],
+        msgs:[{who:'max',t:"You did it, {name}! Let's recap. First — a trapezoid has one pair of parallel sides."},
+              {who:'max',t:"Second — its area depends on the two parallel sides and the height."},
+              {who:'max',t:"And finally — the area is ½ × (a + b) × h square units. Great work today!"}]},
+    ];
+    /* every step carries a stable id; nothing in the code may compare this.state.step to a
+       literal, or inserting a slide silently rewires unrelated behaviour */
+    this.IDX = {}; this.steps.forEach((s,i)=>{ if(s.id) this.IDX[s.id]=i; });
+  }
+  componentDidMount(){ try{ window.__TR=this; }catch(e){} this._reveal(); try{ const sy=window.speechSynthesis; if(sy){ this._voices=sy.getVoices()||[]; sy.onvoiceschanged=()=>{ this._voices=sy.getVoices()||[]; }; } }catch(e){} this._s3Blur=()=>{ setTimeout(()=>{ try{ const ae=document.activeElement; if(ae && ae.tagName==='IFRAME' && /applet-parallelogram/.test(ae.getAttribute('src')||'')) this._onS3Interact(); }catch(e){} },0); }; window.addEventListener('blur', this._s3Blur); }
+  _onS3Interact(){ if(this.steps[this.state.step].mode!=='html' || this.state.s3Tried) return; this.setState({s3Tried:true, s3Prompt:false}); clearTimeout(this._s3PromptT); clearTimeout(this._s3ReachT); this._s3ReachT=setTimeout(()=>this._onS3Reached(), 6000); }
+  _s3Release(){ if(this.steps[this.state.step].mode!=='html' || !this.state.s3Tried || this.state.s3Reached) return; clearTimeout(this._s3ReachT); this._s3ReachT=setTimeout(()=>this._onS3Reached(), 500); }
+  _attachS3(){ const f=document.querySelector('#appletFrame'); if(!f) return; if(!f._srcSet && window.__APPLET_SRCDOC){ f._srcSet=true; f.srcdoc=window.__APPLET_SRCDOC; } if(f._s3bound) return; const bind=()=>{ try{ const d=f.contentDocument||(f.contentWindow&&f.contentWindow.document); if(!d) return; f._s3bound=true; const down=()=>this._onS3Interact(); const up=()=>this._s3Release(); ['pointerdown','mousedown','touchstart'].forEach(e=>d.addEventListener(e,down,true)); ['pointerup','mouseup','touchend'].forEach(e=>d.addEventListener(e,up,true)); const r=d.querySelector('input[type=range]'); if(r){ r.addEventListener('input',()=>{ this._onS3Interact(); if(parseFloat(r.value)>=parseFloat(r.max||'100')) this._onS3Reached(); },true); } }catch(e){} }; if(f.contentDocument && f.contentDocument.readyState==='complete') bind(); f.addEventListener('load', bind); }
+  _onS3Reached(){ if(this.steps[this.state.step].mode!=='html' || this.state.s3Reached) return; this.setState({s3Reached:true, s3Buttons:false, pops:[]}); const t="By dragging the top corner of the parallelogram, we're able to form a trapezoid."; this._speak(t,'max'); this.setState({s3Phase:'ask1'}); clearTimeout(this._s3BtnT); this._s3BtnT=setTimeout(()=>this.setState({s3Buttons:true}), 5000); }
+  _s3Success(){ this._pushChat('user','Got it'); this.setState({s3Phase:null}); this._stopSpeak(); this._s3AutoT=setTimeout(()=>{ if(this._AUTO) this.go(this.state.step+1); }, 900); }
+  _s3ExplainMore(){ this._pushChat('user','Explain more'); const t="When you dragged the slider, the top side got shorter than the bottom. Now the shape has only one pair of parallel sides — so it isn't a parallelogram any more. It's a trapezoid."; this._speak(t,'max'); this.setState({s3Phase:'ask2', s3Buttons:false}); clearTimeout(this._s3BtnT); this._s3BtnT=setTimeout(()=>this.setState({s3Buttons:true}), 5000); }
+  _s3Doubt(){ this._pushChat('user','I have a doubt'); this.setState({s3Phase:null, chatCollapsed:false}); const dt="Your doubt can be solved in the real product — for now, click Next to continue."; const rid='c'+(this._cid=(this._cid||0)+1); this.setState(st=>({ chats:[...(st.chats||[]), {id:rid, who:'max', text:dt}] })); this._speak(dt,'max'); setTimeout(()=>{ try{ this.replyRef.current && this.replyRef.current.focus(); }catch(e){} }, 460); }
+  _speak(text, who, queue){
+    if(!this.state.narratorOn) return;
+    try{
+      const sy=window.speechSynthesis; if(!sy||!text) return;
+      if(!queue) sy.cancel();
+      const u=new SpeechSynthesisUtterance(String(text).replace(/[\uD800-\uDFFF][\uDC00-\uDFFF]?/g,'').replace(/[\u2600-\u27BF\uFE0F]/g,''));
+      const voices=(this._voices&&this._voices.length)?this._voices:(sy.getVoices()||[]);
+      const pick=(names)=>voices.find(v=>names.some(n=>((v.name||'')+' '+(v.voiceURI||'')).toLowerCase().includes(n)));
+      if(who==='spark'){ u.pitch=1.5; u.rate=1.12; const v=pick(['samantha','zira','google us english','karen','tessa','victoria','female']); if(v) u.voice=v; }
+      else { u.pitch=0.92; u.rate=1.0; const v=pick(['daniel','david','google uk english male','arthur','alex','fred','male']); if(v) u.voice=v; }
+      sy.speak(u);
+    }catch(e){}
+  }
+  _speakStep(){ const s=this.steps[this.state.step]; if(!s||!s.msgs) return; const name=this.props.studentName||'Aarav'; const on=this._sparkOn(); const list=s.msgs.filter(m=>on||m.who!=='spark'); try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){} list.forEach((m,i)=>this._speak(m.t.replace('{name}',name), m.who, i>0)); }
+  _stopSpeak(){ try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){} }
+  componentDidUpdate(){
+    /* Every path that opens or closes the chat starts the wrapper's 420ms width slide; flag the trip
+       centrally so the handle can hide for its duration instead of tracking under the bubbles.
+       The runtime calls this with no prevState, so the previous value is cached on the instance. */
+    if(this._lastChatCol !== this.state.chatCollapsed){
+      this._lastChatCol = this.state.chatCollapsed;
+    }
+    this._wireVideoMeta(); requestAnimationFrame(()=>{ const el=document.querySelector('.tr-scroll'); if(el) el.scrollTop=el.scrollHeight; }); }
+  /* loadedmetadata / durationchange / canplay are attached here rather than in the template:
+     the HTML parser lowercases attribute names and the compiler has no camelCase mapping for
+     those three, so as attributes they became literal inline handlers and threw on every load. */
+  _wireVideoMeta(){ const v=this.videoRef&&this.videoRef.current; if(!v||v._metaWired) return; v._metaWired=1;
+    const h=(e)=>this.onVideoMeta(e);
+    v.addEventListener('loadedmetadata',h); v.addEventListener('durationchange',h); v.addEventListener('canplay',h);
+    if(isFinite(v.duration)&&v.duration>0) this.onVideoMeta({target:v}); }
+  componentWillUnmount(){ clearTimeout(this._loCelT); clearTimeout(this._dotCelT); clearTimeout(this._dotCelOffT);
+    /* the tip marker is transient: it rides the fill's travel, then fades 2s after arrival */
+    clearTimeout(this._tipFadeT); this.setState({tipFade:false});
+    this._tipFadeT=setTimeout(()=>{ if(this.state.step===i) this.setState({tipFade:true}); }, 2400); clearTimeout(this._dotCuT); clearInterval(this._dotCuI); clearTimeout(this._dotPulseT); cancelAnimationFrame(this._celRAF); clearTimeout(this._t); clearTimeout(this._introMsgT); clearTimeout(this._rt); clearTimeout(this._nt); clearTimeout(this._ft); clearTimeout(this._introEndT); clearTimeout(this._introFallback); clearTimeout(this._s3PromptT); clearTimeout(this._s3ReachT); clearTimeout(this._s3AutoT); clearTimeout(this._bgT); clearTimeout(this._s3BtnT); clearTimeout(this._hlT); clearTimeout(this._defT); clearTimeout(this._defRevT); clearTimeout(this._defAudT); clearTimeout(this._defT2); clearTimeout(this._defBgT); clearTimeout(this._vidT); clearTimeout(this._vidInT); try{ window.removeEventListener('blur', this._s3Blur); }catch(e){} clearInterval(this._introFillTimer); clearInterval(this._vi); this._clearObj(); this._stopSpeak(); try{ this._flyEl&&this._flyEl.remove(); (this._flyEls||[]).forEach(e=>{try{e.remove();}catch(_){}}); }catch(e){} Object.values(this._pt||{}).forEach(clearTimeout); }
+  _celebrateStep(tgt, i){
+    clearTimeout(this._loCelT); clearTimeout(this._dotCelT); clearTimeout(this._dotCelOffT);
+    /* the tip marker is transient: it rides the fill's travel, then fades 2s after arrival */
+    clearTimeout(this._tipFadeT); this.setState({tipFade:false});
+    this._tipFadeT=setTimeout(()=>{ if(this.state.step===i) this.setState({tipFade:true}); }, 2400);
+    if(tgt && tgt.loCelebrate!=null) this._loCelT=setTimeout(()=>{ if(this.state.step===i) this.setState({loCelOn:true}); }, 620);
+    const MILES=['intro','lo1','lo2','outro'].map(k=>this.IDX[k]).filter(v=>v!=null);
+    const d=MILES.indexOf(i);
+    if(d>0){ this._dotCelT=setTimeout(()=>{ if(this.state.step===i){ this.setState({dotCel:d}); this._flyDotRewards(d); this._dotCelOffT=setTimeout(()=>this.setState({dotCel:null}), 1400); } }, 340); }
+  }
+  /* Each milestone pays out 4 stars and 1 orb: particles leave the dot that just filled and land
+     on the two chrome widgets, whose values then count up. Awards accumulate on top of whatever
+     the widgets already show, so repeat visits never double-credit the same milestone. */
+  _flyDotRewards(d){
+    if(this._dotPaid && this._dotPaid[d]) return;
+    this._dotPaid = this._dotPaid || {}; this._dotPaid[d] = true;
+    const dot=document.querySelectorAll('.tr-snode')[d];
+    const xpW=document.querySelector('#xpWidget'), orbW=document.querySelector('#orbWidget');
+    if(!dot||!xpW||!orbW) return;
+    const r=dot.getBoundingClientRect(), fx=r.left+r.width/2, fy=r.top+r.height/2;
+    const spawn=(tx,ty,kind,delay)=>{
+      const el=document.createElement('div');
+      if(kind==='star'){ el.innerHTML='<i class="ti ti-star-filled"></i>'; el.style.color='#fab005'; el.style.fontSize='17px'; el.style.filter='drop-shadow(0 0 6px rgba(250,176,5,.85))'; }
+      else { el.style.width='15px'; el.style.height='15px'; el.style.borderRadius='50%'; el.style.background='radial-gradient(circle at 34% 28%,#fff,#ffe066 42%,#ff922b 78%,#e8590c)'; el.style.boxShadow='0 0 12px rgba(255,193,7,.95)'; }
+      el.style.cssText+=';position:fixed;left:'+fx+'px;top:'+fy+'px;z-index:9999;pointer-events:none;will-change:transform,opacity;';
+      document.body.appendChild(el);
+      const dx=tx-fx, dy=ty-fy;
+      const mx=dx*0.45+(Math.random()*54-27), my=dy*0.4-58;
+      let a; try{ a=el.animate([
+        {transform:'translate(-50%,-50%) scale(.3)',opacity:0},
+        {transform:'translate(-50%,-50%) scale(1.5)',opacity:1,offset:.14},
+        {transform:'translate(calc(-50% + '+mx+'px),calc(-50% + '+my+'px)) scale(1.25)',opacity:1,offset:.55},
+        {transform:'translate(calc(-50% + '+dx+'px),calc(-50% + '+dy+'px)) scale(.3)',opacity:.1}
+      ],{duration:900,delay:delay,easing:'cubic-bezier(.45,0,.3,1)',fill:'forwards'}); }catch(e){}
+      const done=()=>{ try{ el.remove(); }catch(_){} };
+      if(a) a.onfinish=done; setTimeout(done, delay+1050);
+    };
+    const t1=xpW.getBoundingClientRect(), t2=orbW.getBoundingClientRect();
+    for(let i=0;i<4;i++) spawn(t1.left+t1.width/2, t1.top+t1.height/2, 'star', 120+i*90);
+    spawn(t2.left+t2.width/2, t2.top+t2.height/2, 'orb', 300);
+    clearTimeout(this._dotCuT);
+    this._dotCuT=setTimeout(()=>{
+      const st=this.state;
+      const p0=(st.pointsNow!=null?st.pointsNow:(this.props.points??120)), o0=(st.orbsNow!=null?st.orbsNow:(this.props.orbs??6));
+      const p1=p0+4, o1=o0+1, dur=700, t0=Date.now();
+      clearInterval(this._dotCuI);
+      this._dotCuI=setInterval(()=>{ const t=Math.min(1,(Date.now()-t0)/dur), e=1-Math.pow(1-t,3);
+        this.setState({pointsNow:Math.round(p0+(p1-p0)*e), orbsNow:Math.round(o0+(o1-o0)*e)});
+        if(t>=1){ clearInterval(this._dotCuI); this.setState({pointsNow:p1, orbsNow:o1}); } },35);
+      this.setState({xpPulse:true, orbPulse:true});
+      clearTimeout(this._dotPulseT);
+      this._dotPulseT=setTimeout(()=>this.setState({xpPulse:false, orbPulse:false}), 900);
+    }, 780);
+  }
+  _clearObj(){ (this._objTimers||[]).forEach(clearTimeout); this._objTimers=[]; clearInterval(this._gi); clearTimeout(this._giP); }
+  _reveal(){ clearTimeout(this._t); clearTimeout(this._nt); clearTimeout(this._introEndT); clearTimeout(this._introFallback); clearTimeout(this._introMsgT); clearInterval(this._introFillTimer); this._clearObj(); const cur=this.steps[this.state.step]; if(cur&&cur.objSeq&&this.state.step===this.state.maxStep){ this._runObjectives(); return; } if(cur&&cur.outro&&this.state.step===this.state.maxStep){ if(this._pendingCelebrate){ this._pendingCelebrate=false; this._startCelebration(); return; } this._runOutro(); return; } const introFlow = this.state.step===this.IDX.intro && !this.state.maxDocked; this.setState({showMsgs:false,speaking:true,narrating:true,revealCount:null,activeBullet:-1,objDone:false,gotItFill:0,gotItPressed:false,introReady:false,introFill:0,defReady:false,hlDraw:false,defPhase:null,defSparkIn:false,defSparkOut:false,defQuizChoice:null,defCorrect:false,defSparkText:'',defSparkReveal:false}); this._t=setTimeout(()=>{ if(introFlow){ this.setState({showMsgs:true,speaking:false,narrating:true}); this._revealStepMsgs(); this._speakStepThen(()=>{ this._flyMaxToDock(); this._introMsgT=setTimeout(()=>this._onIntroSpeechDone(),1200); }); return; } this.setState({showMsgs:true,speaking:false}); this._revealStepMsgs(); if(this.state.step===this.IDX.def){ this._speakStepThen(()=>this._startDefChip()); clearTimeout(this._hlT); this._hlT=setTimeout(()=>this.setState({hlDraw:true}), 3800); } else if(this.state.step===this.IDX.video){ this._speakStepThen(()=>this._vidStart()); } else { this._speakStep(); } },2000); this._nt=setTimeout(()=>this.setState({narrating:false}),6500); if(introFlow){ this._introFallback=setTimeout(()=>{ if(this.state.step===this.IDX.intro && !this.state.introReady && !this._introTransitioning) this._onIntroSpeechDone(); }, 9000); } }
+  _speakOne(text, who, onend, onstart){ try{ const sy=window.speechSynthesis; if(!sy){ onstart&&onstart(); onend&&onend(); return; } const u=new SpeechSynthesisUtterance(String(text).replace(/[\uD800-\uDFFF][\uDC00-\uDFFF]?/g,'').replace(/[\u2600-\u27BF\uFE0F]/g,'')); const voices=(this._voices&&this._voices.length)?this._voices:(sy.getVoices()||[]); const pick=(names)=>voices.find(v=>names.some(n=>((v.name||'')+' '+(v.voiceURI||'')).toLowerCase().includes(n))); if(who==='spark'){ u.pitch=1.5; u.rate=1.12; const v=pick(['samantha','zira','google us english','karen','tessa','victoria','female']); if(v) u.voice=v; } else { u.pitch=0.92; u.rate=1.0; const v=pick(['daniel','david','google uk english male','arthur','alex','fred','male']); if(v) u.voice=v; } u.onstart=()=>{ onstart&&onstart(); }; u.onend=()=>{ onend&&onend(); }; u.onerror=()=>{ onend&&onend(); }; sy.speak(u); }catch(e){ onstart&&onstart(); onend&&onend(); } }
+  _speakStepThen(cb){ let done=false; const fire=()=>{ if(done)return; done=true; cb&&cb(); }; const s=this.steps[this.state.step]; const name=this.props.studentName||'Aarav'; const on=this._sparkOn(); const list=(s.msgs||[]).filter(m=>on||m.who!=='spark'); const estMs=Math.max(3200, list.reduce((a,m)=>a+m.t.length*55,0)+900); this._stopSpeak(); if(this.state.narratorOn && window.speechSynthesis){ let idx=0; const speakNext=()=>{ if(idx>=list.length){ fire(); return; } const m=list[idx++]; this._speakOne(m.t.replace('{name}',name), m.who, speakNext); }; speakNext(); } clearTimeout(this._introEndT); this._introEndT=setTimeout(fire, estMs); }
+  _onIntroSpeechDone(){ if(this.state.step!==this.IDX.intro || this._introAdvanced) return; clearTimeout(this._introFallback); this.setState({introReady:true, introFill:0}); const start=Date.now(), DUR=5000; clearInterval(this._introFillTimer); this._introFillTimer=setInterval(()=>{ const p=Math.min(100,((Date.now()-start)/DUR)*100); this.setState({introFill:p}); if(p>=100){ clearInterval(this._introFillTimer); if(this._AUTO) this._introAdvance(); } },50); }
+  _flyMaxToDock(){ if(this._maxFlown) return; this._maxFlown=true; this.setState({sparkFly:true, inputShrunk:true, pillDocked:true}); const src=document.querySelector('#introMaxImg'); const dst=document.querySelector('#dockSlot')||document.querySelector('#dockPill'); if(src && dst){ const sr=src.getBoundingClientRect(); const dr=dst.getBoundingClientRect(); this.setState({maxHideBoard:true}); let hop=null, done=false; const fin=()=>{ if(done)return; done=true; this.setState({maxDocked:true}, ()=>{ requestAnimationFrame(()=>requestAnimationFrame(()=>{ (hop||[]).forEach(e=>{ try{ e.remove(); }catch(_){} }); })); }); }; hop=this._arcHop(sr, dr, sr.width||92, 60, fin, '__live_vyom__', src.getAttribute('art-scale')); } else { this.setState({maxDocked:true}); } }
+  _introAdvance(){ if(this._introAdvanced) return; this._introAdvanced=true; clearInterval(this._introFillTimer); clearTimeout(this._introEndT); clearTimeout(this._introFallback); this._stopSpeak(); this.setState({introFill:100}); this._flyMaxToDock(); this.go(1); }
+  startIntroTransition(){ if(this.state.maxDocked && this._introAdvanced){ this.go(this.IDX.obj); return; } clearInterval(this._introFillTimer); const flying=!this._maxFlown; this._flyMaxToDock(); if(flying){ this._introAdvanced=true; this._stopSpeak(); this.setState({introFill:100}); clearTimeout(this._s3AutoT); this._s3AutoT=setTimeout(()=>this.go(this.IDX.obj), 480); } else { this._introAdvance(); } }
+  _runObjectives(){
+    const s=this.steps[this.state.step]; const n=(s.msgs||[]).length; const name=this.props.studentName||'Aarav'; this._objTimers=[];
+    this.setState({showMsgs:true, revealCount:0, activeBullet:-1, speaking:true, narrating:false, objDone:false, gotItFill:0, gotItPressed:false});
+    const step=(i)=>{
+      // 2s typing, then drop message i + highlight bullet i
+      this._objTimers.push(setTimeout(()=>{
+        this.setState({revealCount:i+1, activeBullet:i, speaking:false, narrating:true});
+        this._speak((s.msgs[i]||{}).t?s.msgs[i].t.replace('{name}',name):'', (s.msgs[i]||{}).who);
+        { const mm=s.msgs[i]; if(mm){ this._revealMsg(this.state.step+'-'+i, mm.who, mm.t.replace('{name}',name)); } }
+        this._objTimers.push(setTimeout(()=>this.setState({narrating:false}),2600));
+        if(i+1<n){ this._objTimers.push(setTimeout(()=>{ this.setState({speaking:true}); step(i+1); },3000)); }
+        else { this._objTimers.push(setTimeout(()=>this.setState({activeBullet:-1}),2600)); this._objTimers.push(setTimeout(()=>this._startGotIt(),1400)); }
+      },2000));
+    };
+    this._objTimers.push(setTimeout(()=>step(0),300));
+  }
+  _runOutro(){ this._clearObj(); this.setState({showMsgs:false, revealCount:0, activeBullet:-1, outroDocked:false, outroFlying:false, narrating:false, speaking:false}); this._outroFlown=false; clearTimeout(this._outroT); this._outroT=setTimeout(()=>this._flyMascotsToBoard(), 400); }
+  _flyMascotsToBoard(){ if(this._outroFlown) return; this._outroFlown=true; this.setState({pillDocked:false}); const land=document.querySelector('#outroLand'); const dockM=document.querySelector('#dockMax')||document.querySelector('#dockSlot'); if(!land){ this.setState({outroDocked:true}); this._runOutroSeq(); return; } const mDst=land.querySelector('vyom-rive')||land.querySelector('img'); const sDst=land.querySelector('img[src*="spark"]')||land.querySelectorAll('img')[0]; try{ const mSr=dockM?dockM.getBoundingClientRect():mDst.getBoundingClientRect(); const mDr=mDst.getBoundingClientRect(); const sdr=sDst.getBoundingClientRect(); this.setState({outroFlying:true}); let hops=[], n=0, done=false; const finOne=()=>{ n++; if(n>=2 && !done){ done=true; this.setState({outroDocked:true, outroFlying:false}); requestAnimationFrame(()=>requestAnimationFrame(()=>{ hops.forEach(e=>{ try{ e.remove(); }catch(_){} }); this._runOutroSeq(); })); } }; hops=hops.concat(this._arcHop(mSr, mDr, mSr.width||60, mDr.width, finOne, '__live_vyom__', dockM&&dockM.querySelector('vyom-rive')?dockM.querySelector('vyom-rive').getAttribute('art-scale'):null)); const sSr={left:(window.innerWidth||1280)+40, top:sdr.top, width:sdr.width, height:sdr.height}; hops=hops.concat(this._arcHop(sSr, sdr, sdr.width, sdr.width, finOne, ((window.__resources&&window.__resources.sparkPng)||'spark-mascot-sm.png'))); }catch(e){ this.setState({outroDocked:true, outroFlying:false}); this._runOutroSeq(); } }
+  _runOutroSeq(){ const s=this.steps[this.state.step]; if(!s||!s.outro) return; const n=(s.msgs||[]).length; const name=this.props.studentName||'Aarav'; this._objTimers=this._objTimers||[]; this.setState({showMsgs:true, revealCount:0, activeBullet:-1, speaking:true, narrating:false}); const step=(i)=>{ this._objTimers.push(setTimeout(()=>{ this.setState({revealCount:i+1, activeBullet:i, speaking:false, narrating:true}); const mm=s.msgs[i]; this._speak(mm?mm.t.replace('{name}',name):'', mm&&mm.who); if(mm){ this._revealMsg(this.state.step+'-'+i, mm.who, mm.t.replace('{name}',name)); } this._objTimers.push(setTimeout(()=>this.setState({narrating:false}),2600)); if(i+1<n){ this._objTimers.push(setTimeout(()=>{ this.setState({speaking:true}); step(i+1); },3200)); } else { this._objTimers.push(setTimeout(()=>this.setState({activeBullet:-1}),3000)); } },1600)); }; this._objTimers.push(setTimeout(()=>step(0),300)); }
+  _startDefChip(){ if(this.state.step!==this.IDX.def) return; this._defSparkEnter(); }
+  _pushChat(who, text, extra){ const id='c'+(this._cid=(this._cid||0)+1); this.setState(st=>({ chats:[...(st.chats||[]), Object.assign({id, who, text}, extra||{})] })); }
+  /* SINGLE SOURCE OF TRUTH: every narration line is committed to the chat log exactly once (dedup by step-index key), so nothing is lost or repeated. */
+  /* Karaoke reveal. Driven by a clock rather than speechSynthesis boundary events: those fire only
+     on some engines, never fire at all when the narrator is muted, and would leave the text stuck at
+     50%. Anchor time is captured the first time a message id is seen, so the pace matches the same
+     ~55ms/char estimate _narrateThen uses for the identical utterance. */
+  _kara(id, text){
+    const str = String(text == null ? '' : text);
+    const words = str.split(/\s+/).filter(Boolean);
+    if(!words.length) return [];
+    this._karaAt = this._karaAt || {};
+    if(this._karaAt[id] == null) this._karaAt[id] = Date.now() + 200;
+    const per = Math.max(130, (str.length * 55) / words.length);
+    const shown = Math.floor((Date.now() - this._karaAt[id]) / per);
+    if(shown < words.length){
+      clearTimeout(this._karaTick);
+      this._karaTick = setTimeout(()=>this.forceUpdate(), Math.min(per, 110));
+    }
+    return words.map((w,i)=>({ key: id+'-'+i, t: w+' ', op: i < shown ? 1 : 0.5 }));
+  }
+  _revealMsg(key, who, text){ this._revealed=this._revealed||{}; if(this._revealed[key]) return; this._revealed[key]=true; this._pushChat(who, text); }
+  _revealStepMsgs(){ const s=this.steps[this.state.step]; if(!s||!s.msgs) return; const on=this._sparkOn(); const name=this.props.studentName||'Aarav'; s.msgs.forEach((m,i)=>{ if(!on && m.who==='spark') return; this._revealMsg(this.state.step+'-'+i, m.who, (m.t||'').replace('{name}',name)); }); }
+  _narrateThen(text, who, cb, onStart){ let done=false; const fire=()=>{ if(done)return; done=true; cb&&cb(); }; const est=Math.max(3200,(text||'').length*55+800); if(this.state.narratorOn && window.speechSynthesis){ this._speakOne(text, who, fire, onStart); } clearTimeout(this._defT); this._defT=setTimeout(fire, est); }
+  _defSparkEnter(){ if(this.state.step!==this.IDX.def) return; const q="Wait\u2026 a and b are just two letters. Can I choose any two sides of the trapezoid and call them a and b?"; this.setState({defPhase:'sparkAsk', defSparkIn:false, defSparkOut:false, defSparkReveal:false, defSparkText:q, pops:[], chatCollapsed:true}); requestAnimationFrame(()=>{ if(this.state.step===this.IDX.def) this.setState({defSparkIn:true}); }); this._pushChat('spark', q); clearTimeout(this._defRevT); this._defRevT=setTimeout(()=>{ if(this.state.step!==this.IDX.def) return; this.setState({defSparkReveal:true}); clearTimeout(this._defAudT); this._defAudT=setTimeout(()=>{ if(this.state.step===this.IDX.def) this._narrateThen(q,'spark',()=>this._defMaxReply()); }, 620); }, 840); }
+  _defMaxReply(){ if(this.state.step!==this.IDX.def || this.state.defPhase!=='sparkAsk') return; const name=this.props.studentName||'Aarav'; const r="Interesting question, Spark. a and b here aren't two random sides. "+name+", can you tell what these sides are?"; this.setState({defPhase:'maxReply', narrating:true}); this._pushPop({ id:'p'+(this._pid=(this._pid||0)+1), isMax:true, isSpark:false, text:r }); this._pushChat('max', r); this._narrateThen(r,'max',()=>this._defSparkExit()); }
+  _defSparkExit(){ if(this.state.step!==this.IDX.def) return; this.setState({defSparkOut:true, narrating:false}); clearTimeout(this._defT2); this._defT2=setTimeout(()=>{ if(this.state.step===this.IDX.def) this.setState({defPhase:'quiz'}); }, 720); }
+  _defQuizPick(i){ if(this.state.step!==this.IDX.def || this.state.defCorrect) return; const opts=["The two parallel sides","The two slanting sides","The height and width"]; const isCorrect = i===0; this.setState({defQuizChoice:i, bgFx: isCorrect?'success':'fail', bgFxColor: isCorrect?'success':'fail'}); this._pushChat('user', opts[i]); const fb = isCorrect ? "Excellent \u2014 that's the correct answer. a and b are the two parallel sides." : (i===1 ? "Not quite \u2014 those are the slanting sides. Double-check your answer." : "Not quite \u2014 that's the height and width. Take another look."); this._pushPop({ id:'p'+(this._pid=(this._pid||0)+1), isMax:true, isSpark:false, text:fb }); this._pushChat('max', fb); if(isCorrect){ this.setState({defCorrect:true}); this._narrateThen(fb,'max',()=>{ if(this._AUTO && this.state.step===this.IDX.def) this.go(this.state.step+1); }); } else { this._speak(fb,'max'); clearTimeout(this._defBgT); this._defBgT=setTimeout(()=>{ if(this.state.bgFx==='fail') this.setState({bgFx:''}); }, 4200); } }
+  _defOptionRows(){ const st=this.state; const labels=["The two parallel sides","The two slanting sides","The height and width"]; const letters=['A','B','C']; return labels.map((label,i)=>{ const chosen=st.defQuizChoice===i; const correct=i===0; let borderColor='#e7e2f2',bg='#fff',letterBg='#eceef1',letterColor='#495057',textColor='#343a40',mark='',markColor='transparent'; if(chosen){ if(correct){ borderColor='#2f9e44'; bg='#ebfbee'; letterBg='#2f9e44'; letterColor='#fff'; textColor='#2b8a3e'; mark='\u2713'; markColor='#2f9e44'; } else { borderColor='#e03131'; bg='#fff5f5'; letterBg='#e03131'; letterColor='#fff'; textColor='#c92a2a'; mark='\u2715'; markColor='#e03131'; } } return { letter:letters[i], label, borderColor, bg, letterBg, letterColor, textColor, mark, markColor, onClick:()=>this._defQuizPick(i) }; }); }
+  _startSkipQuiz(){ if(this.state.step!==this.IDX.obj) return; this._clearObj(); this._stopSpeak(); this._chatUserOpen=false; this.setState({chatCollapsed:true, pops:[], skipQuiz:true, sqIdx:0, sqPicks:[], showMsgs:false, speaking:false, narrating:false, activeBullet:-1}); }
+  _skipPick(i){ const st=this.state; if(!st.skipQuiz) return; const idx=st.sqIdx; if((st.sqPicks||[])[idx]!=null) return; const q=this.SKIPQ[idx]; const correct=(i===q.ans); const picks=(st.sqPicks||[]).slice(); picks[idx]={choice:i, correct:correct}; this.setState({sqPicks:picks, bgFx: correct?'success':'fail', bgFxColor: correct?'success':'fail'}); this._pushChat('user', q.opts[i]); clearTimeout(this._sqT); this._sqT=setTimeout(()=>{ this.setState({bgFx:''}); if(idx>=this.SKIPQ.length-1){ this._finishSkipQuiz(); } else { this.setState({sqIdx:idx+1}); } }, 1050); }
+  /* The mascot on screen is a live Rive canvas, so a flight clone built from vyom-mascot.png shows an
+     OLDER drawing of Vyom mid-flight — and a canvas snapshot is not an option either (a WebGL context
+     without preserveDrawingBuffer reads back fully transparent). The lead clone is therefore a real
+     <vyom-rive> element; only the two faint blurred ghosts behind it stay as cheap <img>s. */
+  _arcHop(sr, dr, startSize, endSize, onDone, src, artScale){ const LIVE_VYOM='__live_vyom__'; const AS=artScale||'1.5'; const scx=sr.left+sr.width/2, scy=sr.top+sr.height/2; const dcx=dr.left+dr.width/2, dcy=dr.top+dr.height/2; const dx=dcx-scx, dy=dcy-scy; const endScale=endSize/startSize; const lift=Math.max(84, Math.abs(dx)*0.3+Math.abs(dy)*0.12); const left=scx-startSize/2, top=scy-startSize/2; const midScale=((1+endScale)/2)*1.06; const ease='cubic-bezier(.5,0,.2,1)'; const live=(src===LIVE_VYOM); const img=(src&&!live)?src:((window.__resources&&window.__resources.vyomPng)||'vyom-mascot.png'); const els=[]; const mk=(op,bl,lead)=>{ const el=(live&&lead)?document.createElement('vyom-rive'):document.createElement('img'); if(el.tagName==='IMG') el.src=img; else el.setAttribute('art-scale',AS); el.style.cssText='position:fixed;left:'+left+'px;top:'+top+'px;width:'+startSize+'px;height:'+startSize+'px;object-fit:contain;transform-origin:center center;will-change:transform,filter;z-index:9999;pointer-events:none;opacity:'+op+';filter:drop-shadow(0 14px 22px rgba(120,90,220,.34)) blur('+bl+'px);'; document.body.appendChild(el); els.push(el); return el; }; const kfMain=[ {transform:'translate(0px,0px) scale(1)', offset:0}, {transform:'translate(0px,5px) scale(1.1,.9)', offset:0.09}, {transform:'translate('+(dx*0.5)+'px,'+(dy*0.5-lift)+'px) scale('+midScale+')', offset:0.5}, {transform:'translate('+dx+'px,'+(dy+6)+'px) scale('+(endScale*1.07)+','+(endScale*0.93)+')', offset:0.85}, {transform:'translate('+dx+'px,'+dy+'px) scale('+endScale+')', offset:1} ]; const kfGhost=[ {transform:'translate(0px,0px) scale(1)'}, {transform:'translate('+(dx*0.5)+'px,'+(dy*0.5-lift)+'px) scale('+midScale+')', offset:0.5}, {transform:'translate('+dx+'px,'+dy+'px) scale('+endScale+')'} ]; let done=false; const fire=()=>{ if(done)return; done=true; onDone&&onDone(); }; try{ const g1=mk(0.16,6); g1.animate(kfGhost,{duration:760,delay:130,easing:ease,fill:'forwards'}); const g2=mk(0.32,3); g2.animate(kfGhost,{duration:760,delay:65,easing:ease,fill:'forwards'}); const main=mk(1,0,true); const a=main.animate(kfMain,{duration:760,easing:ease,fill:'forwards'}); a.onfinish=fire; setTimeout(fire, 900); }catch(e){ fire(); } this._hopEls=(this._hopEls||[]).concat(els); clearTimeout(this._hopSweep); this._hopSweep=setTimeout(()=>{ els.forEach(e=>{ try{ e.remove(); }catch(_){} }); }, 2200); return els; }
+  _clearHop(){ (this._hopEls||[]).forEach(e=>{ try{ e.remove(); }catch(_){} }); this._hopEls=null; clearTimeout(this._hopT); }
+  _vyomHop(fromSel, toSel, fromSize, toSize, onDone, src){ const a=document.querySelector(fromSel), b=document.querySelector(toSel); if(!a||!b){ onDone&&onDone(); return []; } return this._arcHop(a.getBoundingClientRect(), b.getBoundingClientRect(), fromSize, toSize, onDone, src); }
+  _finishSkipQuiz(){ const picks=this.state.sqPicks||[]; const nCorrect=picks.filter(p=>p&&p.correct).length; const pass=nCorrect>=4; const last=this.steps.length-1; if(pass){ this._pendingCelebrate=true; this.setState({skipQuiz:false}); this.go(last); return; } this.setState({skipResult:true, skipReturn:false, sqFlying:true, pillDocked:false}, ()=>{ requestAnimationFrame(()=>{ const dockEl=document.querySelector('#dockSlot'); const ctrEl=document.querySelector('#sqVyom'); if(dockEl && ctrEl){ const dr=dockEl.getBoundingClientRect(); const cr=ctrEl.getBoundingClientRect(); let hop=null, done=false; const fin=()=>{ if(done)return; done=true; this.setState({sqFlying:false}); requestAnimationFrame(()=>requestAnimationFrame(()=>{ (hop||[]).forEach(e=>{ try{ e.remove(); }catch(_){} }); })); }; hop=this._arcHop(dr, cr, 60, 120, fin); } else { this.setState({sqFlying:false}); } }); }); }
+  _skipOptionRows(){ const st=this.state; const q=this.SKIPQ[st.sqIdx]||{opts:[]}; const letters=['A','B','C']; const pick=(st.sqPicks||[])[st.sqIdx]; return (q.opts||[]).map((label,i)=>{ const chosen=pick&&pick.choice===i; const correct=i===q.ans; let borderColor='#e7e2f2',bg='#fff',letterBg='#eceef1',letterColor='#495057',textColor='#343a40',mark='',markColor='transparent',cursor=pick?'default':'pointer'; if(chosen){ if(correct){ borderColor='#2f9e44'; bg='#ebfbee'; letterBg='#2f9e44'; letterColor='#fff'; textColor='#2b8a3e'; mark='\u2713'; markColor='#2f9e44'; } else { borderColor='#e03131'; bg='#fff5f5'; letterBg='#e03131'; letterColor='#fff'; textColor='#c92a2a'; mark='\u2715'; markColor='#e03131'; } } else if(pick&&correct){ borderColor='#2f9e44'; bg='#ebfbee'; letterBg='#2f9e44'; letterColor='#fff'; textColor='#2b8a3e'; mark='\u2713'; markColor='#2f9e44'; } return { letter:letters[i], label:label, borderColor:borderColor, bg:bg, letterBg:letterBg, letterColor:letterColor, textColor:textColor, mark:mark, markColor:markColor, cursor:cursor, onClick:()=>this._skipPick(i) }; }); }
+  _startGotIt(){ this.setState({objDone:true}); clearTimeout(this._giP); this._giP=setTimeout(()=>{ if(this._AUTO && this.steps[this.state.step] && this.steps[this.state.step].objSeq) this.next(); }, 2400); }
+  _pressGotIt(){ clearInterval(this._gi); this.setState({gotItFill:100, gotItPressed:true}); clearTimeout(this._giP); this._giP=setTimeout(()=>this.next(),300); }
+  gotItClick(){ if(this.state.gotItPressed) return; this._pressGotIt(); }
+  _sparkOn(){ let s=this.props.sparkOn!==false; try{ const sp=new URLSearchParams(location.search).get('spark'); if(sp!=null) s=sp!=='0'; }catch(e){} return s; }
+  _pushPop(item){ this.setState(st=>({pops:[...(st.pops||[]), item]})); this._pt=this._pt||{}; this._pt[item.id]=setTimeout(()=>{ this.setState(st=>({pops:(st.pops||[]).filter(p=>p.id!==item.id)})); },7000); }
+  _enqueuePops(){ if(!this.state.chatCollapsed) return; const s=this.steps[this.state.step]; if(!s||!s.msgs) return; const name=this.props.studentName||'Aarav'; const on=this._sparkOn(); s.msgs.filter(m=> on||m.who!=='spark').forEach(m=>{ this._pushPop({ id:'p'+(this._pid=(this._pid||0)+1), isMax:m.who==='max', isSpark:m.who==='spark', text:m.t.replace('{name}',name) }); }); }
+  _toggleChat(){ const willOpen=this.state.chatCollapsed; this._chatUserOpen=willOpen; this.setState({chatCollapsed:!this.state.chatCollapsed}); }
+  openChatMsg(){ this._chatUserOpen=true; this.setState({chatCollapsed:false, recording:false}); setTimeout(()=>{ try{ this.replyRef.current && this.replyRef.current.focus(); }catch(e){} }, 460); }
+  openChatMic(){ this._chatUserOpen=true; this.setState({chatCollapsed:false, recording:true}); }
+  toggleMic(){ this.setState(s=>({recording:!s.recording})); }
+  onDraft(e){ this.setState({draft:e.target.value}); }  onKey(e){ if(e.key==='Enter'){ e.preventDefault(); this.sendMsg(); } }
+  sendMsg(){ const text=(this.state.draft||'').trim(); if(!text) return; const uid='c'+(this._cid=(this._cid||0)+1); this.setState(st=>({ chats:[...(st.chats||[]), {id:uid, who:'user', text}], draft:'' })); clearTimeout(this._rt); this._rt=setTimeout(()=>this._reply(text), 900); }
+  _reply(q){ const on=this._sparkOn(); const pool=[ {who:'max', t:'Great question! The trapezoid area is the average of the two bases times the height.'}, {who:'max', t:"Good thinking \u2014 let's work through it together on the board."}, {who:'spark', t:"Ooh, nice one! You're really paying attention today. \ud83c\udf1f"}, {who:'max', t:'Exactly the kind of question a mathematician asks. Try plugging in the numbers!'} ]; let pick=pool[(this._cid||1)%pool.length]; if(pick.who==='spark' && !on) pick=pool[0]; const rid='c'+(this._cid=(this._cid||0)+1); this.setState(st=>({ chats:[...(st.chats||[]), {id:rid, who:pick.who, text:pick.t}] })); this._speak(pick.t, pick.who); if(this.state.chatCollapsed){ this._pushPop({ id:'p'+(this._pid=(this._pid||0)+1), isMax:pick.who==='max', isSpark:pick.who==='spark', text:pick.t }); } }
+  tabFor(mode){ return {intro:'Standard',teach:'Teach',video:'Video',screen:'Screen',compare:'Screen',quiz:'Quiz',applet:'Applet'}[mode]; }
+  go(i){
+    const n=this.steps.length; if(i<0||i>=n) return;
+    const tgt=this.steps[i]; this._vidSparkDone=false;
+    clearInterval(this._vi); this._noAutoFull=false; this._clearObj(); this._stopSpeak(); clearInterval(this._introFillTimer); clearTimeout(this._introEndT); clearTimeout(this._introFallback); clearTimeout(this._s3PromptT); clearTimeout(this._s3ReachT); clearTimeout(this._s3AutoT); clearTimeout(this._bgT); clearTimeout(this._s3BtnT);
+    const patch={ step:i, maxStep:Math.max(this.state.maxStep,i), loCelOn:false, dotCel:null, skipQuiz:false, sqIdx:0, sqPicks:[], skipResult:false, skipReturn:false, sqFlying:false, quizChoice:null, quizSubmitted:false, videoPlaying:false, videoFull:false, videoProgress:0, vidStarted:false, vidPaused:false, vidCur:0, vidDur:0, vidSpark:false, vidSparkTyping:false, vidSparkIn:false, vidSparkOut:false, vidSparkBtns:false, vidMissedMax:false, vidDone:false, vidSparkText:'', vidSparkReveal:false, vidCtlVis:false, revealCount:null, activeBullet:-1, objDone:false, gotItFill:0, gotItPressed:false, introReady:false, introFill:0, sparkFly:false, maxHideBoard:false, defReady:false, hlDraw:false, defPhase:null, defSparkIn:false, defSparkOut:false, defQuizChoice:null, defCorrect:false, defSparkText:'', defSparkReveal:false, s3Tried:false, s3Reached:false, s3Phase:null, bgFx:'', s3Prompt:false, s3Buttons:false, outroDocked:false, outroFlying:false };
+    this._outroFlown=false;
+    if(tgt.mode==='applet'){ if(tgt.solved){ patch.appletValue='10'; patch.appletSolved=true; } else if(this.steps[this.state.step].mode!=='applet'){ patch.appletValue=''; patch.appletSolved=false; } }
+    const forceClose=(tgt.mode==='video'||tgt.mode==='applet'||tgt.mode==='html');
+    patch.chatCollapsed = forceClose ? true : !this._chatUserOpen;
+    patch.pops=[];
+    this.setState(patch, ()=>{ this._celebrateStep(tgt, i); this._reveal(); if(tgt.mode==='html'){ this._attachS3(); setTimeout(()=>this._attachS3(), 400); clearTimeout(this._s3PromptT); this._s3PromptT=setTimeout(()=>{ if(!this.state.s3Tried && this.steps[this.state.step].mode==='html'){ this.setState({s3Prompt:true}); this._pushPop({ id:'p'+(this._pid=(this._pid||0)+1), isMax:true, isSpark:false, text:'Try dragging the top corner of the shape to see what happens.' }); this._speak('Try dragging the top corner of the shape to see what happens.','max'); } }, 7500); } });
+  }
+  next(){ if(this.state.step===this.IDX.intro){ this.startIntroTransition(); return; } if(this.state.step===this.IDX.obj && this.state.skipQuiz){ if(!this.state.skipResult || this.state.sqFlying) return; const ctrEl=document.querySelector('#sqVyom'); const dockEl=document.querySelector('#dockSlot'); if(ctrEl && dockEl){ const cr=ctrEl.getBoundingClientRect(); const dr=dockEl.getBoundingClientRect(); this.setState({sqFlying:true, pillDocked:true}, ()=>{ let hop=null, done=false; const fin=()=>{ if(done)return; done=true; (hop||[]).forEach(e=>{ try{ e.remove(); }catch(_){} }); this.setState({skipQuiz:false, skipResult:false, skipReturn:false, sqFlying:false}); this.go(2); }; hop=this._arcHop(cr, dr, 120, 60, fin); }); } else { this.setState({skipQuiz:false, skipResult:false, sqFlying:false}); this.go(2); } return; } if(this.steps[this.state.step].mode==='html' && !this.state.s3Tried){ return; } if(this.state.step===this.IDX.def && !this.state.defCorrect){ return; } if(this.state.step===this.IDX.video && !this.state.vidDone){ return; } if(this.state.step>=this.steps.length-1){ this._startCelebration(); return; } this.go(this.state.step+1); }
+  _buildConfetti(){ const cols=['#ffd43b','#845ef7','#20c997','#ff8787','#4dabf7','#ff922b','#f06595','#63e6be']; const arr=[]; const R=(a,b)=>a+Math.random()*(b-a); for(let s=0;s<2;s++){ const left=s===0; const dir=left?1:-1; for(let i=0;i<15;i++){ const peakX=dir*R(140,430); const peakY=-R(120,240); const endX=peakX+dir*R(30,150); const endY=R(280,520); arr.push({ leftPos:left?'0%':'100%', top:Math.round(R(40,60)), w:Math.round(R(7,12)), h:Math.round(R(9,16)), col:cols[(i*2+s)%cols.length], mx:Math.round(peakX)+'px', my:Math.round(peakY)+'px', ex:Math.round(endX)+'px', ey:Math.round(endY)+'px', mr:Math.round(R(60,260))+'deg', er:Math.round(R(380,900))+'deg', dur:R(1.7,2.9).toFixed(2)+'s', dl:R(0,0.55).toFixed(2)+'s' }); } } return arr; }
+  _ftueActive(){ try{ return localStorage.getItem('chapterJourneyFtueCompleted')!=='true'; }catch(e){ return false; } }
+  _startCelebration(){ if(this._celebrated) return; this._celebrated=true; this._stopSpeak(); this._clearObj(); this.setState({celebrate:true, celPhase:1, pointsNow:(this.props.points??120), orbsNow:(this.props.orbs??6)}); clearTimeout(this._celT2); clearTimeout(this._celT3); clearTimeout(this._celT4); clearTimeout(this._celT5); this._celT2=setTimeout(()=>this.setState({celPhase:2}),1050); this._celT3=setTimeout(()=>this.setState({celPhase:3}),2150); this._celT4=setTimeout(()=>{ this.setState({celPhase:4}); this._flyRewards(); },3350); this._celStart=performance.now(); this._celT5=setTimeout(()=>{ if(this._ftueActive()){ this.setState({celPhase:5}); return; } this._post('byjus-room-complete'); try{ window.location.href=encodeURI('Chapter Journey.dc.html'); }catch(e){} }, 5400); setTimeout(()=>this._celAnim(), 70); }
+  _celAnim(){ const overlay=document.querySelector('#celOverlay'); const sc=document.querySelector('#celStarCanvas'); const cc=document.querySelector('#celConfCanvas'); if(!overlay||!sc||!cc){ if(this.state.celebrate){ setTimeout(()=>this._celAnim(),80); } return; } const rect=overlay.getBoundingClientRect(); const W=rect.width, H=rect.height; if(!W||!H){ setTimeout(()=>this._celAnim(),80); return; } const dpr=Math.min(2, window.devicePixelRatio||1); [sc,cc].forEach(cv=>{ cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); const g=cv.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); }); const sg=sc.getContext('2d'), cg=cc.getContext('2d'); const cx=W/2, cy=H/2, maxR=Math.max(cx,cy)*1.2; const NS=90; const stars=Array.from({length:NS},(v,i)=>({ a:((i*137.508)%360)*Math.PI/180, sr:((i*31+17)%50)/50, speed:0.5+((i*7+3)%10)/10, base:1+((i*13+5)%3), off:i*0.25 })); const cols=['#ffd43b','#845ef7','#20c997','#ff8787','#4dabf7','#ff922b','#f06595','#63e6be','#ffffff']; const conf=[]; const R=(a,b)=>a+Math.random()*(b-a); const burst=(left,n)=>{ for(let i=0;i<n;i++){ conf.push({ x:left?R(-12,18):W-R(-12,18), y:R(H*0.30,H*0.78), vx:(left?1:-1)*R(7,17), vy:R(-17,-6), va:R(-0.5,0.5), angle:R(0,6.28), w:R(6,13), h:R(9,17), col:cols[Math.floor(R(0,cols.length))], sp:R(0.35,1) }); } }; burst(true,70); burst(false,70); const grav=0.62; let t=0, last=performance.now(); const t0=last; const loop=(now)=>{ if(!this.state.celebrate){ this._celRAF=null; return; } const dt=Math.min(2.4,(now-last)/16.667); last=now; t++; if(t===7){ burst(true,55); burst(false,55); } if(t===15){ burst(true,45); burst(false,45); } if(t===26){ burst(true,30); burst(false,30); } const el=(now-t0)/1000; sg.clearRect(0,0,W,H); for(let i=0;i<NS;i++){ const s=stars[i]; const prog=(((el*s.speed + s.off)%5)/5); const radius=s.sr*20 + prog*maxR; const x=cx+Math.cos(s.a)*radius, y=cy+Math.sin(s.a)*radius; const scale=1+prog*2; const size=s.base*scale; const op=Math.min(prog*4,1)*Math.max(1-prog*0.8,0.2); sg.globalAlpha=op*0.85; sg.fillStyle='#fff'; sg.beginPath(); sg.arc(x,y,size/2,0,6.2832); sg.fill(); } sg.globalAlpha=1; cg.clearRect(0,0,W,H); for(let i=conf.length-1;i>=0;i--){ const p=conf[i]; p.vy+=grav*dt; p.vx*=Math.pow(0.992,dt); p.x+=p.vx*dt; p.y+=p.vy*dt; p.angle+=p.va*dt; cg.save(); cg.translate(p.x,p.y); cg.rotate(p.angle); const sy=Math.cos(p.angle*1.6)*0.55+0.55*p.sp; cg.scale(1, sy); cg.fillStyle=p.col; cg.fillRect(-p.w/2,-p.h/2,p.w,p.h); cg.restore(); if(p.y>H+60||p.x<-80||p.x>W+80) conf.splice(i,1); } this._celRAF=requestAnimationFrame(loop); }; cancelAnimationFrame(this._celRAF); this._celRAF=requestAnimationFrame(loop); }
+  _flyRewards(){ const tray=document.querySelector('#celTray'); const xpW=document.querySelector('#xpWidget'); const orbW=document.querySelector('#orbWidget'); const from=tray?tray.getBoundingClientRect():null; const spawn=(cx,cy,tx,ty,kind,delay)=>{ const el=document.createElement('div'); if(kind==='star'){ el.innerHTML='<i class="ti ti-star-filled"></i>'; el.style.color='#fab005'; el.style.fontSize='18px'; el.style.filter='drop-shadow(0 2px 4px rgba(180,120,0,.4))'; } else { el.style.width='16px'; el.style.height='16px'; el.style.borderRadius='50%'; el.style.background='radial-gradient(circle at 34% 28%,#fff,#ffe066 42%,#ff922b 78%,#e8590c)'; el.style.boxShadow='0 0 10px rgba(255,193,7,.95)'; } el.style.cssText+=';position:fixed;left:'+cx+'px;top:'+cy+'px;z-index:9999;pointer-events:none;will-change:transform,opacity;'; document.body.appendChild(el); const dx=tx-cx, dy=ty-cy; const midX=dx*0.5+(Math.random()*70-35); const midY=dy*0.42-70; let a; try{ a=el.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+midX+'px,'+midY+'px) scale(1.35)',opacity:1,offset:.5},{transform:'translate('+dx+'px,'+dy+'px) scale(.35)',opacity:.15}],{duration:820,delay:delay,easing:'cubic-bezier(.5,0,.35,1)',fill:'forwards'}); }catch(e){} const done=()=>{ try{ el.remove(); }catch(_){} }; if(a){ a.onfinish=done; } setTimeout(done, delay+1000); }; if(from){ const fx=from.left+from.width*0.25, fy=from.top+from.height/2; if(xpW){ const t=xpW.getBoundingClientRect(); for(let i=0;i<12;i++) spawn(fx+(Math.random()*40-20), fy, t.left+t.width/2, t.top+t.height/2, 'star', i*55); } if(orbW){ const t=orbW.getBoundingClientRect(); const ox=from.left+from.width*0.72; for(let i=0;i<2;i++) spawn(ox, fy, t.left+t.width/2, t.top+t.height/2, 'orb', 140+i*160); } } clearTimeout(this._cuT); this._cuT=setTimeout(()=>{ this._countUp(); this.setState({xpPulse:true, orbPulse:true}); clearTimeout(this._pulseT); this._pulseT=setTimeout(()=>this.setState({xpPulse:false, orbPulse:false}),1500); },520); clearTimeout(this._celT5); this._celT5=setTimeout(()=>this.setState({celPhase:5}),2050); }
+  _countUp(){ const p0=this.props.points??120, p1=p0+20, o0=this.props.orbs??6, o1=o0+2; const dur=1150, t0=Date.now(); clearInterval(this._cuI); this._cuI=setInterval(()=>{ const t=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-t,3); this.setState({pointsNow:Math.round(p0+(p1-p0)*e), orbsNow:Math.round(o0+(o1-o0)*e)}); if(t>=1){ clearInterval(this._cuI); this.setState({pointsNow:p1, orbsNow:o1}); } },40); }
+  _post(type){ try{ if(window.parent&&window.parent!==window) window.parent.postMessage({type},'*'); }catch(e){} }
+  back(){ this.go(this.state.step-1); }
+  jumpTab(label){ const idx=this.steps.findIndex(s=>this.tabFor(s.mode)===label); if(idx>=0) this.go(idx); }
+  choose(i){ if(!this.state.quizSubmitted) this.setState({quizChoice:i}); }
+  submitQuiz(){ if(this.state.quizChoice!=null && !this.state.quizSubmitted) this.setState({quizSubmitted:true}); }
+  _vidPlay(){ const v=this.videoRef.current; if(!v) return; try{ v.playbackRate=this.state.vidRate||1; v.volume=(this.state.vidMuted?0:(this.state.vidVol==null?1:this.state.vidVol)); v.muted=!!this.state.vidMuted; }catch(e){} try{ const p=v.play(); if(p&&p.catch) p.catch(()=>{ try{ v.muted=true; const q=v.play(); if(q&&q.catch) q.catch(()=>{}); }catch(e){} }); }catch(e){} }
+  _vidMuteToggle(){ const v=this.videoRef.current; const m=!this.state.vidMuted; this.setState({vidMuted:m}); if(v){ try{ v.muted=m; }catch(e){} } }
+  _vidVolSet(e){ const val=parseFloat(e.target.value); const v=this.videoRef.current; this.setState({vidVol:val, vidMuted: val<=0}); if(v){ try{ v.volume=val; v.muted=val<=0; }catch(e){} } }
+  _vidSpeedCycle(){ const rates=[0.5,0.75,1,1.25,1.5,2]; const cur=this.state.vidRate||1; const i=rates.indexOf(cur); const next=rates[(i+1)%rates.length]; this.setState({vidRate:next}); const v=this.videoRef.current; if(v){ try{ v.playbackRate=next; }catch(e){} } }
+  _vidStart(){ if(this.state.step!==this.IDX.video || this.state.vidStarted) return; this.setState({vidStarted:true, vidPaused:false}); this._vidPlay(); }
+  _vidThumb(){ if(this.state.step===this.IDX.video && !this.state.vidStarted) this._vidStart(); }
+  _vidToggle(){ if(this.state.step!==this.IDX.video || !this.state.vidStarted || this.state.vidSpark) return; const v=this.videoRef.current; if(!v) return; if(v.paused) this._vidPlay(); else v.pause(); }
+  _vidSeek(e){ const v=this.videoRef.current; if(v && v.duration){ v.currentTime = parseFloat(e.target.value); } }
+  _vidBack10(){ const v=this.videoRef.current; if(v) v.currentTime = Math.max(0, v.currentTime - 10); }
+  _vidFwd10(){ const v=this.videoRef.current; if(v) v.currentTime = Math.min((v.duration||0), v.currentTime + 10); }
+  _fmtT(s){ s=Math.max(0,Math.floor(s||0)); const m=Math.floor(s/60), ss=s%60; return m+':'+(ss<10?'0':'')+ss; }
+  onVideoMeta(e){ const v=e&&e.target; if(!v) return;
+    if(v.videoWidth && v.videoHeight){ const fr=v.closest && v.closest('.vid-frame'); if(fr) fr.style.setProperty('--vid-ar', v.videoWidth+' / '+v.videoHeight); }
+    const d=v.duration; if(isFinite(d) && d>0 && d!==this.state.vidDur) this.setState({vidDur:d}); }
+  onVideoTime(e){ const v=e.target; if(!v || this.state.step!==this.IDX.video) return; const t=v.currentTime, d=v.duration; const patch={vidCur:t}; if(isFinite(d) && d>0 && d!==this.state.vidDur) patch.vidDur=d; this.setState(patch); if(this.state.vidDone) return; if(isFinite(d) && d>0 && t>=d-0.4){ this._vidComplete(); return; } if(!this._vidSparkDone && !this.state.vidSpark && t>=69){ this._vidSparkEnter(); } }
+  onVideoPlay(){ this.setState({vidPaused:false}); this._vidShowCtl(); if(this.state.step===this.IDX.video && !this.state.vidStarted) this.setState({vidStarted:true}); }
+  onVideoPause(){ this.setState({vidPaused:true, vidCtlVis:true}); clearTimeout(this._ctlT); }
+  _vidShowCtl(){ if(this.state.step!==this.IDX.video) return; if(!this.state.vidCtlVis) this.setState({vidCtlVis:true}); clearTimeout(this._ctlT); this._ctlT=setTimeout(()=>{ const v=this.videoRef.current; if(v && !v.paused && !this.state.vidSpark) this.setState({vidCtlVis:false}); }, 5000); }
+  onVideoEnded(){ this._vidComplete(); }
+  _vidComplete(){ if(this.state.step!==this.IDX.video || this.state.vidDone) return; const v=this.videoRef.current; try{ v&&v.pause(); }catch(e){} this.setState({vidDone:true, vidPaused:false, vidSpark:false, vidSparkOut:false, vidSparkBtns:false, vidMissedMax:false, narrating:true}); const line="Good job, now you learnt the formula of area of a trapezoid."; this._pushPop({ id:'p'+(this._pid=(this._pid||0)+1), isMax:true, isSpark:false, text:line }); this._pushChat('max', line); this._narrateThen(line,'max',()=>{ this.setState({narrating:false}); if(this._AUTO && this.state.step===this.IDX.video) this.go(this.state.step+1); }); }
+  _vidSparkEnter(){ if(this.state.step!==this.IDX.video || this._vidSparkDone) return; this._vidSparkDone=true; const v=this.videoRef.current; try{ v&&v.pause(); }catch(e){} const name=this.props.studentName||'Aarav'; const q="Ahh\u2026 I see that we flipped and combined two trapezoids to make a parallelogram. Did you notice that, "+name+"?"; this.setState({vidSpark:true, vidSparkTyping:true, vidSparkBtns:false, vidPaused:true, chatCollapsed:false}); this._pushChat('spark', q, {vidPause:true}); clearTimeout(this._vidInT); this._vidInT=setTimeout(()=>{ if(this.state.step!==this.IDX.video || !this.state.vidSpark) return; this.setState({vidSparkTyping:false}); clearTimeout(this._vidAudT); this._vidAudT=setTimeout(()=>{ if(this.state.step===this.IDX.video && this.state.vidSpark) this._narrateThen(q,'spark',()=>{ if(this.state.step===this.IDX.video && this.state.vidSpark) this.setState({vidSparkBtns:true}); }); }, 500); }, 1500); }
+  _vidGotIt(){ if(this.state.step!==this.IDX.video) return; this._pushChat('user','Got it'); this.setState({vidSparkBtns:false, vidSpark:false, vidSparkTyping:false, vidPaused:false, chatCollapsed:true}); clearTimeout(this._vidT); this._vidT=setTimeout(()=>{ this._vidPlay(); }, 480); }
+  _vidMissed(){ if(this.state.step!==this.IDX.video) return; this._pushChat('user','I missed it'); const line="No problem, I'll play that part for you."; this.setState({vidSparkBtns:false, narrating:true}); this._pushChat('max', line); this._narrateThen(line,'max',()=>this._vidReplayFrom(48)); }
+  _vidReplayFrom(sec){ if(this.state.step!==this.IDX.video) return; this.setState({vidSpark:false, vidSparkTyping:false, vidMissedMax:false, narrating:false, vidPaused:false, chatCollapsed:true}); clearTimeout(this._vidT); this._vidT=setTimeout(()=>{ const v=this.videoRef.current; if(v){ try{ v.currentTime=sec; }catch(e){} } this._vidPlay(); }, 480); }
+  _vidMaxIn(){ const s=this.state; if(s.step!==this.IDX.video) return true; return !s.vidStarted || s.vidDone || s.vidMissedMax; }
+  _vidBtnsIn(){ const s=this.state; if(s.step!==this.IDX.video) return true; return !s.vidStarted || s.vidDone || s.vidMissedMax; }
+  _vidFullToggle(){ this.setState(s=>({videoFull:!s.videoFull})); }
+  exitFull(){ this.setState({videoFull:false}); }
+  toggleAudioMenu(){ this.setState(s=>({audioMenu:!s.audioMenu, flagOpen:false, settingsMenu:false})); }
+  toggleSettings(){ this.setState(s=>({settingsMenu:!s.settingsMenu, audioMenu:false, flagOpen:false})); }
+  toggleAlwaysChat(){ this.setState(s=>{ const on=!s.alwaysChat; return { alwaysChat:on, chatCollapsed: on ? false : s.chatCollapsed }; }); }
+  toggleFlag(){ this.setState(s=>({flagOpen:!s.flagOpen, audioMenu:false, settingsMenu:false, flagSent:false})); }
+  toggleNarrator(){ this.setState(s=>{ const on=!s.narratorOn; if(!on) this._stopSpeak(); return {narratorOn:on}; }); }
+  toggleSystem(){ this.setState(s=>({systemOn:!s.systemOn})); }
+  onFlagText(e){ this.setState({flagText:e.target.value}); }
+  submitFlag(){ if((this.state.flagText||'').trim()){ this.setState({flagSent:true, flagText:''}); clearTimeout(this._ft); this._ft=setTimeout(()=>this.setState({flagOpen:false, flagSent:false}),1800); } }
+  pressKey(k){ if(this.state.appletSolved) return; this.setState(s=>({ appletValue: s.appletValue.length<3 ? s.appletValue+k : s.appletValue })); }
+  clearKey(){ if(!this.state.appletSolved) this.setState({appletValue:''}); }
+  backspace(){ if(!this.state.appletSolved) this.setState(s=>({appletValue:s.appletValue.slice(0,-1)})); }
+  checkApplet(){ this.setState(s=>({appletSolved: s.appletValue==='10'})); }
+  startOver(){ this.setState({appletValue:'',appletSolved:false}); }
+
+  renderVals(){
+    const st=this.state, s=this.steps[st.step], total=this.steps.length;
+    const name=this.props.studentName||'Aarav';
+    let sparkOn=this.props.sparkOn!==false; try{ const sp=new URLSearchParams(location.search).get('spark'); if(sp!=null) sparkOn=sp!=='0'; }catch(e){}
+    const atNewest = st.step===st.maxStep;
+    // Chat window renders ONLY from the committed chat log (single source of truth).
+    const msgs = [];
+    (st.chats||[]).forEach(c=>{ if(c.who==='spark'&&!sparkOn) return; msgs.push({ id:c.id, isMax:c.who==='max', isSpark:c.who==='spark', isUser:c.who==='user', text:c.text, _vidPause:c.vidPause }); });
+    const s3ActionActive=(st.s3Phase==='ask1'||st.s3Phase==='ask2');
+    if(s3ActionActive){ const s3Text = st.s3Phase==='ask1' ? "By dragging the top corner of the parallelogram, we're able to form a trapezoid." : "When you dragged the slider, the top side got shorter than the bottom. Now the shape has only one pair of parallel sides \u2014 so it isn't a parallelogram any more. It's a trapezoid."; msgs.push({ id:'s3act', isMax:true, isSpark:false, isUser:false, text:s3Text, isAction:true, showBtns:!!st.s3Buttons, b1Label:'Got it', b2Label:(st.s3Phase==='ask2'?'Have a doubt':'Explain more'), b1:()=>this._s3Success(), b2:()=> (this.state.s3Phase==='ask2' ? this._s3Doubt() : this._s3ExplainMore()) }); }
+    const N=msgs.length; const _opL=[1,0.75,0.5,0.45,0.4,0.35,0.3,0.25,0.2,0.15]; msgs.forEach((m,i)=>{ const fromEnd=N-1-i; const isLast=fromEnd===0; m.op = fromEnd<_opL.length?_opL[fromEnd]:0.1; m.fsClass = isLast?'msg-xl':'msg-xl b60'; m.showSparkMascot = !!m._vidPause && isLast; m.showVidBtns = !!m._vidPause && isLast && !!st.vidSparkBtns; if(m.showVidBtns){ m.onGotIt=()=>this._vidGotIt(); m.onMissed=()=>this._vidMissed(); } m.sparkStageClass = m.showSparkMascot ? (st.vidSparkTyping ? 'vsk-stage typing' : 'vsk-stage reveal') : ''; m.sparkTypingNow = m.showSparkMascot && !!st.vidSparkTyping; m.showBubble = !m.sparkTypingNow; m.bubbleClass = (m.showSparkMascot && !st.vidSparkTyping) ? 'vsk-bubble vskbin' : ''; m.words = this._kara(m.id || ('i'+i), m.text); });
+    const chatCollapsed = !!st.chatCollapsed;
+    // closed-chat view: show only the single most-recent bubble, and only if it's Vyom's and appeared within 15s
+    const newestKey = N ? ((msgs[N-1].text||'')+'|'+(msgs[N-1].isMax?'m':(msgs[N-1].isUser?'u':'s'))) : '';
+    if(newestKey !== this._newestKey){ this._newestKey=newestKey; this._lastNewestAt=Date.now(); clearTimeout(this._newestTimer); this._newestTimer=setTimeout(()=>this.forceUpdate(),15200); }
+    const _within15=(Date.now()-(this._lastNewestAt||0))<15000;
+    msgs.forEach((m,i)=>{ const isLast=i===N-1; if(chatCollapsed){ const show=isLast&&m.isMax&&_within15; m.op=show?1:0; m.pe=show?'auto':'none'; m.disp=show?'flex':'none'; } else { m.pe='auto'; m.disp='flex'; } });
+    let _popSrc=(st.pops||[]).slice();
+    if(s3ActionActive){ const _s3t = st.s3Phase==='ask1' ? "By dragging the top corner of the parallelogram, we're able to form a trapezoid." : "When you dragged the slider, the top side got shorter than the bottom. Now the shape has only one pair of parallel sides \u2014 so it isn't a parallelogram any more. It's a trapezoid."; _popSrc.push({ id:'s3act', isMax:true, isSpark:false, isUser:false, text:_s3t, showBtns:!!st.s3Buttons, b1Label:'Got it', b2Label:(st.s3Phase==='ask2'?'Have a doubt':'Explain more'), b1:()=>this._s3Success(), b2:()=> (this.state.s3Phase==='ask2' ? this._s3Doubt() : this._s3ExplainMore()) }); }
+    const _tail=_popSrc.slice(-3); const TN=_tail.length; const popMsgs=_tail.map((m,i)=>{ const fromEnd=TN-1-i; let stage='pm-full'; if(fromEnd===1){ stage='pm-reduced'; } else if(fromEnd>=2){ stage='pm-leaving'; } return Object.assign({}, m, {op:1, stageClass:stage}); });
+    // audio + report + speaking callout
+    const stepMsgs=(s.msgs||[]); let spk = stepMsgs.length? stepMsgs[0].who : 'max'; if(spk==='spark' && !sparkOn) spk='max';
+    const isSpk = spk==='spark';
+    const showCallout = false;
+    const flagHas=(st.flagText||'').trim().length>0;
+    const activeTab=this.tabFor(s.mode);
+    const tabs=this.TABS.map(label=>({ label, active:label===activeTab, inactive:label!==activeTab, onClick:()=>this.jumpTab(label) }));
+
+    // quiz
+    let quizQ='', optionRows=[], feedbackText='', feedbackColor='', feedbackBg='', feedbackIcon='', submitBg='#adb5bd', submitCursor='not-allowed', submitShadow='none';
+    if(s.quiz){
+      quizQ=s.quiz.q;
+      optionRows=s.quiz.options.map((label,i)=>{
+        const chosen=st.quizChoice===i, sub=st.quizSubmitted, correct=i===s.quiz.answer;
+        let borderColor='#e9ecef',borderWidth='1px',bg='#fff',letterBg='#f1f3f5',letterColor='#868e96',textColor='#495057',mark='',markColor='transparent';
+        if(!sub && chosen){ borderColor='#228be6'; borderWidth='2px'; bg='#e7f5ff'; letterBg='#228be6'; letterColor='#fff'; textColor='#212529'; }
+        if(sub){ if(correct){ borderColor='#40c057'; borderWidth='2px'; bg='#ebfbee'; letterBg='#40c057'; letterColor='#fff'; textColor='#2b8a3e'; mark='✓'; markColor='#2b8a3e'; }
+          else if(chosen){ borderColor='#fa5252'; borderWidth='2px'; bg='#fff5f5'; letterBg='#fa5252'; letterColor='#fff'; textColor='#e03131'; mark='✕'; markColor='#e03131'; } }
+        return { letter:'ABCD'[i], label, borderColor, borderWidth, bg, letterBg, letterColor, textColor, mark, markColor, onClick:()=>this.choose(i) };
+      });
+      if(st.quizSubmitted){
+        const ok=st.quizChoice===s.quiz.answer;
+        feedbackText = ok ? "That's right — nice work!" : "Not quite. The correct answer is highlighted in green.";
+        feedbackColor = ok ? '#2b8a3e' : '#c92a2a'; feedbackBg = ok ? '#ebfbee' : '#fff5f5'; feedbackIcon = ok ? 'ti ti-circle-check' : 'ti ti-info-circle';
+      }
+      if(st.quizChoice!=null && !st.quizSubmitted){ submitBg='#228be6'; submitCursor='pointer'; submitShadow='0 6px 16px rgba(34,139,230,.32)'; }
+    }
+
+    // applet keypad
+    const kdefs=['1','2','3','4','5','6','7','8','9','C','0','⌫'];
+    const keys=kdefs.map(label=>{
+      let bg='#ffd43b',color='#5c3d00',onClick;
+      if(label==='C'){ bg='#495057'; color='#fff'; onClick=()=>this.clearKey(); }
+      else if(label==='⌫'){ bg='#495057'; color='#fff'; onClick=()=>this.backspace(); }
+      else { onClick=()=>this.pressKey(label); }
+      return { label, bg, color, onClick };
+    });
+    const appletHeight = st.appletSolved ? '10' : '?';
+    const appletValueDisplay = st.appletValue==='' ? '?' : st.appletValue;
+    const appletBoxBg = st.appletSolved ? '#40c057' : 'rgba(255,255,255,.16)';
+    const appletBoxColor = st.appletSolved ? '#062b12' : '#fff';
+    const appletTitle = st.appletSolved ? 'We found the height of the trapezoid!' : 'Find the missing height';
+    const appletTitleColor = st.appletSolved ? '#ffe066' : '#fff';
+    const appletHint = st.appletSolved ? 'Tap “Start over” to redo this activity.' : 'Enter your answer, then tap CHECK.';
+
+    /* milestone dots: lesson start, each objective recap, module complete */
+    const MILES = ['intro','lo1','lo2','outro'].map(k => this.IDX[k]).filter(v => v != null);
+    const reached = MILES.filter(m => st.step >= m).length;
+    const cur = MILES[Math.max(0, reached - 1)], nxt = MILES[reached];
+    const seg = (nxt != null && nxt > cur) ? (st.step - cur) / (nxt - cur) : 0;
+    const milePct = MILES.length > 1 ? Math.min(100, ((Math.max(0, reached - 1) + seg) / (MILES.length - 1)) * 100) : 100;
+    const SPARKS = [0,1,2,3,4,5,6,7,8,9,10,11].map(i => {
+      const a = (i / 12) * Math.PI * 2 + 0.35, r = 32 + (i % 3) * 13;
+      return { key: 'sp' + i, tx: (Math.cos(a) * r).toFixed(1) + 'px', ty: (Math.sin(a) * r).toFixed(1) + 'px',
+               c: ['#228be6','#74c0fc','#ffd43b','#40c057'][i % 4], d: (i % 4) * 0.045 + 's' };
+    });
+
+    return {
+      stepNum:st.step+1, total,
+      progressPct: Math.round(((st.step+1)/total)*100),
+      /* The rail reads as lesson PHASES, not raw slides: one dot per objective milestone
+         (start, each recap, module complete). The continuous fill interpolates between the
+         milestones the student is actually between, so mid-phase slides still show motion. */
+      nodeFillPct: milePct.toFixed(2),
+      /* the tip only shows mid-phase — on a milestone slide the dot itself is the marker */
+
+      tipLeft: 'calc(6px + (100% - 12px) * ' + (milePct / 100).toFixed(4) + ')',
+      tipClass: (st.tipFade || milePct <= 0.5 || milePct >= 99.5 || MILES.indexOf(st.step) >= 0 || st.dotCel != null) ? 'gone' : '',
+      stepDots: MILES.map((m, i) => ({
+        key: 'sd' + i,
+        left: 'calc(6px + (100% - 12px) * ' + (MILES.length > 1 ? i / (MILES.length - 1) : 0).toFixed(4) + ')',
+        cls: (st.step >= m ? 'tr-snode-done' : 'tr-snode-todo') + (st.dotCel === i ? ' tr-snode-cel' : ''),
+        cel: st.dotCel === i,
+        sparks: st.dotCel === i ? SPARKS : [],
+      })),
+      isOutro:!!s.outro, showOutroLand:!!s.outro&&!st.celebrate, outroMascotClass: st.outroDocked?'':'max-hidden', dockMaxCollapseClass: (st.outroDocked||st.outroFlying)?'dock-collapse':'',
+      isIntro:s.mode==='intro', isTeach:s.mode==='teach', isVideo:s.mode==='video', isScreen:s.mode==='screen', isCompare:s.mode==='compare', isQuiz:s.mode==='quiz', isApplet:s.mode==='applet', isHtml:s.mode==='html',
+      videoPlaying:st.videoPlaying, videoPaused:!st.videoPlaying,
+      videoRef:this.videoRef, onVideoTime:(e)=>this.onVideoTime(e), onVideoMeta:(e)=>this.onVideoMeta(e), onVideoPlay:()=>this.onVideoPlay(), onVideoPause:()=>this.onVideoPause(), onVideoEnded:()=>this.onVideoEnded(),
+      videoFullClass: st.videoFull ? 'vid-full' : '', bodyZ: st.videoFull ? 90 : 1,
+      isVideoStage:false, collapsedOverlay: st.chatCollapsed,
+      dockPillClass: st.pillDocked ? '' : 'pill-home',
+      vidTitleClass: st.vidStarted ? 'vid-dissolve' : '', vidFrameClass: st.vidStarted ? 'full' : 'thumb', vidThumb:()=>this._vidThumb(),
+      vidThumbShow: st.step===this.IDX.video && !st.vidStarted,
+      vidCenterShow: st.step===this.IDX.video && st.vidStarted && !st.vidDone && !st.vidSpark && !!st.vidPaused,
+      vidBarShow: st.step===this.IDX.video && st.vidStarted && !st.vidDone && !st.vidSpark && !!st.vidCtlVis, vidHover:()=>this._vidShowCtl(),
+      vidToggle:()=>this._vidToggle(), vidSeek:(e)=>this._vidSeek(e), vidBack10:()=>this._vidBack10(), vidFwd10:()=>this._vidFwd10(),
+      vidCur: st.vidCur||0, vidDur: st.vidDur||0, vidPlayIcon: st.vidPaused ? 'ti-player-play-filled' : 'ti-player-pause-filled',
+      vidCurLabel: this._fmtT(st.vidCur), vidDurLabel: this._fmtT(st.vidDur),
+      vidVol: (st.vidMuted?0:(st.vidVol==null?1:st.vidVol)), vidMuteToggle:()=>this._vidMuteToggle(), vidVolSet:(e)=>this._vidVolSet(e), vidSpeedCycle:()=>this._vidSpeedCycle(),
+      vidVolIcon: st.vidMuted||st.vidVol<=0 ? 'ti-volume-3' : (st.vidVol<0.5 ? 'ti-volume-2' : 'ti-volume'),
+      vidRateLabel: (st.vidRate||1)+'\u00d7',
+      vidFullToggle:()=>this._vidFullToggle(), vidFullIcon: st.videoFull?'ti-arrows-minimize':'ti-arrows-maximize',
+      vidVolBg: 'linear-gradient(90deg,#fff '+(Math.round((st.vidMuted?0:(st.vidVol==null?1:st.vidVol))*100))+'%,rgba(255,255,255,.26) 0%)',
+      vidSeekBg: 'linear-gradient(90deg,#fff '+((st.vidDur? (st.vidCur/st.vidDur*100):0))+'%,rgba(255,255,255,.26) 0%)',
+      vidBreakShow: !!st.vidDur && st.vidDur>69, vidBreakLeft: (st.vidDur? (69/st.vidDur*100):0)+'%',
+      vidMaxMsgShow: st.step===this.IDX.video && ((!st.vidStarted && st.showMsgs) || !!st.vidMissedMax),
+      vidMaxMsgText: (st.step===this.IDX.video && st.vidMissedMax) ? "No problem, I'll play that part for you." : ((s.msgs&&s.msgs[0]) ? s.msgs[0].t.replace('{name}',name) : ''),
+      vidSpark: st.step===this.IDX.video && !!st.vidSpark, vidSparkText: st.vidSparkText||'', vidSparkBtns: !!st.vidSparkBtns, vidSparkState: st.vidSparkOut ? 'out' : 'in', vidSparkReveal: !!st.vidSparkReveal, vidPauseAnim: st.step===this.IDX.video && !!st.vidPauseAnim,
+      vidGotIt:()=>this._vidGotIt(), vidMissed:()=>this._vidMissed(), vidMissedMax: st.step===this.IDX.video && !!st.vidMissedMax, vidMissedText: "No problem, I'll play that part for you.",
+      vcMaxClass: this._vidMaxIn()?'vc-in':'vc-out', vcBtnsClass: this._vidBtnsIn()?'vc-in':'vc-out', vidMaxSpeaking: st.step===this.IDX.video && (!!st.vidMissedMax || !!st.vidDone) && !!st.narrating,
+      vcColLift: (st.step===this.IDX.video && st.vidStarted && !st.vidDone) ? 'vc-lift' : '',
+      boardTitle:s.title, boardSub:s.sub, showChip:!!s.chip && !s.objSeq && !s.loRecap && !s.outro && st.step!==this.IDX.def && !(st.skipQuiz&&st.step===this.IDX.obj),
+      showSkipBtn: (st.step===this.IDX.obj && !s.outro && !!(s.bullets&&s.bullets.length) && !st.skipQuiz),
+      startSkip:()=>this._startSkipQuiz(), skipQuizShow:(!!st.skipQuiz&&st.step===this.IDX.obj), sqQuestionShow:(!!st.skipQuiz&&st.step===this.IDX.obj&&!st.skipResult), skipResultShow:(!!st.skipQuiz&&st.step===this.IDX.obj&&!!st.skipResult), sqScore:(st.sqPicks||[]).filter(p=>p&&p.correct).length, sqFeedbackOpacity: st.sqFlying?0:1, dockMascotShow: !!st.maxDocked && !(!!st.skipQuiz&&st.step===this.IDX.obj&&!!st.skipResult), showBoardTitle:!(!!st.skipQuiz&&st.step===this.IDX.obj)&&!st.celebrate, showBulletsBlock:!!(s.bullets&&s.bullets.length)&&!(!!st.skipQuiz&&st.step===this.IDX.obj)&&!st.celebrate, sqNum:(st.sqIdx||0)+1, sqQ:(this.SKIPQ[st.sqIdx||0]||{}).q, sqOptions:this._skipOptionRows(), sqBars:this.SKIPQ.map((qq,k)=>{ const p=(st.sqPicks||[])[k]; let color='#cfe8ff'; if(p){ color=p.correct?'#2ee678':'#ff404a'; } else if((!!st.skipQuiz&&st.step===this.IDX.obj)&&k===(st.sqIdx||0)){ color='#ff922b'; } return {color:color}; }),
+      isDefinition: st.step===this.IDX.def, hlClass: st.hlDraw ? 'on' : '',
+      defSparkShow: st.step===this.IDX.def && (st.defPhase==='sparkAsk'||st.defPhase==='maxReply'),
+      defQuizShow: st.step===this.IDX.def && st.defPhase==='quiz',
+      defOverlay: st.step===this.IDX.def && (st.defPhase==='sparkAsk'||st.defPhase==='maxReply'||st.defPhase==='quiz'),
+      defSparkClass: st.defSparkOut ? 'def-spark-out' : (st.defSparkIn ? 'def-spark-in' : ''),
+      defSparkText: st.defSparkText||'', defOptions: this._defOptionRows(), defBoardClass: st.step===this.IDX.def ? ('def-tp'+((st.defPhase==='sparkAsk'||st.defPhase==='maxReply')?' def-shift':'')) : '', defSparkState: st.defSparkOut ? 'out' : 'in', defSparkReveal: !!st.defSparkReveal, defSparkPhaseClass: st.defSparkOut ? 's-center' : (st.defSparkReveal ? 's-dock' : (st.defSparkIn ? 's-center' : '')),
+      objChip: !!s.objSeq && st.objDone && atNewest, gotItFill: Math.round(st.gotItFill||0), gotItPressedClass: st.gotItPressed ? 'got-pressed' : '',
+      hasBullets:!!(s.bullets&&s.bullets.length), noBullets:!(s.bullets&&s.bullets.length), boardBullets:(s.bullets||[]).map((text,i)=>{ const done=(s.loDone||0)>i; return {n:i+1, text, done, todo:!done, badgeClass: done?'lo-done':'', celebrate: s.loCelebrate===i && !!st.loCelOn, hlClass: ((s.objSeq||s.outro) && i===st.activeBullet) ? 'obj-hl' : ''}; }),
+      msgs, speaking:st.speaking&&atNewest, sparkOn,
+      chatOpen:!chatCollapsed, chatCollapsed, chatEdgeOp: chatCollapsed ? 0 : .35,
+      /* handle + edge stay visible the whole trip — they ride the wrapper's own width slide */
+      chatHandleOp: 1,
+      chatHandleTr: 'opacity .18s ease', chatColW: chatCollapsed ? '0px' : '372px', teachWrapW: chatCollapsed ? '100%' : 'calc(100% - 372px)',
+      chatScrollPE: chatCollapsed ? 'none' : 'auto', chatListPadB: '92px', chatScrollOv: chatCollapsed ? 'hidden' : 'auto', composerW: chatCollapsed?'110px':'272px', composerBorder: chatCollapsed?'transparent':'#dee2e6', composerShadow: 'none', composerTealOp: chatCollapsed?1:0, closedOp: chatCollapsed?1:0, closedPE: chatCollapsed?'auto':'none', openOp: chatCollapsed?0:1, openPE: chatCollapsed?'none':'auto', chatChevron: chatCollapsed ? 'ti-chevron-right' : 'ti-chevron-left', chatToggleTitle: chatCollapsed ? 'Show chat' : 'Collapse chat', popMsgs, toggleChat:()=>this._toggleChat(),      railTitle: sparkOn ? 'Vyom & Spark are with you' : 'Vyom, your AI tutor',
+      tabs,
+      quizQ, optionRows, quizSubmitted:st.quizSubmitted, feedbackText, feedbackColor, feedbackBg, feedbackIcon,
+      submitBg, submitCursor, submitShadow,
+      keys, appletHeight, appletValueDisplay, appletBoxBg, appletBoxColor, appletTitle, appletTitleColor, appletHint,
+      streak:this.props.streak??3, points:this.props.points??120, orbs:this.props.orbs??6,
+      pointsDisp:(st.pointsNow!=null?st.pointsNow:(this.props.points??120)), orbsDisp:(st.orbsNow!=null?st.orbsNow:(this.props.orbs??6)),
+      xpPulseClass: st.xpPulse?'rw-pulse':'', orbPulseClass: st.orbPulse?'rw-pulse':'',
+      celebrate:!!st.celebrate, celHead: st.celPhase>=2, celCollect: st.celPhase>=3, celLaunch: st.celPhase>=4, celDone: st.celPhase>=5, celFtue: st.celPhase>=5 && this._ftueActive(),
+      celConfetti: (this._confetti || (this._confetti = this._buildConfetti())),
+      celVyomIdleClass: st.celPhase>=5?'idle':'', celSparkExitClass: st.celebrate?'cel-spark-exit':'', celVyomFadeClass: st.celebrate?'cel-vyom-fade':'',
+      navRowDisp: st.celebrate?'none':'flex', ftueActive: this._ftueActive(), ftueDone: !this._ftueActive(),
+      finishCel:()=>{ this._post('byjus-room-complete'); try{ window.location.href=encodeURI('Chapter Journey.dc.html'); }catch(e){} },
+      ftueGoals:()=>{ this._post('byjus-room-complete'); try{ localStorage.setItem('ftueStage','setup'); }catch(e){} try{ window.location.href=encodeURI('Home Page.dc.html'); }catch(e){} },
+      ftueSkip:()=>{ this._post('byjus-room-complete'); try{ localStorage.setItem('ftueStage','land'); localStorage.setItem('learningFlowSetupStatus','dismissed'); }catch(e){} try{ window.location.href=encodeURI('Chapter Journey.dc.html'); }catch(e){} },
+      celBurstStars: Array.from({length:20},(v,i)=>{ const ang=(i/20)*Math.PI*2; const r=70+((i%3)*26); return { bx:Math.round(Math.cos(ang)*r*1.5)+'px', by:Math.round(Math.sin(ang)*r)+'px', bd:(1.3+((i%4)*0.18)).toFixed(2)+'s', bdl:(0.02*i).toFixed(2)+'s' }; }),
+      videoFull:st.videoFull,
+      showCallout, calloutLabel:isSpk?'Spark':'Vyom', calloutIsMax:!isSpk, calloutIsSpark:isSpk, calloutColor:isSpk?'#e8590c':'#1c7ed6', calloutBg:isSpk?'#fff4e6':'#eef6ff', calloutBorder:isSpk?'#ffe8cc':'#d0ebff',
+      audioMenu:st.audioMenu, flagOpen:st.flagOpen, settingsMenu:st.settingsMenu, flagSent:st.flagSent, flagNotSent:!st.flagSent, flagText:st.flagText||'',
+      alwaysChatTrack:st.alwaysChat?'#0ca678':'#dee2e6', alwaysChatKnob:st.alwaysChat?'21px':'3px',
+      setBtnBg:st.settingsMenu?'#e6fcf5':'#f8f9fa', setBtnColor:st.settingsMenu?'#0ca678':'#495057', setBtnBorder:st.settingsMenu?'#96f2d7':'#ececf3',
+      narratorTrack:st.narratorOn?'#1c7ed6':'#dee2e6', narratorKnob:st.narratorOn?'21px':'3px', systemTrack:st.systemOn?'#1c7ed6':'#dee2e6', systemKnob:st.systemOn?'21px':'3px',
+      audioBtnBg:st.audioMenu?'#e7f5ff':'transparent', audioBtnColor:st.audioMenu?'#1c7ed6':'#495057', audioBtnBorder:st.audioMenu?'#a5d8ff':'#ececf3',
+      flagBtnBg:st.flagOpen?'#fff0f0':'transparent', flagBtnColor:st.flagOpen?'#e03131':'#495057', flagBtnBorder:st.flagOpen?'#ffc9c9':'#ececf3',
+      flagSubmitBg:flagHas?'#228be6':'#a5c9ee', flagSubmitCursor:flagHas?'pointer':'not-allowed',
+      toggleAudioMenu:()=>this.toggleAudioMenu(), toggleFlag:()=>this.toggleFlag(), toggleNarrator:()=>this.toggleNarrator(), toggleSystem:()=>this.toggleSystem(), onFlagText:(e)=>this.onFlagText(e), toggleSettings:()=>this.toggleSettings(), toggleAlwaysChat:()=>this.toggleAlwaysChat(), submitFlag:()=>this.submitFlag(), exitFull:()=>this.exitFull(),
+      introInkClass: (st.introFill||0) > 55 ? 'intro-ink' : '',
+      nextLabel: st.step===this.IDX.intro ? "Let's start" : (st.step===total-1 ? 'End session' : 'Next'),
+      nextCursor: ((s.mode==='html' && !st.s3Tried) || (st.step===this.IDX.def && !st.defCorrect) || (st.step===this.IDX.video && !st.vidDone) || (st.step===this.IDX.obj && st.skipQuiz && !st.skipResult)) ? 'not-allowed' : 'pointer', nextOpacity: ((s.mode==='html' && !st.s3Tried) || (st.step===this.IDX.def && !st.defCorrect) || (st.step===this.IDX.video && !st.vidDone) || (st.step===this.IDX.obj && st.skipQuiz && !st.skipResult)) ? '.45' : '1',
+      bgFxClass: (st.bgFxColor==='success' ? 'bg-success' : (st.bgFxColor==='fail' ? 'bg-fail' : '')) + (st.bgFx ? ' bg-on' : ''),
+      s3Action: (st.s3Phase==='ask1' || st.s3Phase==='ask2'), s3Prompt: !!st.s3Prompt, s3Buttons: !!st.s3Buttons,
+      s3ActionText: st.s3Phase==='ask1' ? "By dragging the top corner of the parallelogram, we're able to form a trapezoid." : (st.s3Phase==='ask2' ? "When you dragged the slider, the top side got shorter than the bottom. Now the shape has only one pair of parallel sides — so it isn't a parallelogram any more. It's a trapezoid." : ''),
+      s3Btn1Label: 'Got it', s3Btn2Label: st.s3Phase==='ask2' ? 'Have a doubt' : 'Explain more',
+      s3Btn1: ()=>this._s3Success(), s3Btn2: ()=> (this.state.s3Phase==='ask2' ? this._s3Doubt() : this._s3ExplainMore()),
+      isIntroBtn: st.step===this.IDX.intro, introFill: Math.round(st.introFill||0),
+      navBtnBg: st.step===this.IDX.intro ? '#fff' : '#228be6', navBtnColor: st.step===this.IDX.intro ? '#343a40' : '#fff', navBtnBorder: st.step===this.IDX.intro ? '1.5px solid #dee2e6' : '1.5px solid transparent', /* the room-card gutter clips at overflow:hidden ~18px under the button, so the glow's
+   vertical reach (offset + blur) must stay inside that or it ends in a hard horizontal cut */
+      navBtnShadow: st.step===this.IDX.intro ? '0 4px 13px rgba(120,90,200,.14)' : '0 4px 12px rgba(34,139,230,.32)',
+      introBtnPressClass: (st.step===this.IDX.intro && st.introFill>=100) ? 'got-pressed' : '',
+      introMaxClass: (st.maxHideBoard||st.maxDocked) ? 'max-hidden' : '', sparkClass: (st.sparkFly) ? 'spark-fly' : ((st.maxDocked) ? 'max-hidden' : ''), sparkFly: !!st.sparkFly, maxDocked: !!st.maxDocked,
+      titleHiClass: (s.mode==='intro' && st.showMsgs && !st.maxDocked) ? 'title-hi-on' : '',
+      inputRowClass: (st.maxDocked || st.inputShrunk) ? 'input-docked' : '',
+      maxSpeaking: !!st.maxDocked && !!st.narrating,
+      backColor: st.step===this.IDX.intro ? '#ced4da' : '#495057', backCursor: st.step===this.IDX.intro ? 'default':'pointer', backOpacity: st.step===this.IDX.intro ? '.5':'1',
+      draft:st.draft||'', onDraft:(e)=>this.onDraft(e), onKey:(e)=>this.onKey(e), sendMsg:()=>this.sendMsg(),
+      recording:!!st.recording, notRecording:!st.recording, inputRef:this.replyRef,
+      micColor: st.recording?'#fff':'#868e96', micBg: st.recording?'#e03131':'transparent',
+      openChatMsg:()=>this.openChatMsg(), openChatMic:()=>this.openChatMic(), toggleMic:()=>this.toggleMic(),
+      next:()=>this.next(), back:()=>this.back(), submitQuiz:()=>this.submitQuiz(), gotItClick:()=>this.gotItClick(),
+      checkApplet:()=>this.checkApplet(), startOver:()=>this.startOver(), onClose:()=>{ this._post('byjus-room-exit'); try{ window.location.href=encodeURI('Home Page.dc.html'); }catch(e){} },
+    };
+  }
+}
+</script>
+
+
+</body></html>
