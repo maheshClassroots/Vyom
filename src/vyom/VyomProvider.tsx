@@ -20,6 +20,7 @@ import {
 } from '@rive-app/react-canvas';
 import {
   AUTO_DRIVE_ENABLED,
+  LOAD_TRIGGER,
   DEFAULT_SLOT,
   READ_ONLY_PROPERTIES,
   PROPERTY_META,
@@ -28,6 +29,7 @@ import {
   STAGE_SLOTS,
 } from './config';
 import { VyomBinder } from './binder';
+import { nextFrame } from './sequencing';
 import { RiveComponentContext } from './RiveComponentContext';
 import { resolveArtboard } from './resolveArtboard';
 import { embeddedRive } from './embedded';
@@ -68,7 +70,18 @@ export interface VyomContextValue {
   setValue: (name: string, value: number) => boolean;
 
   /** Anchor plumbing — used by `useVyomAnchor`, not usually called directly. */
-  registerAnchor: (slotId: string, element: HTMLElement | null) => void;
+  /**
+   * Claims a slot for `element`, or releases it when `element` is null.
+   *
+   * `releasing` is the element being given up, and a release only takes effect
+   * when it is the one currently holding the slot — see the note on the
+   * implementation.
+   */
+  registerAnchor: (
+    slotId: string,
+    element: HTMLElement | null,
+    releasing?: HTMLElement | null,
+  ) => void;
   requestSlotSync: () => void;
 
   /**
@@ -83,6 +96,8 @@ export interface VyomContextValue {
 
   /** Live coordinates last pushed to Rive, for read-out in the dev panel. */
   slotPositions: Record<string, Point>;
+  /** Measures a slot's anchor now, in artboard units. Null if it has none. */
+  measureSlot: (slotId: string) => Point | null;
   /** Slots whose coordinates are being set by hand instead of by layout. */
   manualSlots: Record<string, boolean>;
   setSlotManual: (slotId: string, manual: boolean) => void;
@@ -99,6 +114,14 @@ export interface VyomContextValue {
  * destination is always the most recent one asked for.
  */
 const ENTRANCE_RETRIES_MS = [0, 300, 700, 1100, 1600];
+
+/**
+ * How long to wait for an animation frame before syncing the slots anyway.
+ *
+ * Generous next to a 16ms frame, because it is not approximating one: it only
+ * has to fire when there are going to be no frames at all.
+ */
+const SLOT_SYNC_FALLBACK_MS = 100;
 
 /** After this long, the machine is assumed live and moves fire once. */
 const SETTLE_MS = 3200;
@@ -222,33 +245,50 @@ export function VyomProvider({ children }: { children: ReactNode }) {
   const binderRef = useRef<VyomBinder | null>(null);
   const manualSlotsRef = useRef(manualSlots);
   const frameRef = useRef<number | null>(null);
+  const syncFallbackRef = useRef<number | null>(null);
 
   binderRef.current = binder;
   manualSlotsRef.current = manualSlots;
 
   /**
-   * Converts each registered anchor's centre into artboard units and pushes it
-   * into that slot's X/Y properties. Coalesced into one animation frame so a
-   * burst of resize callbacks costs a single pass.
+   * Where a slot's anchor currently sits, in artboard units — or null when the
+   * slot has no anchor on screen, or the stage is not up yet.
+   *
+   * Exposed as well as used internally, because a caller that is choreographing
+   * a move needs to *ask* where a slot is rather than wait for the automatic
+   * sync to get there: the sync is coalesced into an animation frame and
+   * skipped for manual slots, neither of which a scripted sequence can rely on.
    */
-  const syncSlots = useCallback(() => {
-    frameRef.current = null;
-    const activeBinder = binderRef.current;
+  const measureSlot = useCallback((slotId: string): Point | null => {
+    const entry = anchorsRef.current.get(slotId);
     const stage = stageCanvasRef.current;
-    if (!activeBinder || !stage) return;
+    if (!entry || !stage) return null;
 
     const stageRect = stage.getBoundingClientRect();
+    const rect = entry.element.getBoundingClientRect();
     const scale = RIVE_CONFIG.layoutScaleFactor || 1;
+    // Anchor centre, expressed relative to the canvas, then to the artboard.
+    return {
+      x: (rect.left + rect.width / 2 - stageRect.left) / scale,
+      y: (rect.top + rect.height / 2 - stageRect.top) / scale,
+    };
+  }, []);
+
+  /**
+   * Pushes every automatic slot's anchor position into its X/Y properties.
+   * Coalesced into one animation frame so a burst of resize callbacks costs a
+   * single pass.
+   */
+  const syncSlots = useCallback(() => {
+    const activeBinder = binderRef.current;
+    if (!activeBinder || !stageCanvasRef.current) return;
+
     const next: Record<string, Point> = {};
 
-    anchorsRef.current.forEach(({ element, slot }, slotId) => {
+    anchorsRef.current.forEach(({ slot }, slotId) => {
       if (manualSlotsRef.current[slotId]) return;
-      const rect = element.getBoundingClientRect();
-      // Anchor centre, expressed relative to the canvas, then to the artboard.
-      const point = {
-        x: (rect.left + rect.width / 2 - stageRect.left) / scale,
-        y: (rect.top + rect.height / 2 - stageRect.top) / scale,
-      };
+      const point = measureSlot(slotId);
+      if (!point) return;
       activeBinder.setNumber(slot.xProperty, point.x);
       activeBinder.setNumber(slot.yProperty, point.y);
       next[slotId] = point;
@@ -266,7 +306,7 @@ export function VyomProvider({ children }: { children: ReactNode }) {
           : merged;
       });
     }
-  }, []);
+  }, [measureSlot]);
 
   useEffect(() => {
     if (!import.meta.env.DEV) return;
@@ -275,23 +315,69 @@ export function VyomProvider({ children }: { children: ReactNode }) {
       viewModel,
       viewModelInstance,
       binder,
+      // Live internals, for poking at the slot plumbing from the console.
+      debug: {
+        anchors: anchorsRef,
+        manual: manualSlotsRef,
+        stage: stageCanvasRef,
+        sync: () => syncSlots(),
+      },
     };
-  }, [binder, rive, viewModel, viewModelInstance]);
+  }, [binder, rive, viewModel, viewModelInstance, syncSlots]);
 
+  /**
+   * Schedules a sync, coalescing a burst of resize callbacks into one pass.
+   *
+   * Raced against a timer rather than left to the animation frame alone. A
+   * document that is not being painted — a background tab, an occluded window
+   * — stops servicing `requestAnimationFrame` entirely, and the frame simply
+   * never arrives. The slot coordinates would then never be written at all, so
+   * an app opened in a background tab has Vyom sitting at whatever position
+   * the artboard defaults to until something happens to resize the window.
+   *
+   * A frame is still preferred when there is one: it is the right moment to
+   * read layout. The timer only decides how long to wait for a frame that may
+   * not be coming.
+   */
   const requestSlotSync = useCallback(() => {
-    if (frameRef.current !== null) return;
-    frameRef.current = requestAnimationFrame(syncSlots);
+    if (frameRef.current !== null || syncFallbackRef.current !== null) return;
+
+    const run = () => {
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+      if (syncFallbackRef.current !== null) window.clearTimeout(syncFallbackRef.current);
+      frameRef.current = null;
+      syncFallbackRef.current = null;
+      syncSlots();
+    };
+
+    frameRef.current = requestAnimationFrame(run);
+    syncFallbackRef.current = window.setTimeout(run, SLOT_SYNC_FALLBACK_MS);
   }, [syncSlots]);
 
   const registerAnchor = useCallback(
-    (slotId: string, element: HTMLElement | null) => {
+    (slotId: string, element: HTMLElement | null, releasing?: HTMLElement | null) => {
       const slot = SLOT_LIST.find((candidate) => candidate.id === slotId);
       if (!slot) {
         console.warn(`[vyom] unknown slot "${slotId}" — add it to STAGE_SLOTS.`);
         return;
       }
-      if (element) anchorsRef.current.set(slotId, { element, slot });
-      else anchorsRef.current.delete(slotId);
+
+      if (element) {
+        anchorsRef.current.set(slotId, { element, slot });
+      } else if (!releasing || anchorsRef.current.get(slotId)?.element === releasing) {
+        // A release only lands if the element releasing it is the one that
+        // currently holds the slot.
+        //
+        // Both screens anchor the same slots, and when one replaces the other
+        // their ref callbacks can run in either order. Detaching the old
+        // screen's anchor *after* the new screen's has attached would delete
+        // the entry that was just made, leaving the slot with no anchor at
+        // all: its coordinates then freeze at whatever they were, which is
+        // how the character ends up stranded where the previous screen left
+        // him. Checking identity makes the ordering stop mattering.
+        anchorsRef.current.delete(slotId);
+      }
+
       requestSlotSync();
     },
     [requestSlotSync],
@@ -323,11 +409,12 @@ export function VyomProvider({ children }: { children: ReactNode }) {
 
   useEffect(
     () => () => {
-      if (frameRef.current === null) return;
-      cancelAnimationFrame(frameRef.current);
-      // Must clear the handle too: leaving it set makes `requestSlotSync`
-      // think a frame is still pending and drop every later sync.
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+      if (syncFallbackRef.current !== null) window.clearTimeout(syncFallbackRef.current);
+      // Must clear the handles too: leaving one set makes `requestSlotSync`
+      // think a sync is still pending and drop every later one.
       frameRef.current = null;
+      syncFallbackRef.current = null;
     },
     [],
   );
@@ -436,6 +523,14 @@ export function VyomProvider({ children }: { children: ReactNode }) {
 
   const setSlotManual = useCallback(
     (slotId: string, manual: boolean) => {
+      // The ref is moved first, not left to the next render.
+      //
+      // `syncSlots` reads the ref, and it runs on an animation frame — which
+      // lands before React has re-rendered and copied the new state across.
+      // Leaving it to the render means the sync that this very call schedules
+      // still sees the old value: releasing a slot does not resync it, and
+      // taking one over does not stop it being overwritten.
+      manualSlotsRef.current = { ...manualSlotsRef.current, [slotId]: manual };
       setManualSlots((previous) => ({ ...previous, [slotId]: manual }));
       if (!manual) {
         binderRef.current?.invalidate();
@@ -452,6 +547,32 @@ export function VyomProvider({ children }: { children: ReactNode }) {
     binderRef.current.setNumber(slot.yProperty, point.y);
     setSlotPositions((previous) => ({ ...previous, [slotId]: point }));
   }, []);
+
+  // Vyom's entrance, once, on load. See `LOAD_TRIGGER` for why this is not
+  // part of `AUTO_DRIVE_ENABLED`.
+  const appeared = useRef(false);
+  useEffect(() => {
+    if (!isReady || !LOAD_TRIGGER) return;
+    void (async () => {
+      // A frame first, so the page has laid out and the anchors are where they
+      // will stay.
+      await nextFrame();
+      // Then write the coordinates here and now, rather than trusting that the
+      // scheduled sync has already run. `appear` plays wherever he currently
+      // is, and firing it before the anchors have landed plays it at the
+      // artboard's own default position — he arrives in the wrong place and
+      // then jumps there.
+      syncSlots();
+      // The guard is here rather than at the top of the effect, and nothing is
+      // cancelled on cleanup. Under StrictMode the effect runs twice; guarding
+      // on entry would let the first run claim the flag and the second find it
+      // already set, and if the first had also been cancelled he would never
+      // appear at all. Letting both reach this point means exactly one wins.
+      if (appeared.current) return;
+      appeared.current = true;
+      binderRef.current?.fire(LOAD_TRIGGER);
+    })();
+  }, [isReady, syncSlots]);
 
   // Send Vyom to the starting slot once everything is bound.
   // See ENTRANCE_RETRIES_MS for why this is a schedule rather than one call.
@@ -534,6 +655,7 @@ export function VyomProvider({ children }: { children: ReactNode }) {
       requestSlotSync,
       entranceComplete,
       slotPositions,
+      measureSlot,
       manualSlots,
       setSlotManual,
       setSlotPosition,
@@ -555,6 +677,7 @@ export function VyomProvider({ children }: { children: ReactNode }) {
       requestSlotSync,
       entranceComplete,
       slotPositions,
+      measureSlot,
       manualSlots,
       setSlotManual,
       setSlotPosition,

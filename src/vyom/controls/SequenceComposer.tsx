@@ -4,6 +4,7 @@ import { useSpark } from '../../spark';
 import { slotForProperty } from '../config';
 import { useVyom } from '../hooks';
 import type { Point, PropertyMeta, VyomProperty } from '../types';
+import { BUSY_TIMEOUT_MS, driveStep, sleep } from '../sequencing';
 import { readDragPayload, type SequenceCharacter } from './sequenceDrag';
 import {
   downloadSequence,
@@ -12,43 +13,7 @@ import {
   type Step,
 } from './sequenceFile';
 
-/** How long to wait for a character to go idle before giving up on a step. */
-const BUSY_TIMEOUT_MS = 10000;
-
-/** How often the busy flag is checked while waiting. */
-const POLL_MS = 40;
-
-/**
- * Settle time between writing a step and reading the busy flag.
- *
- * The write and the artboard's own reset of `actionPlaying` land in the same
- * moment, so reading the flag immediately catches it mid-change — sometimes
- * the previous animation's value, sometimes a reset that has not yet become
- * the new animation's true. Pausing first lets the state settle before any
- * of it is believed.
- */
-const STATE_SETTLE_MS = 50;
-
-/**
- * How long to let the busy flag rise after a write before deciding the step
- * started nothing.
- *
- * The flag does not go true in the same frame as the write, so checking
- * "is it busy?" straight away reads the *previous* idle state and the
- * sequence runs ahead of the animation it just started. Waiting for the rise
- * first — then for the fall — is what makes a step actually hold until its
- * animation is done. A step that drives nothing visible (setting a boolean
- * that is already set, say) never raises it, so this is a ceiling rather than
- * a delay: it ends the moment the flag goes true.
- */
-const BUSY_RISE_GRACE_MS = 400;
-
 const DEFAULT_WAIT_MS = 500;
-
-const sleep = (ms: number) =>
-  new Promise<void>((resolve) => {
-    window.setTimeout(resolve, ms);
-  });
 
 /**
  * Dev-only sequencer: drag controls out of the character panels, drop them
@@ -302,37 +267,6 @@ function SequenceLane({
     return viewModelInstance.boolean(busyProperty)?.value === true;
   }, [viewModelInstance, busyProperty, hasBusyFlag]);
 
-  /**
-   * Waits for the character to go idle.
-   *
-   * Returns false if it is still busy after `BUSY_TIMEOUT_MS` — a sequence
-   * should stop rather than hang if an animation never reports finishing.
-   */
-  const waitWhileBusy = useCallback(async () => {
-    const deadline = performance.now() + BUSY_TIMEOUT_MS;
-    while (isBusy()) {
-      if (!runningRef.current) return false;
-      if (performance.now() > deadline) return false;
-      await sleep(POLL_MS);
-    }
-    return true;
-  }, [isBusy]);
-
-  /**
-   * Waits for the busy flag to rise, up to `BUSY_RISE_GRACE_MS`.
-   *
-   * Returns as soon as it goes true; returns anyway when the grace runs out,
-   * because not every step starts an animation.
-   */
-  const waitUntilBusy = useCallback(async () => {
-    const deadline = performance.now() + BUSY_RISE_GRACE_MS;
-    while (!isBusy()) {
-      if (!runningRef.current) return;
-      if (performance.now() > deadline) return;
-      await sleep(POLL_MS);
-    }
-  }, [isBusy]);
-
   const stop = useCallback(() => {
     runningRef.current = false;
     setPlayingIndex(null);
@@ -360,39 +294,34 @@ function SequenceLane({
         continue;
       }
 
-      // Only write into an idle character, then let the animation finish
-      // before moving on — otherwise a sequence outruns what it is driving.
-      // The settle here means the flag being read has caught up with the
-      // previous step rather than still resetting from it.
-      await sleep(STATE_SETTLE_MS);
-      if (!(await waitWhileBusy())) {
-        giveUp(`gave up: ${busyProperty} stayed true for ${BUSY_TIMEOUT_MS / 1000}s`);
-        return;
-      }
-
       const name = step.name ?? '';
-      if (step.kind === 'trigger') viewModelInstance.trigger(name)?.trigger();
-      else if (step.kind === 'boolean') {
-        const property = viewModelInstance.boolean(name);
-        if (property) property.value = step.on ?? false;
-      } else if (step.kind === 'enum') {
-        const property = viewModelInstance.enum(name);
-        if (property && step.value) property.value = step.value;
-      } else if (step.kind === 'number') {
-        const amount = step.amount ?? 0;
-        if (!onNumberWrite?.(name, amount)) {
-          const property = viewModelInstance.number(name);
-          if (property) property.value = amount;
-        }
-      }
+      // `driveStep` carries the whole rule set: wait for the character to be
+      // idle, write, then hold until the animation that write started has
+      // finished. A sequence that skipped either half would outrun what it is
+      // driving — and a trigger fired into a busy artboard is simply lost.
+      const finished = await driveStep(
+        () => {
+          if (step.kind === 'trigger') viewModelInstance.trigger(name)?.trigger();
+          else if (step.kind === 'boolean') {
+            const property = viewModelInstance.boolean(name);
+            if (property) property.value = step.on ?? false;
+          } else if (step.kind === 'enum') {
+            const property = viewModelInstance.enum(name);
+            if (property && step.value) property.value = step.value;
+          } else if (step.kind === 'number') {
+            const amount = step.amount ?? 0;
+            if (!onNumberWrite?.(name, amount)) {
+              const property = viewModelInstance.number(name);
+              if (property) property.value = amount;
+            }
+          }
+        },
+        isBusy,
+        () => runningRef.current,
+      );
 
-      // Let the state settle before reading it, then let the flag rise before
-      // waiting for it to fall — so a step holds for the animation it
-      // started rather than racing past it.
-      await sleep(STATE_SETTLE_MS);
-      await waitUntilBusy();
-      if (!(await waitWhileBusy())) {
-        giveUp(`gave up waiting on ${name}`);
+      if (!finished) {
+        giveUp(`gave up on ${name}: ${busyProperty} stayed true for ${BUSY_TIMEOUT_MS / 1000}s`);
         return;
       }
     }
@@ -400,7 +329,7 @@ function SequenceLane({
     runningRef.current = false;
     setPlayingIndex(null);
     setStatus('finished');
-  }, [steps, viewModelInstance, waitWhileBusy, waitUntilBusy, busyProperty, onNumberWrite]);
+  }, [steps, viewModelInstance, isBusy, busyProperty, onNumberWrite]);
 
   return (
     <section className="lane">

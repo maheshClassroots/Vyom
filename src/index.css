@@ -49,6 +49,9 @@ input[type='text'], input[type='search'], select {
 /* The platform surface. The teaching room fills it edge to edge. */
 .shell__frame {
   height: 100%;
+  /* Containing block for `.surface`, which is painted inside the card so it
+     keeps these corners and this inset rather than running to the window. */
+  position: relative;
   min-height: 0;
   border-radius: calc(var(--radius) + 10px);
   overflow: hidden;

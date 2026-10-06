@@ -1,18 +1,22 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { HomePage } from '../home';
 import { TeachingRoom } from '../room/TeachingRoom';
-import { SequenceComposer, VyomDevPanel, VyomStage } from '../vyom';
+import { Surface, TransitionContext, useHomeToRoom } from '../transition';
+import { SequenceComposer, useVyomBooleanValue, VyomDevPanel, VyomStage } from '../vyom';
 import { SparkDevPanel, SparkStage } from '../spark';
+import '../transition/transition.css';
 
 const STUDENT_NAME = 'Aarav';
 
 /**
  * The platform frame, and the one place that decides which screen is showing.
  *
- * The app opens on the home page; choosing a lesson swaps in the teaching
- * room. `shell__frame` hosts whichever is current, and the Rive stages are
- * full-viewport overlays so a character can cross the whole screen in one
- * continuous animation.
+ * The app opens on the home page; choosing a lesson plays the transition, which
+ * empties the screen toward Vyom, sends him to the centre while the module
+ * loads, and then builds the teaching room back out of him. Going back plays
+ * the same gesture, shorter. The shell owns both because it is the only thing
+ * that sees both screens — neither is mounted or unmounted by the click, but
+ * partway through the sequence it starts.
  *
  * Both character stages and all three dev surfaces are mounted for the life of
  * the app, above whichever screen is showing. The characters are one artboard
@@ -24,26 +28,54 @@ export function AppShell() {
   const [lessonId, setLessonId] = useState<string | null>(null);
   const inLesson = lessonId !== null;
 
-  return (
-    <div className="shell">
-      <main className="shell__frame">
-        {inLesson ? (
-          <TeachingRoom onExit={() => setLessonId(null)} />
-        ) : (
-          <HomePage studentName={STUDENT_NAME} onOpenLesson={setLessonId} />
-        )}
-      </main>
+  const mountRoom = useCallback((id: string) => setLessonId(id), []);
+  const { phase, begin, leave, isRunning } = useHomeToRoom({ mountRoom });
 
-      {/* Rendered last, and on their own z-index tier, so the characters and
-          the dev tools draw above either screen — including the room's own
-          overlays, which climb into the thousands. Which screen is showing
-          only decides where the slot anchors sit, so moving between them is a
-          move within the artboard rather than a teardown. */}
-      <VyomStage />
-      <SparkStage />
-      <VyomDevPanel />
-      <SparkDevPanel />
-      <SequenceComposer />
-    </div>
+  // The surface follows the character's own theme, which is where the room's
+  // background used to read it from.
+  const isDarkMode = useVyomBooleanValue('isDarkMode');
+
+  const exitLesson = useCallback(() => {
+    void leave(() => setLessonId(null));
+  }, [leave]);
+
+  return (
+    <TransitionContext.Provider value={phase}>
+      <div className={`shell${phase !== 'idle' ? ` xit--${phase}` : ''}`}>
+        <main className="shell__frame">
+          {/* Painted once and never faded. Its colour is the cue that the room
+              has loaded: it follows `inLesson`, which flips the moment the
+              room mounts — part way through the blank, before its contents
+              come up. So the surface changes first and the room arrives on a
+              surface that has already become the room's. */}
+          <Surface tint={inLesson ? 'room' : 'home'} dark={isDarkMode} />
+
+          <div className="shell__page">
+            {inLesson ? (
+              <TeachingRoom onExit={exitLesson} />
+            ) : (
+            // A second tap while the screen is already emptying would start the
+            // sequence again from the top, so the page stops listening.
+              <HomePage
+                studentName={STUDENT_NAME}
+                onOpenLesson={begin}
+                disabled={isRunning}
+              />
+            )}
+          </div>
+        </main>
+
+        {/* Rendered last, and on their own z-index tier, so the characters and
+            the dev tools draw above either screen — including the room's own
+            overlays, which climb into the thousands. Which screen is showing
+            only decides where the slot anchors sit, so moving between them is a
+            move within the artboard rather than a teardown. */}
+        <VyomStage />
+        <SparkStage />
+        <VyomDevPanel />
+        <SparkDevPanel />
+        <SequenceComposer />
+      </div>
+    </TransitionContext.Provider>
   );
 }

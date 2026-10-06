@@ -22,13 +22,17 @@ export function useVyom(): VyomContextValue {
 export function useVyomAnchor<T extends HTMLElement = HTMLDivElement>(slotId: SlotId) {
   const { registerAnchor, requestSlotSync } = useVyom();
   const observerRef = useRef<ResizeObserver | null>(null);
+  // The element this anchor last claimed, so that giving the slot up can say
+  // which element is giving it up rather than clearing it blind.
+  const heldRef = useRef<T | null>(null);
 
   return useCallback(
     (element: T | null) => {
       observerRef.current?.disconnect();
       observerRef.current = null;
 
-      registerAnchor(slotId, element);
+      registerAnchor(slotId, element, heldRef.current);
+      heldRef.current = element;
       if (!element) return;
 
       // Watch the anchor and its container: the anchor's size rarely changes,

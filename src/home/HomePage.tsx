@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useVyom, VyomAnchor } from '../vyom';
+import { VyomAnchor } from '../vyom';
 import { GOAL, HERO_RINGS, LESSONS, STATS, type LessonCard } from './lessons';
 // The room's stylesheet carries the Tabler icon font and the Mantine tokens
 // the design draws on, and the home page is shown before the room ever
@@ -11,6 +10,8 @@ interface HomePageProps {
   /** Called with the lesson id when a class is opened. */
   onOpenLesson: (lessonId: string) => void;
   studentName: string;
+  /** Set while the transition is running, so a second tap cannot restart it. */
+  disabled?: boolean;
 }
 
 /**
@@ -28,16 +29,12 @@ interface HomePageProps {
  * The composer and the two journey buttons are presentational: the pages they
  * lead to in the design (Chapter Journey, Challenges) do not exist in this
  * app, so they are rendered but inert rather than faked.
+ *
+ * Nothing here takes part in the page transition individually — the shell
+ * fades the whole frame. Vyom is outside it, which is what leaves him standing
+ * while the page goes.
  */
-export function HomePage({ onOpenLesson, studentName }: HomePageProps) {
-  // Brings Vyom on once he is in place — the room does the same for its first
-  // step. Held back while `AUTO_DRIVE_ENABLED` is off: the provider gates
-  // every app-driven trigger, so this is a no-op until the sequence is agreed.
-  const { fire, entranceComplete } = useVyom();
-  useEffect(() => {
-    if (entranceComplete) fire('appear');
-  }, [entranceComplete, fire]);
-
+export function HomePage({ onOpenLesson, studentName, disabled = false }: HomePageProps) {
   return (
     <div className="home">
       <header className="home__chrome">
@@ -129,7 +126,12 @@ export function HomePage({ onOpenLesson, studentName }: HomePageProps) {
             Resume a class
           </h2>
           {LESSONS.map((lesson) => (
-            <ResumeTile key={lesson.id} lesson={lesson} onOpen={onOpenLesson} />
+            <ResumeTile
+              key={lesson.id}
+              lesson={lesson}
+              onOpen={onOpenLesson}
+              disabled={disabled}
+            />
           ))}
         </section>
       </main>
@@ -172,11 +174,17 @@ export function HomePage({ onOpenLesson, studentName }: HomePageProps) {
 interface ResumeTileProps {
   lesson: LessonCard;
   onOpen: (lessonId: string) => void;
+  disabled: boolean;
 }
 
-function ResumeTile({ lesson, onOpen }: ResumeTileProps) {
+function ResumeTile({ lesson, onOpen, disabled }: ResumeTileProps) {
   return (
-    <button type="button" className="resume" onClick={() => onOpen(lesson.id)}>
+    <button
+      type="button"
+      className="resume"
+      onClick={() => onOpen(lesson.id)}
+      disabled={disabled}
+    >
       <span className="resume__icon" aria-hidden="true">
         <i className={`ti ti-${lesson.icon}`} />
       </span>

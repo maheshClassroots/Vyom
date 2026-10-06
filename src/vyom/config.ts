@@ -71,6 +71,19 @@ export const STAGE_SLOTS = {
 export const AUTO_DRIVE_ENABLED = false;
 
 /**
+ * The one trigger fired without being asked for by a click: Vyom's entrance.
+ *
+ * Deliberately its own setting rather than something `AUTO_DRIVE_ENABLED`
+ * covers. That gate turns off the app driving the character by itself — the
+ * step cues, the held flags, the opening move — and it stays off. This is a
+ * single named beat, so it is spelled out here and fired by one effect, rather
+ * than reopening the gate and getting everything else back with it.
+ *
+ * Set to null for a character who does nothing at all until something asks.
+ */
+export const LOAD_TRIGGER: string | null = 'appear';
+
+/**
  * Values the artboard computes for itself — Rive's internal wiring.
  *
  * The app must never write these. They are still worth seeing, because they

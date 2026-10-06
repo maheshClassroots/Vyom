@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { introStillHidden, useTransitionPhase } from '../transition';
 import { useVyom, useVyomBooleanValue, useVyomStage, VyomAnchor } from '../vyom';
 import { MILESTONES, REWARD, STEPS } from './journey';
 import { ChatPanel, type ChatMessage } from './ChatPanel';
@@ -215,10 +216,17 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
   // it (the dev panel's checkbox, setFlag, the artboard) moves both.
   const isDarkMode = useVyomBooleanValue('isDarkMode');
 
+  // Where the arrival transition has got to, which decides whether the intro
+  // slide's content is on screen yet.
+  const introHidden = introStillHidden(useTransitionPhase());
+
   return (
     <div
       className={`room-root${isDarkMode ? ' room-root--dark' : ''}`}
-      style={css('height:100%;display:flex;flex-direction:column;position:relative;background-image:var(--room-bg);background-size:var(--room-bg-size);color:#212529;overflow:hidden;')}
+      // No background here: `.surface` paints it, and goes on painting it
+      // while this room is unmounted. The class is kept because the room's
+      // own chrome still reads `--room-bg`-era variables from it.
+      style={css('height:100%;display:flex;flex-direction:column;position:relative;color:#212529;overflow:hidden;')}
     >
       {/* ambient light — spans the whole room with no clip boundary */}
       <div aria-hidden="true" style={css('position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;')}>
@@ -285,14 +293,33 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                           below it — an in-flow Spark would shift the title left by
                           half its width. The wrapper carries the h1's old bottom
                           margin so the spacing below is unchanged. */}
-                      <div style={css('position:relative;flex:none;margin-bottom:14px;')}>
+                      {/* The slide's three pieces of content wait for Vyom to
+                          present them — see `introStillHidden`. The canvas and
+                          the mascot halo arrive with the rest of the room; only
+                          the words hold back, so the gesture has something to
+                          be a gesture toward. */}
+                      <div
+                        data-xit-intro="1"
+                        data-hidden={introHidden}
+                        style={css('position:relative;flex:none;margin-bottom:14px;')}
+                      >
                         <h1 style={css('margin:0;font-size:38px;line-height:1.1;font-weight:800;color:#212529;letter-spacing:-.01em;')}>
                           <span className={`title-hi${titleHi ? ' title-hi-on' : ''}`} style={css('display:inline-block;padding:2px 14px;')}>{current.title}</span>
                         </h1>
                         <SparkRive size={144} style={css('position:absolute;left:100%;bottom:0;margin-left:6px;filter:drop-shadow(0 10px 13px rgba(253,126,20,.3));')} />
                       </div>
-                      <p style={css('margin:0 0 20px;font-size:20px;font-weight:500;color:#495057;max-width:560px;line-height:1.5;')}>{current.sub}</p>
-                      <div style={css('display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;border-radius:16px;padding:12px 26px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#212529;white-space:nowrap;line-height:1.1;')}>
+                      <p
+                        data-xit-intro="2"
+                        data-hidden={introHidden}
+                        style={css('margin:0 0 20px;font-size:20px;font-weight:500;color:#495057;max-width:560px;line-height:1.5;')}
+                      >
+                        {current.sub}
+                      </p>
+                      <div
+                        data-xit-intro="3"
+                        data-hidden={introHidden}
+                        style={css('display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;border-radius:16px;padding:12px 26px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#212529;white-space:nowrap;line-height:1.1;')}
+                      >
                         Area = {' '}
                         <span style={css('display:inline-flex;flex-direction:column;align-items:center;font-size:20px;font-weight:800;color:#7950f2;line-height:1.05;')}>
                           <span style={css('border-bottom:2px solid #7950f2;padding:0 5px 2px;')}>b + a</span>

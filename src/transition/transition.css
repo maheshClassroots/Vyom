@@ -1,0 +1,192 @@
+/* ---------------------------------------------------------------------------
+   Home → teaching room
+   ---------------------------------------------------------------------------
+   One painted surface, two sets of contents.
+
+   `.surface` is mounted once and never fades. The screens are transparent and
+   sit on it: tapping a lesson fades the home page's contents off the surface,
+   Vyom stays while the module loads, and the room's contents come up in their
+   place. The surface itself only changes colour — which is the cue that says
+   the room has arrived.
+
+   Vyom is outside all of it, on a fixed stage above the frame, which is what
+   lets the screens change around him.
+--------------------------------------------------------------------------- */
+
+:root {
+  /* Out is the same length as in, so the two halves balance. */
+  --xit-out: 500ms;
+  --xit-in: 500ms;
+  /* The beat between the module reporting loaded and the room appearing.
+     Long enough to read as a breath, short enough not to be a second wait —
+     and long enough for the surface to have changed colour first. */
+  --xit-gap: 500ms;
+
+  /* The surface's colour change: slower than either fade, because it is a
+     setting shifting rather than a thing moving, and because it is the one
+     part of this the student is meant to notice. */
+  --xit-tint: 900ms;
+
+  /* Leaving dims; arriving sharpens. Both are gentle — nothing here should
+     draw attention to itself, because the thing worth watching is Vyom. */
+  --ease-out-screen: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-screen: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Even at both ends: a colour settling should have no accent at all. */
+  --ease-surface: cubic-bezier(0.45, 0, 0.3, 1);
+}
+
+/* ------------------------------------------------------------- the surface
+
+   Inside the frame, so it keeps the card's rounded corners and inset rather
+   than running to the edges of the window. Behind the page, and outside
+   whatever the page is doing: this layer is never animated by the transition.
+
+   The two palettes are close relations on purpose — the same 24px lattice,
+   the same soft vertical wash — so the change reads as the surface warming
+   rather than as a second screen sliding in underneath. */
+.surface {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #f8f9fa;
+}
+.surface__layer {
+  position: absolute;
+  inset: 0;
+  background-size: 24px 24px, 100% 100%;
+}
+
+/* Home: a faint blue lattice over a cool top-down gradient. */
+.surface__layer--home {
+  background-image: radial-gradient(rgba(34, 139, 230, 0.07) 1px, transparent 1px),
+    linear-gradient(180deg, #e7f5ff 0%, #f8f9fa 52%, #ffffff 100%);
+}
+
+/* The room: the same lattice, violet, over a warmer wash that ends in cream.
+   Faded in over the home layer rather than replacing it. */
+.surface__layer--room {
+  background-image: radial-gradient(18% 28% at 12% 22%, rgba(190, 170, 255, 0.22), transparent 70%),
+    radial-gradient(20% 30% at 86% 78%, rgba(255, 196, 150, 0.2), transparent 70%),
+    radial-gradient(rgba(96, 74, 190, 0.13) 1px, transparent 1px),
+    linear-gradient(180deg, #eee9fd 0%, #f8f5fe 46%, #fdfaf0 100%);
+  background-size: auto, auto, 24px 24px, auto;
+  opacity: 0;
+  /* Slower than the contents, and it starts first — the surface settles into
+     its new colour, and the room then appears on a surface that has already
+     become the room's. */
+  transition: opacity var(--xit-tint) var(--ease-surface);
+}
+.surface__layer--room[data-on='true'] {
+  opacity: 1;
+}
+
+/* Dark scheme: the same four layers so the lattice and the two corner glows
+   keep their geometry, with the palette dropped to deep indigo. Driven by
+   Vyom's `isDarkMode`, so the surface follows the character — which is where
+   the room's own background used to read it from. */
+.surface[data-dark='true'] { background: #140f1c; }
+.surface[data-dark='true'] .surface__layer--room {
+  background-image: radial-gradient(18% 28% at 12% 22%, rgba(150, 120, 255, 0.16), transparent 70%),
+    radial-gradient(20% 30% at 86% 78%, rgba(255, 170, 120, 0.1), transparent 70%),
+    radial-gradient(rgba(176, 152, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(180deg, #241c33 0%, #1c1527 46%, #140f1c 100%);
+}
+
+/* --------------------------------------------------------- the page on top */
+
+/* The layer that actually comes and goes. Separate from `.shell__frame` so the
+   frame keeps painting the card — corners, clipping, shadow — while only its
+   contents fade. */
+.shell__page {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+/* Promoted only while something is running: held permanently it would keep a
+   layer for the whole page and take text off subpixel antialiasing. */
+.xit--fading-out .shell__page,
+.xit--fading-in .shell__page {
+  will-change: transform, opacity;
+}
+
+/* Receding as it goes — a small scale down reads as the page stepping back
+   rather than simply switching off. Kept slight; anything more and it becomes
+   a zoom effect instead of a page leaving. */
+@keyframes xit-screen-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.985); }
+}
+
+/* And rising into place. Starting fractionally small and settling at rest is
+   what makes it read as coming toward the viewer. */
+@keyframes xit-screen-in {
+  from { opacity: 0; transform: scale(0.985); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.xit--fading-out .shell__page {
+  animation: xit-screen-out var(--xit-out) var(--ease-out-screen) both;
+}
+
+/* Between the two: the page layer is mounted but has nothing to show. The
+   surface underneath is untouched, which is the point — the screen is never
+   blank, only empty.
+
+   Invisible, and deliberately *untransformed*. Holding the scale it faded out
+   at would look tidier and is a trap: the next screen mounts during this
+   phase, and anything measured inside a scaled box comes back scaled — which
+   is how Vyom ends up a few pixels below where the canvas actually is. Nobody
+   can see the difference at zero opacity, and the fade back in sets its own
+   starting scale from the keyframe. */
+.xit--blank .shell__page {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.xit--fading-in .shell__page {
+  animation: xit-screen-in var(--xit-in) var(--ease-in-screen) both;
+}
+
+/* ------------------------------------------------- the intro slide's content
+
+   The learning canvas comes up with the rest of the room, but what is *on* it
+   waits: Vyom takes his place above it first, presents, and only then does the
+   slide speak. Hidden rather than unmounted, so the canvas keeps its size and
+   nothing reflows when the content appears. */
+[data-xit-intro] {
+  transition:
+    opacity 0.5s var(--ease-in-screen),
+    transform 0.5s var(--ease-in-screen);
+}
+[data-xit-intro][data-hidden='true'] {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+/* Title, then description, then formula — the order they would be read in, so
+   the slide arrives as a sentence rather than a block. The delay is on the way
+   in only; hiding them again is immediate. */
+[data-xit-intro='2'] { transition-delay: 0.1s; }
+[data-xit-intro='3'] { transition-delay: 0.2s; }
+[data-xit-intro][data-hidden='true'] { transition-delay: 0s; }
+
+/* ------------------------------------------------------------ reduced motion
+
+   The sequence still runs — Vyom still travels, the module still loads, the
+   next screen still comes up on the same clock. Only the movement goes: the
+   page fades without receding. The timing is the content here, not the
+   scaling. */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes xit-screen-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes xit-screen-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  [data-xit-intro][data-hidden='true'] { transform: none; }
+}
