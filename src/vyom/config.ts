@@ -153,6 +153,12 @@ export const PROPERTY_META: Record<string, PropertyMeta> = {
   chatposX: { group: 'position', min: -2000, max: 4000, step: 1 },
   chatposY: { group: 'position', min: -2000, max: 4000, step: 1 },
 
+  // Two resting animations, picked by number. Bounded to 1–2 with a whole-step
+  // so the slider snaps between them rather than scrubbing a range: there is
+  // no variant 1.5, and a fractional value is not a halfway idle, it is an
+  // undefined one.
+  idleVariant: { group: 'presence', min: 1, max: 2, step: 1 },
+
   appear: { group: 'presence' },
   disappear: { group: 'presence' },
   isWaiting: { group: 'presence' },

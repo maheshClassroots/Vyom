@@ -16,6 +16,7 @@ const OUT_MS = 500;
 const IN_MS = 500;
 const GAP_MS = 500;
 
+
 /**
  * How long the module takes to load, measured from the tap.
  *
@@ -162,8 +163,8 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
 
       // ---- 2. load -------------------------------------------------------
       // Two waits, not one, because the screen changes hands partway through.
-      // The first ends when the page has gone; `blank` starts there and the
-      // rings come up. The second is whatever is left of the module's four
+      // The first ends when the page has gone, which is where `blank` starts.
+      // The second is whatever is left of the module's four
       // seconds, measured from the tap — so the fade happens *inside* the
       // load rather than before it.
       await sleep(Math.max(0, outMs - (performance.now() - startedAt)));
