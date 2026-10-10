@@ -9,6 +9,8 @@ import './home.css';
 interface HomePageProps {
   /** Called with the lesson id when a class is opened. */
   onOpenLesson: (lessonId: string) => void;
+  /** Opens the Challenges page. */
+  onOpenChallenges: () => void;
   studentName: string;
   /** Set while the transition is running, so a second tap cannot restart it. */
   disabled?: boolean;
@@ -26,15 +28,20 @@ interface HomePageProps {
  * marks where he should stand with a slot anchor. The box is kept so the
  * layout reserves his space and the rings stay centred on him.
  *
- * The composer and the two journey buttons are presentational: the pages they
- * lead to in the design (Chapter Journey, Challenges) do not exist in this
- * app, so they are rendered but inert rather than faked.
+ * The composer and the Chapter Journey button are presentational: the page it
+ * leads to in the design does not exist in this app, so it is rendered but
+ * inert rather than faked. Challenges opens a placeholder page.
  *
  * Nothing here takes part in the page transition individually — the shell
  * fades the whole frame. Vyom is outside it, which is what leaves him standing
  * while the page goes.
  */
-export function HomePage({ onOpenLesson, studentName, disabled = false }: HomePageProps) {
+export function HomePage({
+  onOpenLesson,
+  onOpenChallenges,
+  studentName,
+  disabled = false,
+}: HomePageProps) {
   return (
     <div className="home">
       <header className="home__chrome">
@@ -141,7 +148,12 @@ export function HomePage({ onOpenLesson, studentName, disabled = false }: HomePa
           <button type="button" className="home__jump" disabled title="Not part of this build">
             Chapter Journey
           </button>
-          <button type="button" className="home__jump" disabled title="Not part of this build">
+          <button
+            type="button"
+            className="home__jump"
+            onClick={onOpenChallenges}
+            disabled={disabled}
+          >
             Challenges
           </button>
         </div>

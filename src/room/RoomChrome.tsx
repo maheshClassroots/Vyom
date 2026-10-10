@@ -7,13 +7,15 @@ interface RoomChromeProps {
   orbPulse: boolean;
   /** Leaves the lesson and returns to the home page. */
   onHome?: () => void;
+  /** The close button: also back to the home page. */
+  onClose?: () => void;
 }
 
 /**
  * Floating top chrome — markup and inline styles taken verbatim from the
  * prototype's "FLOATING TOP CHROME" block.
  */
-export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome }: RoomChromeProps) {
+export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome, onClose }: RoomChromeProps) {
   return (
     <div style={css('flex:none;position:relative;z-index:2;display:flex;align-items:center;gap:14px;padding:24px 20px 4px 28px;')}>
       {/* The prototype's logo was decorative; it is the way back to the home
@@ -90,6 +92,14 @@ export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome }: RoomChro
 
       <div
         title="Close lesson"
+        role="button"
+        tabIndex={0}
+        onClick={onClose}
+        onKeyDown={(event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          onClose?.();
+        }}
         style={css('width:44px;height:44px;flex:none;background:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#6b6580;font-size:20px;')}
       >
         <i className="ti ti-x" />

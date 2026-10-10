@@ -233,7 +233,14 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
         {AMBIENT.map((style) => <span key={style} style={css(style)} />)}
       </div>
 
-      <RoomChrome points={points} orbs={orbs} xpPulse={pulse} orbPulse={pulse} onHome={onExit} />
+      <RoomChrome
+        points={points}
+        orbs={orbs}
+        xpPulse={pulse}
+        orbPulse={pulse}
+        onHome={onExit}
+        onClose={onExit}
+      />
 
       {/* body: single unified card */}
       <div style={css('flex:1;display:flex;padding:4px 18px 18px;min-height:0;position:relative;z-index:1;')}>

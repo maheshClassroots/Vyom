@@ -3,6 +3,7 @@ import { useVyom } from '../hooks';
 import { DraggableControl } from './DraggableControl';
 import { PropertyControl, ReadOnlyControl } from './PropertyControl';
 import { SlotControls } from './SlotControls';
+import { useDraggable } from './useDraggable';
 
 /**
  * Testing surface for the whole ViewModel.
@@ -19,6 +20,10 @@ export function VyomDevPanel() {
   // student. It reopens from the button in the top-right corner.
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  // Both the collapsed button and the open panel can be dragged out of the
+  // way — the room's own chrome sits under the top-right corner otherwise.
+  const button = useDraggable('vyom-button');
+  const panel = useDraggable('vyom-panel');
 
   // Listed in the ViewModel's own order — the order the properties appear in
   // the .riv file — rather than regrouped and alphabetised. The file is the
@@ -38,15 +43,20 @@ export function VyomDevPanel() {
 
   if (!open) {
     return (
-      <button type="button" className="devpanel__reopen" onClick={() => setOpen(true)}>
+      <button
+        type="button"
+        className="devpanel__reopen"
+        onClick={() => setOpen(true)}
+        {...button.collapsedProps}
+      >
         Vyom controls
       </button>
     );
   }
 
   return (
-    <aside className="devpanel">
-      <header className="devpanel__head">
+    <aside className="devpanel" {...panel.hostProps}>
+      <header className="devpanel__head" {...panel.handleProps}>
         <div>
           <h2>Vyom controls</h2>
           <p className={`devpanel__status devpanel__status--${isReady ? 'ok' : 'wait'}`}>

@@ -1,6 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSpark } from '../spark';
 import { useVyom } from '../vyom';
-import { driveStep, nextFrame, sleep, waitUntilBusy, writeWhenIdle } from '../vyom/sequencing';
+import {
+  driveStep,
+  nextFrame,
+  sleep,
+  STATE_SETTLE_MS,
+  waitUntilBusy,
+  waitWhileBusy,
+  writeWhenIdle,
+} from '../vyom/sequencing';
 import { cssDurationMs } from './css';
 
 /**
@@ -83,6 +92,34 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
   const vmi = useRef(viewModelInstance);
   vmi.current = viewModelInstance;
 
+  // Spark's ViewModel, for the beats both characters share. Read through a
+  // ref for the same reason as Vyom's.
+  const { viewModelInstance: sparkInstance } = useSpark();
+  const sparkVmi = useRef(sparkInstance);
+  sparkVmi.current = sparkInstance;
+
+  /**
+   * Fires the same trigger on Spark, if his file has it.
+   *
+   * The module beats — `moduleStart`, `moduleStartLoaded` — exist on both
+   * ViewModels, so the lesson loading is one event the two characters react
+   * to together. Spark has no busy flag of his own; his trigger goes out in
+   * the same write as Vyom's, which the idle check already gates.
+   */
+  const fireSpark = (name: string) => {
+    sparkVmi.current?.trigger(name)?.trigger();
+  };
+
+  /** Writes Spark's own position pair, so a move trigger has somewhere to go. */
+  const placeSpark = (point: { x: number; y: number }) => {
+    const instance = sparkVmi.current;
+    if (!instance) return;
+    const x = instance.number('sparkPositionX');
+    const y = instance.number('sparkPositionY');
+    if (x) x.value = point.x;
+    if (y) y.value = point.y;
+  };
+
   const isBusy = useCallback(() => vmi.current?.boolean('actionPlaying')?.value === true, []);
   const alive = useCallback(() => running.current, []);
 
@@ -151,6 +188,10 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
       const centre = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
       setSlotManual('learn', true);
       setSlotPosition('learn', centre);
+      // Spark's `moduleStart` plays at his own position pair, so it is set
+      // once, to the same point Vyom is heading for: the two meet in the
+      // middle.
+      placeSpark(centre);
       setPhase('fading-out');
 
       // The fade is a CSS animation, already running by the time the triggers
@@ -160,6 +201,16 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
       // walking, and the load is meant to happen *while* he walks.
       await fireTogether('moveToPoint', 'moduleStart');
       if (!running.current) return;
+
+      // Spark's `moduleStart` waits for Vyom to arrive: the rise and then the
+      // fall of the busy flag is the walk to the centre. It happens inside
+      // the load's four seconds, so it costs the sequence nothing unless the
+      // walk is longer than the load — and then the load simply stretches.
+      await sleep(STATE_SETTLE_MS);
+      await waitUntilBusy(isBusy, alive);
+      await waitWhileBusy(isBusy, alive);
+      if (!running.current) return;
+      fireSpark('moduleStart');
 
       // ---- 2. load -------------------------------------------------------
       // Two waits, not one, because the screen changes hands partway through.
@@ -176,6 +227,7 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
 
       // ---- 3. the room comes up ------------------------------------------
       await fire('moduleStartLoaded');
+      fireSpark('moduleStartLoaded');
       if (!running.current) return;
 
       // Mounted while the frame is still blank, so the room is laid out and
@@ -249,27 +301,100 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
    * Back to the home page.
    *
    * The same gesture without the middle: there is no module to load on the way
-   * back, so the screen goes out and the next one comes straight up.
+   * back, so the screen goes out and the next one comes straight up. Vyom goes
+   * with it — once the home page is mounted, his place in its hero is measured
+   * and he is sent there with `moveToPoint`, the same move that brought him
+   * into the room. The home page fades in while he travels, and the slot is
+   * handed back to the layout once he has arrived.
    */
-  const leave = useCallback(async (unmountRoom: () => void) => {
-    if (running.current) return;
-    running.current = true;
+  const leave = useCallback(
+    async (unmountRoom: () => void) => {
+      if (running.current) return;
+      running.current = true;
 
-    setPhase('fading-out');
-    await sleep(cssDurationMs('--xit-out', OUT_MS));
-    if (!running.current) return;
+      setPhase('fading-out');
+      await sleep(cssDurationMs('--xit-out', OUT_MS));
+      if (!running.current) return;
 
-    setPhase('blank');
-    unmountRoom();
-    await nextFrame();
-    if (!running.current) return;
+      setPhase('blank');
+      // Manual before the swap: the room's anchors unregister and the home
+      // page's register in the same commit, and an automatic slot would be
+      // snapped to the hero by the sync that follows — before the move
+      // trigger had a chance to carry him there.
+      setSlotManual('learn', true);
+      unmountRoom();
+      // Two frames: one for React to commit the home page, one for the
+      // browser to lay it out, so the hero can be measured.
+      await nextFrame();
+      if (!running.current) return;
 
-    setPhase('fading-in');
-    await sleep(cssDurationMs('--xit-in', IN_MS));
+      const homePoint = measureSlot('learn');
+      if (homePoint) {
+        setSlotPosition('learn', homePoint);
+        await nextFrame();
+        // Sent, not waited for: the page should come up while he is on his
+        // way, not after he has arrived.
+        await fire('moveToPoint');
+      } else {
+        console.warn('[transition] no learn anchor on the home page — Vyom stays put');
+      }
+      if (!running.current) return;
 
-    running.current = false;
-    setPhase('idle');
-  }, []);
+      setPhase('fading-in');
+      await sleep(cssDurationMs('--xit-in', IN_MS));
+      if (!running.current) return;
 
-  return { phase, begin, leave, isRunning: phase !== 'idle' };
+      // Then wait for the move to finish before the layout takes the slot
+      // back — a resync mid-travel would write the same point he is already
+      // heading for, which is harmless, but a later resize would not be.
+      await sleep(STATE_SETTLE_MS);
+      await waitWhileBusy(isBusy, alive);
+      setSlotManual('learn', false);
+
+      running.current = false;
+      setPhase('idle');
+    },
+    [fire, isBusy, alive, measureSlot, setSlotManual, setSlotPosition],
+  );
+
+  /**
+   * A screen swap with no character choreography of its own.
+   *
+   * The same fade as `leave`, but Vyom does not travel: he is given a cue as
+   * the screen goes and another once the next one is laid out. Going to a
+   * page he is not on, that is `disappear` out and `appear` back — fired as
+   * the fade starts, so he goes with the page rather than after it.
+   */
+  const swap = useCallback(
+    async (swapScreens: () => void, cues: { out?: string; in?: string } = {}) => {
+      if (running.current) return;
+      running.current = true;
+
+      // The cues are sent, not awaited: `fire` holds until the artboard is
+      // free, and a character mid-animation must not hold the page with him.
+      // The trigger lands the moment he is idle, and the fade runs on its own
+      // clock either way.
+      setPhase('fading-out');
+      if (cues.out) void fire(cues.out);
+      await sleep(cssDurationMs('--xit-out', OUT_MS));
+      if (!running.current) return;
+
+      setPhase('blank');
+      swapScreens();
+      // Laid out before he reappears, so the slots have been resynced to
+      // wherever the new screen anchors them.
+      await nextFrame();
+      if (!running.current) return;
+
+      setPhase('fading-in');
+      if (cues.in) void fire(cues.in);
+      await sleep(cssDurationMs('--xit-in', IN_MS));
+
+      running.current = false;
+      setPhase('idle');
+    },
+    [fire],
+  );
+
+  return { phase, begin, leave, swap, isRunning: phase !== 'idle' };
 }

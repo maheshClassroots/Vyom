@@ -6,6 +6,7 @@ import { useVyom } from '../hooks';
 import type { Point, PropertyMeta, VyomProperty } from '../types';
 import { BUSY_TIMEOUT_MS, driveStep, sleep } from '../sequencing';
 import { readDragPayload, type SequenceCharacter } from './sequenceDrag';
+import { useDraggable } from './useDraggable';
 import {
   downloadSequence,
   makeStepId as makeId,
@@ -34,6 +35,8 @@ export function SequenceComposer() {
   const vyom = useVyom();
   const spark = useSpark();
   const [open, setOpen] = useState(false);
+  const button = useDraggable('seq-button');
+  const panel = useDraggable('seq-panel');
 
   /**
    * Latest slot coordinates, mirrored outside React state.
@@ -79,6 +82,7 @@ export function SequenceComposer() {
         type="button"
         className="devpanel__reopen devpanel__reopen--seq"
         onClick={() => setOpen(true)}
+        {...button.collapsedProps}
       >
         Sequencer
       </button>
@@ -86,8 +90,8 @@ export function SequenceComposer() {
   }
 
   return (
-    <aside className="seq">
-      <header className="seq__head">
+    <aside className="seq" {...panel.hostProps}>
+      <header className="seq__head" {...panel.handleProps}>
         <h2>Sequencer</h2>
         <p className="seq__sub">Drag a control from either panel into its lane, then play.</p>
         <button type="button" className="devpanel__close" onClick={() => setOpen(false)}>

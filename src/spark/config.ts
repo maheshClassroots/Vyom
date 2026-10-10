@@ -53,7 +53,16 @@ export const SPARK_PROPERTY_META: Record<string, PropertyMeta> = {
   chatPositionX: { group: 'position', min: -2000, max: 4000, step: 1 },
   chatPositionY: { group: 'position', min: -2000, max: 4000, step: 1 },
 
+  // The module beats, mirroring Vyom's: the file now carries the same three
+  // triggers, so Spark can react to a lesson loading alongside him.
+  moduleStart: { group: 'navigation' },
+  moduleStartLoaded: { group: 'navigation' },
+  moduleComplete: { group: 'navigation' },
+
   isSpeaking: { group: 'communication' },
+  // Mouth openness while speaking. Spelled correctly here, unlike Vyom's
+  // `speakAmplitute`; the same 0–100 range.
+  speakAmplitude: { group: 'communication', min: 0, max: 100, step: 1 },
   expression: { group: 'feedback' },
 
   lookLT: { group: 'gaze' },

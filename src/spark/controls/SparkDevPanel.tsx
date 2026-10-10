@@ -3,6 +3,7 @@ import { PROPERTY_GROUPS } from '../../vyom/config';
 import { DraggableControl } from '../../vyom/controls/DraggableControl';
 import { PropertyControl } from '../../vyom/controls/PropertyControl';
 import type { PropertyGroupId, VyomProperty } from '../../vyom/types';
+import { useDraggable } from '../../vyom/controls/useDraggable';
 import { useSpark } from '../hooks';
 
 /**
@@ -32,6 +33,8 @@ export function SparkDevPanel() {
   // student. It reopens from the button in the top-right corner.
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const button = useDraggable('spark-button');
+  const panel = useDraggable('spark-panel');
 
   const groups = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -72,6 +75,7 @@ export function SparkDevPanel() {
         type="button"
         className="devpanel__reopen devpanel__reopen--spark"
         onClick={() => setOpen(true)}
+        {...button.collapsedProps}
       >
         Spark controls
       </button>
@@ -79,8 +83,8 @@ export function SparkDevPanel() {
   }
 
   return (
-    <aside className="devpanel devpanel--spark">
-      <header className="devpanel__head">
+    <aside className="devpanel devpanel--spark" {...panel.hostProps}>
+      <header className="devpanel__head" {...panel.handleProps}>
         <div>
           <h2>Spark controls</h2>
           <p className={`devpanel__status devpanel__status--${isReady ? 'ok' : 'wait'}`}>

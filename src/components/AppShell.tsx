@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { ChallengesPage } from '../challenges';
 import { HomePage } from '../home';
 import { TeachingRoom } from '../room/TeachingRoom';
 import { Surface, TransitionContext, useHomeToRoom } from '../transition';
@@ -27,9 +28,12 @@ const STUDENT_NAME = 'Aarav';
 export function AppShell() {
   const [lessonId, setLessonId] = useState<string | null>(null);
   const inLesson = lessonId !== null;
+  // A page Vyom is not on: he disappears on the way there and reappears on
+  // the way back. Placeholder for now — see `ChallengesPage`.
+  const [inChallenges, setInChallenges] = useState(false);
 
   const mountRoom = useCallback((id: string) => setLessonId(id), []);
-  const { phase, begin, leave, isRunning } = useHomeToRoom({ mountRoom });
+  const { phase, begin, leave, swap, isRunning } = useHomeToRoom({ mountRoom });
 
   // The surface follows the character's own theme, which is where the room's
   // background used to read it from.
@@ -38,6 +42,14 @@ export function AppShell() {
   const exitLesson = useCallback(() => {
     void leave(() => setLessonId(null));
   }, [leave]);
+
+  const openChallenges = useCallback(() => {
+    void swap(() => setInChallenges(true), { out: 'disappear' });
+  }, [swap]);
+
+  const closeChallenges = useCallback(() => {
+    void swap(() => setInChallenges(false), { in: 'appear' });
+  }, [swap]);
 
   return (
     <TransitionContext.Provider value={phase}>
@@ -53,12 +65,15 @@ export function AppShell() {
           <div className="shell__page">
             {inLesson ? (
               <TeachingRoom onExit={exitLesson} />
+            ) : inChallenges ? (
+              <ChallengesPage onBack={closeChallenges} disabled={isRunning} />
             ) : (
-            // A second tap while the screen is already emptying would start the
-            // sequence again from the top, so the page stops listening.
+              // A second tap while the screen is already emptying would start
+              // the sequence again from the top, so the page stops listening.
               <HomePage
                 studentName={STUDENT_NAME}
                 onOpenLesson={begin}
+                onOpenChallenges={openChallenges}
                 disabled={isRunning}
               />
             )}

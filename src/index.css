@@ -125,8 +125,9 @@ input[type='text'], input[type='search'], select {
    overlays go as high as 9999 (fullscreen video, modals). These sit above
    that rather than competing inside the page's range. */
 :root {
-  --z-vyom-stage: 10000;
-  --z-spark-stage: 10001;
+  /* Spark below Vyom: where the two meet, Vyom is in front. */
+  --z-spark-stage: 10000;
+  --z-vyom-stage: 10001;
   --z-devpanel: 10010;
   --z-sequencer: 10011;
 }
@@ -148,7 +149,7 @@ input[type='text'], input[type='search'], select {
 }
 
 /* Spark's stage mirrors Vyom's: one fixed full-viewport canvas that ignores
-   the pointer, drawn above Vyom's. */
+   the pointer, drawn beneath Vyom's. */
 .spark-stage {
   position: fixed;
   inset: 0;
@@ -193,7 +194,18 @@ input[type='text'], input[type='search'], select {
 .devpanel__artboard code { background: #f4f4f2; border-radius: 4px; padding: 0 0.25rem; }
 .devpanel__close { border: none; background: none; font-size: 1.2rem; line-height: 1; padding: 0 0.2rem; }
 
-.devpanel__reopen { position: fixed; top: 12px; right: 12px; z-index: var(--z-devpanel); }
+.devpanel__reopen { position: fixed; top: 12px; right: 12px; z-index: var(--z-devpanel); cursor: grab; }
+.devpanel__reopen:active { cursor: grabbing; }
+
+/* Panels and their collapsed buttons can be dragged anywhere — the header is
+   the handle. A moved panel is a floating window rather than a docked rail,
+   so it gets rounded corners and a shadow to read as one. */
+.devpanel__head, .seq__head { cursor: move; user-select: none; }
+.devpanel__head button, .seq__head button { cursor: pointer; }
+[data-draggable][style*='translate'] {
+  border-radius: 12px;
+  box-shadow: 0 18px 44px -18px rgba(70, 46, 146, 0.55);
+}
 
 .devpanel__search { margin: 0.6rem 0.9rem; }
 .devpanel__scroll { flex: 1; min-height: 0; overflow-y: auto; padding-bottom: 1.5rem; }
