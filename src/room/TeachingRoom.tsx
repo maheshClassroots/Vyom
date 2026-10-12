@@ -21,11 +21,13 @@ const STUDENT_NAME = 'Aarav';
 const CUE_DELAY_MS = 700;
 
 /**
- * How long after the intro slide's words start to appear the chat follows.
+ * How long after the intro slide's words start to appear Vyom's first line
+ * follows.
  *
  * The title, description and formula fade up over half a second, staggered;
- * the chat rail and Vyom's first line wait until that is done, so the
- * lesson's name is read before anything is said about it.
+ * the opening message waits until that is done, so the lesson's name is read
+ * before anything is said about it. The chat rail itself arrives with the
+ * room — only the words hold back.
  */
 const CHAT_AFTER_INTRO_MS = 800;
 
@@ -71,8 +73,8 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
   // slide's content is on screen yet.
   const introHidden = introStillHidden(useTransitionPhase());
 
-  // The chat rail comes up after the intro has spoken, not with the room.
-  // Once up it stays up: the gate is only for the arrival.
+  // The opening lines go out after the intro has spoken, not with the room.
+  // Once true it stays true: the gate is only for the arrival.
   const [chatLive, setChatLive] = useState(false);
   useEffect(() => {
     if (introHidden || chatLive) return;
@@ -141,8 +143,8 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
     const cue = current.cue;
     if (cue && step > 0) later(() => fire(cue), CUE_DELAY_MS);
 
-    // The opening slide's lines wait for the chat rail, which waits for the
-    // title — see the effect below. Every later step speaks straight away.
+    // The opening slide's lines wait for the title — see the effect below.
+    // Every later step speaks straight away.
     if (step > 0) scheduleMessages();
 
     // The opening slide is a milestone on the track but pays nothing — the
@@ -166,8 +168,8 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, isReady]);
 
-  // The intro's lines go out once the chat rail is up. Once only: the rail
-  // never goes back down, so this cannot re-fire, but the guard says so.
+  // The intro's lines go out once the title has shown. Once only: the gate
+  // never closes again, so this cannot re-fire, but the guard says so.
   const introSpoken = useRef(false);
   useEffect(() => {
     if (!isReady || !chatLive || step !== 0 || introSpoken.current) return;
@@ -281,7 +283,6 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
       <div style={css('flex:1;display:flex;padding:4px 18px 18px;min-height:0;position:relative;z-index:1;')}>
         <div style={css('flex:1;display:flex;min-height:0;background:transparent;border:4px solid transparent;border-radius:24px;overflow:hidden;transition:border-color .55s ease-in-out,box-shadow .55s ease-in-out;box-shadow:none;position:relative;')}>
           <ChatPanel
-            visible={chatLive}
             open={chatOpen}
             messages={messages}
             typing={typing}

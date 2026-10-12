@@ -173,25 +173,6 @@
 [data-xit-intro='3'] { transition-delay: 0.2s; }
 [data-xit-intro][data-hidden='true'] { transition-delay: 0s; }
 
-/* ----------------------------------------------------------- the chat rail
-
-   The chat window and its composer follow the title: they are held off while
-   the room arrives and rise in once the intro has spoken. Hidden rather than
-   unmounted so the dock seat keeps its place and Vyom's chat slot is already
-   measured when he is sent there. */
-[data-xit-chat] {
-  transition:
-    opacity 0.45s var(--ease-in-screen),
-    transform 0.45s var(--ease-in-screen);
-}
-[data-xit-chat][data-hidden='true'] {
-  opacity: 0;
-  transform: translateY(10px);
-}
-[data-xit-chat][data-hidden='true'] * {
-  pointer-events: none !important;
-}
-
 /* ------------------------------------------------------------ reduced motion
 
    The sequence still runs — Vyom still travels, the module still loads, the
@@ -208,5 +189,4 @@
     to { opacity: 1; }
   }
   [data-xit-intro][data-hidden='true'] { transform: none; }
-  [data-xit-chat][data-hidden='true'] { transform: none; }
 }
