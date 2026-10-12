@@ -20,6 +20,15 @@ const STUDENT_NAME = 'Aarav';
  */
 const CUE_DELAY_MS = 700;
 
+/**
+ * How long after the intro slide's words start to appear the chat follows.
+ *
+ * The title, description and formula fade up over half a second, staggered;
+ * the chat rail and Vyom's first line wait until that is done, so the
+ * lesson's name is read before anything is said about it.
+ */
+const CHAT_AFTER_INTRO_MS = 800;
+
 /** Held states that must be released when the journey moves on. */
 const CLEARED_FLAGS = ['isListening', 'isThinking', 'isSpeaking', 'isTyping', 'isWaiting'];
 
@@ -57,6 +66,20 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
   const [activeBullet, setActiveBullet] = useState(-1);
 
   const current = STEPS[step];
+
+  // Where the arrival transition has got to, which decides whether the intro
+  // slide's content is on screen yet.
+  const introHidden = introStillHidden(useTransitionPhase());
+
+  // The chat rail comes up after the intro has spoken, not with the room.
+  // Once up it stays up: the gate is only for the arrival.
+  const [chatLive, setChatLive] = useState(false);
+  useEffect(() => {
+    if (introHidden || chatLive) return;
+    const timer = window.setTimeout(() => setChatLive(true), CHAT_AFTER_INTRO_MS);
+    return () => window.clearTimeout(timer);
+  }, [introHidden, chatLive]);
+
   const paidMilestones = useRef(new Set<number>());
   const timers = useRef<number[]>([]);
   const messageId = useRef(0);
@@ -80,6 +103,19 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
   }, []);
 
   /* ----------------------------------------------------- step choreography */
+
+  /** Queues the current step's lines into the chat, a beat apart. */
+  const scheduleMessages = useCallback(() => {
+    current.msgs.forEach((message, index) => {
+      later(() => {
+        pushMessage(message.who, message.text.replace('{name}', STUDENT_NAME));
+        // On the objectives slide each line narrates one bullet, so the
+        // highlight follows the message that is landing.
+        if (current.bullets && current.loCelebrate == null) setActiveBullet(index);
+        if (index === 0 && current.msgs.length > 1) setFlag('isSpeaking', true);
+      }, CUE_DELAY_MS + 250 + index * 1400);
+    });
+  }, [current, later, pushMessage, setFlag]);
 
   useEffect(() => {
     if (!isReady) return;
@@ -105,15 +141,9 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
     const cue = current.cue;
     if (cue && step > 0) later(() => fire(cue), CUE_DELAY_MS);
 
-    current.msgs.forEach((message, index) => {
-      later(() => {
-        pushMessage(message.who, message.text.replace('{name}', STUDENT_NAME));
-        // On the objectives slide each line narrates one bullet, so the
-        // highlight follows the message that is landing.
-        if (current.bullets && current.loCelebrate == null) setActiveBullet(index);
-        if (index === 0 && current.msgs.length > 1) setFlag('isSpeaking', true);
-      }, CUE_DELAY_MS + 250 + index * 1400);
-    });
+    // The opening slide's lines wait for the chat rail, which waits for the
+    // title — see the effect below. Every later step speaks straight away.
+    if (step > 0) scheduleMessages();
 
     // The opening slide is a milestone on the track but pays nothing — the
     // prototype shows 120 XP / 6 orbs until the first objective is earned.
@@ -135,6 +165,15 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, isReady]);
+
+  // The intro's lines go out once the chat rail is up. Once only: the rail
+  // never goes back down, so this cannot re-fire, but the guard says so.
+  const introSpoken = useRef(false);
+  useEffect(() => {
+    if (!isReady || !chatLive || step !== 0 || introSpoken.current) return;
+    introSpoken.current = true;
+    scheduleMessages();
+  }, [chatLive, isReady, scheduleMessages, step]);
 
   // The opening `appear` plays once Vyom is in place, so the artboard's own
   // entrance animation runs where he should be standing rather than mid-move.
@@ -216,10 +255,6 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
   // it (the dev panel's checkbox, setFlag, the artboard) moves both.
   const isDarkMode = useVyomBooleanValue('isDarkMode');
 
-  // Where the arrival transition has got to, which decides whether the intro
-  // slide's content is on screen yet.
-  const introHidden = introStillHidden(useTransitionPhase());
-
   return (
     <div
       className={`room-root${isDarkMode ? ' room-root--dark' : ''}`}
@@ -246,6 +281,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
       <div style={css('flex:1;display:flex;padding:4px 18px 18px;min-height:0;position:relative;z-index:1;')}>
         <div style={css('flex:1;display:flex;min-height:0;background:transparent;border:4px solid transparent;border-radius:24px;overflow:hidden;transition:border-color .55s ease-in-out,box-shadow .55s ease-in-out;box-shadow:none;position:relative;')}>
           <ChatPanel
+            visible={chatLive}
             open={chatOpen}
             messages={messages}
             typing={typing}

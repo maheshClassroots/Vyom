@@ -15,6 +15,11 @@ const OPACITY_BY_RECENCY = [1, 0.75, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15]
 const COLLAPSED_TTL_MS = 15000;
 
 interface ChatPanelProps {
+  /**
+   * Whether the rail is on screen at all. Off while the room is arriving, so
+   * the chat follows the lesson's title rather than coming up with the room.
+   */
+  visible?: boolean;
   open: boolean;
   messages: ChatMessage[];
   typing: boolean;
@@ -32,7 +37,7 @@ interface ChatPanelProps {
  * prototype's own; the bindings it wrote as `{{ }}` are computed here.
  */
 export function ChatPanel({
-  open, messages, typing, recording, draft, onDraft, onSend, onOpen, onToggleMic,
+  visible = true, open, messages, typing, recording, draft, onDraft, onSend, onOpen, onToggleMic,
 }: ChatPanelProps) {
   const logRef = useRef<HTMLDivElement>(null);
 
@@ -85,7 +90,11 @@ export function ChatPanel({
   return (
     <>
       {/* chat window — floating layer, anchored left, always present */}
-      <div style={css('position:absolute;left:0;top:0;bottom:0;z-index:30;width:372px;overflow:visible;pointer-events:none;')}>
+      <div
+        data-xit-chat
+        data-hidden={!visible}
+        style={css('position:absolute;left:0;top:0;bottom:0;z-index:30;width:372px;overflow:visible;pointer-events:none;')}
+      >
         <div style={css('width:372px;height:100%;display:flex;flex-direction:column;overflow:visible;position:relative;')}>
           <div style={css('flex:1;display:flex;flex-direction:column;min-height:0;')}>
             <div
@@ -137,7 +146,11 @@ export function ChatPanel({
       </div>
 
       {/* docked mascot slot + morphing composer */}
-      <div style={css('position:absolute;left:16px;bottom:8px;z-index:30;pointer-events:none;')}>
+      <div
+        data-xit-chat
+        data-hidden={!visible}
+        style={css('position:absolute;left:16px;bottom:8px;z-index:30;pointer-events:none;')}
+      >
         {/* Vyom's chat seat, centred 3vw from the left of the chat interface.
             The parent sits at left:16px and the slot is 60px wide, so the
             offset is measured back from the seat's centre. The ripples ride
