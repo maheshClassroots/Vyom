@@ -1,0 +1,53 @@
+/* Mantine typography tokens.
+   Mantine ships with the native system font stack by default (no webfont
+   download). Headings share the body family; weight 700. */
+:root {
+  /* font families */
+  --mantine-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --mantine-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --mantine-font-family-headings: var(--mantine-font-family);
+
+  /* body font sizes */
+  --mantine-font-size-xs: 0.75rem;   /* 12px */
+  --mantine-font-size-sm: 0.875rem;  /* 14px */
+  --mantine-font-size-md: 1rem;      /* 16px */
+  --mantine-font-size-lg: 1.125rem;  /* 18px */
+  --mantine-font-size-xl: 1.25rem;   /* 20px */
+
+  /* line heights */
+  --mantine-line-height: 1.55;       /* == md */
+  --mantine-line-height-xs: 1.4;
+  --mantine-line-height-sm: 1.45;
+  --mantine-line-height-md: 1.55;
+  --mantine-line-height-lg: 1.6;
+  --mantine-line-height-xl: 1.65;
+
+  /* font weights */
+  --mantine-font-weight-regular: 400;
+  --mantine-font-weight-medium: 600;
+  --mantine-font-weight-bold: 700;
+
+  /* heading weight + wrap */
+  --mantine-heading-font-weight: 700;
+  --mantine-heading-text-wrap: wrap;
+
+  /* heading scale */
+  --mantine-h1-font-size: 2.125rem;  /* 34px */
+  --mantine-h1-line-height: 1.3;
+  --mantine-h1-font-weight: 700;
+  --mantine-h2-font-size: 1.625rem;  /* 26px */
+  --mantine-h2-line-height: 1.35;
+  --mantine-h2-font-weight: 700;
+  --mantine-h3-font-size: 1.375rem;  /* 22px */
+  --mantine-h3-line-height: 1.4;
+  --mantine-h3-font-weight: 700;
+  --mantine-h4-font-size: 1.125rem;  /* 18px */
+  --mantine-h4-line-height: 1.45;
+  --mantine-h4-font-weight: 700;
+  --mantine-h5-font-size: 1rem;      /* 16px */
+  --mantine-h5-line-height: 1.5;
+  --mantine-h5-font-weight: 700;
+  --mantine-h6-font-size: 0.875rem;  /* 14px */
+  --mantine-h6-line-height: 1.5;
+  --mantine-h6-font-weight: 700;
+}

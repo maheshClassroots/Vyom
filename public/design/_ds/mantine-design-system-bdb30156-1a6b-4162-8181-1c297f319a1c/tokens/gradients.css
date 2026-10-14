@@ -1,0 +1,23 @@
+/* Mantine gradient tokens.
+   Mantine's theme.defaultGradient is { from: 'blue', to: 'cyan', deg: 45 } — used by
+   the `gradient` variant on Button/Badge/etc. Gradients are always built from two
+   palette hues at a fixed angle; below is the default plus a curated harmonious set.
+   All stops reference shade 5/6 palette values. */
+:root {
+  /* angle used across the system */
+  --mantine-gradient-deg: 45deg;  /* @kind other */
+
+  /* default gradient (theme.defaultGradient) — blue → cyan */
+  --mantine-gradient: linear-gradient(45deg, var(--mantine-color-blue-6), var(--mantine-color-cyan-5));
+  --mantine-gradient-default: linear-gradient(45deg, var(--mantine-color-blue-6), var(--mantine-color-cyan-5));
+
+  /* curated named gradients */
+  --mantine-gradient-blue: linear-gradient(45deg, var(--mantine-color-indigo-6), var(--mantine-color-cyan-5));
+  --mantine-gradient-grape: linear-gradient(45deg, var(--mantine-color-grape-6), var(--mantine-color-pink-5));
+  --mantine-gradient-violet: linear-gradient(45deg, var(--mantine-color-violet-6), var(--mantine-color-grape-5));
+  --mantine-gradient-teal: linear-gradient(45deg, var(--mantine-color-teal-6), var(--mantine-color-lime-5));
+  --mantine-gradient-green: linear-gradient(45deg, var(--mantine-color-green-7), var(--mantine-color-teal-5));
+  --mantine-gradient-orange: linear-gradient(45deg, var(--mantine-color-orange-6), var(--mantine-color-red-5));
+  --mantine-gradient-peach: linear-gradient(45deg, var(--mantine-color-pink-5), var(--mantine-color-orange-4));
+  --mantine-gradient-sunset: linear-gradient(45deg, var(--mantine-color-grape-7), var(--mantine-color-orange-5));
+}

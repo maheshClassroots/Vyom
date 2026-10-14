@@ -93,6 +93,35 @@ Milestones (`intro`, `lo1`, `lo2`, `outro`) fire `celebration`, pay out XP and
 an orb, and pop their node on the progress track. Chat interactions drive
 `listening` on focus, `thinking` on send and `speaking` on reply.
 
+## The design package's pages
+
+The home page's **Chapter Journey** and **Goals Journey** buttons open the
+design package's own `Chapter Journey.dc.html` and `Goal Page.dc.html`. Those
+pages are documents in the design tool's runtime (`support.js`): `{{ }}` /
+`sc-if` templates driven by `DCLogic` classes, with a WebGL nebula, camera
+moves, Rive islands and FTUE sequences. They are not rebuilt in React — they
+are hosted as-is in a frame (`src/design/DesignPage.tsx`), which is what
+keeps the design and every animation exactly as authored.
+
+```bash
+npm run import:design -- "<package dir or .zip>"
+```
+
+That copies both pages, the Rive helpers, the Mantine token sheets and the
+assets into `public/design/` and patches one thing: every hop to another
+page of the package goes through `window.__designNav(page)`, which posts the
+file name to the app when the page is framed. The shell maps `Home Page` back
+to the home page, either `Teaching Room` into the lesson, and each hosted
+page to the other; pages this build does not have are left where they are,
+with a console warning. **Do not hand-edit `public/design/` — re-run the
+script.** Adding a page is one entry in the script's `PAGES` and one in
+`DESIGN_PAGES`.
+
+Vyom is not on these pages (they draw their own, in the goal chrome), so the
+shell fires `disappear` on the way in and `appear` on the way out, the same
+as for Challenges. The pages load React 18, Babel and the Rive runtime from
+CDNs, as the design package does.
+
 ## Positions come from the DOM
 
 `ccX/ccY` and `chatX/chatY` are never hardcoded. A zero-size marker is placed

@@ -11,6 +11,10 @@ interface HomePageProps {
   onOpenLesson: (lessonId: string) => void;
   /** Opens the Challenges page. */
   onOpenChallenges: () => void;
+  /** Opens the Chapter Journey. */
+  onOpenJourney: () => void;
+  /** Opens the Goals Journey — the design's Goal Page. */
+  onOpenGoal: () => void;
   studentName: string;
   /** Set while the transition is running, so a second tap cannot restart it. */
   disabled?: boolean;
@@ -28,9 +32,10 @@ interface HomePageProps {
  * marks where he should stand with a slot anchor. The box is kept so the
  * layout reserves his space and the rings stay centred on him.
  *
- * The composer and the Chapter Journey button are presentational: the page it
- * leads to in the design does not exist in this app, so it is rendered but
- * inert rather than faked. Challenges opens a placeholder page.
+ * The composer is presentational. Chapter Journey and Goals Journey open the
+ * design package's own pages, hosted in frames — the second is the design's
+ * `Goal Page`, which its own home reaches from a button of the same name.
+ * Challenges opens a placeholder.
  *
  * Nothing here takes part in the page transition individually — the shell
  * fades the whole frame. Vyom is outside it, which is what leaves him standing
@@ -39,6 +44,8 @@ interface HomePageProps {
 export function HomePage({
   onOpenLesson,
   onOpenChallenges,
+  onOpenJourney,
+  onOpenGoal,
   studentName,
   disabled = false,
 }: HomePageProps) {
@@ -145,8 +152,21 @@ export function HomePage({
 
       <footer className="home__foot">
         <div className="home__jumps">
-          <button type="button" className="home__jump" disabled title="Not part of this build">
+          <button
+            type="button"
+            className="home__jump"
+            onClick={onOpenJourney}
+            disabled={disabled}
+          >
             Chapter Journey
+          </button>
+          <button
+            type="button"
+            className="home__jump"
+            onClick={onOpenGoal}
+            disabled={disabled}
+          >
+            Goals Journey
           </button>
           <button
             type="button"

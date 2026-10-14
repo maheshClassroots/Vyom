@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { ChallengesPage } from '../challenges';
 import { HomePage } from '../home';
+import { DesignPage, type DesignDestination, type DesignPageId } from '../design';
 import { TeachingRoom } from '../room/TeachingRoom';
 import { Surface, TransitionContext, useHomeToRoom } from '../transition';
 import { SequenceComposer, useVyomBooleanValue, VyomDevPanel, VyomStage } from '../vyom';
@@ -28,11 +29,23 @@ const STUDENT_NAME = 'Aarav';
 export function AppShell() {
   const [lessonId, setLessonId] = useState<string | null>(null);
   const inLesson = lessonId !== null;
+  // A page of the design package — the Chapter Journey or the Goal Page —
+  // hosted in a frame. Vyom is not on them (they draw their own), so he
+  // leaves the way he does for Challenges, and a module tapped there opens
+  // the lesson with the same load sequence as from home, with him
+  // reappearing in the middle of it.
+  const [designPage, setDesignPage] = useState<DesignPageId | null>(null);
   // A page Vyom is not on: he disappears on the way there and reappears on
   // the way back. Placeholder for now — see `ChallengesPage`.
   const [inChallenges, setInChallenges] = useState(false);
 
-  const mountRoom = useCallback((id: string) => setLessonId(id), []);
+  // Mounting the room also leaves a design page, which is the other place a
+  // lesson can be opened from: the frame comes down with the blank, so the
+  // room rises on its own.
+  const mountRoom = useCallback((id: string) => {
+    setLessonId(id);
+    setDesignPage(null);
+  }, []);
   const { phase, begin, leave, swap, isRunning } = useHomeToRoom({ mountRoom });
 
   // The surface follows the character's own theme, which is where the room's
@@ -51,6 +64,37 @@ export function AppShell() {
     void swap(() => setInChallenges(false), { in: 'appear' });
   }, [swap]);
 
+  const openDesignPage = useCallback(
+    (page: DesignPageId) => {
+      void swap(() => setDesignPage(page), { out: 'disappear' });
+    },
+    [swap],
+  );
+
+  /**
+   * A design page asked to go somewhere, by the name of the file it would
+   * have loaded. Home, the teaching room and the other hosted page exist
+   * here; the rest of the package does not, and those taps are left where
+   * they are.
+   */
+  const leaveDesignPage = useCallback(
+    (to: DesignDestination, file: string) => {
+      if (to === 'home') {
+        void swap(() => setDesignPage(null), { in: 'appear' });
+      } else if (to === 'lesson') {
+        // The same load sequence as from home; Vyom is off stage here, and
+        // the sequence sees that for itself.
+        void begin('fractions');
+      } else if (to === 'journey' || to === 'goal') {
+        // Page to page: he is off stage on both, so no cue either way.
+        void swap(() => setDesignPage(to));
+      } else {
+        console.warn(`[design] "${file}" is not part of this build`);
+      }
+    },
+    [begin, swap],
+  );
+
   return (
     <TransitionContext.Provider value={phase}>
       <div className={`shell${phase !== 'idle' ? ` xit--${phase}` : ''}`}>
@@ -60,13 +104,15 @@ export function AppShell() {
               room mounts — part way through the blank, before its contents
               come up. So the surface changes first and the room arrives on a
               surface that has already become the room's. */}
-          <Surface tint={inLesson ? 'room' : 'home'} dark={isDarkMode} />
+          <Surface tint={inLesson || designPage ? 'room' : 'home'} dark={isDarkMode} />
 
           <div className="shell__page">
             {inLesson ? (
               <TeachingRoom onExit={exitLesson} />
             ) : inChallenges ? (
               <ChallengesPage onBack={closeChallenges} disabled={isRunning} />
+            ) : designPage ? (
+              <DesignPage page={designPage} onNavigate={leaveDesignPage} />
             ) : (
               // A second tap while the screen is already emptying would start
               // the sequence again from the top, so the page stops listening.
@@ -74,6 +120,8 @@ export function AppShell() {
                 studentName={STUDENT_NAME}
                 onOpenLesson={begin}
                 onOpenChallenges={openChallenges}
+                onOpenJourney={() => openDesignPage('journey')}
+                onOpenGoal={() => openDesignPage('goal')}
                 disabled={isRunning}
               />
             )}
