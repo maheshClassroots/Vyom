@@ -1,0 +1,22 @@
+/* A design-package page, hosted in a frame. The pages paint their own canvas
+   (the same violet-to-cream wash as the teaching room), so the frame goes
+   edge to edge and the surface behind it only shows until the page has
+   loaded. */
+
+.design {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.design__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  /* The frame paints white before the page's stylesheet lands; held
+     invisible until the document has loaded so the swap stays one surface. */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.design__frame[data-loaded='true'] { opacity: 1; }

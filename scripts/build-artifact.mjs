@@ -68,8 +68,8 @@ for (const file of readdirSync(path.join(DIST, 'room'))) {
 
 const wasm = b64('node_modules/@rive-app/canvas/rive.wasm');
 const riveFiles = {};
-for (const file of readdirSync(DIST)) {
-  if (file.endsWith('.riv')) riveFiles[`/${file}`] = b64(path.join(DIST, file));
+for (const file of readdirSync(path.join(DIST, 'characters'))) {
+  if (file.endsWith('.riv')) riveFiles[`/characters/${file}`] = b64(path.join(DIST, 'characters', file));
 }
 
 /* ---- assemble ----------------------------------------------------------- */

@@ -6,6 +6,7 @@ import {
   nextFrame,
   sleep,
   STATE_SETTLE_MS,
+  waitFor,
   waitUntilBusy,
   waitWhileBusy,
   writeWhenIdle,
@@ -27,6 +28,16 @@ const GAP_MS = 500;
 
 
 /**
+ * How long after `appear` reports idle to allow for him to actually show.
+ *
+ * The artboard drops `actionPlaying` about a second before it raises
+ * `vyomVisible`: the entrance has a tail the busy flag does not cover. Anything
+ * that needs him shown, not merely idle, waits on the visible flag for up to
+ * this long after the busy flag has fallen.
+ */
+const REVEAL_GRACE_MS = 2000;
+
+/**
  * How long the module takes to load, measured from the tap.
  *
  * The screen going out happens inside this, not before it: the fade is the
@@ -38,6 +49,7 @@ interface HomeToRoomOptions {
   /** Mounts the teaching room. Called once the module has reported loaded. */
   mountRoom: (lessonId: string) => void;
 }
+
 
 /**
  * ---------------------------------------------------------------------------
@@ -121,7 +133,24 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
   };
 
   const isBusy = useCallback(() => vmi.current?.boolean('actionPlaying')?.value === true, []);
+  const isVisible = useCallback(() => vmi.current?.boolean('vyomVisible')?.value === true, []);
   const alive = useCallback(() => running.current, []);
+
+  /**
+   * Waits for an entrance to finish, start to end.
+   *
+   * `appear` is the one animation whose end the busy flag misreports — it
+   * falls a second before he is shown — so this waits for the flag to rise
+   * and fall and then for `vyomVisible` itself. Nothing in a sequence may be
+   * triggered or set into a running entrance, and this is how a sequence
+   * knows it is over.
+   */
+  const waitForEntrance = useCallback(async () => {
+    await sleep(STATE_SETTLE_MS);
+    await waitUntilBusy(isBusy, alive);
+    await waitWhileBusy(isBusy, alive);
+    await waitFor(isVisible, alive, REVEAL_GRACE_MS);
+  }, [isBusy, isVisible, alive]);
 
   // Worth saying out loud rather than stalling: the transition carries on
   // either way, because leaving the student on a blank screen is worse than a
@@ -194,18 +223,54 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
       placeSpark(centre);
       setPhase('fading-out');
 
+      // Whether he is on stage decides how he gets to the middle. From the
+      // home page he is standing in the hero and walks; from a page he is
+      // not on — the Chapter Journey — he was taken off with `disappear`,
+      // and is brought back in the middle with `appear` instead. The
+      // artboard says which, through its own `vyomVisible`.
+      //
+      // Read only once the artboard is idle, never into a running animation.
+      // And if he was mid-animation at the tap and reads hidden once it is
+      // over, that was most likely an entrance — the opening `appear`, say,
+      // whose tail the busy flag does not cover — so the reveal is given its
+      // grace before he is declared off stage. Otherwise a second `appear`
+      // would go out on the heels of the first.
+      const wasBusy = isBusy();
+      await sleep(STATE_SETTLE_MS);
+      await waitWhileBusy(isBusy, alive);
+      if (!running.current) return;
+      if (wasBusy && !isVisible()) await waitFor(isVisible, alive, REVEAL_GRACE_MS);
+      if (!running.current) return;
+      const onStage = isVisible();
+
       // The fade is a CSS animation, already running by the time the triggers
-      // go out — nothing below waits for it. The two triggers go together,
-      // after a single check that the artboard is free: gating the second
-      // behind the first would hold `moduleStart` until Vyom had finished
-      // walking, and the load is meant to happen *while* he walks.
-      await fireTogether('moveToPoint', 'moduleStart');
+      // go out — nothing below waits for it. On stage, the walk and the load
+      // go together, after a single check that the artboard is free: gating
+      // the second behind the first would hold `moduleStart` until Vyom had
+      // finished walking, and the load is meant to happen *while* he walks.
+      // Off stage, he has no walk to make: his place is set to the middle and
+      // `appear` brings him back there, where the walk would have ended — and
+      // the appearance is not interrupted like the walk is. `appear` runs to
+      // the end, the busy flag rising and falling again, before `moduleStart`
+      // is sent, so nothing is written into the artboard mid-entrance.
+      if (onStage) {
+        await fireTogether('moveToPoint', 'moduleStart');
+      } else {
+        // Sent, then waited for in full — busy flag and visible flag both —
+        // before the next trigger goes out.
+        await fire('appear');
+        if (!running.current) return;
+        await waitForEntrance();
+        if (!running.current) return;
+        await fire('moduleStart');
+      }
       if (!running.current) return;
 
       // Spark's `moduleStart` waits for Vyom to arrive: the rise and then the
-      // fall of the busy flag is the walk to the centre. It happens inside
-      // the load's four seconds, so it costs the sequence nothing unless the
-      // walk is longer than the load — and then the load simply stretches.
+      // fall of the busy flag is the walk to the centre (or the appearance).
+      // It happens inside the load's four seconds, so it costs the sequence
+      // nothing unless the walk is longer than the load — and then the load
+      // simply stretches.
       await sleep(STATE_SETTLE_MS);
       await waitUntilBusy(isBusy, alive);
       await waitWhileBusy(isBusy, alive);
@@ -294,7 +359,19 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
       // page at rest is the page with its words on it.
       setPhase('idle');
     },
-    [fire, fireAndWait, fireTogether, isBusy, alive, measureSlot, mountRoom, setSlotManual, setSlotPosition],
+    [
+      fire,
+      fireAndWait,
+      fireTogether,
+      isBusy,
+      isVisible,
+      alive,
+      measureSlot,
+      mountRoom,
+      setSlotManual,
+      setSlotPosition,
+      waitForEntrance,
+    ],
   );
 
   /**
@@ -389,11 +466,17 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
       setPhase('fading-in');
       if (cues.in) void fire(cues.in);
       await sleep(cssDurationMs('--xit-in', IN_MS));
+      if (!running.current) return;
+
+      // An entrance is not over when the page is: the sequence stays running
+      // — the page's buttons stay disabled — until he is actually shown, so
+      // a lesson tapped the moment he is back cannot land on his entrance.
+      if (cues.in === 'appear') await waitForEntrance();
 
       running.current = false;
       setPhase('idle');
     },
-    [fire],
+    [fire, waitForEntrance],
   );
 
   return { phase, begin, leave, swap, isRunning: phase !== 'idle' };

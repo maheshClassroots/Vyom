@@ -92,6 +92,10 @@ for (const [uuid, entry] of Object.entries(manifest)) {
   if (entry.mime.includes('javascript')) continue;
   const bytes = decode(entry);
   const { mime, ext } = sniff(bytes, entry.mime);
+  // The bundle carries a copy of the small Vyom mascot artboard. The app
+  // keeps one copy of each Rive file in public/characters/, so none is
+  // written here.
+  if (mime === 'application/rive') continue;
   const file = `${uuid}${ext}`;
   writeFileSync(path.join(outDir, file), bytes);
   assetPath.set(uuid, `/room/${file}`);

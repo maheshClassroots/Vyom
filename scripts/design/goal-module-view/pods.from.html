@@ -1,0 +1,28 @@
+        <sc-for list="{{ cdModules }}" as="m" hint-placeholder-count="8">
+          <div class="cd-mod {{ m.cls }} {{ podEnterClass }}" style="left:{{ m.x }}px;top:{{ m.y }}px;width:{{ m.podSize }}px;height:{{ m.podSize }}px;animation-delay:{{ m.enterDelay }}s;" onClick="{{ m.onClick }}" onMouseEnter="{{ m.onHover }}" onMouseLeave="{{ m.onUnhover }}" tabindex="0">
+            <sc-if value="{{ m.showRing }}" hint-placeholder-val="{{ false }}">
+              <div class="cj-pulsering" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:{{ m.ringSize }}px;height:{{ m.ringSize }}px;border-radius:50%;border:2px solid {{ m.ringColor }};pointer-events:none;"></div>
+            </sc-if>
+            <div class="cd-mod-art">{{ m.art }}</div>
+            <sc-if value="{{ m.isCompleted }}" hint-placeholder-val="{{ false }}">
+              <div class="cd-mod-badge cd-badge-done" style="{{ m.tickStyle }}"><i class="ti ti-check"></i></div>
+            </sc-if>
+            <sc-if value="{{ m.isLocked }}" hint-placeholder-val="{{ false }}">
+              <div class="cd-mod-badge cd-badge-lock"><i class="ti ti-lock"></i></div>
+            </sc-if>
+            <sc-if value="{{ m.isActive }}" hint-placeholder-val="{{ false }}">
+              <div class="cd-mod-badge cd-badge-active"><i class="ti ti-player-play-filled"></i></div>
+            </sc-if>
+
+            <div class="cd-mod-label" style="left:{{ m.labelLeft }}px;width:{{ m.labelW }}px;">
+              <div class="cd-label-handle" style="background:{{ m.accent }};"></div>
+              <div class="cd-mod-label-num">{{ m.numLabel }}</div>
+              <div class="cd-mod-label-name">{{ m.name }}</div>
+              <div class="cd-mod-label-desc">{{ m.desc }}</div>
+            </div>
+
+            <sc-if value="{{ m.showLockMsg }}" hint-placeholder-val="{{ false }}">
+              <div class="cd-lockmsg">Complete the previous module to unlock this lesson.</div>
+            </sc-if>
+          </div>
+        </sc-for>

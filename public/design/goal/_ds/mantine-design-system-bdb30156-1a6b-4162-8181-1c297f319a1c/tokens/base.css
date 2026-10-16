@@ -1,0 +1,42 @@
+/* Base / reset layer mirroring Mantine's baseline + global styles.
+   Applies the body font, color, and box-sizing so specimen cards and
+   UI kits render with Mantine defaults out of the box. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--mantine-font-family);
+  font-size: var(--mantine-font-size-md);
+  line-height: var(--mantine-line-height);
+  color: var(--mantine-color-text);
+  background-color: var(--mantine-color-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--mantine-color-anchor);
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--mantine-font-family-headings);
+  font-weight: var(--mantine-heading-font-weight);
+  text-wrap: var(--mantine-heading-text-wrap);
+  margin: 0;
+}
+
+h1 { font-size: var(--mantine-h1-font-size); line-height: var(--mantine-h1-line-height); }
+h2 { font-size: var(--mantine-h2-font-size); line-height: var(--mantine-h2-line-height); }
+h3 { font-size: var(--mantine-h3-font-size); line-height: var(--mantine-h3-line-height); }
+h4 { font-size: var(--mantine-h4-font-size); line-height: var(--mantine-h4-line-height); }
+h5 { font-size: var(--mantine-h5-font-size); line-height: var(--mantine-h5-line-height); }
+h6 { font-size: var(--mantine-h6-font-size); line-height: var(--mantine-h6-line-height); }
+
+code, kbd, samp, pre {
+  font-family: var(--mantine-font-family-monospace);
+}

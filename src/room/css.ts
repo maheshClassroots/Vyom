@@ -60,7 +60,7 @@ export function css(declarations: string): CSSProperties {
 
 /**
  * Asset paths, as unpacked by scripts/extract-prototype.mjs. The prototype's
- * Spark PNG is no longer referenced — Spark renders from `spark_placeholder.riv`
+ * Spark PNG is no longer referenced — Spark renders from `characters/spark.riv`
  * via `SparkRive`.
  *
  * The single-file build has no server to fetch these from, so it inlines them

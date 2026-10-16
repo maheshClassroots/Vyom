@@ -119,6 +119,29 @@ export async function waitUntilBusy(
 }
 
 /**
+ * Waits for a condition, up to a ceiling.
+ *
+ * Returns true the moment the probe reads true, and false when the time runs
+ * out or the caller asks to stop. For the states the busy flag does not
+ * cover: `appear` reports idle about a second before `vyomVisible` turns
+ * true, so a sequence that needs him *shown* rather than merely idle waits
+ * on that flag instead.
+ */
+export async function waitFor(
+  probe: () => boolean,
+  shouldContinue: ContinueProbe,
+  timeoutMs: number,
+): Promise<boolean> {
+  const deadline = performance.now() + timeoutMs;
+  while (!probe()) {
+    if (!shouldContinue()) return false;
+    if (performance.now() > deadline) return false;
+    await sleep(POLL_MS);
+  }
+  return true;
+}
+
+/**
  * Waits for the artboard to be idle, then writes — no more.
  *
  * This is the half of the rule set that protects the *write*: a trigger fired

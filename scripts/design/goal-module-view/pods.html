@@ -1,0 +1,21 @@
+        <sc-for list="{{ cdModules }}" as="m" hint-placeholder-count="8">
+          <div class="cd-mod {{ m.cls }} {{ podEnterClass }}" data-mc-label="{{ m.mcLabel }}" data-mc-title="{{ m.name }}" data-mc-desc="{{ m.desc }}" data-mc-progress="{{ m.mcProgress }}" data-mc-state="{{ m.mcState }}" data-mc-scale="{{ m.mcScale }}" style="left:{{ m.x }}px;top:{{ m.y }}px;width:{{ m.podSize }}px;height:{{ m.podSize }}px;animation-delay:{{ m.enterDelay }}s;" onClick="{{ m.onClick }}" onMouseEnter="{{ m.onHover }}" onMouseLeave="{{ m.onUnhover }}" tabindex="0">
+            <div class="mc-press">
+              <sc-if value="{{ m.isActive }}" hint-placeholder-val="{{ false }}">
+                <div class="mc-halo"></div>
+                <div class="mc-sparks"><i></i><i></i></div>
+              </sc-if>
+              <div class="mc-node" data-mi-type="{{ m.mcType }}" data-mi-state="{{ m.mcState }}"></div>
+              <div class="cd-mod-label mc-card" style="left:{{ m.labelLeft }}px;width:{{ m.labelW }}px;">
+                <span class="mc-pill">Module {{ m.numLabel }}</span>
+                <div class="mc-title">{{ m.name }}</div>
+                <div class="mc-desc">{{ m.desc }}</div>
+                <div class="mc-track"><div class="mc-fill" style="width:{{ m.mcFillW }};"></div></div>
+              </div>
+            </div>
+
+            <sc-if value="{{ m.showLockMsg }}" hint-placeholder-val="{{ false }}">
+              <div class="cd-lockmsg">Complete the previous module to unlock this lesson.</div>
+            </sc-if>
+          </div>
+        </sc-for>
