@@ -1,0 +1,20 @@
+/* The one source of the app canvas (light theme).
+   Matches the Teaching Room / Practice Room / Onboarding canvas exactly:
+   violet-lavender top → near-white → warm cream, violet + peach blobs, violet dot lattice. */
+:root{
+  --cv-top:#eee9fd;
+  --cv-mid:#f8f5fe;
+  --cv-bot:#fdfaf0;
+  --cv-base:#f1ecff;
+
+  --cv-dot:rgba(96,74,190,.13);
+  --cv-dot-strong:rgba(96,74,190,.2);
+
+  --cv-blob-v:rgba(190,170,255,.22);
+  --cv-blob-w:rgba(255,196,150,.2);
+
+  --cv-linear:linear-gradient(180deg,var(--cv-top) 0%,var(--cv-mid) 46%,var(--cv-bot) 100%);
+  --cv-linear-warm:linear-gradient(180deg,var(--cv-mid) 0%,var(--cv-bot) 100%);
+  --cv-blobs:radial-gradient(18% 28% at 12% 22%,var(--cv-blob-v),transparent 70%),radial-gradient(20% 30% at 86% 78%,var(--cv-blob-w),transparent 70%);
+  --cv-lattice:radial-gradient(var(--cv-dot) 1px, transparent 1px);
+}

@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import './design.css';
 
-/** The pages the app hosts, by the file name the package gives them. */
+/**
+ * The pages the app hosts: where each lives under `public/design/`, and the
+ * file name the package gives it — see `scripts/import-design.mjs` for which
+ * package each comes from.
+ */
 export const DESIGN_PAGES = {
-  journey: 'Chapter Journey.dc.html',
-  goal: 'Goal Page.dc.html',
+  /** The earlier package's Chapter Journey: Rive chapter icons, module nodes, Spark on the thread. */
+  journey: { dir: 'journey', file: 'Chapter Journey.dc.html', title: 'Chapter Journey' },
+  /** The later package's Goal Page: the "Unit test 2" step thread with the rail. */
+  goal: { dir: 'goal', file: 'Goal Page.dc.html', title: 'Goals Journey' },
 } as const;
 
 export type DesignPageId = keyof typeof DESIGN_PAGES;
@@ -22,9 +28,10 @@ function classify(file: string): DesignDestination {
   if (file.startsWith('Home Page')) return 'home';
   // Both teaching-room variants in the package are this app's one room.
   if (file.startsWith('Teaching Room')) return 'lesson';
-  for (const [id, name] of Object.entries(DESIGN_PAGES)) {
-    if (file.startsWith(name.replace('.dc.html', ''))) return id as DesignPageId;
-  }
+  // The packages' own names for the two hosted pages: their rails link
+  // "Goals" to a Goal Page and "Chapters" to a Chapter Journey variant.
+  if (file.startsWith('Goal Page')) return 'goal';
+  if (file.startsWith('Chapter Journey')) return 'journey';
   return 'unknown';
 }
 
@@ -74,8 +81,8 @@ export function DesignPage({ page, onNavigate }: DesignPageProps) {
         ref={frame}
         className="design__frame"
         data-loaded={loaded}
-        src={`/design/${encodeURIComponent(DESIGN_PAGES[page])}`}
-        title={DESIGN_PAGES[page].replace('.dc.html', '')}
+        src={`/design/${DESIGN_PAGES[page].dir}/${encodeURIComponent(DESIGN_PAGES[page].file)}`}
+        title={DESIGN_PAGES[page].title}
         onLoad={() => setLoaded(true)}
       />
     </div>

@@ -23,7 +23,7 @@
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   overflow: hidden;
   color: var(--h-ink);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -72,6 +72,77 @@
   mask-composite: exclude;
 }
 
+/* ------------------------------------------------------------------ rail */
+/*
+ * The design's collapsed history column, 72px wide: logo on top, a hairline,
+ * the three section tiles, another hairline, the profile tile. Measurements
+ * and colours are the design's own.
+ */
+.home__rail {
+  width: 72px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.home__rail-logo {
+  height: 64px;
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 24px;
+  box-sizing: border-box;
+}
+.home__rail-logo img { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; display: block; }
+.home__rail-rule {
+  display: block;
+  width: 28px;
+  height: 1px;
+  flex: none;
+  margin: 16px auto 0;
+  border-radius: 1px;
+  background: rgba(112, 72, 232, 0.18);
+}
+.home__rail-rule--inner { margin: 8px 0; }
+.home__rail-items {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.home__rail-item {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  padding: 0;
+  border: none;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #e9e2fe;
+  color: #5c5f8a;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+.home__rail-item:hover { background: #e7f5ff; color: #1c7ed6; }
+.home__rail-item:disabled { cursor: default; }
+.home__rail-item--profile { overflow: hidden; }
+.home__rail-item--profile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.home__rail-item--profile:hover { background: #e9e2fe; box-shadow: 0 0 0 2px #74c0fc; }
+
+.home__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 /* ------------------------------------------------------------- top chrome */
 
 .home__chrome {
@@ -79,46 +150,74 @@
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 16px 22px 4px;
+  padding: 24px 24px 4px 0;
 }
 
-.home__brand {
-  width: 38px;
-  height: 38px;
+/* The widgets row slides up out of the chrome when the chat opens. */
+.home__widgets {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.58s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.38s ease;
+}
+.home[data-convo='true'] .home__widgets,
+.home[data-launch='true'] .home__widgets { transform: translateY(-150%); opacity: 0; pointer-events: none; }
+.home[data-launch='true'] .home__widgets { transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.1s ease; }
+
+/* The chat's close button, in the corner the widgets vacate. */
+.home__close {
+  width: 44px;
+  height: 44px;
   flex: none;
-  border-radius: 50%;
+  margin-left: auto;
+  border: none;
+  border-radius: 11px;
   display: grid;
   place-items: center;
-  color: #fff;
-  font-size: 19px;
-  background: linear-gradient(145deg, #7950f2, #5f3dc4);
-  box-shadow: var(--h-sh-sm);
+  cursor: pointer;
+  color: #6b6580;
+  font-size: 20px;
+  background: transparent;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 22px rgba(150, 120, 215, 0.14);
+  animation: capsulepop 0.4s ease both;
+  transition: color 0.15s ease;
 }
+.home__close:hover { color: var(--h-ink); }
 
-.home__goal { flex: 0 1 340px; min-width: 0; }
-.home__goal-text {
-  margin: 0 0 5px;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #5d5880;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* ------------------------------------------------------- rotating goals */
+/* The design's RotatingGoals: a 340px statement with a hairline bar, no card
+   chrome until it is opened, when all three goals list under a soft card. */
+.goals { position: relative; top: -2px; flex: none; width: 340px; height: 38px; min-width: 0; }
+.goals__pop { position: absolute; top: 0; left: 0; width: 340px; z-index: 40; cursor: pointer; border-radius: 14px; outline: none; }
+.goals__halo {
+  position: absolute;
+  inset: -10px -14px;
+  border-radius: 14px;
+  z-index: -1;
+  background: transparent;
+  box-shadow: 0 8px 14px -10px rgba(70, 46, 146, 0.34);
+  transition: inset 0.26s ease, background 0.26s ease, box-shadow 0.26s ease;
 }
-.home__goal-text strong { color: #e8590c; font-size: 14px; font-weight: 800; }
-.home__goal-bar {
-  display: block;
-  height: 4px;
-  border-radius: 999px;
-  background: rgba(120, 120, 180, 0.18);
-  overflow: hidden;
+.goals__pop[data-open='true'] .goals__halo {
+  inset: -16px -18px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f3f0ff 0%, #f8f9fa 52%, #fff4e6 100%);
+  box-shadow: 0 14px 30px -14px rgba(70, 46, 146, 0.28);
 }
-.home__goal-fill {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #ff922b, #e8590c);
-}
+.goals__text { width: 340px; font-size: 14px; font-weight: 700; color: #211a4a; line-height: 1.4; white-space: nowrap; }
+.goals__text strong { color: #d9480f; font-weight: 800; font-size: 18px; }
+.goals__cycle { position: relative; height: 26px; overflow: hidden; animation: goalcycle 0.5s cubic-bezier(0.2, 0.8, 0.3, 1); }
+.goals__text--live { position: absolute; left: 0; bottom: 0; }
+.goals__bar { width: 340px; height: 5px; margin-top: 7px; border-radius: 999px; background: rgba(33, 26, 74, 0.13); overflow: hidden; }
+.goals__fill { height: 100%; background: #d9480f; border-radius: 999px; }
+.goals__fill--live { transition: width 0.7s cubic-bezier(0.2, 0.8, 0.3, 1); }
+.goals__row { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(120, 90, 200, 0.18); }
+.goals__row[data-first='true'] { margin-top: 0; padding-top: 0; border-top: none; }
+@keyframes goalcycle { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 .home__stats { margin-left: auto; display: flex; align-items: center; gap: 12px; flex: none; }
 .home__stat { display: inline-flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 800; }
@@ -131,9 +230,10 @@
   background: radial-gradient(circle at 35% 30%, #ffe066, #f59f00);
   box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.18);
 }
+/* Phones only — on wider screens the profile is the rail's last tile. */
 .home__avatar {
+  display: none;
   margin-left: 4px;
-  display: inline-flex;
   align-items: center;
   gap: 5px;
   padding: 4px 8px 4px 4px;
@@ -147,9 +247,11 @@
 
 /* -------------------------------------------------------------------- hero */
 
+.home__stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+
 .home__hero {
-  flex: 1;
-  min-height: 0;
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,7 +261,25 @@
   /* The hero takes the squeeze on short viewports rather than growing into
      the composer, which is what the design does with its own scroller. */
   overflow-y: auto;
+  transition: transform 0.58s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.4s ease;
 }
+.home[data-convo='true'] .home__hero { transform: translateY(-112%); opacity: 0; pointer-events: none; }
+
+/* The hero's launch: the copy drops out of the bottom while the rings race. */
+.home__hero-copy { display: flex; flex-direction: column; align-items: center; width: 100%; transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.1s ease; }
+.home[data-launch='true'] .home__hero-copy { transform: translateY(78vh); opacity: 0; }
+
+.home__thread {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(16px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, opacity 0.45s ease 0.1s;
+}
+.home[data-convo='true'] .home__thread { transform: none; opacity: 1; pointer-events: auto; }
 
 .home__mascot-wrap { position: relative; display: grid; place-items: center; margin-bottom: 8px; }
 .home__mascot-glow {
@@ -212,7 +332,33 @@
   display: block;
   width: var(--h-mascot);
   height: var(--h-mascot);
+  cursor: pointer;
+  outline: none;
 }
+.home[data-convo='true'] .home__mascot { cursor: default; }
+/* "Open my journey", under the mascot on hover. */
+.home__journey-tip {
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  background: rgba(45, 32, 90, 0.9);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px -12px rgba(70, 46, 146, 0.4);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.home__journey-tip i { font-size: 14px; }
+.home__journey-tip[data-on='true'] { opacity: 1; }
 
 .home__greeting { margin: 12px 0 0; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
 .home__sub { margin: 6px 0 0; max-width: 340px; font-size: 16px; line-height: 1.5; color: var(--h-dim); }
@@ -299,24 +445,36 @@
   transition: 0.18s ease;
 }
 
-/* ------------------------------------------------------- jumps and composer */
+/* ----------------------------------------------------------------- composer */
 
-.home__foot { flex: none; padding: 16px 22px 26px; }
-.home__jumps { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
-.home__jump {
-  padding: 11px 21px;
-  border: none;
-  border-radius: 12px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
-  background: linear-gradient(180deg, #1971c2, #1864ab);
-  box-shadow: 0 4px 12px rgba(24, 100, 171, 0.38);
+.home__foot { flex: none; position: relative; z-index: 1; padding: 13px 24px 74px 0; }
+.home[data-launch='true'] .home__foot { transform: translateY(64vh); opacity: 0; transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.1s ease; }
+
+/* Quick replies, risen above the composer while it is focused. */
+.home__chips {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  padding-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
 }
-/* Both are disabled while a transition runs. */
-.home__jump { cursor: pointer; }
-.home__jump:disabled { cursor: default; opacity: 0.55; }
+.home__chip {
+  padding: 6px 13px;
+  border: 1px solid #e5dbff;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #3f3a63;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.home__chip:hover { background: #f3f0ff; }
 
 .home__composer { position: relative; max-width: 820px; margin: 0 auto; }
 .home__composer-glow {
@@ -333,17 +491,31 @@
   pointer-events: none;
   animation: hudglow 4s ease-in-out infinite;
 }
+/* The brushed shell around the white field; it lights up while focused. */
+.home__composer-shell {
+  position: relative;
+  padding: 7px;
+  border-radius: 18px;
+  border: 1px solid #c6caea;
+  background: linear-gradient(158deg, #f3f4fd 0%, #e9ecfa 54%, #e0e3f5 100%);
+  box-shadow: 0 10px 26px rgba(28, 18, 74, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.home__composer[data-active='true'] .home__composer-shell {
+  border-color: var(--h-blue2);
+  box-shadow: 0 0 0 3px rgba(51, 154, 240, 0.12), 0 12px 30px rgba(28, 18, 74, 0.2);
+}
 .home__composer-inner {
   position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 4px;
   min-height: 54px;
-  padding: 0 11px;
+  padding: 0 9px;
   border: 1px solid var(--h-border);
   border-radius: 12px;
   background: #fff;
-  box-shadow: 0 10px 26px rgba(28, 18, 74, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 .home__composer-icon {
   width: 36px;
@@ -368,7 +540,14 @@
   color: var(--h-ink);
 }
 .home__composer-input::placeholder { color: #495057; opacity: 1; }
+.home__composer-input { caret-color: var(--h-blue); }
+.home__composer-send:hover { filter: brightness(1.06); box-shadow: 0 6px 16px rgba(51, 154, 240, 0.29); }
+.home__composer-send:disabled { cursor: default; }
 .home__composer-send {
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: filter 0.2s ease, box-shadow 0.2s ease;
   width: 40px;
   height: 40px;
   flex: none;
@@ -383,6 +562,10 @@
 
 @media (max-width: 767px) {
   .home__goal { display: none; }
+  .home__rail { display: none; }
+  .home__avatar { display: inline-flex; }
+  .home__chrome { padding-left: 16px; }
+  .home__foot { padding-left: 16px; }
   .home__resume { width: 100%; }
   .home { --h-ring: 300px; --h-glow: 150px; --h-mascot: 150px; }
 }
@@ -395,12 +578,172 @@
   .home__sub { font-size: 15px; }
   .home__resume { margin-top: 16px; gap: 9px; }
   .resume { padding: 16px 20px; }
-  .home__foot { padding: 10px 22px 18px; }
-  .home__jumps { margin-bottom: 9px; }
+  .home__foot { padding: 10px 22px 18px 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .home__mascot-glow,
   .home__composer-glow,
   .home .ringx { animation: none; }
+}
+
+/* ------------------------------------------------------------------- chat */
+/*
+ * The design's HomeChat thread: Vyom's lines on the left with his seat, the
+ * student's on the right, 764px wide and centred. Colours are the design's
+ * own (Mantine blue for the student, the violet-tinted white for Vyom).
+ */
+.thread {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 92px 24px 21px;
+}
+.thread__list { display: flex; flex-direction: column; gap: 16px; }
+/* Every row rises in as it lands — the design's `.msg` entrance. */
+.thread__row { width: 100%; max-width: 764px; align-self: center; display: flex; gap: 11px; align-items: flex-start; animation: riseIn 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+.thread__options { animation: riseIn 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+.thread__row--student { justify-content: flex-end; gap: 10px; }
+.thread__row--typing { align-items: center; }
+.thread__col { position: relative; z-index: 2; flex: 1; min-width: 0; }
+
+/* Seats: the newest line on each side holds its avatar; earlier ones keep
+   the space so the column does not shift. Vyom's seat is only an anchor —
+   he is the app-wide character and walks to it. */
+.thread__seat { position: relative; flex: none; align-self: flex-start; }
+.thread__seat--student { width: 34px; height: 34px; margin-top: 2px; border-radius: 10px; overflow: hidden; border: 1px solid var(--h-border); opacity: 0; transform: translateX(-38px) scale(0.62); transition: opacity 0.15s ease, transform 0.15s cubic-bezier(0.2, 0.7, 0.3, 1); }
+.thread__seat--student[data-live='true'] { opacity: 1; transform: none; transition: none; animation: avIn 0.01s linear 0.15s both; }
+.thread__seat--student img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.thread__bubble {
+  background: rgba(244, 241, 255, 0.95);
+  border-radius: 4px 15px 15px 15px;
+  padding: 12px 15px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: #3a3450;
+  box-shadow: var(--h-sh-xs);
+  white-space: pre-wrap;
+}
+.thread__bubble--explain { padding: 14px 16px; }
+.thread__bubble--student {
+  position: relative;
+  z-index: 2;
+  max-width: 80%;
+  background: var(--h-blue);
+  color: #fff;
+  border-radius: 15px 15px 4px 15px;
+  padding: 11px 15px;
+  line-height: 1.5;
+}
+.thread__text { font-size: 16px; font-weight: 500; line-height: 1.55; color: #3a3450; }
+.thread__text--ink { color: var(--h-ink); }
+.thread__text--after { margin-top: 14px; }
+.thread__in { animation: xsIn 0.45s ease both; }
+
+/* The key-idea card inside the explanation. */
+.thread__key { margin-top: 12px; background: var(--h-blue0); border: 1px solid var(--h-blue2); border-radius: 12px; padding: 12px 14px; }
+.thread__key--small { margin-top: 10px; border-radius: 10px; padding: 10px 11px; }
+.thread__key-label { display: inline-flex; align-items: center; gap: 5px; margin-bottom: 6px; color: var(--h-blue7); font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.thread__key-label i { font-size: 12px; }
+.thread__key-text { font-size: 14px; line-height: 1.55; color: var(--h-ink); font-weight: 700; }
+.thread__key--small .thread__key-text { font-size: 12px; line-height: 1.5; }
+.thread__key-visual { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--h-blue2); }
+.thread__key--small .thread__key-visual { margin-top: 10px; padding-top: 10px; }
+
+/* Dots while the explanation is still arriving. */
+.thread__xs-dots { display: flex; gap: 4px; margin-top: 12px; padding: 4px 0; }
+.thread__xs-dots span { width: 6px; height: 6px; border-radius: 50%; background: #7950f2; opacity: 0.55; animation: xsDot 1s infinite ease-in-out; }
+
+.thread__listen { margin-top: 9px; display: inline-flex; align-items: center; gap: 5px; border: none; background: none; padding: 0; cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: var(--h-dim); transition: color 0.15s ease; }
+.thread__listen i { font-size: 14px; }
+.thread__listen:hover { color: var(--h-blue7); }
+
+/* The typing row: his seat bobs, and the dots pill beside it. */
+.thread__typing { display: flex; gap: 4px; padding: 10px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--h-border); box-shadow: var(--h-sh-xs); }
+.thread__typing span { width: 5px; height: 5px; border-radius: 50%; background: #7950f2; animation: dots 1.2s infinite; }
+
+/* Check-in and closing options, indented past the seat. */
+.thread__options { width: 100%; max-width: 764px; align-self: center; display: flex; gap: 10px; padding-left: 49px; flex-wrap: wrap; }
+.thread__opt { display: flex; align-items: center; gap: 7px; padding: 8.5px 15px; border: 1px solid var(--h-border); border-radius: 10px; background: #fff; color: var(--h-ink); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease; }
+.thread__opt i { font-size: 16px; }
+.thread__opt:hover { border-color: var(--h-blue2); background: var(--h-blue0); }
+.thread__opt--got { border-color: transparent; background: #e8590c; color: #fff; box-shadow: var(--h-sh-xs); }
+.thread__opt--got:hover { background: #d9480f; border-color: transparent; }
+.thread__opt--start { border-color: transparent; background: var(--h-blue); color: #fff; font-size: 14px; padding: 9px 16px; box-shadow: var(--h-sh-sm); }
+.thread__opt--start:hover { background: var(--h-blue7); border-color: transparent; }
+.thread__opt--start i { font-size: 14px; }
+.thread__opt-blue { color: var(--h-blue); }
+.thread__opt-violet { color: #7950f2; }
+.thread__opt:not(.thread__opt--got):not(.thread__opt--start) { font-size: 14px; padding: 9px 16px; }
+.thread__opt:not(.thread__opt--got):not(.thread__opt--start):has(.thread__opt-blue) { font-size: 12px; padding: 8.5px 15px; }
+
+/* The thread outlined and shrunk away before the summary replaces it. */
+.thread__compress { position: relative; width: 100%; max-width: 764px; align-self: center; border-radius: 18px; padding: 14px 12px; border: 2px solid #f0c000; background: #fff9db; box-shadow: 0 0 0 4px rgba(240, 192, 0, 0.14); animation: selin 0.4s ease both; }
+.thread__compress-body { display: flex; flex-direction: column; gap: 2px; transform-origin: center center; opacity: 0.7; transition: opacity 0.55s ease, transform 0.58s cubic-bezier(0.6, 0, 0.75, 0); }
+.thread__compress-body[data-collapse='true'] { opacity: 0; transform: scale(0.55); }
+.thread__compress-pill { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; display: flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; background: #fff; border: 1px solid #f0c000; box-shadow: 0 10px 24px -12px rgba(70, 46, 146, 0.3); font-size: 12px; font-weight: 700; color: #a5750b; white-space: nowrap; }
+.thread__compress-pill span { display: inline-flex; gap: 3px; }
+.thread__compress-pill i { width: 5px; height: 5px; border-radius: 50%; background: #f0a000; animation: dots 1.2s infinite; }
+
+/* The summary card. */
+.thread__eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #5f3dc4; margin-bottom: 4px; }
+.thread__eyebrow--upper { text-transform: uppercase; margin-bottom: 10px; }
+.thread__bubble--summary { padding: 13px 15px; box-shadow: var(--h-sh-sm); overflow: hidden; animation: capsulepop 0.55s cubic-bezier(0.2, 1.2, 0.4, 1) both; }
+.thread__cleared { display: inline-flex; align-items: center; gap: 5px; margin-bottom: 8px; color: #5f3dc4; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.thread__cleared i { font-size: 12px; }
+.thread__expand { display: inline-flex; align-items: center; gap: 6px; margin-top: 11px; margin-right: 14px; border: none; background: none; padding: 0; cursor: pointer; font: inherit; font-size: 12px; font-weight: 700; color: var(--h-blue7); }
+.thread__expand i { font-size: 14px; }
+.thread__expand:hover { color: var(--h-blue9); }
+.thread__full { margin-top: 13px; padding-top: 13px; border-top: 1px solid rgba(120, 90, 200, 0.16); animation: selin 0.3s ease both; }
+
+/* The compact transcript inside an expanded summary. */
+.thread__transcript { display: flex; flex-direction: column; gap: 13px; }
+.thread__t-student { display: flex; justify-content: flex-end; }
+.thread__t-student div { max-width: 86%; background: var(--h-blue); color: #fff; border-radius: 12px 12px 3px 12px; padding: 8px 12px; font-size: 12px; font-weight: 500; line-height: 1.45; }
+.thread__t-vyom { display: flex; gap: 8px; align-items: flex-start; padding-left: 36px; }
+.thread__t-bubble { flex: 1; min-width: 0; background: rgba(244, 241, 255, 0.95); border-radius: 3px 12px 12px 12px; padding: 11px 12px; font-size: 12px; line-height: 1.5; color: #3a3450; white-space: pre-wrap; }
+
+/* ---------------------------------------------------------- fraction visual */
+.frac-visual { display: flex; flex-direction: column; gap: 14px; }
+.vpanel { opacity: 0.3; transform: translateY(7px); transition: opacity 0.5s ease, transform 0.5s ease; background: #fff; border: 1px solid var(--h-border); border-radius: 12px; padding: 13px 15px; }
+.vpanel[data-on='true'] { opacity: 1; transform: none; box-shadow: var(--h-sh-xs); }
+.vpanel__head { display: flex; align-items: center; gap: 8px; margin-bottom: 11px; }
+.vpanel__num { width: 21px; height: 21px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; background: #cdc8e2; transition: background 0.4s; }
+.vpanel__num[data-on='true'] { background: var(--h-blue); }
+.vpanel__title { font-size: 12px; font-weight: 700; color: var(--h-ink); }
+.vpanel__note { font-size: 12px; color: var(--h-dim); margin-top: 10px; font-weight: 500; }
+.vpanel__note b { color: var(--h-ink); }
+.vis-rows { display: flex; flex-direction: column; gap: 9px; }
+.vis-row { display: flex; align-items: center; gap: 10px; }
+.vis-row__label { width: 46px; flex: none; font-size: 14px; font-weight: 800; color: var(--h-ink); text-align: center; }
+.vis-row__bar { flex: 1; min-width: 0; }
+.frac-bar { display: flex; width: 100%; height: 30px; border-radius: 7px; overflow: hidden; border: 1px solid #ddd9ee; box-shadow: var(--h-sh-xs); }
+.frac-bar__cell { flex: 1; }
+.step-dots { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 14px; }
+.step-dots__dot { width: 7px; height: 7px; border-radius: 999px; background: #ddd9ee; transition: 0.4s; }
+.step-dots__dot[data-on='true'] { width: 20px; background: var(--h-blue); }
+.frac-mini { display: flex; align-items: center; gap: 10px; margin-top: 11px; padding: 9px 12px; background: #f6f5fd; border: 1px solid var(--h-border); border-radius: 10px; }
+.frac-mini__lhs { font-size: 12px; font-weight: 800; color: var(--h-ink); white-space: nowrap; }
+.frac-mini__bar { flex: 1; max-width: 200px; }
+.frac-mini__rhs { font-size: 14px; font-weight: 800; color: var(--h-blue7); }
+
+/* ----------------------------------------------------------- chat motion */
+@keyframes riseIn { from { transform: translateY(10px); } to { transform: translateY(0); } }
+@keyframes xsIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes xsDot { 0%, 80%, 100% { transform: translateY(0); opacity: 0.35; } 40% { transform: translateY(-3px); opacity: 0.9; } }
+@keyframes dots { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+@keyframes avIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes capsulepop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes selin { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .home__hero, .home__thread, .home__widgets, .home__hero-copy, .home__foot { transition: none; }
+  .thread__in, .thread__bubble--summary, .thread__compress, .thread__full, .thread__row, .thread__options { animation: none; }
 }

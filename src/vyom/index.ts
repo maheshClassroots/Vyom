@@ -14,3 +14,4 @@ export {
 } from './hooks';
 export { RIVE_CONFIG, STAGE_SLOTS, SLOT_LIST } from './config';
 export type { SlotId, SlotDefinition, VyomProperty, Point } from './types';
+export type { StageOffset } from './VyomProvider';

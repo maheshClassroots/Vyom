@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { ChallengesPage } from '../challenges';
-import { HomePage } from '../home';
+import { HomePage, type GoalChat } from '../home';
 import { DesignPage, type DesignDestination, type DesignPageId } from '../design';
 import { TeachingRoom } from '../room/TeachingRoom';
 import { Surface, TransitionContext, useHomeToRoom } from '../transition';
@@ -29,12 +29,15 @@ const STUDENT_NAME = 'Aarav';
 export function AppShell() {
   const [lessonId, setLessonId] = useState<string | null>(null);
   const inLesson = lessonId !== null;
-  // A page of the design package — the Chapter Journey or the Goal Page —
+  // A page of the design package — the Chapter Journey or the Goals Journey —
   // hosted in a frame. Vyom is not on them (they draw their own), so he
   // leaves the way he does for Challenges, and a module tapped there opens
   // the lesson with the same load sequence as from home, with him
   // reappearing in the middle of it.
   const [designPage, setDesignPage] = useState<DesignPageId | null>(null);
+  // The Goal Page's "set / change goal" taps open the home chat in that
+  // thread; the mode travels in the query of the file it asked for.
+  const [goalChat, setGoalChat] = useState<GoalChat | null>(null);
   // A page Vyom is not on: he disappears on the way there and reappears on
   // the way back. Placeholder for now — see `ChallengesPage`.
   const [inChallenges, setInChallenges] = useState(false);
@@ -66,7 +69,10 @@ export function AppShell() {
 
   const openDesignPage = useCallback(
     (page: DesignPageId) => {
-      void swap(() => setDesignPage(page), { out: 'disappear' });
+      void swap(() => {
+        setDesignPage(page);
+        setGoalChat(null);
+      }, { out: 'disappear' });
     },
     [swap],
   );
@@ -80,7 +86,12 @@ export function AppShell() {
   const leaveDesignPage = useCallback(
     (to: DesignDestination, file: string) => {
       if (to === 'home') {
-        void swap(() => setDesignPage(null), { in: 'appear' });
+        const query = new URLSearchParams(file.split('?')[1] ?? '');
+        const mode = query.get('goalChat');
+        void swap(() => {
+          setDesignPage(null);
+          setGoalChat(mode ? { mode, goal: query.get('goal') } : null);
+        }, { in: 'appear' });
       } else if (to === 'lesson') {
         // The same load sequence as from home; Vyom is off stage here, and
         // the sequence sees that for itself.
@@ -122,6 +133,7 @@ export function AppShell() {
                 onOpenChallenges={openChallenges}
                 onOpenJourney={() => openDesignPage('journey')}
                 onOpenGoal={() => openDesignPage('goal')}
+                goalChat={goalChat}
                 disabled={isRunning}
               />
             )}

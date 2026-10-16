@@ -4,10 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-/* Added by scripts/import-design.mjs. When this page is hosted inside the
-   Vyom app it must not navigate the frame to another file of the design
-   package — it tells the app which page was asked for instead, and the app
-   swaps screens. Opened on its own, it navigates as it always did. */
+/* Added by scripts/import-design.mjs.
+   The Rive files live once, in the app's public/characters/ — the page's
+   helpers read their sources from here rather than from files beside it. */
+window.__resources = Object.assign(window.__resources || {}, {
+  vyomRiv: '/characters/vyom.riv',
+  sparkRiv: '/characters/spark.riv',
+  moduleIconRiv: '/characters/moduleicon.riv',
+  chapterIconsRiv: '/characters/chaptericons.riv',
+});
+/* When this page is hosted inside the Vyom app it must not navigate the
+   frame to another file of the design package — it tells the app which page
+   was asked for instead, and the app swaps screens. Opened on its own, it
+   navigates as it always did. */
 window.__designNav = function (to) {
   var page = String(to == null ? '' : to);
   try { page = decodeURI(page); } catch (e) {}
@@ -43,6 +52,8 @@ document.addEventListener('click', function (e) {
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preload" as="script" href="https://unpkg.com/@rive-app/canvas@2.26.4">
 <script src="vyom-rive.js"></script>
+<script src="module-icon-rive.js"></script>
+<script src="spark-journey.js"></script>
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/colors.css">
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/semantic.css">
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/typography.css">
@@ -540,6 +551,64 @@ document.addEventListener('click', function (e) {
   .gp-isdone .gp-glass{background:#fbfaff;}
   .gp-cprow{transition:background .15s ease,box-shadow .15s ease;} .gp-cprow:hover{background:#e5dbff !important;}
   @media (prefers-reduced-motion: reduce){.gp-glow,.gp-fly{animation:none;}}
+  /* ---- Module card (native recreation of modulecard.riv: default / active / completed / inactive + press) ---- */
+  .mc-press{position:absolute;inset:0;transition:transform .38s cubic-bezier(.3,1.6,.5,1);}
+  .cd-mod:active .mc-press{transform:translateY(4px);transition:transform .1s ease;}
+  .mc-node{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;
+    background:linear-gradient(180deg,#c5b8fe 0%,#beb1fa 50%,#b09ff4 100%);box-shadow:0 6px 0 #9c88ee,0 14px 22px -10px rgba(75,47,181,.45);
+    display:flex;align-items:center;justify-content:center;color:#5c46cf;font-size:40px;z-index:2;
+    transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease;}
+  .mc-node i{transform:translateX(3px);}
+  .cd-mod:active .mc-node{box-shadow:0 2px 0 #9c88ee,0 6px 12px -8px rgba(75,47,181,.45);transition:box-shadow .1s ease;}
+  .cd-mod:hover .mc-node{transform:scale(1.04);}
+  .mc-card{position:absolute;top:50%;transform:translateY(-50%);box-sizing:border-box;padding:18px 24px 20px;border-radius:22px;background:#fff;
+    box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35);display:flex;flex-direction:column;align-items:flex-start;gap:6px;z-index:1;
+    transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease;}
+  .cd-mod:hover .mc-card{transform:translateY(-50%) translateY(-3px);}
+  .cd-mod:active .mc-card{box-shadow:0 2px 0 #eae6fd,0 8px 16px -12px rgba(75,47,181,.35);transform:translateY(-50%);transition:box-shadow .1s ease,transform .1s ease;}
+  .mc-pill{padding:4px 10px;border-radius:999px;background:#e3dbff;color:#4b2fb5;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1.2;}
+  .mc-title{font-size:18px;font-weight:800;color:#2d1985;line-height:1.25;letter-spacing:-.012em;margin-top:2px;}
+  .mc-desc{font-size:14px;font-weight:500;color:#6f62b8;line-height:1.45;text-wrap:pretty;}
+  .mc-track{width:56%;height:8px;border-radius:999px;background:#e9e4fc;overflow:hidden;margin-top:6px;}
+  .mc-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#8e7be9,#5c46cf);transform-origin:left center;animation:mcFill .9s cubic-bezier(.2,.8,.3,1) .35s both;}
+  @keyframes mcFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  /* active: soft halo that breathes + two twinkling sparks */
+  .mc-halo{position:absolute;left:50%;top:50%;width:140px;height:140px;margin:-70px 0 0 -70px;border-radius:50%;background:#eae6fd;z-index:0;animation:mcHalo 2.4s ease-in-out infinite;}
+  @keyframes mcHalo{0%,100%{transform:scale(.92);opacity:.85}50%{transform:scale(1.05);opacity:1}}
+  .mc-sparks{position:absolute;left:50%;top:50%;width:0;height:0;z-index:3;}
+  .mc-sparks i{position:absolute;width:4px;height:13px;border-radius:3px;background:#f8cd5c;animation:mcSpark 1.6s ease-in-out infinite;}
+  .mc-sparks i:nth-child(1){left:36px;top:-58px;transform:rotate(35deg);}
+  .mc-sparks i:nth-child(2){left:50px;top:-40px;transform:rotate(70deg);animation-delay:.25s;}
+  @keyframes mcSpark{0%,100%{opacity:.25;scale:.6}45%{opacity:1;scale:1}}
+  /* completed: green node with a pop-in check, full bar */
+  .cd-mod-completed .mc-node{background:linear-gradient(180deg,#57d88f 0%,#3dc77b 50%,#1a9d55 100%);box-shadow:0 6px 0 #148a49,0 14px 22px -10px rgba(26,157,85,.45);color:#fff;font-size:44px;}
+  .cd-mod-completed .mc-node i{transform:none;animation:mcPop .5s cubic-bezier(.3,1.6,.5,1) .3s both;}
+  .cd-mod-completed:active .mc-node{box-shadow:0 2px 0 #148a49,0 6px 12px -8px rgba(26,157,85,.45);}
+  @keyframes mcPop{from{scale:.3;opacity:0}to{scale:1;opacity:1}}
+  /* inactive: grey node + lock, card content faded */
+  .cd-mod-locked .mc-node{background:linear-gradient(180deg,#d8d8e3 0%,#c9c9d6 50%,#9c9caf 100%);box-shadow:0 6px 0 #8a8a9e,0 14px 22px -10px rgba(60,60,90,.3);color:#fff;font-size:34px;}
+  .cd-mod-locked .mc-node i{transform:none;}
+  .cd-mod-locked .mc-pill{background:#f0edfb;color:#9482d5;}
+  .cd-mod-locked .mc-title{color:#8c81bc;}
+  .cd-mod-locked .mc-desc{color:#b4aed4;}
+  .cd-mod-locked .mc-track{background:#f3f0fd;}
+  .cd-mod-locked:hover .mc-node{transform:none;}
+  .cd-mod:focus-visible{box-shadow:none;} .cd-mod:focus-visible .mc-node{outline:3px solid rgba(77,171,247,.65);outline-offset:4px;}
+  .cd-mod .cd-mod-label.mc-card{background:#fff;padding:18px 24px 20px;border-radius:22px;}
+  /* node = Rive icon only: no circle, no lip, no glyph */
+  .cd-mod .mc-node,.cd-mod-completed .mc-node,.cd-mod-locked .mc-node,.cd-mod:active .mc-node,.cd-mod-completed:active .mc-node{background:none !important;box-shadow:none !important;}
+  .mc-node .mi-canvas{position:absolute !important;left:50% !important;top:50% !important;right:auto !important;bottom:auto !important;margin:0 !important;transform:translate(-50%,-50%) !important;}
+  /* ---- sketch layout: small icons, big current icon, flat lavender cards with a lip ---- */
+  .cd-mod .mc-node .mi-canvas,.cd-mod-active .mc-node .mi-canvas{width:300px !important;height:300px !important;}
+  .cd-mod .cd-mod-label.mc-card{background:#f1effe !important;box-shadow:none !important;border-radius:20px !important;padding:18px 24px 24px !important;}
+  .cd-mod-active .cd-mod-label.mc-card{background:linear-gradient(158deg,#fffaeb 0%,#fff6dc 55%,#ffefc7 100%) !important;}
+  .cd-mod:hover .cd-mod-label.mc-card{box-shadow:none !important;}
+  .cd-mod:active .cd-mod-label.mc-card{box-shadow:none !important;}
+  .cd-mod .mc-card .mc-track{position:absolute !important;left:0;right:0;bottom:0;width:auto !important;height:4px !important;margin:0 !important;border-radius:0 0 20px 20px !important;background:rgba(93,88,128,.12) !important;overflow:hidden;}
+  .cd-mod .mc-card .mc-fill{border-radius:0;background:linear-gradient(90deg,rgba(142,123,233,.55),rgba(92,70,207,.6));}
+  .cd-mod .mc-halo,.cd-mod .mc-sparks{display:none;}
+  .cd-mod .mc-track{background:#e2dcfb;}
+  @media (prefers-reduced-motion: reduce){.mc-halo,.mc-sparks i,.mc-fill,.cd-mod-completed .mc-node i{animation:none;}}
 </style>
 <script src="./mobile-nav.js"></script>
 <script src="image-slot.js"></script>
@@ -769,26 +838,19 @@ document.addEventListener('click', function (e) {
         </sc-for>
 
         <sc-for list="{{ cdModules }}" as="m" hint-placeholder-count="8">
-          <div class="cd-mod {{ m.cls }} {{ podEnterClass }}" style="left:{{ m.x }}px;top:{{ m.y }}px;width:{{ m.podSize }}px;height:{{ m.podSize }}px;animation-delay:{{ m.enterDelay }}s;" onClick="{{ m.onClick }}" onMouseEnter="{{ m.onHover }}" onMouseLeave="{{ m.onUnhover }}" tabindex="0">
-            <sc-if value="{{ m.showRing }}" hint-placeholder-val="{{ false }}">
-              <div class="cj-pulsering" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:{{ m.ringSize }}px;height:{{ m.ringSize }}px;border-radius:50%;border:2px solid {{ m.ringColor }};pointer-events:none;"></div>
-            </sc-if>
-            <div class="cd-mod-art">{{ m.art }}</div>
-            <sc-if value="{{ m.isCompleted }}" hint-placeholder-val="{{ false }}">
-              <div class="cd-mod-badge cd-badge-done" style="{{ m.tickStyle }}"><i class="ti ti-check"></i></div>
-            </sc-if>
-            <sc-if value="{{ m.isLocked }}" hint-placeholder-val="{{ false }}">
-              <div class="cd-mod-badge cd-badge-lock"><i class="ti ti-lock"></i></div>
-            </sc-if>
-            <sc-if value="{{ m.isActive }}" hint-placeholder-val="{{ false }}">
-              <div class="cd-mod-badge cd-badge-active"><i class="ti ti-player-play-filled"></i></div>
-            </sc-if>
-
-            <div class="cd-mod-label" style="left:{{ m.labelLeft }}px;width:{{ m.labelW }}px;">
-              <div class="cd-label-handle" style="background:{{ m.accent }};"></div>
-              <div class="cd-mod-label-num">{{ m.numLabel }}</div>
-              <div class="cd-mod-label-name">{{ m.name }}</div>
-              <div class="cd-mod-label-desc">{{ m.desc }}</div>
+          <div class="cd-mod {{ m.cls }} {{ podEnterClass }}" data-mc-label="{{ m.mcLabel }}" data-mc-title="{{ m.name }}" data-mc-desc="{{ m.desc }}" data-mc-progress="{{ m.mcProgress }}" data-mc-state="{{ m.mcState }}" data-mc-scale="{{ m.mcScale }}" style="left:{{ m.x }}px;top:{{ m.y }}px;width:{{ m.podSize }}px;height:{{ m.podSize }}px;animation-delay:{{ m.enterDelay }}s;" onClick="{{ m.onClick }}" onMouseEnter="{{ m.onHover }}" onMouseLeave="{{ m.onUnhover }}" tabindex="0">
+            <div class="mc-press">
+              <sc-if value="{{ m.isActive }}" hint-placeholder-val="{{ false }}">
+                <div class="mc-halo"></div>
+                <div class="mc-sparks"><i></i><i></i></div>
+              </sc-if>
+              <div class="mc-node" data-mi-type="{{ m.mcType }}" data-mi-state="{{ m.mcState }}"></div>
+              <div class="cd-mod-label mc-card" style="left:{{ m.labelLeft }}px;width:{{ m.labelW }}px;">
+                <span class="mc-pill">Module {{ m.numLabel }}</span>
+                <div class="mc-title">{{ m.name }}</div>
+                <div class="mc-desc">{{ m.desc }}</div>
+                <div class="mc-track"><div class="mc-fill" style="width:{{ m.mcFillW }};"></div></div>
+              </div>
             </div>
 
             <sc-if value="{{ m.showLockMsg }}" hint-placeholder-val="{{ false }}">
@@ -1095,22 +1157,9 @@ document.addEventListener('click', function (e) {
           </sc-for>
           <sc-for list="{{ g2.gpMods }}" as="m" hint-placeholder-count="6">
             <div style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:{{ m.gOp }};z-index:2;">
-            <div class="cd-mod {{ m.cls }} cd-mod-enter" style="pointer-events:auto;left:{{ m.x }}px;top:{{ m.y }}px;width:{{ m.podSize }}px;height:{{ m.podSize }}px;animation-delay:{{ m.enterDelay }}s;" onClick="{{ m.onClick }}" tabindex="0">
-              <sc-if value="{{ m.showRing }}" hint-placeholder-val="{{ false }}">
-                <div class="cj-pulsering" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:{{ m.ringSize }}px;height:{{ m.ringSize }}px;border-radius:50%;border:2px solid {{ m.ringColor }};pointer-events:none;"></div>
-              </sc-if>
-              <div class="cd-mod-art">{{ m.art }}</div>
-              <sc-if value="{{ m.isCompleted }}" hint-placeholder-val="{{ false }}">
-                <div class="cd-mod-badge cd-badge-done" style="{{ m.tickStyle }}"><i class="ti ti-check"></i></div>
-              </sc-if>
-              <sc-if value="{{ m.isLocked }}" hint-placeholder-val="{{ false }}">
-                <div class="cd-mod-badge cd-badge-lock"><i class="ti ti-lock"></i></div>
-              </sc-if>
-              <sc-if value="{{ m.isActive }}" hint-placeholder-val="{{ false }}">
-                <div class="cd-mod-badge cd-badge-active"><i class="ti ti-player-play-filled"></i></div>
-              </sc-if>
-              <div class="cd-mod-label" style="left:{{ m.labelLeft }}px;width:{{ m.labelW }}px;box-shadow:{{ m.gCardSh }};padding:21px 25px 20px;">
-                <div class="cd-label-handle" style="background:{{ m.accent }};"></div>
+            <div class="cd-mod {{ m.cls }} cd-mod-enter" style="pointer-events:auto;left:{{ m.x }}px;top:{{ m.y }}px;width:{{ m.podSize }}px;height:{{ m.podSize }}px;animation-delay:{{ m.enterDelay }}s;" tabindex="0">
+              <div class="mc-node" data-mi-type="{{ m.mcType }}" data-mi-state="{{ m.mcState }}"></div>
+              <div class="cd-mod-label mc-card" style="left:{{ m.labelLeft }}px;width:{{ m.labelW }}px;">
                 <sc-if value="{{ m.gNow }}" hint-placeholder-val="{{ false }}">
                   <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;">
                     <div style="position:relative;width:64px;height:64px;flex:none;border-radius:16px;overflow:hidden;background:#fff4e6;box-shadow:inset 0 0 0 1px rgba(255,146,43,.25);display:grid;place-items:center;">
@@ -2105,7 +2154,7 @@ class Component extends DCLogic {
       if (ftueActive && i === 1) st = modStep >= 3 ? 'active' : 'available';
       if (items) st = items[i].st;
       const artStatus = st === 'completed' ? 'done' : (st === 'active' ? 'ongoing' : 'new');
-      const _sm = items && pathW < 440; const podSize = st === 'active' ? (_sm ? 96 : 116) : (st === 'completed' ? (_sm ? 76 : 92) : (_sm ? 64 : 80));
+      const _sm = items && pathW < 440; const podSize = items ? 92 : (st === 'active' ? (_sm ? 96 : 116) : (st === 'completed' ? (_sm ? 76 : 92) : (_sm ? 64 : 80)));
       const x = colX + Math.round(Math.sin(i * 1.7) * wobbleAmp);
       const _ai = items ? items.findIndex(it => it.st === 'active') : -1;
       const y = y0 + i * rowH + (_ai >= 0 ? (i >= _ai ? 24 : 0) + (i > _ai ? 24 : 0) : 0);
@@ -2125,6 +2174,12 @@ class Component extends DCLogic {
         labelLeft: Math.round(podSize + 24),
         // and the card fills the rest of the column, so it is as wide as the space honestly allows
         labelW: (() => { const avail = Math.round(pathW - (x + podSize / 2 + 24) - 8); if (!items) return Math.max(200, avail); const base = Math.min(avail, 340); return Math.max(100, st === 'active' ? Math.min(avail, 580) : base); })(),
+        mcLabel: 'MODULE ' + String(i + 1).padStart(2, '0'),
+        mcProgress: st === 'completed' ? 100 : (st === 'active' ? 45 : 0),
+        mcState: st === 'completed' ? 'completed' : (st === 'active' ? 'active' : (st === 'locked' ? 'inactive' : 'default')),
+        mcType: (items && items[i].x && /practice|test/i.test(String(items[i].x.gKind))) ? 'practice' : (items ? 'learning' : (i % 3 === 2 ? 'practice' : 'learning')),
+        mcFillW: (st === 'completed' ? 100 : (st === 'active' ? 45 : 0)) + '%',
+        mcScale: +Math.min(1, Math.max(0.6, (pathW - x - 8) / 578)).toFixed(3),
         art, isCompleted: st === 'completed', isActive: st === 'active', isLocked: st === 'locked',
         showRing: st === 'active', ringSize: podSize + 16, ringColor: 'rgba(255,146,43,.85)',
         tickStyle: (ftueActive && i === 0) ? (modStep >= 1 ? 'opacity:1;transform:translate(-50%,-50%) scale(1);transition:opacity .4s ease,transform .4s cubic-bezier(.3,1.4,.5,1);' : 'opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity .3s ease,transform .3s ease;') : 'opacity:1;transform:translate(-50%,-50%) scale(1);',

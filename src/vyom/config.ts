@@ -5,7 +5,7 @@ import type { PropertyGroupId, SlotDefinition, PropertyMeta } from './types';
  * Nothing else in the app hardcodes these names.
  */
 export const RIVE_CONFIG = {
-  src: '/vyom_Latest_updated2.riv',
+  src: '/characters/vyom.riv',
   /**
    * Artboards to try, in priority order — the first one actually present in the
    * file wins. A rename in Rive is a one-line change here, and a name that is

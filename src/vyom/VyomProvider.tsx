@@ -102,6 +102,22 @@ export interface VyomContextValue {
   manualSlots: Record<string, boolean>;
   setSlotManual: (slotId: string, manual: boolean) => void;
   setSlotPosition: (slotId: string, point: Point) => void;
+
+  /**
+   * A CSS offset on the whole stage, in pixels, or null for none.
+   *
+   * The one way to move him that is not the artboard's: the canvas itself is
+   * translated, so he goes with whatever the page is doing — a thread
+   * scrolling under his seat, say — without a walk. Anchors are measured in
+   * page pixels, so a caller clears this before measuring and moving him.
+   */
+  stageOffset: StageOffset | null;
+  /** `easeMs` eases the stage from its current offset to this one, instead of jumping. */
+  setStageOffset: (offset: Point | null, easeMs?: number) => void;
+}
+
+export interface StageOffset extends Point {
+  easeMs: number;
 }
 
 /**
@@ -162,6 +178,10 @@ export function VyomProvider({ children }: { children: ReactNode }) {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [activeSlot, setActiveSlot] = useState<SlotId>(DEFAULT_SLOT);
   const [slotPositions, setSlotPositions] = useState<Record<string, Point>>({});
+  const [stageOffset, setStageOffsetState] = useState<StageOffset | null>(null);
+  const setStageOffset = useCallback((offset: Point | null, easeMs = 0) => {
+    setStageOffsetState(offset ? { x: offset.x, y: offset.y, easeMs } : easeMs ? { x: 0, y: 0, easeMs } : null);
+  }, []);
   const [entranceComplete, setEntranceComplete] = useState(false);
   const [manualSlots, setManualSlots] = useState<Record<string, boolean>>({});
 
@@ -659,6 +679,8 @@ export function VyomProvider({ children }: { children: ReactNode }) {
       manualSlots,
       setSlotManual,
       setSlotPosition,
+      stageOffset,
+      setStageOffset,
     }),
     [
       rive,
@@ -681,6 +703,8 @@ export function VyomProvider({ children }: { children: ReactNode }) {
       manualSlots,
       setSlotManual,
       setSlotPosition,
+      stageOffset,
+      setStageOffset,
     ],
   );
 

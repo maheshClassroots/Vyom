@@ -1,7 +1,7 @@
 # Vyom — React + Rive integration
 
 Sample learning-platform shell (chat rail + content canvas) with the Vyom
-character wired to `vyomCanvas.riv` through Rive data binding.
+character wired to `public/characters/vyom.riv` through Rive data binding.
 
 ```bash
 npm install
@@ -93,34 +93,90 @@ Milestones (`intro`, `lo1`, `lo2`, `outro`) fire `celebration`, pay out XP and
 an orb, and pop their node on the progress track. Chat interactions drive
 `listening` on focus, `thinking` on send and `speaking` on reply.
 
-## The design package's pages
+## The home chat
 
-The home page's **Chapter Journey** and **Goals Journey** buttons open the
-design package's own `Chapter Journey.dc.html` and `Goal Page.dc.html`. Those
-pages are documents in the design tool's runtime (`support.js`): `{{ }}` /
+The home page's composer is the design's `HomeChat` (`src/home/useHomeChat.ts`,
+`src/home/HomeChat.tsx`). Focusing it raises the quick-reply chips; sending
+anything slides the hero up and the thread in, and Vyom works through the
+demo's one worked doubt — adding ½ and ⅓ — in stages: intro, key idea, three
+lit visual panels, then a check-in. "I still have a doubt" asks the follow-up;
+"I've got it" outlines and shrinks the thread into a summary card, which can
+expand back into the full explanation, and a closing line offers to start the
+class or ask another doubt. "Listen" reads a line aloud with speech synthesis.
+The Goal Page's "set / change goal" taps open this chat in a two-turn goal
+thread that returns to the Goals Journey.
+
+Vyom is the app-wide character here too. The chat's choreography:
+
+- **Opening the chat** — once the thread has slid in, the `learn` slot's
+  anchor is his seat by the typing row; he walks there with `moveToPoint` at
+  full size and `scaleSmall` plays on arrival.
+- **A new line of his** — the seat moves to the line, he walks there with
+  `moveToPoint`, and the line shows its typing dots until he has arrived;
+  only then does its text appear. The scroll hook is muted while a walk is
+  in flight, so the thread pinning to the bottom cannot snap him mid-walk.
+- **Scrolling** — no walk. The seat is measured on every scroll and written
+  to the artboard's `refPosX` / `refPosY`, his parked position, so he stays
+  hooked to the line. (Those two are the file's own position register: the
+  artboard writes them at the end of each walk, and a write to them moves
+  him.)
+- **Closing** — `scaleFull` first, waited out, then a walk to the hero once
+  it has slid back into place.
+
+A seat is measured only once the page's own motion has landed: the hero's and
+the thread's transforms are polled until they read `none` — a transform
+mid-flight measures where the element is, not where it will stop — and a new
+row's rise is waited out by the clock, as is the time he is given to reach a
+line before its text appears, since the artboard never raises its busy flag
+for a walk.
+
+## The design packages' pages
+
+The home page's **Chapter Journey** and **Goals Journey** buttons open two
+pages from the design packages, hosted as-is in a frame
+(`src/design/DesignPage.tsx`):
+
+| Button | Package file | What it is |
+| --- | --- | --- |
+| Chapter Journey | `Chapter Journey.dc.html` from the earlier package (`Copy of Byjus AI FTUE Demo.zip`) | chapter planets with Rive chapter icons, module nodes drawn by `moduleicon.riv`, Spark riding the module thread |
+| Goals Journey | `Goal Page.dc.html` from the later package (`Byjus AI FTUE Demo (1).zip`) | "Unit test 2": the step thread toward the goal, with the left rail |
+
+They are documents in the design tool's runtime (`support.js`): `{{ }}` /
 `sc-if` templates driven by `DCLogic` classes, with a WebGL nebula, camera
-moves, Rive islands and FTUE sequences. They are not rebuilt in React — they
-are hosted as-is in a frame (`src/design/DesignPage.tsx`), which is what
-keeps the design and every animation exactly as authored.
+moves, Rive islands and FTUE sequences. They are not rebuilt in React, which
+is what keeps the design and every animation exactly as authored.
 
 ```bash
-npm run import:design -- "<package dir or .zip>"
+npm run import:design -- goal    "<later package dir or .zip>"
+npm run import:design -- journey "<earlier package dir or .zip>"
 ```
 
-That copies both pages, the Rive helpers, the Mantine token sheets and the
-assets into `public/design/` and patches one thing: every hop to another
-page of the package goes through `window.__designNav(page)`, which posts the
-file name to the app when the page is framed. The shell maps `Home Page` back
-to the home page, either `Teaching Room` into the lesson, and each hosted
-page to the other; pages this build does not have are left where they are,
-with a console warning. **Do not hand-edit `public/design/` — re-run the
-script.** Adding a page is one entry in the script's `PAGES` and one in
-`DESIGN_PAGES`.
+Goal first: the Chapter Journey borrows the later package's left rail
+(`nav-rail.js`) and avatar from the goal folder, mounting that rail in place
+of the floating phone nav it shipped with, so the three pages navigate the
+same way.
+
+The Goals Journey's step thread is drawn in the Chapter Journey's module
+language on the way in — Rive module nodes from `moduleicon.riv`, the flat
+lavender module cards, and Spark riding the thread. Those patches, and the
+two Rive helpers the later package does not ship, live in
+`scripts/design/goal-module-view/` and `scripts/design/vendor/`; each patch
+must match the page exactly once, so a changed package fails the import
+rather than drifting.
+
+Each import copies the page, its runtime, helpers and assets into
+`public/design/<id>/` and patches one thing: every hop to another page of the
+package goes through `window.__designNav(page)`, which posts the file name to
+the app when the page is framed. The shell maps `Home Page` back to the home
+page, either `Teaching Room` into the lesson, `Goal Page` to the Goals
+Journey and any `Chapter Journey` variant to the Chapter Journey; pages this
+build does not have are left where they are, with a console warning. **Do not
+hand-edit `public/design/` — re-run the script.**
 
 Vyom is not on these pages (they draw their own, in the goal chrome), so the
 shell fires `disappear` on the way in and `appear` on the way out, the same
 as for Challenges. The pages load React 18, Babel and the Rive runtime from
-CDNs, as the design package does.
+CDNs, as the design packages do.
 
 ## Positions come from the DOM
 
@@ -275,6 +331,38 @@ the artboard's slot-to-slot travel length. Raise it if Vyom is still moving when
 he becomes visible. The root fix is artboard-side — if the default state placed
 him on the canvas, or the state machine reported its state, none of this
 scaffolding would be needed.
+
+## Rive files
+
+Every `.riv` lives once, in `public/characters/` — one file per character:
+
+| File | Who loads it |
+| --- | --- |
+| `vyom.riv` | Vyom, the app-wide stage (`RIVE_CONFIG.src`) |
+| `spark.riv` | Spark, the app-wide stage (`SPARK_CONFIG.src`) and the Goals Journey's thread (`spark-journey.js`) |
+| `spark copy.riv` | Spark on the Chapter Journey (`spark-journey.js`, `spark-fly.js`), set per site in the importer |
+| `moduleicon.riv` | the Chapter Journey's module nodes (`module-icon-rive.js`) |
+| `chaptericons.riv` | the Chapter Journey's chapter icons (`chapter-icon-rive.js`) |
+
+The Chapter Journey's Rive helpers (`spark-journey.js`, `spark-fly.js`,
+`module-icon-rive.js`, `chapter-icon-rive.js`, `module-card-rive.js`) came
+with the one package that shipped them, which is no longer in the folder; the
+importer installs the app's copies from `scripts/design/vendor/journey/`. The
+hosted journey page itself was last regenerated from that package, so a
+change to its bootstrap (such as the Spark source) is made in the hosted
+copy at `public/design/journey/` until a matching package is available.
+
+The hosted pages' inline Vyom (`<vyom-rive>`) is `vyom.riv` as well: the
+importer installs `scripts/design/vyom-rive.js` in place of the packages' own
+loader, which drew a separate mascot artboard. The replacement draws the
+stage's `VyomCanvas` artboard into a small canvas of its own and sizes him
+with the artboard's `scaleSmall` / `scaleFull` triggers — the host box
+decides which, or `scale="small|full"` on the element.
+
+Neither importer writes a `.riv`: `import-design.mjs` points the hosted pages
+at these through `window.__resources`, and `extract-prototype.mjs` skips the
+mascot copy inside the prototype bundle. Update a character by replacing its
+file here, nowhere else.
 
 ## Notes on the current .riv
 

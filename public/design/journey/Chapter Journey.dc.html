@@ -4,10 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-/* Added by scripts/import-design.mjs. When this page is hosted inside the
-   Vyom app it must not navigate the frame to another file of the design
-   package — it tells the app which page was asked for instead, and the app
-   swaps screens. Opened on its own, it navigates as it always did. */
+/* Added by scripts/import-design.mjs.
+   The Rive files live once, in the app's public/characters/ — the page's
+   helpers read their sources from here rather than from files beside it. */
+window.__resources = Object.assign(window.__resources || {}, {
+  vyomRiv: '/characters/vyom.riv',
+  sparkRiv: '/characters/spark copy.riv',
+  moduleIconRiv: '/characters/moduleicon.riv',
+  chapterIconsRiv: '/characters/chaptericons.riv',
+});
+/* When this page is hosted inside the Vyom app it must not navigate the
+   frame to another file of the design package — it tells the app which page
+   was asked for instead, and the app swaps screens. Opened on its own, it
+   navigates as it always did. */
 window.__designNav = function (to) {
   var page = String(to == null ? '' : to);
   try { page = decodeURI(page); } catch (e) {}
@@ -43,6 +52,10 @@ document.addEventListener('click', function (e) {
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preload" as="script" href="https://unpkg.com/@rive-app/canvas@2.26.4">
 <script src="vyom-rive.js"></script>
+<script src="spark-journey.js"></script>
+<script src="spark-fly.js"></script>
+<script src="module-icon-rive.js"></script>
+<script src="chapter-icon-rive.js"></script>
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/colors.css">
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/semantic.css">
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/typography.css">
@@ -114,6 +127,11 @@ document.addEventListener('click', function (e) {
   .cj-isl-bloom{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:172%;aspect-ratio:1;border-radius:50%;pointer-events:none;transition:opacity .18s ease;}
   .cj-isl-img{position:relative;width:100%;height:100%;background-size:contain;background-repeat:no-repeat;background-position:center;display:block;animation-name:cjBob;animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-duration:4.6s;transform-origin:center;will-change:transform;}
   .cj-isl-new .cj-isl-img{filter:grayscale(.55) opacity(.82);}
+  .cj-isl-img.ci-on{background-image:none !important;filter:none !important;}
+  .cj-isl-img.ci-on canvas{inset:5.5% !important;width:89% !important;height:89% !important;}
+  /* chapter list (map) only: 1.5× larger; the module journey (zoomed) keeps the size above */
+  .cj-scrollx:not(.cj-zoomed) .cj-isl-img.ci-on canvas{inset:-50% !important;width:200% !important;height:200% !important;}
+  .cj-isl-icon:has(.ci-on) .cj-isl-bloom{display:none !important;}
   /* the 40px reserve keeps every card's footer on the same line whether the title runs to one or two
      lines — so the text is centred inside it, or a one-line title leaves a visible hole beneath it */
   .cj-node-name{flex:none;width:100%;height:50px;display:flex;align-items:center;justify-content:center;}
@@ -216,13 +234,11 @@ document.addEventListener('click', function (e) {
      behind each island and re-emerges on the trail between them. */
   /* Below the cards (z 8 / 14): the route crosses each tile, and the tiles are opaque, so that stretch
      is concealed and every visible pixel of travel sits on a visible connection line. */
-  .cj-fly{position:absolute;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;z-index:1;pointer-events:none;
-    background:#ff9f1c;
-    box-shadow:0 0 8px 2px rgba(255,159,28,.9),0 0 20px 6px rgba(255,146,43,.5),0 0 40px 14px rgba(255,169,77,.22);
+  .cj-fly{position:absolute;left:0;top:0;width:140px;height:140px;margin:-70px 0 0 -70px;overflow:visible;z-index:1;pointer-events:none;
     will-change:transform;transition:opacity .32s ease;}
   .cj-zoomed .cj-fly,.cj-zoomed .cj-wake{opacity:0;}
   /* halo lives on a pseudo-element so its pulse cannot fight the JS transform on the dot itself */
-  .cj-fly::after{content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;
+  .cj-fly::after{display:none;content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;
     background:radial-gradient(circle,rgba(255,169,77,.42),rgba(255,169,77,0) 70%);animation:cjFlyHalo 2.6s ease-in-out infinite;}
   @keyframes cjFlyHalo{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1.2)}}
   /* the field's own dot lattice, repeated in a stronger violet and masked to a soft pool around the
@@ -239,20 +255,15 @@ document.addEventListener('click', function (e) {
   .cj-planet.cj-leaving{transition:transform .9s cubic-bezier(.4,0,.2,1) !important;transform:translate(calc(-50% + var(--push,0px) + var(--lx,0px)),calc(-50% + var(--ly,0px))) scale(var(--lsc,1)) !important;z-index:200 !important;}
   /* ---- Chapter-to-module detail view ---- */
   .cd-cols{position:relative;z-index:5;display:flex;height:100%;width:100%;}
-  .cd-left{width:38%;min-width:340px;flex:none;padding:100px 40px 40px 112px;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;position:sticky;top:0;height:100vh;overflow-y:auto;overflow-x:hidden;box-sizing:border-box;}
+  .cd-left{width:38%;min-width:340px;flex:none;padding:100px 40px 40px;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;position:sticky;top:0;height:100vh;overflow-y:auto;overflow-x:hidden;box-sizing:border-box;}
   @media (max-height:760px){.cd-left{padding-top:52px;padding-bottom:8px;gap:18px;}.cd-hero{gap:12px;}}
   @media (max-height:640px){.cd-hero-planet{margin-bottom:-10px;}.cd-hero-text{font-size:.9em;}}
   /* dot lattice for texture + a progress wash: green behind what's done, cool grey below it.
      background-attachment:local so the wash spans the scrollable height and tracks real positions. */
   /* same lavender field as the journey: 24px dot lattice over a progress wash, dots on the backmost layer */
   .cd-right{width:62%;flex:1;overflow-y:auto;overflow-x:hidden;height:100vh;padding:100px 40px 100px 40px;box-sizing:border-box;border-left:1px solid rgba(255,255,255,.55);box-shadow:-18px 0 44px rgba(70,46,146,.10);
-    background-color:var(--cv-base);
-    background-image:
-      var(--cv-lattice),
-      var(--cv-linear);
-    background-size:24px 24px, 100% 100%;
-    background-attachment:local, local;}
-  .cd-hero{display:flex;flex-direction:column;align-items:center;gap:20px;}
+    background:#ffffff;}
+  .cd-hero{display:flex;flex-direction:column;align-items:flex-start;gap:20px;}
   .cd-hero-planet{position:relative;flex:none;width:120px;height:120px;display:grid;place-items:center;margin-bottom:4px;}
   /* same badge + bloom language as a journey island, at the same 1.72x halo ratio */
   .cd-hero-bloom{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:172%;aspect-ratio:1;border-radius:50%;pointer-events:none;}
@@ -405,6 +416,9 @@ document.addEventListener('click', function (e) {
   .cd-path-svg{position:absolute;left:0;top:0;pointer-events:none;z-index:1;}
   .cd-seg-draw{stroke-dasharray:1;animation:cdSegDraw .7s ease forwards;}
   @keyframes cdSegDraw{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
+  .cd-flow{animation:cdFlow 2.8s linear infinite;}
+  @keyframes cdFlow{to{stroke-dashoffset:-9;}}
+  @media (prefers-reduced-motion: reduce){.cd-flow{animation:none;}}
   /* z-index:2 keeps pods above the path SVG, which sits on its own layer at z-index:1 */
   .cd-mod{position:absolute;cursor:pointer;outline:none;transform:translate(-50%,-50%);z-index:2;}
   .cd-mod-locked{cursor:not-allowed;}
@@ -447,6 +461,7 @@ document.addEventListener('click', function (e) {
   .cd-out{animation:cdExit .3s ease-in both;}
   @keyframes cdExit{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(100px)}}
   @media (max-width:1080px){.cd-left{width:44%;padding:52px 28px 8px;}.cd-right{width:56%;padding:80px 24px 100px 16px;}.cd-hero-text{max-width:230px;}}
+  @media (min-width:761px){.cd-left{padding-bottom:110px !important;}}
   @media (max-width:760px){.cd-cols{flex-direction:column;height:auto;}.cd-left{position:relative;width:100%;height:auto;padding:90px 20px 24px;top:0;}.cd-right{width:100%;height:auto;padding:20px 12px 90px;}}
   @media (prefers-reduced-motion: reduce){.cj-sphere,.cj-shimmer,.cj-star,.cj-pulsering,.cj-heremark,.cj-particle,.cj-zone,.cj-drift,.cj-spin,.cj-breathe,.cj-spark,.cj-crown,.cj-leaving,.cd-in,.cd-out,.cd-right-in,.cd-right-out,.cd-mod-enter,.cd-modeview,.ftue-spark,.cj-lockbadge.gone,.ftue-spinner{animation:none !important;transition:none !important;}}
   /* ---- floating light stage on a lavender field (layered ambient depth) ---- */
@@ -479,11 +494,123 @@ document.addEventListener('click', function (e) {
   .cj-goal-line{overflow:hidden;text-overflow:ellipsis;animation:cjGoalIn .5s cubic-bezier(.2,.8,.3,1) both;}
   @keyframes cjGoalIn{from{opacity:0}to{opacity:1}}
   @media (prefers-reduced-motion: reduce){.cj-goal-line{overflow:hidden;text-overflow:ellipsis;animation:none;}}
+
+  /* ---- Module card (native recreation of modulecard.riv: default / active / completed / inactive + press) ---- */
+  .mc-press{position:absolute;inset:0;transition:transform .38s cubic-bezier(.3,1.6,.5,1);}
+  .cd-mod:active .mc-press{transform:translateY(4px);transition:transform .1s ease;}
+  .mc-node{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;
+    background:linear-gradient(180deg,#c5b8fe 0%,#beb1fa 50%,#b09ff4 100%);box-shadow:0 6px 0 #9c88ee,0 14px 22px -10px rgba(75,47,181,.45);
+    display:flex;align-items:center;justify-content:center;color:#5c46cf;font-size:40px;z-index:2;
+    transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease;}
+  .mc-node i{transform:translateX(3px);}
+  .cd-mod:active .mc-node{box-shadow:0 2px 0 #9c88ee,0 6px 12px -8px rgba(75,47,181,.45);transition:box-shadow .1s ease;}
+  .cd-mod:hover .mc-node{transform:scale(1.04);}
+  .mc-card{position:absolute;top:50%;transform:translateY(-50%);box-sizing:border-box;padding:18px 24px 20px;border-radius:22px;background:#fff;
+    box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35);display:flex;flex-direction:column;align-items:flex-start;gap:6px;z-index:1;
+    transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease;}
+  .cd-mod:hover .mc-card{transform:translateY(-50%) translateY(-3px);}
+  .cd-mod:active .mc-card{box-shadow:0 2px 0 #eae6fd,0 8px 16px -12px rgba(75,47,181,.35);transform:translateY(-50%);transition:box-shadow .1s ease,transform .1s ease;}
+  .mc-pill{padding:4px 10px;border-radius:999px;background:#e3dbff;color:#4b2fb5;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1.2;}
+  .mc-title{font-size:18px;font-weight:800;color:#2d1985;line-height:1.25;letter-spacing:-.012em;margin-top:2px;}
+  .mc-desc{font-size:14px;font-weight:500;color:#6f62b8;line-height:1.45;text-wrap:pretty;}
+  .mc-track{width:56%;height:8px;border-radius:999px;background:#e9e4fc;overflow:hidden;margin-top:6px;}
+  .mc-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#8e7be9,#5c46cf);transform-origin:left center;animation:mcFill .9s cubic-bezier(.2,.8,.3,1) .35s both;}
+  @keyframes mcFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  /* active: soft halo that breathes + two twinkling sparks */
+  .mc-halo{position:absolute;left:50%;top:50%;width:140px;height:140px;margin:-70px 0 0 -70px;border-radius:50%;background:#eae6fd;z-index:0;animation:mcHalo 2.4s ease-in-out infinite;}
+  @keyframes mcHalo{0%,100%{transform:scale(.92);opacity:.85}50%{transform:scale(1.05);opacity:1}}
+  .mc-sparks{position:absolute;left:50%;top:50%;width:0;height:0;z-index:3;}
+  .mc-sparks i{position:absolute;width:4px;height:13px;border-radius:3px;background:#f8cd5c;animation:mcSpark 1.6s ease-in-out infinite;}
+  .mc-sparks i:nth-child(1){left:36px;top:-58px;transform:rotate(35deg);}
+  .mc-sparks i:nth-child(2){left:50px;top:-40px;transform:rotate(70deg);animation-delay:.25s;}
+  @keyframes mcSpark{0%,100%{opacity:.25;scale:.6}45%{opacity:1;scale:1}}
+  /* completed: green node with a pop-in check, full bar */
+  .cd-mod-completed .mc-node{background:linear-gradient(180deg,#57d88f 0%,#3dc77b 50%,#1a9d55 100%);box-shadow:0 6px 0 #148a49,0 14px 22px -10px rgba(26,157,85,.45);color:#fff;font-size:44px;}
+  .cd-mod-completed .mc-node i{transform:none;animation:mcPop .5s cubic-bezier(.3,1.6,.5,1) .3s both;}
+  .cd-mod-completed:active .mc-node{box-shadow:0 2px 0 #148a49,0 6px 12px -8px rgba(26,157,85,.45);}
+  @keyframes mcPop{from{scale:.3;opacity:0}to{scale:1;opacity:1}}
+  /* inactive: grey node + lock, card content faded */
+  .cd-mod-locked .mc-node{background:linear-gradient(180deg,#d8d8e3 0%,#c9c9d6 50%,#9c9caf 100%);box-shadow:0 6px 0 #8a8a9e,0 14px 22px -10px rgba(60,60,90,.3);color:#fff;font-size:34px;}
+  .cd-mod-locked .mc-node i{transform:none;}
+  .cd-mod-locked .mc-pill{background:#f0edfb;color:#9482d5;}
+  .cd-mod-locked .mc-title{color:#8c81bc;}
+  .cd-mod-locked .mc-desc{color:#b4aed4;}
+  .cd-mod-locked .mc-track{background:#f3f0fd;}
+  .cd-mod-locked:hover .mc-node{transform:none;}
+  .cd-mod:focus-visible{box-shadow:none;} .cd-mod:focus-visible .mc-node{outline:3px solid rgba(77,171,247,.65);outline-offset:4px;}
+  .cd-mod .cd-mod-label.mc-card{background:#fff;padding:18px 24px 20px;border-radius:22px;}
+  /* node = Rive icon only: no circle, no lip, no glyph */
+  .cd-mod .mc-node,.cd-mod-completed .mc-node,.cd-mod-locked .mc-node,.cd-mod:active .mc-node,.cd-mod-completed:active .mc-node{background:none !important;box-shadow:none !important;}
+  .mc-node .mi-canvas{position:absolute !important;left:50% !important;top:50% !important;right:auto !important;bottom:auto !important;margin:0 !important;transform:translate(-50%,-50%) !important;}
+  /* ---- sketch layout: small icons, big current icon, flat lavender cards with a lip ---- */
+  .cd-mod .mc-node .mi-canvas,.cd-mod-active .mc-node .mi-canvas{width:300px !important;height:300px !important;}
+  .cd-mod .cd-mod-label.mc-card{background:#f1effe !important;box-shadow:none !important;border-radius:20px !important;padding:18px 24px 24px !important;}
+  .cd-mod-active .cd-mod-label.mc-card{background:linear-gradient(158deg,#fffaeb 0%,#fff6dc 55%,#ffefc7 100%) !important;}
+  .cd-mod:hover .cd-mod-label.mc-card{box-shadow:none !important;}
+  .cd-mod:active .cd-mod-label.mc-card{box-shadow:none !important;}
+  .cd-mod .mc-card .mc-track{position:absolute !important;left:0;right:0;bottom:0;width:auto !important;height:4px !important;margin:0 !important;border-radius:0 0 20px 20px !important;background:rgba(93,88,128,.12) !important;overflow:hidden;}
+  .cd-mod .mc-card .mc-fill{border-radius:0;background:linear-gradient(90deg,rgba(142,123,233,.55),rgba(92,70,207,.6));}
+  .cd-mod .mc-halo,.cd-mod .mc-sparks{display:none;}
+  .cd-mod .mc-track{background:#e2dcfb;}
+  @media (prefers-reduced-motion: reduce){.mc-halo,.mc-sparks i,.mc-fill,.cd-mod-completed .mc-node i{animation:none;}}
+
+  /* ===== Page-wide card language (taken from the module card) =====
+     white surface · lavender lip (0 6px 0 #eae6fd) · soft violet shadow · 22px radius
+     pill labels #e3dbff/#4b2fb5 · titles #2d1985 · secondary #6f62b8 · tracks #e9e4fc, fills #8e7be9→#5c46cf
+     raised purple controls with a darker lip · press = dip + lip shrinks, springy release */
+  .cj-node-card{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease !important;}
+  .cj-planet:hover .cj-node-card{box-shadow:0 8px 0 #e3dbff,0 24px 36px -18px rgba(75,47,181,.42) !important;}
+  .cj-planet:active .cj-node-card{translate:0 4px;box-shadow:0 2px 0 #eae6fd,0 8px 16px -12px rgba(75,47,181,.35) !important;transition:box-shadow .1s ease,translate .1s ease !important;}
+  .cj-isl-ongoing{box-shadow:0 18px 30px -16px rgba(75,47,181,.45) !important;}
+  .cj-planet:hover .cj-isl-ongoing{box-shadow:0 24px 36px -18px rgba(75,47,181,.5) !important;}
+  .cj-planet:active .cj-isl-ongoing{box-shadow:0 8px 16px -12px rgba(75,47,181,.4) !important;}
+  .cj-zoomed .cj-node-card,.cj-zoomed .cj-planet:hover .cj-node-card{background:none !important;box-shadow:none !important;translate:none;}
+  .cj-isl-num{top:14px;left:14px;padding:4px 10px;border-radius:999px;background:#e3dbff;color:#4b2fb5;font-size:12px;font-weight:800;letter-spacing:.08em;line-height:1.2;}
+  .cj-isl-count{top:18px;right:18px;color:#6f62b8;font-size:14px;font-weight:800;line-height:1.2;}
+  .cj-node-name>span{color:#2d1985;font-weight:800;}
+  .cj-isl-new .cj-node-name>span{color:#2d1985;}
+  .cj-isl-bar{background:#e9e4fc !important;}
+  .cj-isl-fill{background:linear-gradient(90deg,#8e7be9,#5c46cf) !important;}
+  .cj-isl-play{background:linear-gradient(180deg,#c5b8fe 0%,#beb1fa 50%,#b09ff4 100%) !important;color:#5c46cf !important;box-shadow:0 4px 0 #9c88ee !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1);}
+  .cj-planet:active .cj-isl-play{translate:0 3px;box-shadow:0 1px 0 #9c88ee !important;}
+  .cj-back{background:#fff !important;border-radius:14px !important;box-shadow:0 4px 0 #eae6fd,0 10px 18px -12px rgba(75,47,181,.35) !important;color:#4b2fb5 !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1);}
+  .cj-back:hover{background:#fbfaff !important;}
+  .cj-back:active{translate:0 3px;box-shadow:0 1px 0 #eae6fd !important;}
+  .cj-goalw::before{background:#fff !important;border-radius:18px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;}
+  .cj-goalw-pop{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;}
+  .cj-goalw-track{background:#e9e4fc !important;}
+  /* detail view */
+  .cd-card{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;}
+  .cd-modpill{background:#f3f0ff;color:#4b2fb5;}
+  .cd-stat{background:#f8f6ff;}
+  .cd-stat-label{color:#6f62b8 !important;}
+  .cd-seg{background:#fff !important;border-radius:16px !important;padding:5px !important;box-shadow:none !important;}
+  .cd-seg-btn{border-radius:11px !important;color:#4b2fb5 !important;font-weight:800 !important;transition:background .16s ease,box-shadow .3s cubic-bezier(.3,1.6,.5,1),translate .3s cubic-bezier(.3,1.6,.5,1) !important;}
+  .cd-seg-btn.on{background:linear-gradient(180deg,#8e7be9,#5c46cf) !important;color:#fff !important;box-shadow:0 3px 0 #4b2fb5 !important;}
+  .cd-seg-btn:not(.on):hover{background:#f3f0ff !important;}
+  .cd-seg-btn:active{translate:0 2px;}
+  .cd-group-label{padding:4px 10px;border-radius:999px;background:#e3dbff;color:#4b2fb5 !important;letter-spacing:.08em !important;}
+  .cd-libhead{color:#4b2fb5 !important;font-weight:800 !important;}
+  .cd-tile,.cd-pcard,.cd-intent{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1) !important;}
+  .cd-tile:hover,.cd-pcard:hover,.cd-intent:hover{translate:0 -3px;box-shadow:0 8px 0 #e3dbff,0 24px 36px -18px rgba(75,47,181,.42) !important;}
+  .cd-tile:active,.cd-pcard:active,.cd-intent:active{translate:0 4px;box-shadow:0 2px 0 #eae6fd,0 8px 16px -12px rgba(75,47,181,.35) !important;transition:box-shadow .1s ease,translate .1s ease !important;}
+  .cd-tile-done{background:#fbfaff !important;}
+  .cd-tile-title,.cd-ptitle,.cd-intent-name{color:#2d1985 !important;}
+  .cd-tile-meta,.cd-pmeta,.cd-intent-for{color:#6f62b8 !important;}
+  .cd-pico{box-shadow:0 4px 0 rgba(75,47,181,.14);}
+  .cd-pbar,.cd-intent-bar,.cd-tile-bar{background:#e9e4fc !important;}
+  .cd-pbtn,.cd-pbtn-alt{background:linear-gradient(180deg,#8e7be9,#5c46cf) !important;color:#fff !important;border-radius:12px !important;box-shadow:0 3px 0 #4b2fb5 !important;transition:box-shadow .3s cubic-bezier(.3,1.6,.5,1),translate .3s cubic-bezier(.3,1.6,.5,1) !important;}
+  .cd-pbtn:active,.cd-pbtn-alt:active{translate:0 2px;box-shadow:0 1px 0 #4b2fb5 !important;}
+  .cd-pbtn-q{background:#f3f0ff !important;color:#4b2fb5 !important;box-shadow:0 3px 0 #e3dbff !important;}
+  .cd-lockmsg{background:#fff !important;border-radius:12px !important;box-shadow:0 4px 0 #eae6fd,0 10px 18px -12px rgba(75,47,181,.35);color:#4b2fb5 !important;}
+  .cj-goalw-fill{background:linear-gradient(90deg,#8e7be9,#5c46cf) !important;}
+  .cj-goal-line,.cj-goalw-row>div:first-child{color:#2d1985 !important;}
+  @media (prefers-reduced-motion: reduce){.cj-node-card,.cd-tile,.cd-pcard,.cd-intent,.cd-seg-btn,.cj-back{transition:none !important;}}
 </style>
 <script src="./mobile-nav.js"></script>
 </helmet>
 
-<mobile-nav active="journey"></mobile-nav>
+<x-import component-from-global-scope="byjus-rail" from="./nav-rail.js" current="chapters" hint-size="72px,360px" style="position:fixed;left:0;top:0;z-index:60;"></x-import>
 
 <sc-if value="{{ ftueLandBoxShow }}" hint-placeholder-val="{{ false }}">
   <div style="position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:99;pointer-events:none;display:inline-block;max-width:min(640px,90vw);border-radius:14px;overflow:hidden;padding:2px 0;animation:cjCardIn .4s ease both;">
@@ -505,10 +632,11 @@ document.addEventListener('click', function (e) {
 <sc-if value="{{ activeChapter }}" hint-placeholder-val="{{ false }}">
 <div class="cd-overlay" style="position:fixed;inset:0;z-index:35;overflow:hidden;pointer-events:none;opacity:{{ overlayOpacity }};transition:opacity .3s ease;">
 
-  <div style="position:absolute;top:24px;left:100px;right:28px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;pointer-events:none;">
+  <div style="position:absolute;top:24px;left:28px;right:28px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;pointer-events:none;">
     <div class="cj-close" onClick="{{ back }}" title="Back to journey" style="flex:none;width:44px;height:44px;background:transparent;border:none;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#4c4870;font-size:20px;pointer-events:auto;"><i class="ti ti-arrow-left"></i></div>
     <div class="cd-seg" style="position:static;margin:0;pointer-events:auto;">
-      <div class="cd-seg-btn {{ journeyOnCls }}" onClick="{{ goJourney }}" style="{{ journeyBtnStyle }}">Learn</div>
+      <div class="cd-seg-btn {{ journeyOnCls }}" onClick="{{ goJourney }}" style="{{ journeyBtnStyle }}">Learning Journey</div>
+      <div class="cd-seg-btn {{ libraryOnCls }}" onClick="{{ goLibrary }}" style="{{ libraryBtnStyle }}">Library</div>
       <div class="cd-seg-btn {{ practiceOnCls }}" onClick="{{ goPractice }}">Practice</div>
     </div>
   </div>
@@ -664,51 +792,67 @@ document.addEventListener('click', function (e) {
         </div>
       </sc-if>
       <sc-if value="{{ isJourney }}" hint-placeholder-val="{{ true }}">
-      <div class="cd-modeview" style="padding-top:{{ libTopPad }}px;">
-          <div class="cd-libsec" style="margin-bottom:64px;">
-            <div class="cd-libhead"><i class="ti ti-route" style="font-size:16px;"></i>Learn with modules · {{ cdModuleCount }}</div>
-            <div class="cd-grid" style="grid-template-columns:repeat(auto-fill,minmax(297px,1fr));">
-              <sc-for list="{{ cdModules }}" as="m" hint-placeholder-count="8">
-                <div class="cd-tile" onClick="{{ m.onClick }}" role="button" tabindex="0" style="opacity:{{ m.tileOp }};">
-                  <div class="cd-thumb" style="aspect-ratio:auto;height:120px;display:grid;place-items:center;overflow:hidden;">{{ m.art }}
-                    <sc-if value="{{ m.isCompleted }}" hint-placeholder-val="{{ false }}"><div class="cd-tile-check"><i class="ti ti-check"></i></div></sc-if>
-                    <sc-if value="{{ m.isLocked }}" hint-placeholder-val="{{ false }}"><div class="cd-tile-check" style="background:#8f8aa8;"><i class="ti ti-lock"></i></div></sc-if>
-                  </div>
-                  <div class="cd-tile-body">
-                    <div class="cd-tile-meta">{{ m.numLabel }} · {{ m.statusText }}</div>
-                    <div class="cd-tile-title" style="margin-top:4px;">{{ m.name }}</div>
-                    <div class="cd-tile-meta" style="font-weight:600;color:#868e96;">{{ m.desc }}</div>
-                  </div>
-                </div>
-              </sc-for>
+      <div class="cd-modeview" style="position:relative;width:{{ cdPathW }}px;height:{{ cdPathH }}px;">
+        <!-- Jugnu's light thread, vertical. z-index 0 keeps it under the pods (z 2) and the group
+             rules (z 1); it passes straight through the pods rather than docking at their rims. -->
+        <svg width="{{ cdPathW }}" height="{{ cdPathH }}" viewBox="0 0 {{ cdPathW }} {{ cdPathH }}" style="position:absolute;left:0;top:0;pointer-events:none;z-index:1;overflow:visible;">
+          <defs>
+            <!-- the tip fade. maskUnits/gradientUnits are userSpaceOnUse so y1/y2 are panel px set
+                 straight from the head's y; a percentage gradient would resolve against the group's
+                 bbox, which is wider than the viewBox, and displace the fade. -->
+            <linearGradient id="cdTipGrad" gradientUnits="userSpaceOnUse" x1="0" y1="{{ cdFadeY0 }}" x2="0" y2="{{ cdFadeY1 }}">
+              <stop offset="0" stop-color="#fff" stop-opacity="1"></stop>
+              <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+            </linearGradient>
+            <mask id="cdTipMask" maskUnits="userSpaceOnUse" x="-200" y="-400" width="1400" height="6000">
+              <rect x="-200" y="-400" width="1400" height="6000" fill="url(#cdTipGrad)"></rect>
+            </mask>
+          </defs>
+          <!-- dotted ahead of the light: the whole route, faint -->
+          <sc-for list="{{ cdThreads }}" as="t" hint-placeholder-count="3">
+            <path class="cd-flow" d="{{ t.d }}" fill="none" stroke="{{ t.stroke }}" stroke-width="{{ t.sw }}" stroke-dasharray="{{ t.ghostDash || t.dash }}" stroke-linecap="round" opacity="0.9"></path>
+          </sc-for>
+          <!-- solid behind it: same geometry, dash-clipped to the head and faded at the tip -->
+          <g mask="url(#cdTipMask)">
+            <sc-for list="{{ cdThreads }}" as="t" hint-placeholder-count="3">
+              <path d="{{ t.d }}" pathLength="1000" fill="none" stroke="{{ t.stroke }}" stroke-width="{{ t.sw }}" stroke-linecap="round" stroke-dasharray="{{ cdHeadDash }}" opacity="0.55"></path>
+            </sc-for>
+          </g>
+          <!-- Jugnu: a flat 2D dot with a glow, sitting on the head -->
+          <sc-if value="{{ cdHeadOn }}" hint-placeholder-val="{{ true }}">
+            <g style="pointer-events:none;">
+              <circle cx="{{ cdHeadX }}" cy="{{ cdHeadY }}" r="15" fill="#e8590c" opacity="0.14"></circle>
+              <circle cx="{{ cdHeadX }}" cy="{{ cdHeadY }}" r="8" fill="#e8590c" opacity="0.34"></circle>
+              <circle class="cd-jugnu" cx="{{ cdHeadX }}" cy="{{ cdHeadY }}" r="4" fill="#e8590c"></circle>
+            </g>
+          </sc-if>
+        </svg>
+        <sc-for list="{{ cdBands }}" as="b" hint-placeholder-count="3">
+          <div class="cd-band {{ b.cls }}" style="top:{{ b.top }}px;height:{{ b.h }}px;"></div>
+        </sc-for>
+
+        <sc-for list="{{ cdModules }}" as="m" hint-placeholder-count="8">
+          <div class="cd-mod {{ m.cls }} {{ podEnterClass }}" data-mc-label="{{ m.mcLabel }}" data-mc-title="{{ m.name }}" data-mc-desc="{{ m.desc }}" data-mc-progress="{{ m.mcProgress }}" data-mc-state="{{ m.mcState }}" data-mc-scale="{{ m.mcScale }}" style="left:{{ m.x }}px;top:{{ m.y }}px;width:{{ m.podSize }}px;height:{{ m.podSize }}px;animation-delay:{{ m.enterDelay }}s;" onClick="{{ m.onClick }}" onMouseEnter="{{ m.onHover }}" onMouseLeave="{{ m.onUnhover }}" tabindex="0">
+            <div class="mc-press">
+              <sc-if value="{{ m.isActive }}" hint-placeholder-val="{{ false }}">
+                <div class="mc-halo"></div>
+                <div class="mc-sparks"><i></i><i></i></div>
+              </sc-if>
+              <div class="mc-node" data-mi-type="{{ m.mcType }}" data-mi-state="{{ m.mcState }}"></div>
+              <div class="cd-mod-label mc-card" style="left:{{ m.labelLeft }}px;width:{{ m.labelW }}px;">
+                <span class="mc-pill">Module {{ m.numLabel }}</span>
+                <div class="mc-title">{{ m.name }}</div>
+                <div class="mc-desc">{{ m.desc }}</div>
+                <div class="mc-track"><div class="mc-fill" style="width:{{ m.mcFillW }};"></div></div>
+              </div>
             </div>
+
+            <sc-if value="{{ m.showLockMsg }}" hint-placeholder-val="{{ false }}">
+              <div class="cd-lockmsg">Complete the previous module to unlock this lesson.</div>
+            </sc-if>
           </div>
-        
-          <div class="cd-libsec" style="margin-bottom:64px;">
-            <div class="cd-libhead"><i class="ti ti-video" style="font-size:16px;"></i>Learn from Videos · {{ libVideosCount }}</div>
-            <div class="cd-grid">
-              <sc-for list="{{ libVideos }}" as="v" hint-placeholder-count="6">
-                <div class="cd-tile" onClick="{{ v.onClick }}">
-                  <div class="cd-thumb" style="background:{{ v.grad }};"><i class="{{ v.icon }}"></i>
-                    <sc-if value="{{ v.done }}" hint-placeholder-val="{{ false }}"><div class="cd-tile-check"><i class="ti ti-check"></i></div></sc-if>
-                  </div>
-                  <div class="cd-tile-body"><div class="cd-tile-title">{{ v.title }}</div><div class="cd-tile-meta"><i class="ti ti-clock" style="font-size:12px;"></i>{{ v.meta }}</div></div>
-                </div>
-              </sc-for>
-            </div>
-          </div>
-          <div class="cd-libsec">
-            <div class="cd-libhead"><i class="ti ti-box-multiple" style="font-size:16px;"></i>Learn with applets · {{ libAppletsCount }}</div>
-            <div class="cd-grid">
-              <sc-for list="{{ libApplets }}" as="a" hint-placeholder-count="4">
-                <div class="cd-tile" onClick="{{ a.onClick }}">
-                  <div class="cd-thumb" style="background:{{ a.grad }};"><i class="{{ a.icon }}"></i></div>
-                  <div class="cd-tile-body"><div class="cd-tile-title">{{ a.title }}</div><div class="cd-tile-meta"><i class="ti ti-hand-finger" style="font-size:12px;"></i>{{ a.meta }}</div></div>
-                </div>
-              </sc-for>
-            </div>
-          </div>
-</div>
+        </sc-for>
+      </div>
       </sc-if>
       </div>
     </div>
@@ -717,10 +861,12 @@ document.addEventListener('click', function (e) {
 </div>
 </sc-if>
 
-<x-import component-from-global-scope="byjus-rail" from="./nav-rail.js" current="chapters" hint-size="72px,360px" style="position:fixed;left:0;top:0;z-index:60;"></x-import>
 <sc-if value="{{ isMap }}" hint-placeholder-val="{{ true }}">
-<div class="cj-field" style="position:relative;width:100vw;height:100vh;overflow:hidden;background-image:radial-gradient(rgba(96,74,190,.13) 1px,transparent 1px),linear-gradient(180deg,#eee9fd 0%,#f8f5fe 46%,#fdfaf0 100%);background-size:24px 24px,100% 100%;">
+<div class="cj-field" style="position:relative;width:100vw;height:100vh;overflow:hidden;background-image:radial-gradient(18% 28% at 12% 22%,var(--cv-blob-v),transparent 70%),radial-gradient(20% 30% at 86% 78%,var(--cv-blob-w),transparent 70%),var(--cv-lattice),var(--cv-linear);background-size:auto,auto,24px 24px,auto;">
   <div class="cj-wake" aria-hidden="true"></div>
+  <span class="cj2-tw" style="position:absolute;left:16%;top:26%;width:4px;height:4px;border-radius:50%;background:#7950f2;box-shadow:0 0 8px 2px rgba(121,80,242,.4);z-index:0;animation:cj2Twk 4s ease-in-out infinite;"></span>
+  <span class="cj2-tw" style="position:absolute;left:58%;top:16%;width:5px;height:5px;border-radius:50%;background:#4c6ef5;box-shadow:0 0 8px 2px rgba(76,110,245,.4);z-index:0;animation:cj2Twk 4s ease-in-out 1.2s infinite;"></span>
+  <span class="cj2-tw" style="position:absolute;left:82%;top:60%;width:4px;height:4px;border-radius:50%;background:#40c057;box-shadow:0 0 8px 2px rgba(64,192,87,.4);z-index:0;animation:cj2Twk 4s ease-in-out .6s infinite;"></span>
 
   <sc-if value="{{ ftueModal }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:rgba(8,6,22,.58);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);">
@@ -806,13 +952,14 @@ document.addEventListener('click', function (e) {
     </sc-for>
   </div>
 
-  <div style="position:absolute;top:24px;left:100px;z-index:30;display:flex;align-items:flex-start;gap:40px;opacity:{{ hintOpacity }};pointer-events:{{ topWidgetsPE }};transition:opacity .3s ease;">
+  <div style="position:absolute;top:24px;left:92px;z-index:30;display:flex;align-items:flex-start;gap:40px;opacity:{{ hintOpacity }};pointer-events:{{ topWidgetsPE }};transition:opacity .3s ease;">
+    
     <div style="position:relative;top:-2px;min-width:0;">
       <div class="cj-goalw {{ goalsOpenCls }}" onClick="{{ toggleGoals }}" onKeyDown="{{ goalsKey }}" role="button" tabindex="0" aria-expanded="{{ goalsOpen }}">
         <div class="cj-goalw-rows" style="width:340px;min-width:0;">
             <div style="position:relative;width:340px;height:26px;overflow:hidden;">
               <sc-for list="{{ goalRow }}" as="g" hint-placeholder-count="1">
-                <div class="cj-goal-line" style="position:absolute;left:0;bottom:0;width:340px;font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;white-space:nowrap;"><span style="color:#d9480f;font-weight:800;font-size:18px;">{{ g.pctLabel }}</span> {{ g.label }}</div>
+                <div class="cj-goal-line" style="position:absolute;left:0;bottom:0;width:340px;font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;white-space:nowrap;"><span style="color:#5c46cf;font-weight:800;font-size:18px;">{{ g.pctLabel }}</span> {{ g.label }}</div>
               </sc-for>
             </div>
             <div class="cj-goalw-track"><div class="cj-goalw-fill" style="width:{{ goalPct }}%;"></div></div>
@@ -821,7 +968,7 @@ document.addEventListener('click', function (e) {
           <div class="cj-goalw-pop">
               <sc-for list="{{ openGoals }}" as="g" hint-placeholder-count="3">
                 <div class="cj-goalw-row">
-                  <div style="max-width:340px;font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;white-space:normal;text-wrap:pretty;"><span style="color:#d9480f;font-weight:800;font-size:18px;">{{ g.pctLabel }}</span> {{ g.label }}</div>
+                  <div style="max-width:340px;font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;white-space:normal;text-wrap:pretty;"><span style="color:#5c46cf;font-weight:800;font-size:18px;">{{ g.pctLabel }}</span> {{ g.label }}</div>
                   <div class="cj-goalw-track"><div class="cj-goalw-fill" style="width:{{ g.pctLabel }};"></div></div>
                 </div>
               </sc-for>
@@ -832,24 +979,21 @@ document.addEventListener('click', function (e) {
   </div>
 
   <div style="position:absolute;top:24px;right:28px;z-index:30;display:flex;align-items:flex-start;gap:24px;opacity:{{ hintOpacity }};pointer-events:{{ topWidgetsPE }};transition:opacity .3s ease;">
-    <div style="position:relative;top:-4px;min-width:0;">
+    <div style="position:relative;top:-4px;min-width:0;display:none;">
       <div style="width:228px;height:26px;display:flex;align-items:flex-end;justify-content:flex-end;gap:9px;">
-        <div style="font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;text-align:right;white-space:nowrap;"><span style="font-weight:800;color:#364fc7;font-size:18px;">{{ doneCount }}</span> of {{ totalCount }} chapters done</div>
+        <div style="font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;text-align:right;white-space:nowrap;"><span style="font-weight:800;color:#5c46cf;font-size:18px;">{{ doneCount }}</span> of {{ totalCount }} chapters done</div>
       </div>
-      <div style="width:228px;height:5px;margin-top:7px;border-radius:999px;background:rgba(33,26,74,.13);overflow:hidden;"><div style="height:100%;width:{{ overallPct }}%;background:#364fc7;border-radius:999px;transition:width .7s cubic-bezier(.2,.8,.3,1);"></div></div>
+      <div style="width:228px;height:5px;margin-top:7px;border-radius:999px;background:#e9e4fc;overflow:hidden;"><div style="height:100%;width:{{ overallPct }}%;background:linear-gradient(90deg,#8e7be9,#5c46cf);border-radius:999px;transition:width .7s cubic-bezier(.2,.8,.3,1);"></div></div>
     </div>
   </div>
 
-    
+    <div style="position:absolute;inset:0;pointer-events:none;z-index:4;background:radial-gradient(122% 92% at 50% 44%,rgba(0,0,0,0) 58%,rgba(157,145,244,.20) 100%);"></div>
 
 
   <div class="cj-scrollx cj-scroll {{ zoomClass }}" style="position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;z-index:10;">
     <div class="cj-stage" style="position:relative;width:{{ contentW }}px;height:100%;min-width:100%;--cj-scale:{{ cjScale }};">
       <div style="position:absolute;inset:0;width:{{ contentW }}px;pointer-events:none;background:radial-gradient(58% 92% at 7% 46%,rgba(64,192,87,0.05),rgba(0,0,0,0) 60%),radial-gradient(52% 92% at 33% 52%,rgba(76,110,245,0.05),rgba(0,0,0,0) 60%),radial-gradient(60% 100% at 88% 55%,rgba(121,80,242,0.05),rgba(0,0,0,0) 72%);"></div>
       <svg class="cj-threads" width="{{ contentW }}" height="{{ stageH }}" viewBox="0 0 {{ contentW }} {{ stageH }}" style="position:absolute;left:0;top:0;pointer-events:none;z-index:0;opacity:{{ trailOpacity }};transition:opacity .35s ease;">
-        <sc-for list="{{ cjThreads }}" as="t" hint-placeholder-count="3">
-          <path class="cj-thread-ghost" d="{{ t.d }}" fill="none" stroke="{{ t.stroke }}" stroke-width="{{ t.sw }}" stroke-dasharray="{{ t.dash }}" opacity="0.25"></path>
-        </sc-for>
         <defs>
           <!-- tip fade. gradientUnits/maskUnits are userSpaceOnUse so x1/x2 are STAGE px set straight
                from the head's x — a CSS mask would resolve its percentages against this group's bbox
@@ -920,7 +1064,7 @@ document.addEventListener('click', function (e) {
               <div class="cj-isl-icon">
                 <div class="cj-isl-bloom" style="background:{{ n.bloom }};"></div>
                 <div class="cj-lift" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-                  <div class="cj-isl-img" style="background-image:{{ n.iconUrl }};animation-delay:{{ n.bobDelay }};"></div>
+                  <div class="cj-isl-img" data-ci-ch="{{ n.id }}" data-ci-active="{{ n.ciActive }}" style="background-image:{{ n.iconUrl }};animation-delay:{{ n.bobDelay }};"></div>
                 </div>
                 <sc-if value="{{ n.showLockBadge }}" hint-placeholder-val="{{ false }}">
                   <div class="cj-lockbadge {{ n.ftueOpenCls }} {{ n.ftueGoneCls }}" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:rgba(18,18,32,.72);display:flex;align-items:center;justify-content:center;z-index:6;">
@@ -1695,7 +1839,7 @@ class Component extends DCLogic {
     };
     const groupNames = GROUPS[ch.id] || ['Foundations', 'Core skills', 'Applications', 'Challenges'];
     // rowH up from 172: the cards now carry a two-line description AND a group rule above each group
-    const colX = Math.round(Math.min(200, pathW * 0.30)), wobbleAmp = 20, rowH = 190, y0 = 140, fixedLabelX = 336;
+    const colX = Math.round(Math.min(200, pathW * 0.30)), wobbleAmp = 34, rowH = 190, y0 = 140, fixedLabelX = 336;
     const mods = [];
     for (let i = 0; i < total; i++) {
       let st;
@@ -1721,13 +1865,21 @@ class Component extends DCLogic {
         key, n: i + 1, numLabel: String(i + 1).padStart(2, '0'),
         accent: st === 'completed' ? 'linear-gradient(90deg,#69db7c,#2f9e44)' : (st === 'active' ? 'linear-gradient(90deg,#ffa94d,#e8590c)' : 'linear-gradient(90deg,rgba(154,147,201,.85),rgba(122,114,178,.85))'),
         name: names[i % names.length], desc: descs[i % descs.length], x, y, podSize, enterDelay: +(0.04 + i * 0.045).toFixed(2),
-        labelLeft: Math.round(podSize + 24),
+        labelLeft: Math.round(podSize / 2 + (st === 'active' ? 112 : 58)),
+        // Rive module card: node centre sits on (x,y); card reaches 575 artboard units to the right
+        mcLabel: 'MODULE ' + String(i + 1).padStart(2, '0'),
+        mcProgress: st === 'completed' ? 100 : (st === 'active' ? 45 : 0),
+        mcState: st === 'completed' ? 'completed' : (st === 'active' ? 'active' : (st === 'locked' ? 'inactive' : 'default')),
+        mcType: i % 3 === 2 ? 'practice' : 'learning',
+        mcIcon: st === 'completed' ? 'ti-check' : (st === 'locked' ? 'ti-lock-filled' : 'ti-player-play-filled'),
+        mcFillW: (st === 'completed' ? 100 : (st === 'active' ? 45 : 0)) + '%',
+        mcScale: +Math.min(1, Math.max(0.6, (pathW - x - 8) / 578)).toFixed(3),
         // and the card fills the rest of the column, so it is as wide as the space honestly allows
-        labelW: Math.max(200, Math.round(pathW - (x + podSize / 2 + 24) - 8)),
+        labelW: Math.max(200, Math.min(420, Math.round(pathW - (x + (st === 'active' ? 112 : 58)) - 40))),
         art, isCompleted: st === 'completed', isActive: st === 'active', isLocked: st === 'locked',
         showRing: st === 'active', ringSize: podSize + 16, ringColor: 'rgba(255,146,43,.85)',
         tickStyle: (ftueActive && i === 0) ? (modStep >= 1 ? 'opacity:1;transform:translate(-50%,-50%) scale(1);transition:opacity .4s ease,transform .4s cubic-bezier(.3,1.4,.5,1);' : 'opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity .3s ease,transform .3s ease;') : 'opacity:1;transform:translate(-50%,-50%) scale(1);',
-        cls: 'cd-mod-' + st, tileOp: st === 'locked' ? 0.6 : 1, statusText: meta.text, statusColor: meta.color,
+        cls: 'cd-mod-' + st, statusText: meta.text, statusColor: meta.color,
         showLockMsg: this.state.lockMsgId === key,
         onClick: () => this.openModule({ key, st }),
         onHover: () => this.setState({ modHover: key }),
@@ -1810,6 +1962,9 @@ class Component extends DCLogic {
       for (let i = 1; i < pts.length; i++) cum.push(cum[i-1] + Math.hypot(pts[i][0]-pts[i-1][0], pts[i][1]-pts[i-1][1]));
       const headFrac = cum[cum.length-1] ? cum[headIdx] / cum[cum.length-1] : 0;
       this._cdHead = { x: pts[headIdx][0], y: pts[headIdx][1], frac: headFrac };
+      return [
+        { key: 'ct1', d: toPath(null), stroke: '#e6dffc', sw: 2.2, dash: '', ghostDash: '0.1 9' },
+      ];
       return [
         { key: 'ct1', d: toPath(null), stroke: '#d98324', sw: 2.4, dash: '4 8' },
         { key: 'ct2', d: toPath((i) => atPod(i) ? 0 : 28 + 6 * Math.sin(i * 0.42 + 0.8) ** 2), stroke: '#3d94d6', sw: 1, dash: '2 9' },
@@ -2138,6 +2293,7 @@ class Component extends DCLogic {
       p.pctW = p.pct + '%';
       p.iconUrl = "url('icons/sm-" + (({1:'Realnumbers',2:'Polynomials',3:'Pair-of-Linear-equations',7:'Triangle',14:'Statistics'})[p.id] || 'Pair-of-Linear-equations') + ".png')";
       p.bobDelay = ((p.id % 7) * 0.35) + 's';
+      p.ciActive = p.isOngoing ? '1' : '0';
       const isFtueTarget = (this.state.ftue === 'arrival' || this.state.ftue === 'final' || this.state.ftue === 'land') && p.id === this._ftueTarget();
       const ftueFinal = this.state.ftue === 'final';
       p.ftueOpenCls = isFtueTarget && (ftueFinal || this.state.ftuePhase >= 2) ? 'open' : '';
@@ -2269,7 +2425,7 @@ class Component extends DCLogic {
 
     // ---- Glow clouds (JWST palette, soft color, behind ribbon) ----
     const cloudSpecs = ['255,170,90', '255,205,120', '90,200,190', '200,120,160'];
-    const glowClouds = [].map((rgb, i) => {
+    const glowClouds = cloudSpecs.map((rgb, i) => {
       const frac = (i + 0.5) / cloudSpecs.length;
       const dim = 1 - 0.5 * frac;
       const w = Math.round(360 + srnd() * 360);
@@ -2345,7 +2501,7 @@ class Component extends DCLogic {
                   cardTop: padTop + overlaySpacer, gap: GAP };
     const overlayOpacity = this.state.zoomPhase === 'settled' ? 1 : 0;
 
-    let ch = null, cdModuleCount = 0, cdModules = [], cdSegments = [], cdThreads = [], cdPathH = 900, libVideos = [], libApplets = [], cdBands = [], cdWashStop = '20%';
+    let ch = null, cdModules = [], cdSegments = [], cdThreads = [], cdPathH = 900, libVideos = [], libApplets = [], cdBands = [], cdWashStop = '20%';
     const cdPathW = Math.max(430, Math.min(720, (this.state.vw || 1440) * 0.62 - 96));
     if (isChapter) {
       const c = byId[this.state.active];
@@ -2378,7 +2534,7 @@ class Component extends DCLogic {
         new:     'radial-gradient(circle,rgba(122,110,196,.20) 0%,rgba(122,110,196,.07) 52%,rgba(122,110,196,0) 72%)',
       }[ch.status];
       const built = this.buildModules(ch, cdPathW);
-      cdModules = built.mods; cdSegments = built.segs; cdPathH = built.pathH; cdThreads = built.threads; cdModuleCount = built.mods.length;
+      cdModules = built.mods; cdSegments = built.segs; cdPathH = built.pathH; cdThreads = built.threads;
       cdBands = built.bands; cdWashStop = built.donePct + '%';
 
       const doneRatio = ch.done / ch.count || 0;
@@ -2575,7 +2731,7 @@ class Component extends DCLogic {
     this._miniSpanX = planets.length ? { a: planets[0].x, b: planets[planets.length - 1].x } : null;
 
     return {
-      cdModuleCount, isMap: true, isChapter, activeChapter: isChapter, overlayOpacity, overlaySpacer, rightPanelClass, podEnterClass,
+      isMap: true, isChapter, activeChapter: isChapter, overlayOpacity, overlaySpacer, rightPanelClass, podEnterClass,
       doneCount, totalCount, overallPct, miniNodes, miniRailLeft, miniRailRight, cardMasks, shells, stageH: vh,
       goalRow, goalPct, openGoals,
       goalsClosed: !this.state.goalsOpen,
@@ -2606,7 +2762,7 @@ class Component extends DCLogic {
         const max = sc.scrollWidth - sc.clientWidth;
         sc.scrollTo({ left: Math.min(max, Math.max(0, frac * sc.scrollWidth - sc.clientWidth / 2)), behavior: 'smooth' });
       },
-      closeHome: () => { (function(f){try{var r=document.referrer;if(r){var u=new URL(r);if(u.origin===location.origin&&u.pathname!==location.pathname&&history.length>1){window.__designNav(f);return;}}}catch(e){}window.__designNav(encodeURI(f));})('Home Page.dc.html'); },
+      closeHome: () => { try { window.__designNav(encodeURI('Home Page.dc.html')); } catch (e) {} },
       // The tiles cover ~79% of the centre-to-centre route, so at constant speed the light would be out
       // of sight for four fifths of the journey. So the route is split into spans and each is given a
       // share of PROGRESS rather than of length: the visible stubs (dock-out of one card to dock-in of
@@ -2715,9 +2871,9 @@ class Component extends DCLogic {
           return d;
         };
         return [
-          { key: 't1', d: toPath(null),                                   stroke: '#d98324', sw: 2.4, dash: '4 8',  rate: 1.00, main: 'cj-thread-main', x0: planets.length ? planets[0].x : 0, x1: contentW },
-          { key: 't2', d: toPath((i) => 26 + 12 * Math.sin(i * 0.42 + 0.8) ** 2),  stroke: '#3d94d6', sw: 1.9, dash: '2 9',  rate: 0.98, main: '', x0: 0, x1: 0 },
-          { key: 't3', d: toPath((i) => -(26 + 12 * Math.cos(i * 0.37 + 1.4) ** 2)), stroke: '#9d93bd', sw: 1.7, dash: '3 10', rate: 0.96, main: '', x0: 0, x1: 0 },
+          { key: 't1', d: toPath(null),                                   stroke: '#f8e0a6', sw: 4, dash: '4 8',  rate: 1.00, main: 'cj-thread-main', x0: planets.length ? planets[0].x : 0, x1: contentW },
+          { key: 't2', d: toPath((i) => 26 + 12 * Math.sin(i * 0.42 + 0.8) ** 2),  stroke: '#e4dff9', sw: 2.6, dash: '2 9',  rate: 0.98, main: '', x0: 0, x1: 0 },
+          { key: 't3', d: toPath((i) => -(26 + 12 * Math.cos(i * 0.37 + 1.4) ** 2)), stroke: '#e4dff9', sw: 2.6, dash: '3 10', rate: 0.96, main: '', x0: 0, x1: 0 },
         ];
       })(),
       spineD: (() => {

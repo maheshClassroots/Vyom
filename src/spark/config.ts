@@ -9,7 +9,7 @@ import type { PropertyMeta } from '../vyom/types';
  * the app hardcodes these names.
  */
 export const SPARK_CONFIG = {
-  src: '/sparkanimations.riv',
+  src: '/characters/spark.riv',
   artboardCandidates: ['Spark'],
   /** The machine's entry state is Spark's default idle. */
   stateMachineCandidates: ['SparkCharacter'],

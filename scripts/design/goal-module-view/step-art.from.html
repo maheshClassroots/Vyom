@@ -1,0 +1,13 @@
+              <sc-if value="{{ m.showRing }}" hint-placeholder-val="{{ false }}">
+                <div class="cj-pulsering" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:{{ m.ringSize }}px;height:{{ m.ringSize }}px;border-radius:50%;border:2px solid {{ m.ringColor }};pointer-events:none;"></div>
+              </sc-if>
+              <div class="cd-mod-art">{{ m.art }}</div>
+              <sc-if value="{{ m.isCompleted }}" hint-placeholder-val="{{ false }}">
+                <div class="cd-mod-badge cd-badge-done" style="{{ m.tickStyle }}"><i class="ti ti-check"></i></div>
+              </sc-if>
+              <sc-if value="{{ m.isLocked }}" hint-placeholder-val="{{ false }}">
+                <div class="cd-mod-badge cd-badge-lock"><i class="ti ti-lock"></i></div>
+              </sc-if>
+              <sc-if value="{{ m.isActive }}" hint-placeholder-val="{{ false }}">
+                <div class="cd-mod-badge cd-badge-active"><i class="ti ti-player-play-filled"></i></div>
+              </sc-if>
