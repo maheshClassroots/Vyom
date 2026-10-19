@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { ChallengesPage } from '../challenges';
 import { HomePage, type GoalChat } from '../home';
-import { DesignPage, type DesignDestination, type DesignPageId } from '../design';
+import { DesignPage, GoalPathDevPanel, type DesignDestination, type DesignPageId } from '../design';
 import { TeachingRoom } from '../room/TeachingRoom';
 import { Surface, TransitionContext, useHomeToRoom } from '../transition';
 import { SequenceComposer, useVyomBooleanValue, VyomDevPanel, VyomStage } from '../vyom';
@@ -150,6 +150,7 @@ export function AppShell() {
         <VyomDevPanel />
         <SparkDevPanel />
         <SequenceComposer />
+        {designPage === 'goal' && <GoalPathDevPanel />}
       </div>
     </TransitionContext.Provider>
   );

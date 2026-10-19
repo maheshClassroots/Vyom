@@ -12,6 +12,7 @@ window.__resources = Object.assign(window.__resources || {}, {
   sparkRiv: '/characters/spark.riv',
   moduleIconRiv: '/characters/moduleicon.riv',
   chapterIconsRiv: '/characters/chaptericons.riv',
+  goalPathRiv: '/characters/GoalPath.riv',
 });
 /* When this page is hosted inside the Vyom app it must not navigate the
    frame to another file of the design package — it tells the app which page
@@ -54,6 +55,7 @@ document.addEventListener('click', function (e) {
 <script src="vyom-rive.js"></script>
 <script src="module-icon-rive.js"></script>
 <script src="spark-journey.js"></script>
+<script src="goal-path-rive.js"></script>
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/colors.css">
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/semantic.css">
 <link rel="stylesheet" href="_ds/mantine-design-system-bdb30156-1a6b-4162-8181-1c297f319a1c/tokens/typography.css">
@@ -609,6 +611,47 @@ document.addEventListener('click', function (e) {
   .cd-mod .mc-halo,.cd-mod .mc-sparks{display:none;}
   .cd-mod .mc-track{background:#e2dcfb;}
   @media (prefers-reduced-motion: reduce){.mc-halo,.mc-sparks i,.mc-fill,.cd-mod-completed .mc-node i{animation:none;}}
+  /* ---- the progress card: count + chapter rows + the goal-path illustration ---- */
+  .gp-progress{width:320px;box-sizing:border-box;border-radius:24px;background:#efecfd;box-shadow:inset 0 0 0 1px rgba(112,72,232,.10),0 12px 30px -18px rgba(70,46,146,.35);overflow:hidden;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:box-shadow .3s ease;}
+  .gp-progress:hover{box-shadow:inset 0 0 0 1px rgba(112,72,232,.16),0 18px 36px -18px rgba(70,46,146,.45);}
+  .gp-progress:focus-visible{outline:3px solid rgba(77,171,247,.65);outline-offset:3px;}
+  /* the hill: out of the card's right end; open, it eases back a little and the rows keep clear of the hoisted flag */
+  .gp-mountain{position:absolute;right:-28px;bottom:-57px;width:300px;height:250px;pointer-events:none;transform-origin:72% 100%;transition:transform .55s cubic-bezier(.2,.8,.3,1),bottom .45s cubic-bezier(.2,.8,.3,1);}
+  .gp-progress[data-open="true"] .gp-mountain{bottom:-50px;transform:scale(.94);}
+  /* closed, the count sits centred in the room between the head and the card's foot */
+  .gp-body{position:relative;display:flex;flex-direction:column;padding:18px 20px 22px 22px;}
+  /* the toggle sits beside the eyebrow, leaving the card's right edge to the flag */
+  .gp-head{display:flex;align-items:center;justify-content:flex-start;gap:10px;height:28px;}
+  .gp-eyebrow{position:relative;flex:none;width:118px;height:16px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7048e8;line-height:16px;}
+  .gp-eyebrow>span{position:absolute;left:0;top:0;white-space:nowrap;transition:opacity .25s ease,transform .35s cubic-bezier(.2,.8,.3,1);}
+  .gp-eyebrow-open{opacity:0;transform:translateY(6px);}
+  .gp-progress[data-open="true"] .gp-eyebrow-closed{opacity:0;transform:translateY(-6px);}
+  .gp-progress[data-open="true"] .gp-eyebrow-open{opacity:1;transform:none;}
+  .gp-toggle{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#7048e8;font-size:15px;box-shadow:0 1px 2px rgba(33,26,74,.08),0 6px 14px -8px rgba(70,46,146,.4);transition:transform .35s cubic-bezier(.2,.8,.3,1),background .2s ease;}
+  .gp-progress:hover .gp-toggle{background:#f3f0ff;}
+  .gp-progress[data-open="true"] .gp-toggle{transform:rotate(180deg);}
+  /* rows: always in the tree, folded shut by the grid track so the height eases */
+  .gp-rows{display:grid;grid-template-rows:0fr;opacity:0;margin:0;transition:grid-template-rows .45s cubic-bezier(.2,.8,.3,1),opacity .3s ease,margin .45s cubic-bezier(.2,.8,.3,1);}
+  .gp-progress[data-open="true"] .gp-rows{grid-template-rows:1fr;opacity:1;margin:10px 0 16px;}
+  .gp-rows-in{min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:14px;}
+  .gp-row{display:flex;flex-direction:column;gap:7px;}
+  .gp-row-head{display:flex;align-items:baseline;gap:8px;}
+  .gp-row-name{font-size:15px;font-weight:600;color:#2b2654;}
+  .gp-row-count{margin-left:auto;font-size:12px;font-weight:700;color:#8e8aa8;font-variant-numeric:tabular-nums;}
+  .gp-track{height:4px;border-radius:999px;background:rgba(33,26,74,.10);overflow:hidden;}
+  .gp-fill{height:100%;border-radius:999px;background:#4c6ef5;transition:width .6s cubic-bezier(.2,.8,.3,1);}
+  /* fixed margins on both sides (an `auto` margin cannot ease): closed, these centre the count in the
+     room between the head and the card's foot */
+  .gp-count-wrap{display:flex;flex-direction:column;gap:3px;margin:12px 0 13px;transition:margin .45s cubic-bezier(.2,.8,.3,1);}
+  /* open, the count rides up under the rows, clear of the hill; the room it leaves below is the flag's */
+  .gp-progress[data-open="true"] .gp-count-wrap{margin:0 0 52px;}
+  .gp-count{font-size:28px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#3b3fb5;font-variant-numeric:tabular-nums;transform-origin:left center;transition:color .3s ease;}
+  .gp-count.gp-pop{animation:gpCountPop .45s cubic-bezier(.3,1.5,.5,1);}
+  @keyframes gpCountPop{0%{transform:scale(1);}40%{transform:scale(1.08);}100%{transform:scale(1);}}
+  .gp-sub{font-size:15px;font-weight:600;color:#8e8aa8;transition:color .3s ease;}
+  .gp-progress[data-done="true"] .gp-count{color:#2b8a3e;}
+  .gp-progress[data-done="true"] .gp-sub{color:#2f9e44;}
+  @media (prefers-reduced-motion: reduce){.gp-progress,.gp-progress *{transition:none !important;animation:none !important;}}
 </style>
 <script src="./mobile-nav.js"></script>
 <script src="image-slot.js"></script>
@@ -1093,31 +1136,26 @@ document.addEventListener('click', function (e) {
         <div class="tr-scroll g2-scroll" style="flex:1;min-height:0;min-width:0;overflow-y:auto;margin-right:-{{ edgeGap }};padding:4px {{ edgeGap }} 24px 0;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 10px);mask-image:linear-gradient(180deg,transparent 0,#000 10px);">
           <div style="display:flex;flex-direction:{{ progDir }};align-items:{{ progAlign }};gap:16px 0;">
             <div style="flex:none;width:{{ progColW }};padding-top:8px;position:{{ progPos }};top:0;z-index:5;">
-          <div style="position:{{ progCardPos }};right:80px;bottom:44px;z-index:35;width:{{ progCardW }};box-sizing:border-box;padding:20px 22px;border-radius:24px;background:rgba(243,240,255,.97);box-shadow:inset 0 0 0 1px rgba(112,72,232,.12),0 12px 30px -18px rgba(70,46,146,.35);display:flex;flex-direction:column;gap:20px;">
-            <div onClick="{{ toggleProg }}" role="button" style="cursor:pointer;display:flex;align-items:center;gap:16px;">
-              <svg width="54" height="54" viewBox="0 0 54 54" style="flex:none;overflow:visible;transform:rotate(-90deg);">
-                <circle cx="27" cy="27" r="23.875" fill="none" stroke="rgba(28,126,214,.14)" stroke-width="6.25"></circle>
-                <circle cx="27" cy="27" r="23.875" fill="none" stroke="#1c7ed6" stroke-width="6.25" stroke-linecap="round" stroke-dasharray="{{ progDash }}"></circle>
-              </svg>
-              <div style="flex:none;display:flex;flex-direction:column;gap:5px;">
-                <span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7048e8;white-space:nowrap;">Your progress</span>
-                <span style="font-size:18px;font-weight:700;color:#211a4a;white-space:nowrap;">{{ progDone }} of {{ progTotal }} topics covered</span>
+          <div class="gp-progress" data-open="{{ progOpen }}" data-done="{{ progDoneAll }}" onClick="{{ toggleProg }}" role="button" tabindex="0" aria-expanded="{{ progOpen }}" style="position:{{ progCardPos }};right:28px;bottom:36px;z-index:35;">
+            <div class="gp-mountain" data-gp-progress="{{ progW }}" aria-hidden="true"></div>
+            <div class="gp-body">
+              <div class="gp-head">
+                <span class="gp-eyebrow"><span class="gp-eyebrow-closed">Your progress</span><span class="gp-eyebrow-open">Chapter view</span></span>
+                <span class="gp-toggle" aria-hidden="true"><i class="ti ti-chevron-up"></i></span>
               </div>
-              <span style="width:16px;height:28px;flex:none;display:grid;place-items:center;color:#7048e8;"><i class="ti {{ progChev }}" style="font-size:16px;"></i></span>
+              <div class="gp-rows"><div class="gp-rows-in">
+                <sc-for list="{{ progRows }}" as="c" hint-placeholder-count="3">
+                  <div class="gp-row">
+                    <div class="gp-row-head"><span class="gp-row-name">{{ c.name }}</span><span class="gp-row-count">{{ c.label }}</span></div>
+                    <div class="gp-track"><div class="gp-fill" style="width:{{ c.w }};"></div></div>
+                  </div>
+                </sc-for>
+              </div></div>
+              <div class="gp-count-wrap">
+                <span class="gp-count">{{ progDone }} of {{ progTotal }}</span>
+                <span class="gp-sub">{{ progSub }}</span>
+              </div>
             </div>
-            <sc-if value="{{ progOpen }}" hint-placeholder-val="{{ false }}">
-              <div style="display:flex;flex-direction:column;gap:12px;">
-                <span style="padding-left:2px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#868e96;">By chapter</span>
-                <div style="display:flex;flex-direction:column;gap:18px;padding:0;">
-                  <sc-for list="{{ progRows }}" as="c" hint-placeholder-count="3">
-                    <div style="display:flex;flex-direction:column;gap:8px;">
-                      <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-size:14px;font-weight:600;color:#3f3a63;">{{ c.name }}</span><span style="margin-left:auto;font-size:13px;font-weight:700;color:#868e96;">{{ c.label }}</span></div>
-                      <div style="height:4px;border-radius:999px;background:rgba(33,26,74,.08);overflow:hidden;"><div style="height:100%;width:{{ c.w }};border-radius:999px;background:#74c0fc;"></div></div>
-                    </div>
-                  </sc-for>
-                </div>
-              </div>
-            </sc-if>
           </div>
         </div>
             <div style="flex:1;min-width:0;">
@@ -3228,10 +3266,11 @@ class Component extends DCLogic {
     const _SP = { g: ['Worked on your goal', '#2b8a3e', '#ebfbee', 'ti-circle-check'], o: ['Learnt elsewhere', '#2b8a3e', '#ebfbee', 'ti-route'], m: ['Missed', '#c92a2a', '#fff5f5', 'ti-mood-sad'], t: ['Today', '#5f3dc4', '#f3f0ff', 'ti-sun'] }[_sd.k] || ['', '#495057', '#f1f3f5', 'ti-calendar'];
     const sdPanel = { head: 'Day ' + (_si + 1), badge: _SP[0], ink: _SP[1], soft: _SP[2], icon: _SP[3],
       topics: _sd.topics.map((tp, j) => ({ key: tp.key, t: tp.t, icon: _sd.k === 'm' ? 'ti-info-circle' : (_sd.k === 't' ? 'ti-player-play' : 'ti-check') })) };
-    const _PR = [['Algebra', 3, 10], ['Circles', 3, 10], ['Statistics', 4, 10]];
+    const _PR = window.__goalProgress || [['Algebra', 3, 10], ['Circles', 3, 10], ['Statistics', 4, 10]];
+    window.__goalRerender = () => this.setState({ gpTick: Date.now() });
     const _pd = _PR.reduce((n, r) => n + r[1], 0), _pt = _PR.reduce((n, r) => n + r[2], 0);
-    const _narrow = (this.state.rowW || 900) < 640;
-    const trVals = { streakDays, sdPanel, progDir: _narrow ? 'column' : 'row-reverse', progColW: _narrow ? 'auto' : '0px', progCardPos: _narrow ? 'static' : 'fixed', progCardW: 'auto', progPos: _narrow ? 'static' : 'sticky', progAlign: _narrow ? 'stretch' : 'flex-start', edgeGap: (this.state.edgeGap || 0) + 'px', progOpen: !!this.state.progOpen, progChev: this.state.progOpen ? 'ti-chevron-down' : 'ti-chevron-up',
+    const _narrow = false;
+    const trVals = { streakDays, sdPanel, progDir: _narrow ? 'column' : 'row-reverse', progColW: _narrow ? 'auto' : '0px', progCardPos: _narrow ? 'static' : 'fixed', progCardW: 'auto', progPos: _narrow ? 'static' : 'sticky', progAlign: _narrow ? 'stretch' : 'flex-start', edgeGap: (this.state.edgeGap || 0) + 'px', progOpen: !!this.state.progOpen, progDoneAll: _pd >= _pt, progSub: _pd >= _pt ? 'All topics covered' : 'topics covered', progChev: this.state.progOpen ? 'ti-chevron-down' : 'ti-chevron-up',
       toggleProg: () => this.setState(st => ({ progOpen: !st.progOpen })), progDone: _pd, progTotal: _pt, progW: Math.round(_pd / _pt * 100) + '%', progDash: (Math.round(_pd / _pt * 150.01 * 10) / 10) + ' 150.01', progRing: 'conic-gradient(#1c7ed6 ' + Math.round(_pd / _pt * 360) + 'deg,rgba(28,126,214,.14) 0)',
       progRows: _PR.map((r, i) => ({ key: 'pr' + i, name: r[0], label: r[1] + '/' + r[2], w: Math.round(r[1] / r[2] * 100) + '%' })), onCloseGoal: () => { (function(f){try{var r=document.referrer;if(r){var u=new URL(r);if(u.origin===location.origin&&u.pathname!==location.pathname&&history.length>1){window.__designNav(f);return;}}}catch(e){}window.__designNav(encodeURI(f));})('Home Page.dc.html'); },
       g2, msgs, speaking: !!this.state.speaking, maxSpeaking,

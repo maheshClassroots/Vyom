@@ -20,6 +20,19 @@ thread — so the importer applies these on the way in:
   module Spark stands at puts `sparkAtActive` down; tapping any module that
   is not completed makes it the active one and walks Spark to it, where
   `sparkAtActive` goes up.
+- `progress-card.from.html` → `progress-card.html` + `progress-card.css` —
+  the progress card is rebuilt as a pill with the goal-path illustration
+  (`GoalPath.riv`, driven by `../vendor/goal-path-rive.js`) rising at its
+  right end. Closed: the eyebrow, a round toggle and the count. Open: the
+  chapter rows fold out above the count (the grid-track trick, so the height
+  eases), the eyebrow crossfades to "Chapter view", the toggle turns, and the
+  rows keep clear of the flag that hoists at 100%. The count pops when it
+  changes and turns green with "All topics covered" at the summit. The card
+  is pinned to the page's bottom-right at every width. The page's chapter
+  counts read from `window.__goalProgress` and re-render on
+  `window.__goalRerender()`, which the app's "Progress demo" button drives
+  through `postMessage` for a demo climb from zero to the summit; a count
+  that goes down replays the reveal, since the artboard only climbs.
 - The module fields that template reads (`mcLabel`, `mcState`, `mcType`, …)
   are added to the Goal Page's `buildModules` — see `goal-patches.mjs`.
 - `../vendor/module-icon-rive.js` and `../vendor/spark-journey.js` — the two

@@ -343,6 +343,7 @@ Every `.riv` lives once, in `public/characters/` — one file per character:
 | `spark copy.riv` | Spark on the Chapter Journey (`spark-journey.js`, `spark-fly.js`), set per site in the importer |
 | `moduleicon.riv` | the Chapter Journey's module nodes (`module-icon-rive.js`) |
 | `chaptericons.riv` | the Chapter Journey's chapter icons (`chapter-icon-rive.js`) |
+| `GoalPath.riv` | the Goals Journey's progress illustration (`goal-path-rive.js`); the "Progress demo" dev button on that page drives it |
 
 The Chapter Journey's Rive helpers (`spark-journey.js`, `spark-fly.js`,
 `module-icon-rive.js`, `chapter-icon-rive.js`, `module-card-rive.js`) came

@@ -1,0 +1,41 @@
+  /* ---- the progress card: count + chapter rows + the goal-path illustration ---- */
+  .gp-progress{width:320px;box-sizing:border-box;border-radius:24px;background:#efecfd;box-shadow:inset 0 0 0 1px rgba(112,72,232,.10),0 12px 30px -18px rgba(70,46,146,.35);overflow:hidden;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:box-shadow .3s ease;}
+  .gp-progress:hover{box-shadow:inset 0 0 0 1px rgba(112,72,232,.16),0 18px 36px -18px rgba(70,46,146,.45);}
+  .gp-progress:focus-visible{outline:3px solid rgba(77,171,247,.65);outline-offset:3px;}
+  /* the hill: out of the card's right end; open, it eases back a little and the rows keep clear of the hoisted flag */
+  .gp-mountain{position:absolute;right:-28px;bottom:-57px;width:300px;height:250px;pointer-events:none;transform-origin:72% 100%;transition:transform .55s cubic-bezier(.2,.8,.3,1),bottom .45s cubic-bezier(.2,.8,.3,1);}
+  .gp-progress[data-open="true"] .gp-mountain{bottom:-50px;transform:scale(.94);}
+  /* closed, the count sits centred in the room between the head and the card's foot */
+  .gp-body{position:relative;display:flex;flex-direction:column;padding:18px 20px 22px 22px;}
+  /* the toggle sits beside the eyebrow, leaving the card's right edge to the flag */
+  .gp-head{display:flex;align-items:center;justify-content:flex-start;gap:10px;height:28px;}
+  .gp-eyebrow{position:relative;flex:none;width:118px;height:16px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7048e8;line-height:16px;}
+  .gp-eyebrow>span{position:absolute;left:0;top:0;white-space:nowrap;transition:opacity .25s ease,transform .35s cubic-bezier(.2,.8,.3,1);}
+  .gp-eyebrow-open{opacity:0;transform:translateY(6px);}
+  .gp-progress[data-open="true"] .gp-eyebrow-closed{opacity:0;transform:translateY(-6px);}
+  .gp-progress[data-open="true"] .gp-eyebrow-open{opacity:1;transform:none;}
+  .gp-toggle{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#7048e8;font-size:15px;box-shadow:0 1px 2px rgba(33,26,74,.08),0 6px 14px -8px rgba(70,46,146,.4);transition:transform .35s cubic-bezier(.2,.8,.3,1),background .2s ease;}
+  .gp-progress:hover .gp-toggle{background:#f3f0ff;}
+  .gp-progress[data-open="true"] .gp-toggle{transform:rotate(180deg);}
+  /* rows: always in the tree, folded shut by the grid track so the height eases */
+  .gp-rows{display:grid;grid-template-rows:0fr;opacity:0;margin:0;transition:grid-template-rows .45s cubic-bezier(.2,.8,.3,1),opacity .3s ease,margin .45s cubic-bezier(.2,.8,.3,1);}
+  .gp-progress[data-open="true"] .gp-rows{grid-template-rows:1fr;opacity:1;margin:10px 0 16px;}
+  .gp-rows-in{min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:14px;}
+  .gp-row{display:flex;flex-direction:column;gap:7px;}
+  .gp-row-head{display:flex;align-items:baseline;gap:8px;}
+  .gp-row-name{font-size:15px;font-weight:600;color:#2b2654;}
+  .gp-row-count{margin-left:auto;font-size:12px;font-weight:700;color:#8e8aa8;font-variant-numeric:tabular-nums;}
+  .gp-track{height:4px;border-radius:999px;background:rgba(33,26,74,.10);overflow:hidden;}
+  .gp-fill{height:100%;border-radius:999px;background:#4c6ef5;transition:width .6s cubic-bezier(.2,.8,.3,1);}
+  /* fixed margins on both sides (an `auto` margin cannot ease): closed, these centre the count in the
+     room between the head and the card's foot */
+  .gp-count-wrap{display:flex;flex-direction:column;gap:3px;margin:12px 0 13px;transition:margin .45s cubic-bezier(.2,.8,.3,1);}
+  /* open, the count rides up under the rows, clear of the hill; the room it leaves below is the flag's */
+  .gp-progress[data-open="true"] .gp-count-wrap{margin:0 0 52px;}
+  .gp-count{font-size:28px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#3b3fb5;font-variant-numeric:tabular-nums;transform-origin:left center;transition:color .3s ease;}
+  .gp-count.gp-pop{animation:gpCountPop .45s cubic-bezier(.3,1.5,.5,1);}
+  @keyframes gpCountPop{0%{transform:scale(1);}40%{transform:scale(1.08);}100%{transform:scale(1);}}
+  .gp-sub{font-size:15px;font-weight:600;color:#8e8aa8;transition:color .3s ease;}
+  .gp-progress[data-done="true"] .gp-count{color:#2b8a3e;}
+  .gp-progress[data-done="true"] .gp-sub{color:#2f9e44;}
+  @media (prefers-reduced-motion: reduce){.gp-progress,.gp-progress *{transition:none !important;animation:none !important;}}

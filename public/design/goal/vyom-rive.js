@@ -30,6 +30,8 @@
   var FULL_FROM = 90;
   /* Between the scale trigger and `appear`: enough for the scale change to settle. */
   var SCALE_SETTLE_MS = 450;
+  /* The entrance, after which he stands where he will stay and can be measured. */
+  var APPEAR_MS = 2600;
 
   var runtime = null;
   function loadRuntime() {
@@ -69,9 +71,15 @@
       if (this._built) { observe(this); return; }
       this._built = true;
 
+      /* Out of flow: the hosted pages' template engine re-renders a host with a copy of whatever
+         it found inside, and an in-flow copy would push the live wrapper down by the host's
+         height. The copies are also removed as they appear (below). */
       this._wrap = document.createElement('div');
-      this._wrap.style.cssText = 'position:relative;width:100%;height:100%;';
+      this._wrap.style.cssText = 'position:absolute;inset:0;';
       this.appendChild(this._wrap);
+      this._purge();
+      this._mo = new MutationObserver(this._purge.bind(this));
+      this._mo.observe(this, { childList: true });
 
       this._img = document.createElement('img');
       this._img.src = FALLBACK;
@@ -100,11 +108,20 @@
       }.bind(this), 400);
     }
 
+    /* Only the live wrapper stays inside the host. */
+    _purge() {
+      if (this._dead) return;
+      var kids = Array.prototype.slice.call(this.children);
+      for (var i = 0; i < kids.length; i++) if (kids[i] !== this._wrap) kids[i].remove();
+    }
+
     disconnectedCallback() {
       this._dead = true;
+      if (this._mo) this._mo.disconnect();
       unobserve(this);
       clearTimeout(this._kick);
       clearTimeout(this._appearT);
+      clearTimeout(this._centreT);
       if (this._ro) this._ro.disconnect();
       this._vyomExit();
       var r = this._rive; this._rive = null;
@@ -118,16 +135,41 @@
       return this.getBoundingClientRect().width >= FULL_FROM ? 'full' : 'small';
     }
 
-    /* The canvas is a fixed square centred on the host, whatever the host's own size. */
+    /* The canvas is a fixed square centred on the host, whatever the host's own size — shifted,
+       once he has been measured, so that it is the drawn character that sits at the host's centre
+       rather than the canvas (the artboard draws him off the canvas centre, and a host at the foot
+       of a page would otherwise have him hanging below the viewport). */
     _layout() {
       var side = CANVAS[this._scale()];
       var box = this.getBoundingClientRect();
-      var left = (box.width - side) / 2, top = (box.height - side) / 2;
+      var shift = this._shift || { x: 0, y: 0 };
+      var left = (box.width - side) / 2 - shift.x, top = (box.height - side) / 2 - shift.y;
       this._canvas.style.width = side + 'px';
       this._canvas.style.height = side + 'px';
       this._canvas.style.left = left + 'px';
       this._canvas.style.top = top + 'px';
       this._side = side;
+    }
+
+    /* Where he is drawn: the centre of the painted pixels, relative to the canvas centre, in CSS
+       px. Read once his entrance has played; applied to the layout above. */
+    _centre() {
+      if (this._dead || !this._rive) return;
+      var cv = this._canvas, ctx;
+      try { ctx = cv.getContext('2d'); } catch { return; }
+      if (!ctx || !cv.width || !cv.height) return;
+      var data;
+      try { data = ctx.getImageData(0, 0, cv.width, cv.height).data; } catch { return; }
+      var x0 = cv.width, y0 = cv.height, x1 = -1, y1 = -1;
+      for (var y = 0; y < cv.height; y += 2) {
+        for (var x = 0; x < cv.width; x += 2) {
+          if (data[(y * cv.width + x) * 4 + 3] > 40) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+        }
+      }
+      if (x1 < 0) return;
+      var k = this._side / cv.width;
+      this._shift = { x: ((x0 + x1) / 2) * k - this._side / 2, y: ((y0 + y1) / 2) * k - this._side / 2 };
+      this._layout();
     }
 
     /* Both of the artboard's position slots sit at the canvas centre: whichever one the state
@@ -173,6 +215,7 @@
             self._fire(self._scale() === 'small' ? 'scaleSmall' : 'scaleFull');
             self._reveal();
             self._appearT = setTimeout(function () { if (!self._dead) self._fire('appear'); }, SCALE_SETTLE_MS);
+            self._centreT = setTimeout(function () { self._centre(); }, SCALE_SETTLE_MS + APPEAR_MS);
           },
           onLoadError: function () { self._loading = false; self._fallback(); }
         });
