@@ -41,9 +41,9 @@
    than running to the edges of the window. Behind the page, and outside
    whatever the page is doing: this layer is never animated by the transition.
 
-   The two palettes are close relations on purpose — the same 24px lattice,
-   the same soft vertical wash — so the change reads as the surface warming
-   rather than as a second screen sliding in underneath. */
+   The two palettes are the same canvas — the same 24px lattice and the same
+   wash; the room adds its two corner glows — so the change reads as the
+   surface settling rather than as a second screen sliding in underneath. */
 .surface {
   position: absolute;
   inset: 0;
@@ -57,10 +57,15 @@
   background-size: 24px 24px, 100% 100%;
 }
 
-/* Home: a faint blue lattice over a cool top-down gradient. */
+/* Home (and every page but the room): the design package's app canvas —
+   its `canvas-bg.css`, as the latest Home Page paints it on `#byjus-host`:
+   the violet dot lattice (`--cv-lattice`) over the lavender-to-cream wash
+   (`--cv-linear`). The hosted Goal and Chapter Journey pages paint the same
+   from the package's own stylesheet, so the swap between them and this
+   surface reads as one canvas. */
 .surface__layer--home {
-  background-image: radial-gradient(rgba(34, 139, 230, 0.07) 1px, transparent 1px),
-    linear-gradient(180deg, #e7f5ff 0%, #f8f9fa 52%, #ffffff 100%);
+  background-image: radial-gradient(rgba(96, 74, 190, 0.13) 1px, transparent 1px),
+    linear-gradient(180deg, #eee9fd 0%, #f8f5fe 46%, #fdfaf0 100%);
 }
 
 /* The room: the same lattice, violet, over a warmer wash that ends in cream.

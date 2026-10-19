@@ -27,7 +27,7 @@
   overflow: hidden;
   color: var(--h-ink);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  /* No background of its own. The design's canvas — the faint blue lattice
+  /* No background of its own. The design's canvas — the violet dot lattice
      over a top-down gradient — is painted by `.surface`, which outlives this
      page: it has to still be there while the page is gone. */
 }

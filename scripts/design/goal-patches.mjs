@@ -14,10 +14,10 @@ export const GOAL_REPLACE = [
   // The two Rive helpers, after the inline-Vyom loader.
   [
     '<script src="vyom-rive.js"></script>',
-    '<script src="vyom-rive.js"></script>\n<script src="module-icon-rive.js"></script>\n<script src="spark-journey.js"></script>',
+    '<script src="vyom-rive.js"></script>\n<script src="module-icon-rive.js"></script>\n<script src="spark-journey.js"></script>\n<script src="goal-path-rive.js"></script>',
   ],
   // The module-card styles, at the end of the page's own sheet.
-  ['</style>', `${snippet('module-card.css')}</style>`],
+  ['</style>', `${snippet('module-card.css')}${snippet('progress-card.css')}</style>`],
   // The pod template.
   [snippet('pods.from.html'), snippet('pods.html')],
   // The goal thread's own steps are built by the same module builder but
@@ -47,6 +47,31 @@ export const GOAL_REPLACE = [
     'animation-delay:{{ m.enterDelay }}s;" onClick="{{ m.onClick }}" tabindex="0">\n              <div class="mc-node"',
     'animation-delay:{{ m.enterDelay }}s;" tabindex="0">\n              <div class="mc-node"',
   ],
+  // The card stays pinned to the page's bottom-right at every width. The
+  // package moved it inline above the thread once the column fell under
+  // 640px, which is where it lands beside the chat; the app wants the
+  // illustration at the corner, so the narrow variant is never taken.
+  [
+    "    const _narrow = (this.state.rowW || 900) < 640;\n",
+    "    const _narrow = false;\n",
+  ],
+  // The progress card: a pill with the goal-path illustration (GoalPath.riv)
+  // rising at its right end and the count beside it; open, the chapter rows
+  // sit above the count. goal-path-rive.js draws the hill and moves its
+  // marker to the card's percentage.
+  [snippet('progress-card.from.html'), snippet('progress-card.html')],
+  // The template's done flag and sub line, and the hooks the progress demo uses:
+  // the chapter counts read from a window override, and a re-render that
+  // the goal-path helper can ask for after changing them.
+  [
+    "    const _PR = [['Algebra', 3, 10], ['Circles', 3, 10], ['Statistics', 4, 10]];\n",
+    "    const _PR = window.__goalProgress || [['Algebra', 3, 10], ['Circles', 3, 10], ['Statistics', 4, 10]];\n" +
+      "    window.__goalRerender = () => this.setState({ gpTick: Date.now() });\n",
+  ],
+  [
+    "progOpen: !!this.state.progOpen, progChev:",
+    "progOpen: !!this.state.progOpen, progDoneAll: _pd >= _pt, progSub: _pd >= _pt ? 'All topics covered' : 'topics covered', progChev:",
+  ],
   // The fields that template reads: label, state, type, fill and scale per
   // module, derived the same way the Chapter Journey derives them — with the
   // module type read off a goal step's own kind when it has one.
@@ -66,4 +91,5 @@ export const GOAL_REPLACE = [
 export const GOAL_EXTRAS = {
   'module-icon-rive.js': join(HERE, 'vendor', 'module-icon-rive.js'),
   'spark-journey.js': join(HERE, 'vendor', 'spark-journey.js'),
+  'goal-path-rive.js': join(HERE, 'vendor', 'goal-path-rive.js'),
 };

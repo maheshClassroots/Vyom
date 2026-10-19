@@ -140,6 +140,7 @@ window.__resources = Object.assign(window.__resources || {}, {
   sparkRiv: '${site.sparkRiv || '/characters/spark.riv'}',
   moduleIconRiv: '/characters/moduleicon.riv',
   chapterIconsRiv: '/characters/chaptericons.riv',
+  goalPathRiv: '/characters/GoalPath.riv',
 });
 /* When this page is hosted inside the Vyom app it must not navigate the
    frame to another file of the design package — it tells the app which page

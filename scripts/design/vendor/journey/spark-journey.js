@@ -6,7 +6,7 @@
      open module view   → box starts at the top of the thread, moduleJouneyMoving = true, glides along the line
                           to the current module; on arrival moduleJourney = true (Rive resets moduleJouneyMoving itself)
      tap a module/Spark → moduleJourney = false (then the module opens)
-     hover a module     → looks toward it · scroll → box stays glued to its point on the line
+     scroll             → box stays glued to its point on the line (no pointer-driven glances)
      leave module view  → box fades out
    Note: the view-model property is spelled "moduleJouneyMoving" in the file. */
 (function () {
@@ -116,18 +116,8 @@
     setTimeout(function () { allow = el; el.click(); allow = null; }, reduced ? 0 : 450);
   }, true);
   hit.addEventListener('click', function () { S.lastAct = Date.now(); bool('moduleJourney', false); });
-  document.addEventListener('mouseover', function (e) {
-    if (!S.on || S.travelling) return;
-    var el = e.target.closest && e.target.closest('.cd-mod'); if (!el || el === S.hov) return;
-    S.hov = el; S.lastAct = Date.now();
-    var r = el.getBoundingClientRect(), b = box.getBoundingClientRect();
-    var cx = r.left + r.width / 2, cy = r.top + r.height / 2, sx = b.left + BOX / 2, sy = b.top + BOX / 2;
-    look((cx < sx ? 'L' : 'R') + (cy < sy ? 'T' : 'B'));
-  });
-  document.addEventListener('mouseout', function (e) {
-    if (!S.hov || (e.relatedTarget && S.hov.contains(e.relatedTarget))) return;
-    S.hov = null; look(null);
-  });
+  // No pointer-driven or idle glances: Spark's look and expression are the file's own, driven only
+  // by the module-journey flags above.
   function resize() { if (S.r) { try { S.r.resizeDrawingSurfaceToCanvas(Math.max(window.devicePixelRatio || 1, 1) * 2); } catch (e) {} centre(); } }
   window.addEventListener('resize', resize);
 
@@ -138,10 +128,6 @@
   setInterval(function () {
     if (!S.ready) return;
     check();
-    if (S.on && !S.travelling && Date.now() - S.lastAct > 9000) {   // idle glance
-      S.lastAct = Date.now(); var d = ['LT', 'RT', 'LB', 'RB'][Math.floor(Math.random() * 4)];
-      look(d); setTimeout(function () { if (S.on) look(null); }, 1200);
-    }
   }, 300);
 
   // ---- boot ----

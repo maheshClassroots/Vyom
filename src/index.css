@@ -335,6 +335,27 @@ input[type='text'], input[type='search'], select {
 }
 .devpanel__reopen--seq { top: 84px; }
 
+/* ---------------------------------------------------------- goal path demo */
+
+/* The goal page's progress-card demo: a fourth collapsed button under the
+   sequencer's, opening into a small floating panel rather than a rail. */
+.devpanel__reopen--goal { top: 120px; }
+.goalpanel {
+  position: fixed;
+  top: 120px;
+  right: 12px;
+  z-index: var(--z-devpanel);
+  width: 260px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 18px 44px -18px rgba(70, 46, 146, 0.55);
+  font-size: 0.85rem;
+}
+.goalpanel__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; padding: 0.7rem 0.9rem 0.5rem; }
+.goalpanel__head h2 { margin: 0; font-size: 0.95rem; }
+.goalpanel__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; padding: 0.3rem 0.9rem 0.9rem; }
+
 .seq__head {
   flex: none;
   display: flex;
