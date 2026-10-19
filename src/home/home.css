@@ -27,8 +27,8 @@
   overflow: hidden;
   color: var(--h-ink);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  /* No background of its own. The design's canvas — the violet dot lattice
-     over a top-down gradient — is painted by `.surface`, which outlives this
+  /* No background of its own. The design's canvas — the lavender-to-cream
+     wash — is painted by `.surface`, which outlives this
      page: it has to still be there while the page is gone. */
 }
 
@@ -38,39 +38,8 @@
  * absolutely positioned and animate their own width, so the keyframe itself
  * has to read the responsive value; scaling the parent has no effect.
  */
-.home { --ringx-from: 196px; --ringx-to: 396px; }
-@media (max-width: 767px) { .home { --ringx-from: 132px; --ringx-to: 268px; } }
-
-@keyframes expand {
-  0% { width: var(--ringx-from); height: var(--ringx-from); opacity: 0; }
-  9% { opacity: 0.92; }
-  55% { opacity: 0.34; }
-  100% { width: var(--ringx-to); height: var(--ringx-to); opacity: 0; }
-}
 @keyframes panelbreathe { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 @keyframes hudglow { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.9; } }
-
-.home .ringx {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: var(--ringx-from);
-  height: var(--ringx-from);
-  animation-name: expand;
-  animation-timing-function: ease-out;
-  animation-iteration-count: infinite;
-}
-.home .ringx-line {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1c7ed6 0%, #74c0fc 52%, #ffffff 100%);
-  padding: 2px;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
 
 /* ------------------------------------------------------------------ rail */
 /*
@@ -295,32 +264,8 @@
   );
   animation: panelbreathe 3.4s ease-in-out infinite;
 }
-/* The rings are masked off towards the bottom so they read as an orbit the
-   mascot stands in front of, not a flat set of circles. */
-.home__rings {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: var(--h-ring);
-  height: var(--h-ring);
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0, 0, 0, 0.55) 60%, transparent 74%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0, 0, 0, 0.55) 60%, transparent 74%);
-}
-.home__ring-icon {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #fff;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 1px 6px rgba(28, 126, 214, 0.32);
-  z-index: 2;
-}
-.home__ring-icon i { font-size: 14px; color: #1c7ed6; -webkit-text-stroke: 0.6px #1c7ed6; }
+/* The design's orbiting rings behind the mascot are not drawn: he stands on
+   the glow alone. */
 /* The canvas sits above the rings; the artboard's own idle supplies the
    motion, so there is no CSS bob on top of it. */
 /* Vyom is drawn on the app-wide stage, not in here. This box reserves his
@@ -573,7 +518,7 @@
 /* Short viewports: the design compresses rather than scrolls, so the hero
    gives up mascot size and spacing before the second class card is cut off. */
 @media (max-height: 850px) {
-  .home { --h-mascot: 150px; --h-ring: 320px; --h-glow: 190px; --ringx-from: 158px; --ringx-to: 318px; }
+  .home { --h-mascot: 150px; --h-ring: 320px; --h-glow: 190px; }
   .home__greeting { margin-top: 4px; font-size: 22px; }
   .home__sub { font-size: 15px; }
   .home__resume { margin-top: 16px; gap: 9px; }
@@ -583,8 +528,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .home__mascot-glow,
-  .home__composer-glow,
-  .home .ringx { animation: none; }
+  .home__composer-glow { animation: none; }
 }
 
 /* ------------------------------------------------------------------- chat */

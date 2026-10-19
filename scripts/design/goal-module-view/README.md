@@ -33,6 +33,9 @@ thread — so the importer applies these on the way in:
   `window.__goalRerender()`, which the app's "Progress demo" button drives
   through `postMessage` for a demo climb from zero to the summit; a count
   that goes down replays the reveal, since the artboard only climbs.
+- The thread runs to the page's foot and fades out there, which also stops
+  the progress card, pinned inside the thread's masked scroller, being cut
+  at its edge. Vyom keeps the package's place beside the composer.
 - The module fields that template reads (`mcLabel`, `mcState`, `mcType`, …)
   are added to the Goal Page's `buildModules` — see `goal-patches.mjs`.
 - `../vendor/module-icon-rive.js` and `../vendor/spark-journey.js` — the two

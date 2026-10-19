@@ -26,9 +26,3 @@ export const GOAL = { pct: 68, label: 'of scoring 90%+ in the year-end exam' };
 /** Header counters, as the design ships them. */
 export const STATS = { stars: 4820, orbs: 32 };
 
-/** Orbiting icon rings behind the mascot, outermost last. */
-export const HERO_RINGS = [
-  ['plus', 'divide', 'percentage'],
-  ['math-function', 'math-pi', 'square-root-2'],
-  ['atom-2', 'flask', 'calculator'],
-];

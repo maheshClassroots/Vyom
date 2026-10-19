@@ -68,6 +68,8 @@
       this._dead = false;
       var cs = getComputedStyle(this);
       if (cs.display === 'inline') this.style.display = 'inline-block';
+      /* The wrapper is positioned against the host, so the host positions itself. */
+      if (cs.position === 'static') this.style.position = 'relative';
       if (this._built) { observe(this); return; }
       this._built = true;
 
@@ -168,8 +170,15 @@
       }
       if (x1 < 0) return;
       var k = this._side / cv.width;
-      this._shift = { x: ((x0 + x1) / 2) * k - this._side / 2, y: ((y0 + y1) / 2) * k - this._side / 2 };
-      this._layout();
+      var next = { x: ((x0 + x1) / 2) * k - this._side / 2, y: ((y0 + y1) / 2) * k - this._side / 2 };
+      /* Applied only once two readings agree: a reading taken while he is still arriving (or while
+         a throttled tab plays his entrance in slow motion) would park him off to one side. */
+      var prev = this._read; this._read = next;
+      this._centreTries = (this._centreTries || 0) + 1;
+      if (prev && Math.abs(prev.x - next.x) <= 2 && Math.abs(prev.y - next.y) <= 2) {
+        this._shift = next; this._layout(); return;
+      }
+      if (this._centreTries < 12) this._centreT = setTimeout(this._centre.bind(this), 500);
     }
 
     /* Both of the artboard's position slots sit at the canvas centre: whichever one the state
