@@ -511,7 +511,7 @@ document.addEventListener('click', function (e) {
   .brow:hover{opacity:1 !important;}
   .b60{zoom:.727;}
   @keyframes dockripple{0%{transform:scale(.4);opacity:.5}80%{opacity:.06}100%{transform:scale(2.2);opacity:0}}
-  .dock-ripple-lg{position:absolute;top:50%;left:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:2px solid #4dabf7;animation:dockripple 2.6s ease-out infinite;pointer-events:none;}
+  .dock-ripple-lg{display:none;}
   @keyframes slideup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
   .btn-rise{animation:slideup .42s cubic-bezier(.2,.8,.3,1) both;}
   @keyframes recpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
@@ -1029,7 +1029,7 @@ document.addEventListener('click', function (e) {
 
       <!-- bottom row: Vyom + speak / type pills + bubbles (Teaching Room markup) -->
       <div style="position:absolute;left:-18px;right:0;bottom:-14px;z-index:31;pointer-events:none;">
-        <div id="dockSlot" style="position:absolute;left:-10px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">
+        <div id="dockSlot" style="position:absolute;left:-34px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">
           <div id="dockMax" style="position:relative;width:60px;height:60px;display:grid;place-items:center;">
             <sc-if value="{{ maxSpeaking }}" hint-placeholder-val="{{ false }}">
               <span class="dock-ripple-lg"></span>

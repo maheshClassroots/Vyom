@@ -87,6 +87,16 @@ export const GOAL_REPLACE = [
     '.cj-wake{position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;',
     '.cj-wake{display:none;position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;',
   ],
+  // Vyom's dock beside the composer: centred in the room left of the input
+  // rather than hugging it, and without the rings that pulsed behind him.
+  [
+    '<div id="dockSlot" style="position:absolute;left:-10px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">',
+    '<div id="dockSlot" style="position:absolute;left:-34px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">',
+  ],
+  [
+    '.dock-ripple-lg{position:absolute;top:50%;left:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:2px solid #4dabf7;animation:dockripple 2.6s ease-out infinite;pointer-events:none;}',
+    '.dock-ripple-lg{display:none;}',
+  ],
   // The thread runs to the page's foot and fades out there, rather than
   // stopping at a hard edge above it. Its mask box then reaches past the
   // progress card, which is pinned inside it and was being cut at the edge.
