@@ -241,7 +241,7 @@ document.addEventListener('click', function (e) {
   /* the field's own dot lattice, repeated in a stronger violet and masked to a soft pool around the
      firefly — same 24px pitch and same background-position, so the bright dots land exactly on the
      dim ones rather than beside them */
-  .cj-wake{position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;
+  .cj-wake{display:none;position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;
     background-image:radial-gradient(var(--cv-dot-strong) 1px,transparent 1px);background-size:24px 24px;
     -webkit-mask-image:radial-gradient(circle 160px at var(--wx,-999px) var(--wy,-999px),#000 0%,rgba(0,0,0,.55) 42%,transparent 72%);
     mask-image:radial-gradient(circle 160px at var(--wx,-999px) var(--wy,-999px),#000 0%,rgba(0,0,0,.55) 42%,transparent 72%);}
@@ -261,9 +261,8 @@ document.addEventListener('click', function (e) {
   .cd-right{width:62%;flex:1;overflow-y:auto;overflow-x:hidden;height:100vh;padding:100px 40px 100px 40px;box-sizing:border-box;border-left:1px solid rgba(255,255,255,.55);box-shadow:-18px 0 44px rgba(70,46,146,.10);
     background-color:var(--cv-base);
     background-image:
-      var(--cv-lattice),
       var(--cv-linear);
-    background-size:24px 24px, 100% 100%;
+    background-size:100% 100%;
     background-attachment:local, local;}
   .cd-hero{display:flex;flex-direction:column;align-items:center;gap:20px;}
   .cd-hero-planet{position:relative;flex:none;width:120px;height:120px;display:grid;place-items:center;margin-bottom:4px;}
@@ -512,7 +511,7 @@ document.addEventListener('click', function (e) {
   .brow:hover{opacity:1 !important;}
   .b60{zoom:.727;}
   @keyframes dockripple{0%{transform:scale(.4);opacity:.5}80%{opacity:.06}100%{transform:scale(2.2);opacity:0}}
-  .dock-ripple-lg{position:absolute;top:50%;left:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:2px solid #4dabf7;animation:dockripple 2.6s ease-out infinite;pointer-events:none;}
+  .dock-ripple-lg{display:none;}
   @keyframes slideup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
   .btn-rise{animation:slideup .42s cubic-bezier(.2,.8,.3,1) both;}
   @keyframes recpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
@@ -912,7 +911,7 @@ document.addEventListener('click', function (e) {
 
 <x-import component-from-global-scope="byjus-rail" from="./nav-rail.js" current="goals" hint-size="72px,360px" style="position:fixed;left:0;top:0;z-index:60;"></x-import>
 <sc-if value="{{ isMap }}" hint-placeholder-val="{{ true }}">
-<div class="cj-field" style="position:relative;width:100vw;height:100vh;overflow:hidden;background-image:radial-gradient(rgba(96,74,190,.13) 1px,transparent 1px),linear-gradient(180deg,#eee9fd 0%,#f8f5fe 46%,#fdfaf0 100%);background-size:24px 24px,100% 100%;">
+<div class="cj-field" style="position:relative;width:100vw;height:100vh;overflow:hidden;background-image:linear-gradient(180deg,#eee9fd 0%,#f8f5fe 46%,#fdfaf0 100%);background-size:100% 100%;">
   <div class="cj-wake" aria-hidden="true"></div>
 
   <sc-if value="{{ ftueModal }}" hint-placeholder-val="{{ false }}">
@@ -1030,7 +1029,7 @@ document.addEventListener('click', function (e) {
 
       <!-- bottom row: Vyom + speak / type pills + bubbles (Teaching Room markup) -->
       <div style="position:absolute;left:-18px;right:0;bottom:-14px;z-index:31;pointer-events:none;">
-        <div id="dockSlot" style="position:absolute;left:-10px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">
+        <div id="dockSlot" style="position:absolute;left:-34px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">
           <div id="dockMax" style="position:relative;width:60px;height:60px;display:grid;place-items:center;">
             <sc-if value="{{ maxSpeaking }}" hint-placeholder-val="{{ false }}">
               <span class="dock-ripple-lg"></span>
@@ -1133,7 +1132,7 @@ document.addEventListener('click', function (e) {
       </div>
 
             <div id="g2Row" style="flex:1;min-height:0;display:flex;margin:12px 4px 0;">
-        <div class="tr-scroll g2-scroll" style="flex:1;min-height:0;min-width:0;overflow-y:auto;margin-right:-{{ edgeGap }};padding:4px {{ edgeGap }} 24px 0;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 10px);mask-image:linear-gradient(180deg,transparent 0,#000 10px);">
+        <div class="tr-scroll g2-scroll" style="flex:1;min-height:0;min-width:0;overflow-y:auto;margin-right:-{{ edgeGap }};margin-bottom:-44px;padding:4px {{ edgeGap }} 68px 0;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 10px,#000 calc(100% - 56px),transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 10px,#000 calc(100% - 56px),transparent 100%);">
           <div style="display:flex;flex-direction:{{ progDir }};align-items:{{ progAlign }};gap:16px 0;">
             <div style="flex:none;width:{{ progColW }};padding-top:8px;position:{{ progPos }};top:0;z-index:5;">
           <div class="gp-progress" data-open="{{ progOpen }}" data-done="{{ progDoneAll }}" onClick="{{ toggleProg }}" role="button" tabindex="0" aria-expanded="{{ progOpen }}" style="position:{{ progCardPos }};right:28px;bottom:36px;z-index:35;">

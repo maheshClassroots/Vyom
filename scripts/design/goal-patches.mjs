@@ -72,6 +72,38 @@ export const GOAL_REPLACE = [
     "progOpen: !!this.state.progOpen, progChev:",
     "progOpen: !!this.state.progOpen, progDoneAll: _pd >= _pt, progSub: _pd >= _pt ? 'All topics covered' : 'topics covered', progChev:",
   ],
+  // The canvas: the package's plain lavender-to-cream wash, as the app paints
+  // it under every page but the room. The dot lattice (and the pointer wake
+  // that lit its dots) goes from the field and from the chapter drill-in.
+  [
+    'background-image:radial-gradient(rgba(96,74,190,.13) 1px,transparent 1px),linear-gradient(180deg,#eee9fd 0%,#f8f5fe 46%,#fdfaf0 100%);background-size:24px 24px,100% 100%;',
+    'background-image:linear-gradient(180deg,#eee9fd 0%,#f8f5fe 46%,#fdfaf0 100%);background-size:100% 100%;',
+  ],
+  [
+    '    background-image:\n      var(--cv-lattice),\n      var(--cv-linear);\n    background-size:24px 24px, 100% 100%;',
+    '    background-image:\n      var(--cv-linear);\n    background-size:100% 100%;',
+  ],
+  [
+    '.cj-wake{position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;',
+    '.cj-wake{display:none;position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;',
+  ],
+  // Vyom's dock beside the composer: centred in the room left of the input
+  // rather than hugging it, and without the rings that pulsed behind him.
+  [
+    '<div id="dockSlot" style="position:absolute;left:-10px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">',
+    '<div id="dockSlot" style="position:absolute;left:-34px;bottom:0;width:60px;height:60px;display:grid;place-items:center;">',
+  ],
+  [
+    '.dock-ripple-lg{position:absolute;top:50%;left:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:2px solid #4dabf7;animation:dockripple 2.6s ease-out infinite;pointer-events:none;}',
+    '.dock-ripple-lg{display:none;}',
+  ],
+  // The thread runs to the page's foot and fades out there, rather than
+  // stopping at a hard edge above it. Its mask box then reaches past the
+  // progress card, which is pinned inside it and was being cut at the edge.
+  [
+    '<div class="tr-scroll g2-scroll" style="flex:1;min-height:0;min-width:0;overflow-y:auto;margin-right:-{{ edgeGap }};padding:4px {{ edgeGap }} 24px 0;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 10px);mask-image:linear-gradient(180deg,transparent 0,#000 10px);">',
+    '<div class="tr-scroll g2-scroll" style="flex:1;min-height:0;min-width:0;overflow-y:auto;margin-right:-{{ edgeGap }};margin-bottom:-44px;padding:4px {{ edgeGap }} 68px 0;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 10px,#000 calc(100% - 56px),transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 10px,#000 calc(100% - 56px),transparent 100%);">',
+  ],
   // The fields that template reads: label, state, type, fill and scale per
   // module, derived the same way the Chapter Journey derives them — with the
   // module type read off a goal step's own kind when it has one.

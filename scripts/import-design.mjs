@@ -115,6 +115,16 @@ const SITES = {
         '<div onClick="{{ closeHome }}" title="Home" role="button" tabindex="0" style="width:40px;height:40px;flex:none;border-radius:12px;overflow:hidden;display:grid;place-items:center;cursor:pointer;"><img src="logo.png" alt="Byjus.AI" style="width:100%;height:100%;object-fit:contain;"></div>',
         '',
       ],
+      // The canvas: the package's plain wash, as under every page but the
+      // room; the blobs, the dot lattice and the pointer wake go.
+      [
+        'background-image:radial-gradient(18% 28% at 12% 22%,var(--cv-blob-v),transparent 70%),radial-gradient(20% 30% at 86% 78%,var(--cv-blob-w),transparent 70%),var(--cv-lattice),var(--cv-linear);background-size:auto,auto,24px 24px,auto;',
+        'background-image:var(--cv-linear);background-size:100% 100%;',
+      ],
+      [
+        '.cj-wake{position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;',
+        '.cj-wake{display:none;position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;',
+      ],
     ],
   },
   goal: {

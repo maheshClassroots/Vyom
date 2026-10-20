@@ -4,7 +4,7 @@ import { useVyom, VyomAnchor } from '../vyom';
 import { nextFrame, sleep, STATE_SETTLE_MS, waitFor, waitUntilBusy, waitWhileBusy } from '../vyom/sequencing';
 import { vyomOwner } from './chat';
 import { ChatThread, Composer } from './HomeChat';
-import { HERO_RINGS, LESSONS, STATS, type LessonCard } from './lessons';
+import { LESSONS, STATS, type LessonCard } from './lessons';
 import { RotatingGoals } from './RotatingGoals';
 import { useHomeChat, type GoalChat } from './useHomeChat';
 // The room's stylesheet carries the Tabler icon font and the Mantine tokens
@@ -299,36 +299,6 @@ export function HomePage({
           <main className="home__hero" aria-hidden={convo} ref={hero}>
             <div className="home__mascot-wrap">
               <span className="home__mascot-glow" aria-hidden="true" />
-              <span className="home__rings" aria-hidden="true">
-                {HERO_RINGS.map((icons, ring) => {
-                  const dur = launch ? 1.05 : 4.2;
-                  return (
-                    <span
-                      key={ring}
-                      className="ringx"
-                      style={{ animationDuration: `${dur}s`, animationDelay: `${(ring * dur) / 3}s` }}
-                    >
-                      <span className="ringx-line" />
-                      {icons.map((icon, index) => {
-                        // Icons sit evenly around the ring, starting at twelve o'clock.
-                        const angle = (index / icons.length) * Math.PI * 2 - Math.PI / 2;
-                        return (
-                          <span
-                            key={icon}
-                            className="home__ring-icon"
-                            style={{
-                              left: `${50 + 50 * Math.cos(angle)}%`,
-                              top: `${50 + 50 * Math.sin(angle)}%`,
-                            }}
-                          >
-                            <i className={`ti ti-${icon}`} />
-                          </span>
-                        );
-                      })}
-                    </span>
-                  );
-                })}
-              </span>
               {/* Vyom's place when the chat is closed. Both slots are anchored
                   here: the artboard reads `chatposX/Y` as well as
                   `learnWindowX/Y`, and a slot left unanchored keeps the file's
