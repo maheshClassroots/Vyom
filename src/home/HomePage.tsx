@@ -298,7 +298,6 @@ export function HomePage({
         <div className="home__stage">
           <main className="home__hero" aria-hidden={convo} ref={hero}>
             <div className="home__mascot-wrap">
-              <span className="home__mascot-glow" aria-hidden="true" />
               {/* Vyom's place when the chat is closed. Both slots are anchored
                   here: the artboard reads `chatposX/Y` as well as
                   `learnWindowX/Y`, and a slot left unanchored keeps the file's

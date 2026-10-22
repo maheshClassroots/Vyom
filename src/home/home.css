@@ -8,7 +8,6 @@
 .home {
   --h-mascot: 190px;
   --h-ring: 400px;
-  --h-glow: 240px;
   --h-blue: #339af0;
   --h-blue7: #1c7ed6;
   --h-blue9: #1864ab;
@@ -38,7 +37,6 @@
  * absolutely positioned and animate their own width, so the keyframe itself
  * has to read the responsive value; scaling the parent has no effect.
  */
-@keyframes panelbreathe { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 @keyframes hudglow { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.9; } }
 
 /* ------------------------------------------------------------------ rail */
@@ -251,19 +249,7 @@
 .home[data-convo='true'] .home__thread { transform: none; opacity: 1; pointer-events: auto; }
 
 .home__mascot-wrap { position: relative; display: grid; place-items: center; margin-bottom: 8px; }
-.home__mascot-glow {
-  position: absolute;
-  width: var(--h-glow);
-  height: var(--h-glow);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 45%,
-    rgba(34, 139, 230, 0.2),
-    rgba(51, 154, 240, 0.12) 46%,
-    rgba(34, 139, 230, 0) 72%
-  );
-  animation: panelbreathe 3.4s ease-in-out infinite;
-}
+/* No glow is painted behind him. */
 /* The design's orbiting rings behind the mascot are not drawn: he stands on
    the glow alone. */
 /* The canvas sits above the rings; the artboard's own idle supplies the
@@ -512,13 +498,13 @@
   .home__chrome { padding-left: 16px; }
   .home__foot { padding-left: 16px; }
   .home__resume { width: 100%; }
-  .home { --h-ring: 300px; --h-glow: 150px; --h-mascot: 150px; }
+  .home { --h-ring: 300px; --h-mascot: 150px; }
 }
 
 /* Short viewports: the design compresses rather than scrolls, so the hero
    gives up mascot size and spacing before the second class card is cut off. */
 @media (max-height: 850px) {
-  .home { --h-mascot: 150px; --h-ring: 320px; --h-glow: 190px; }
+  .home { --h-mascot: 150px; --h-ring: 320px; }
   .home__greeting { margin-top: 4px; font-size: 22px; }
   .home__sub { font-size: 15px; }
   .home__resume { margin-top: 16px; gap: 9px; }
@@ -527,7 +513,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home__mascot-glow,
   .home__composer-glow { animation: none; }
 }
 
