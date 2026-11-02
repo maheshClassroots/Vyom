@@ -95,6 +95,8 @@
     resize(); centre(); expr('neutral'); look(null);
     bool('moduleJourney', false); bool('moduleJouneyMoving', false); iconArrived(false);
     place(); box.style.opacity = '1'; hit.style.pointerEvents = 'auto';
+    // the box is in the document only from place() on: size the drawing surface now, not before
+    resize();
     cancelAnimationFrame(S.raf); S.raf = requestAnimationFrame(loop);
     var target = lengthAt(a);
     setTimeout(function () { if (S.on) travel(target, function () { bool('moduleJourney', true); iconArrived(true); }); }, reduced ? 0 : 350);
@@ -120,6 +122,8 @@
   // by the module-journey flags above.
   function resize() { if (S.r) { try { S.r.resizeDrawingSurfaceToCanvas(Math.max(window.devicePixelRatio || 1, 1) * 2); } catch (e) {} centre(); } }
   window.addEventListener('resize', resize);
+  // and whenever the canvas itself is laid out or re-laid out (first mount, a zoom change)
+  if (window.ResizeObserver) new ResizeObserver(function () { if (S.r) resize(); }).observe(cv);
 
   // watch the DOM for the module view opening/closing
   function check() { if (!S.ready) return; var v = view(); if (v && !S.on) enter(); else if (!v && S.on) exit(); }

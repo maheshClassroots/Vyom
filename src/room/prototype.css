@@ -21,13 +21,13 @@
   --mantine-color-gray-0: #f8f9fa;
   --mantine-color-gray-1: #f1f3f5;
   --mantine-color-gray-2: #e9ecef;
-  --mantine-color-gray-3: #dee2e6;
-  --mantine-color-gray-4: #ced4da;
-  --mantine-color-gray-5: #adb5bd;
-  --mantine-color-gray-6: #868e96;
-  --mantine-color-gray-7: #495057;
-  --mantine-color-gray-8: #343a40;
-  --mantine-color-gray-9: #212529;
+  --mantine-color-gray-3: #e4e0f2;
+  --mantine-color-gray-4: #b4afc9;
+  --mantine-color-gray-5: #7b7696;
+  --mantine-color-gray-6: #7b7696;
+  --mantine-color-gray-7: #4a4568;
+  --mantine-color-gray-8: #1f1a3d;
+  --mantine-color-gray-9: #1f1a3d;
 
   /* ---- red ---- */
   --mantine-color-red-0: #fff5f5;
@@ -39,7 +39,7 @@
   --mantine-color-red-6: #fa5252;
   --mantine-color-red-7: #f03e3e;
   --mantine-color-red-8: #e03131;
-  --mantine-color-red-9: #c92a2a;
+  --mantine-color-red-9: #e03131;
 
   /* ---- pink ---- */
   --mantine-color-pink-0: #fff0f6;
@@ -66,14 +66,14 @@
   --mantine-color-grape-9: #862e9c;
 
   /* ---- violet ---- */
-  --mantine-color-violet-0: #f3f0ff;
+  --mantine-color-violet-0: #f1edfb;
   --mantine-color-violet-1: #e5dbff;
   --mantine-color-violet-2: #d0bfff;
   --mantine-color-violet-3: #b197fc;
   --mantine-color-violet-4: #9775fa;
-  --mantine-color-violet-5: #845ef7;
-  --mantine-color-violet-6: #7950f2;
-  --mantine-color-violet-7: #7048e8;
+  --mantine-color-violet-5: #5f3dc4;
+  --mantine-color-violet-6: #5f3dc4;
+  --mantine-color-violet-7: #5f3dc4;
   --mantine-color-violet-8: #6741d9;
   --mantine-color-violet-9: #5f3dc4;
 
@@ -84,22 +84,22 @@
   --mantine-color-indigo-3: #91a7ff;
   --mantine-color-indigo-4: #748ffc;
   --mantine-color-indigo-5: #5c7cfa;
-  --mantine-color-indigo-6: #4c6ef5;
+  --mantine-color-indigo-6: #5f3dc4;
   --mantine-color-indigo-7: #4263eb;
   --mantine-color-indigo-8: #3b5bdb;
   --mantine-color-indigo-9: #364fc7;
 
   /* ---- blue (PRIMARY) ---- */
-  --mantine-color-blue-0: #e7f5ff;
-  --mantine-color-blue-1: #d0ebff;
-  --mantine-color-blue-2: #a5d8ff;
-  --mantine-color-blue-3: #74c0fc;
-  --mantine-color-blue-4: #4dabf7;
-  --mantine-color-blue-5: #339af0;
-  --mantine-color-blue-6: #228be6;
-  --mantine-color-blue-7: #1c7ed6;
-  --mantine-color-blue-8: #1971c2;
-  --mantine-color-blue-9: #1864ab;
+  --mantine-color-blue-0: #ebe5fb;
+  --mantine-color-blue-1: #ebe5fb;
+  --mantine-color-blue-2: #ebe5fb;
+  --mantine-color-blue-3: #b8a6ff;
+  --mantine-color-blue-4: #b8a6ff;
+  --mantine-color-blue-5: #5f3dc4;
+  --mantine-color-blue-6: #5f3dc4;
+  --mantine-color-blue-7: #5f3dc4;
+  --mantine-color-blue-8: #4b2fb5;
+  --mantine-color-blue-9: #4b2fb5;
 
   /* ---- cyan ---- */
   --mantine-color-cyan-0: #e3fafc;
@@ -108,9 +108,9 @@
   --mantine-color-cyan-3: #66d9e8;
   --mantine-color-cyan-4: #3bc9db;
   --mantine-color-cyan-5: #22b8cf;
-  --mantine-color-cyan-6: #15aabf;
+  --mantine-color-cyan-6: #5f3dc4;
   --mantine-color-cyan-7: #1098ad;
-  --mantine-color-cyan-8: #0c8599;
+  --mantine-color-cyan-8: #4b2fb5;
   --mantine-color-cyan-9: #0b7285;
 
   /* ---- teal ---- */
@@ -126,16 +126,16 @@
   --mantine-color-teal-9: #087f5b;
 
   /* ---- green ---- */
-  --mantine-color-green-0: #ebfbee;
+  --mantine-color-green-0: #e9f8ec;
   --mantine-color-green-1: #d3f9d8;
   --mantine-color-green-2: #b2f2bb;
   --mantine-color-green-3: #8ce99a;
-  --mantine-color-green-4: #69db7c;
-  --mantine-color-green-5: #51cf66;
-  --mantine-color-green-6: #40c057;
+  --mantine-color-green-4: #2f9e44;
+  --mantine-color-green-5: #2f9e44;
+  --mantine-color-green-6: #2f9e44;
   --mantine-color-green-7: #37b24d;
   --mantine-color-green-8: #2f9e44;
-  --mantine-color-green-9: #2b8a3e;
+  --mantine-color-green-9: #2f9e44;
 
   /* ---- lime ---- */
   --mantine-color-lime-0: #f4fce3;
@@ -151,27 +151,27 @@
 
   /* ---- yellow ---- */
   --mantine-color-yellow-0: #fff9db;
-  --mantine-color-yellow-1: #fff3bf;
+  --mantine-color-yellow-1: #fff4e0;
   --mantine-color-yellow-2: #ffec99;
   --mantine-color-yellow-3: #ffe066;
-  --mantine-color-yellow-4: #ffd43b;
+  --mantine-color-yellow-4: #f08c00;
   --mantine-color-yellow-5: #fcc419;
-  --mantine-color-yellow-6: #fab005;
-  --mantine-color-yellow-7: #f59f00;
+  --mantine-color-yellow-6: #f08c00;
+  --mantine-color-yellow-7: #f08c00;
   --mantine-color-yellow-8: #f08c00;
   --mantine-color-yellow-9: #e67700;
 
   /* ---- orange ---- */
-  --mantine-color-orange-0: #fff4e6;
-  --mantine-color-orange-1: #ffe8cc;
+  --mantine-color-orange-0: #fff1e6;
+  --mantine-color-orange-1: #fff1e6;
   --mantine-color-orange-2: #ffd8a8;
   --mantine-color-orange-3: #ffc078;
-  --mantine-color-orange-4: #ffa94d;
-  --mantine-color-orange-5: #ff922b;
+  --mantine-color-orange-4: #e8590c;
+  --mantine-color-orange-5: #e8590c;
   --mantine-color-orange-6: #fd7e14;
   --mantine-color-orange-7: #f76707;
   --mantine-color-orange-8: #e8590c;
-  --mantine-color-orange-9: #d9480f;
+  --mantine-color-orange-9: #e8590c;
 
   /* ---- absolute ---- */
   --mantine-color-white: #ffffff;
@@ -190,8 +190,8 @@
   --mantine-primary-color-9: var(--mantine-color-blue-9);
   --mantine-primary-color-filled: var(--mantine-color-blue-6);
   --mantine-primary-color-filled-hover: var(--mantine-color-blue-7);
-  --mantine-primary-color-light: rgba(34, 139, 230, 0.1);
-  --mantine-primary-color-light-hover: rgba(34, 139, 230, 0.12);
+  --mantine-primary-color-light: rgba(95, 61, 196, 0.1);
+  --mantine-primary-color-light-hover: rgba(95, 61, 196, 0.12);
   --mantine-primary-color-light-color: var(--mantine-color-blue-6);
   --mantine-primary-color-contrast: var(--mantine-color-white);
 }
@@ -248,8 +248,8 @@
   --mantine-color-disabled-color: var(--mantine-color-dark-3);
   --mantine-color-disabled-border: var(--mantine-color-dark-4);
 
-  --mantine-primary-color-light: rgba(34, 139, 230, 0.15);
-  --mantine-primary-color-light-hover: rgba(34, 139, 230, 0.2);
+  --mantine-primary-color-light: rgba(95, 61, 196, 0.15);
+  --mantine-primary-color-light-hover: rgba(95, 61, 196, 0.2);
   --mantine-primary-color-light-color: var(--mantine-color-blue-3);
 }
 
@@ -422,13 +422,13 @@ code, kbd, samp, pre {
   --mantine-color-gray-0: #f8f9fa;
   --mantine-color-gray-1: #f1f3f5;
   --mantine-color-gray-2: #e9ecef;
-  --mantine-color-gray-3: #dee2e6;
-  --mantine-color-gray-4: #ced4da;
-  --mantine-color-gray-5: #adb5bd;
-  --mantine-color-gray-6: #868e96;
-  --mantine-color-gray-7: #495057;
-  --mantine-color-gray-8: #343a40;
-  --mantine-color-gray-9: #212529;
+  --mantine-color-gray-3: #e4e0f2;
+  --mantine-color-gray-4: #b4afc9;
+  --mantine-color-gray-5: #7b7696;
+  --mantine-color-gray-6: #7b7696;
+  --mantine-color-gray-7: #4a4568;
+  --mantine-color-gray-8: #1f1a3d;
+  --mantine-color-gray-9: #1f1a3d;
 
   /* ---- red ---- */
   --mantine-color-red-0: #fff5f5;
@@ -440,7 +440,7 @@ code, kbd, samp, pre {
   --mantine-color-red-6: #fa5252;
   --mantine-color-red-7: #f03e3e;
   --mantine-color-red-8: #e03131;
-  --mantine-color-red-9: #c92a2a;
+  --mantine-color-red-9: #e03131;
 
   /* ---- pink ---- */
   --mantine-color-pink-0: #fff0f6;
@@ -467,14 +467,14 @@ code, kbd, samp, pre {
   --mantine-color-grape-9: #862e9c;
 
   /* ---- violet ---- */
-  --mantine-color-violet-0: #f3f0ff;
+  --mantine-color-violet-0: #f1edfb;
   --mantine-color-violet-1: #e5dbff;
   --mantine-color-violet-2: #d0bfff;
   --mantine-color-violet-3: #b197fc;
   --mantine-color-violet-4: #9775fa;
-  --mantine-color-violet-5: #845ef7;
-  --mantine-color-violet-6: #7950f2;
-  --mantine-color-violet-7: #7048e8;
+  --mantine-color-violet-5: #5f3dc4;
+  --mantine-color-violet-6: #5f3dc4;
+  --mantine-color-violet-7: #5f3dc4;
   --mantine-color-violet-8: #6741d9;
   --mantine-color-violet-9: #5f3dc4;
 
@@ -485,22 +485,22 @@ code, kbd, samp, pre {
   --mantine-color-indigo-3: #91a7ff;
   --mantine-color-indigo-4: #748ffc;
   --mantine-color-indigo-5: #5c7cfa;
-  --mantine-color-indigo-6: #4c6ef5;
+  --mantine-color-indigo-6: #5f3dc4;
   --mantine-color-indigo-7: #4263eb;
   --mantine-color-indigo-8: #3b5bdb;
   --mantine-color-indigo-9: #364fc7;
 
   /* ---- blue (PRIMARY) ---- */
-  --mantine-color-blue-0: #e7f5ff;
-  --mantine-color-blue-1: #d0ebff;
-  --mantine-color-blue-2: #a5d8ff;
-  --mantine-color-blue-3: #74c0fc;
-  --mantine-color-blue-4: #4dabf7;
-  --mantine-color-blue-5: #339af0;
-  --mantine-color-blue-6: #228be6;
-  --mantine-color-blue-7: #1c7ed6;
-  --mantine-color-blue-8: #1971c2;
-  --mantine-color-blue-9: #1864ab;
+  --mantine-color-blue-0: #ebe5fb;
+  --mantine-color-blue-1: #ebe5fb;
+  --mantine-color-blue-2: #ebe5fb;
+  --mantine-color-blue-3: #b8a6ff;
+  --mantine-color-blue-4: #b8a6ff;
+  --mantine-color-blue-5: #5f3dc4;
+  --mantine-color-blue-6: #5f3dc4;
+  --mantine-color-blue-7: #5f3dc4;
+  --mantine-color-blue-8: #4b2fb5;
+  --mantine-color-blue-9: #4b2fb5;
 
   /* ---- cyan ---- */
   --mantine-color-cyan-0: #e3fafc;
@@ -509,9 +509,9 @@ code, kbd, samp, pre {
   --mantine-color-cyan-3: #66d9e8;
   --mantine-color-cyan-4: #3bc9db;
   --mantine-color-cyan-5: #22b8cf;
-  --mantine-color-cyan-6: #15aabf;
+  --mantine-color-cyan-6: #5f3dc4;
   --mantine-color-cyan-7: #1098ad;
-  --mantine-color-cyan-8: #0c8599;
+  --mantine-color-cyan-8: #4b2fb5;
   --mantine-color-cyan-9: #0b7285;
 
   /* ---- teal ---- */
@@ -527,16 +527,16 @@ code, kbd, samp, pre {
   --mantine-color-teal-9: #087f5b;
 
   /* ---- green ---- */
-  --mantine-color-green-0: #ebfbee;
+  --mantine-color-green-0: #e9f8ec;
   --mantine-color-green-1: #d3f9d8;
   --mantine-color-green-2: #b2f2bb;
   --mantine-color-green-3: #8ce99a;
-  --mantine-color-green-4: #69db7c;
-  --mantine-color-green-5: #51cf66;
-  --mantine-color-green-6: #40c057;
+  --mantine-color-green-4: #2f9e44;
+  --mantine-color-green-5: #2f9e44;
+  --mantine-color-green-6: #2f9e44;
   --mantine-color-green-7: #37b24d;
   --mantine-color-green-8: #2f9e44;
-  --mantine-color-green-9: #2b8a3e;
+  --mantine-color-green-9: #2f9e44;
 
   /* ---- lime ---- */
   --mantine-color-lime-0: #f4fce3;
@@ -552,27 +552,27 @@ code, kbd, samp, pre {
 
   /* ---- yellow ---- */
   --mantine-color-yellow-0: #fff9db;
-  --mantine-color-yellow-1: #fff3bf;
+  --mantine-color-yellow-1: #fff4e0;
   --mantine-color-yellow-2: #ffec99;
   --mantine-color-yellow-3: #ffe066;
-  --mantine-color-yellow-4: #ffd43b;
+  --mantine-color-yellow-4: #f08c00;
   --mantine-color-yellow-5: #fcc419;
-  --mantine-color-yellow-6: #fab005;
-  --mantine-color-yellow-7: #f59f00;
+  --mantine-color-yellow-6: #f08c00;
+  --mantine-color-yellow-7: #f08c00;
   --mantine-color-yellow-8: #f08c00;
   --mantine-color-yellow-9: #e67700;
 
   /* ---- orange ---- */
-  --mantine-color-orange-0: #fff4e6;
-  --mantine-color-orange-1: #ffe8cc;
+  --mantine-color-orange-0: #fff1e6;
+  --mantine-color-orange-1: #fff1e6;
   --mantine-color-orange-2: #ffd8a8;
   --mantine-color-orange-3: #ffc078;
-  --mantine-color-orange-4: #ffa94d;
-  --mantine-color-orange-5: #ff922b;
+  --mantine-color-orange-4: #e8590c;
+  --mantine-color-orange-5: #e8590c;
   --mantine-color-orange-6: #fd7e14;
   --mantine-color-orange-7: #f76707;
   --mantine-color-orange-8: #e8590c;
-  --mantine-color-orange-9: #d9480f;
+  --mantine-color-orange-9: #e8590c;
 
   /* ---- absolute ---- */
   --mantine-color-white: #ffffff;
@@ -591,8 +591,8 @@ code, kbd, samp, pre {
   --mantine-primary-color-9: var(--mantine-color-blue-9);
   --mantine-primary-color-filled: var(--mantine-color-blue-6);
   --mantine-primary-color-filled-hover: var(--mantine-color-blue-7);
-  --mantine-primary-color-light: rgba(34, 139, 230, 0.1);
-  --mantine-primary-color-light-hover: rgba(34, 139, 230, 0.12);
+  --mantine-primary-color-light: rgba(95, 61, 196, 0.1);
+  --mantine-primary-color-light-hover: rgba(95, 61, 196, 0.12);
   --mantine-primary-color-light-color: var(--mantine-color-blue-6);
   --mantine-primary-color-contrast: var(--mantine-color-white);
 }
@@ -648,8 +648,8 @@ code, kbd, samp, pre {
   --mantine-color-disabled-color: var(--mantine-color-dark-3);
   --mantine-color-disabled-border: var(--mantine-color-dark-4);
 
-  --mantine-primary-color-light: rgba(34, 139, 230, 0.15);
-  --mantine-primary-color-light-hover: rgba(34, 139, 230, 0.2);
+  --mantine-primary-color-light: rgba(95, 61, 196, 0.15);
+  --mantine-primary-color-light-hover: rgba(95, 61, 196, 0.2);
   --mantine-primary-color-light-color: var(--mantine-color-blue-3);
 }
 
@@ -840,12 +840,12 @@ code, kbd, samp, pre {
   html,body{margin:0;background:#f1ecff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;--fs-xl:22px;}
   .msg-xl{font-size:var(--fs-xl) !important;line-height:1.4 !important;font-weight:500 !important;}
   *{box-sizing:border-box;}
-  a{color:#1c7ed6;} a:hover{color:#1864ab;}
-  .tr-scroll{scrollbar-width:thin;scrollbar-color:rgba(34,139,230,.5) transparent;}
+  a{color:#5f3dc4;} a:hover{color:#4b2fb5;}
+  .tr-scroll{scrollbar-width:thin;scrollbar-color:rgba(95, 61, 196,.5) transparent;}
   .tr-scroll::-webkit-scrollbar{width:4px;}
   /* step nodes on the module progress bar — one per step, first and last sitting on the track ends */
   .tr-snode{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;transition:background-color .4s ease;}
-  .tr-snode-done{background:#228be6;}
+  .tr-snode-done{background:#5f3dc4;}
   .tr-snode-todo{background:#dcd8e6;}
   /* leading-edge ripple: while the fill is advancing between milestones, small rings pulse off its tip */
   /* Rings must END invisible: without forwards fill they snap back to their un-animated state
@@ -855,33 +855,33 @@ code, kbd, samp, pre {
   .tr-tip.gone{opacity:0;}
   .tr-tip.gone .ring{animation-play-state:paused;}
   /* no solid core — the fill's own rounded cap is the marker; a dot on top reads as a second object */
-  .tr-tip .ring{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;border:1.5px solid rgba(34,139,230,.75);animation:tipRing .95s ease-out infinite;}
+  .tr-tip .ring{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;border:1.5px solid rgba(95, 61, 196,.75);animation:tipRing .95s ease-out infinite;}
   .tr-tip .ring.b{animation-delay:.32s;}
   .tr-tip .ring.c{animation-delay:.64s;}
   /* milestone celebration: the dot pops hard, a flash blooms, three rings ripple out, sparks scatter */
   @keyframes snodePop{0%{transform:translate(-50%,-50%) scale(1)}30%{transform:translate(-50%,-50%) scale(2.5)}62%{transform:translate(-50%,-50%) scale(1.28)}100%{transform:translate(-50%,-50%) scale(1)}}
-  .tr-snode-cel{animation:snodePop .78s cubic-bezier(.25,1.7,.45,1);box-shadow:0 0 16px 5px rgba(34,139,230,.75);}
+  .tr-snode-cel{animation:snodePop .78s cubic-bezier(.25,1.7,.45,1);box-shadow:0 0 16px 5px rgba(95, 61, 196,.75);}
   /* soft core flash — sells the "energy released" beat the thin rings alone can't */
   @keyframes snodeFlash{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}18%{opacity:.95}100%{transform:translate(-50%,-50%) scale(3.4);opacity:0}}
-  .tr-flash{position:absolute;left:50%;top:50%;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(116,192,252,.7) 42%,rgba(34,139,230,0) 72%);animation:snodeFlash .7s ease-out forwards;pointer-events:none;}
+  .tr-flash{position:absolute;left:50%;top:50%;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(116,192,252,.7) 42%,rgba(95, 61, 196,0) 72%);animation:snodeFlash .7s ease-out forwards;pointer-events:none;}
   @keyframes snodeRipple{0%{transform:translate(-50%,-50%) scale(.4);opacity:1}100%{transform:translate(-50%,-50%) scale(8);opacity:0}}
-  .tr-ripple{position:absolute;left:50%;top:50%;width:12px;height:12px;border-radius:50%;border:3px solid #228be6;animation:snodeRipple 1.15s cubic-bezier(.15,.7,.3,1) forwards;pointer-events:none;}
-  .tr-ripple.r2{animation-delay:.15s;border-color:#74c0fc;border-width:2.5px;}
-  .tr-ripple.r3{animation-delay:.32s;border-color:#ffd43b;border-width:2px;}
+  .tr-ripple{position:absolute;left:50%;top:50%;width:12px;height:12px;border-radius:50%;border:3px solid #5f3dc4;animation:snodeRipple 1.15s cubic-bezier(.15,.7,.3,1) forwards;pointer-events:none;}
+  .tr-ripple.r2{animation-delay:.15s;border-color:#b8a6ff;border-width:2.5px;}
+  .tr-ripple.r3{animation-delay:.32s;border-color:#f08c00;border-width:2px;}
   @keyframes snodeSpark{0%{transform:translate(-50%,-50%) translate(0,0) scale(1.4);opacity:1}70%{opacity:1}100%{transform:translate(-50%,-50%) translate(var(--tx),var(--ty)) scale(.1);opacity:0}}
   .tr-spark{position:absolute;left:50%;top:50%;width:7px;height:7px;border-radius:50%;animation:snodeSpark 1s cubic-bezier(.15,.75,.3,1) forwards;pointer-events:none;}
   /* learning-objective ticks + the stroke that races round the one just earned */
-  .lo-badge{background:linear-gradient(135deg,#845ef7,#5f3dc4);}
-  .lo-badge.lo-done{background:linear-gradient(135deg,#51cf66,#2f9e44);}
+  .lo-badge{background:linear-gradient(135deg,#5f3dc4,#5f3dc4);}
+  .lo-badge.lo-done{background:linear-gradient(135deg,#2f9e44,#2f9e44);}
   @keyframes loTick{0%{transform:scale(0) rotate(-25deg);opacity:0}55%{transform:scale(1.25) rotate(0)}100%{transform:scale(1) rotate(0);opacity:1}}
   .lo-tick{animation:loTick .42s cubic-bezier(.3,1.5,.5,1) both;}
   @keyframes loRing{to{stroke-dashoffset:0}}
   @keyframes loRingFade{to{opacity:0}}
-  .lo-ring-r{x:2px;y:2px;width:calc(100% - 4px);height:calc(100% - 4px);rx:12px;ry:12px;fill:none;stroke:#40c057;stroke-width:2.5px;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;animation:loRing .55s cubic-bezier(.35,0,.15,1) forwards,loRingFade .45s 1.05s ease forwards;}
+  .lo-ring-r{x:2px;y:2px;width:calc(100% - 4px);height:calc(100% - 4px);rx:12px;ry:12px;fill:none;stroke:#2f9e44;stroke-width:2.5px;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;animation:loRing .55s cubic-bezier(.35,0,.15,1) forwards,loRingFade .45s 1.05s ease forwards;}
   .intro-ink{color:#fff;}
   .tr-scroll::-webkit-scrollbar-track{background:transparent;}
-  .tr-scroll::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#74c0fc,#228be6);border-radius:999px;}
-  .tr-scroll::-webkit-scrollbar-thumb:hover{background:#1c7ed6;}
+  .tr-scroll::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#b8a6ff,#5f3dc4);border-radius:999px;}
+  .tr-scroll::-webkit-scrollbar-thumb:hover{background:#5f3dc4;}
   @keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:var(--brow-op,1);transform:translateY(0)}}
   @keyframes eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.7)}}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -920,25 +920,25 @@ code, kbd, samp, pre {
   .bpop{animation:popc .4s cubic-bezier(.2,.8,.3,1) both;}
   @keyframes objglow{0%,100%{box-shadow:0 0 0 2.5px rgba(255,212,59,.55),0 0 12px rgba(255,212,59,.4)}50%{box-shadow:0 0 0 3px rgba(255,212,59,1),0 0 22px 3px rgba(255,212,59,.7)}}
   .obj-row{transition:border-color .35s ease,background .35s ease,box-shadow .35s ease;}
-  .obj-hl{animation:objglow 1.5s ease-in-out infinite;border-color:#ffd43b !important;background:#fffdf5 !important;}
+  .obj-hl{animation:objglow 1.5s ease-in-out infinite;border-color:#f08c00 !important;background:#fffdf5 !important;}
   @keyframes gotpress{0%{transform:scale(1)}40%{transform:scale(.955)}100%{transform:scale(1)}}
   @keyframes gotripple{0%{opacity:.6;transform:scale(.6)}100%{opacity:0;transform:scale(1.5)}}
   .got-pressed{animation:gotpress .28s ease;border-color:#8ce99a !important;}
-  .got-pressed::after{content:'';position:absolute;inset:0;border-radius:inherit;border:2.5px solid #69db7c;animation:gotripple .45s ease-out forwards;z-index:2;}
+  .got-pressed::after{content:'';position:absolute;inset:0;border-radius:inherit;border:2.5px solid #2f9e44;animation:gotripple .45s ease-out forwards;z-index:2;}
   /* intro → dock transition */
   .title-hi{transition:background .45s ease,box-shadow .45s ease;}
-  .title-hi-on{background:#fff3bf;box-shadow:0 0 0 4px #fff3bf;border-radius:14px;}
+  .title-hi-on{background:#fff4e0;box-shadow:0 0 0 4px #fff4e0;border-radius:14px;}
   /* The fade used to live here, but a class-triggered transition restarts on every re-render and can
      sit pinned at t=0 forever, leaving a second Vyom on the board. visibility carries the hide. */
   .max-hidden{opacity:0 !important;visibility:hidden !important;pointer-events:none !important;}
   @keyframes sparkfly{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(560px,-60px) rotate(22deg);opacity:0}}
   .spark-fly{animation:sparkfly .72s cubic-bezier(.42,.05,.72,1) forwards !important;}
   @keyframes sparkexit{0%{transform:translateY(-50%) scale(.25);opacity:.65}100%{transform:translateY(-50%) scale(1.7);opacity:0}}
-  .spark-exit{position:absolute;right:-6px;top:50%;width:130px;height:130px;border-radius:50%;border:3px solid #ff922b;box-shadow:0 0 26px rgba(255,146,43,.5);animation:sparkexit .72s ease-out forwards;pointer-events:none;z-index:3;}
+  .spark-exit{position:absolute;right:-6px;top:50%;width:130px;height:130px;border-radius:50%;border:3px solid #e8590c;box-shadow:0 0 26px rgba(255,146,43,.5);animation:sparkexit .72s ease-out forwards;pointer-events:none;z-index:3;}
   @keyframes dockbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   .dock-max{animation:dockbob 2.6s ease-in-out infinite;}
   @keyframes dockripple{0%{transform:scale(.4);opacity:.5}80%{opacity:.06}100%{transform:scale(2.2);opacity:0}}
-  .dock-ripple{position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:2px solid #4dabf7;animation:dockripple 2.6s ease-out infinite;pointer-events:none;}
+  .dock-ripple{position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:2px solid #b8a6ff;animation:dockripple 2.6s ease-out infinite;pointer-events:none;}
   .dock-slot-in{animation:popc .4s cubic-bezier(.2,.8,.3,1) both;}
   @keyframes handtap{0%,100%{transform:translateX(-50%) translateY(0) rotate(-8deg)}45%{transform:translateX(-50%) translateY(8px) rotate(2deg)}}
   @keyframes slideup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -956,7 +956,7 @@ code, kbd, samp, pre {
   .s-center .spk-mascot,.s-dock .spk-mascot{transform:translateY(0) scale(2);filter:blur(0);opacity:1;}
   .s-dock .spk-mascot{transform:translateY(0) scale(1);}
   .s-dock .spk-mascot img{animation:spk_bob 2.8s ease-in-out infinite;}
-  .s-dock .spk-bubble{max-width:470px;opacity:1;padding:14px 17px;margin-left:12px;border-color:#ffe8cc;box-shadow:0 18px 44px rgba(230,150,60,.3);}
+  .s-dock .spk-bubble{max-width:470px;opacity:1;padding:14px 17px;margin-left:12px;border-color:#fff1e6;box-shadow:0 18px 44px rgba(230,150,60,.3);}
   .def-tp{}
   .def-tp h2, .def-tp svg{transition:transform .6s cubic-bezier(.4,0,.2,1);will-change:transform;backface-visibility:hidden;transform:translateZ(0);}
   .def-shift h2, .def-shift svg{transform:translate3d(0,-120px,0);}
@@ -977,7 +977,7 @@ code, kbd, samp, pre {
   .vsk-stage.typing .vsk-mascot-inner{transform:scale(3);}
   .vsk-bob{animation:bob2 2.6s ease-in-out infinite;}
   .vsk-dots{display:flex;gap:5px;align-items:center;padding:0 6px;overflow:hidden;transition:opacity .3s ease,max-width .3s ease;max-width:60px;}
-  .vsk-dots span{width:8px;height:8px;border-radius:50%;background:#f59f00;animation:dots 1.2s infinite;}
+  .vsk-dots span{width:8px;height:8px;border-radius:50%;background:#f08c00;animation:dots 1.2s infinite;}
   .vsk-dots span:nth-child(2){animation-delay:.2s;}
   .vsk-dots span:nth-child(3){animation-delay:.4s;}
   .vsk-stage.reveal .vsk-dots{opacity:0;max-width:0;padding:0;}
@@ -1027,7 +1027,7 @@ code, kbd, samp, pre {
   .hl-line{transition:stroke-dashoffset .9s ease;}
   .hl-line.on{stroke-dashoffset:0;}
   .dock-overlay{position:absolute;left:6px;bottom:9px;width:66px;height:66px;z-index:6;pointer-events:none;display:grid;place-items:center;}
-  .dock-ripple-lg{position:absolute;top:50%;left:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:2px solid #4dabf7;animation:dockripple 2.6s ease-out infinite;pointer-events:none;}
+  .dock-ripple-lg{position:absolute;top:50%;left:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:2px solid #b8a6ff;animation:dockripple 2.6s ease-out infinite;pointer-events:none;}
   .input-docked{margin-left:60px !important;}
   .dock-collapse{width:0 !important;margin-left:-12px !important;opacity:0;overflow:hidden;transition:width .55s cubic-bezier(.4,0,.2,1),opacity .4s ease,margin-left .55s cubic-bezier(.4,0,.2,1);}
   .vidwrap{transition:none;}

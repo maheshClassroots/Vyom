@@ -36,6 +36,13 @@ thread — so the importer applies these on the way in:
 - The thread runs to the page's foot and fades out there, which also stops
   the progress card, pinned inside the thread's masked scroller, being cut
   at its edge. Vyom keeps the package's place beside the composer.
+- A mock of progress on the thread: once Spark first reaches the active
+  module, that module is marked done (its icon raises `completed`,
+  `sparkAtActive` drops) and he walks to the next one, which becomes the
+  active module and raises `sparkAtActive` when he arrives. The cards' state
+  classes move with them. `AUTO_ADVANCE_MS` in `spark-journey.js` times it
+  (0 turns it off); the Progress demo panel's "Advance node" runs one more
+  step. The page's own data (the "up now" card, the counts) is not touched.
 - The module fields that template reads (`mcLabel`, `mcState`, `mcType`, …)
   are added to the Goal Page's `buildModules` — see `goal-patches.mjs`.
 - `../vendor/module-icon-rive.js` and `../vendor/spark-journey.js` — the two

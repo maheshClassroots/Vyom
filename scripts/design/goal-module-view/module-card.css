@@ -46,7 +46,8 @@
   .cd-mod .mc-node,.cd-mod-completed .mc-node,.cd-mod-locked .mc-node,.cd-mod:active .mc-node,.cd-mod-completed:active .mc-node{background:none !important;box-shadow:none !important;}
   .mc-node .mi-canvas{position:absolute !important;left:50% !important;top:50% !important;right:auto !important;bottom:auto !important;margin:0 !important;transform:translate(-50%,-50%) !important;}
   /* ---- sketch layout: small icons, big current icon, flat lavender cards with a lip ---- */
-  .cd-mod .mc-node .mi-canvas,.cd-mod-active .mc-node .mi-canvas{width:300px !important;height:300px !important;}
+  /* the goal thread draws the module icon at 56% of the chapter view's size, the icon about 40px across */
+  .cd-mod .mc-node .mi-canvas,.cd-mod-active .mc-node .mi-canvas{width:168px !important;height:168px !important;}
   .cd-mod .cd-mod-label.mc-card{background:#f1effe !important;box-shadow:none !important;border-radius:20px !important;padding:18px 24px 24px !important;}
   .cd-mod-active .cd-mod-label.mc-card{background:linear-gradient(158deg,#fffaeb 0%,#fff6dc 55%,#ffefc7 100%) !important;}
   .cd-mod:hover .cd-mod-label.mc-card{box-shadow:none !important;}

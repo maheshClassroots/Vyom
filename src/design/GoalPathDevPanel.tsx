@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDraggable } from '../vyom/controls/useDraggable';
 
-type Action = 'reveal' | 'step' | 'reset' | 'zero' | 'demo' | 'stop';
+type Action = 'reveal' | 'step' | 'reset' | 'zero' | 'demo' | 'stop' | 'advance';
 
 /**
  * Development surface for the Goals Journey's progress card — the hybrid of
@@ -65,6 +65,9 @@ export function GoalPathDevPanel() {
         </button>
         <button type="button" className="ctrl--trigger" onClick={() => send('reset')} title="Back to the page's own counts">
           Reset
+        </button>
+        <button type="button" className="ctrl--trigger" onClick={() => send('advance')} title="The module Spark stands at is done; he walks to the next, which becomes active">
+          Advance node
         </button>
       </div>
     </aside>

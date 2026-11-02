@@ -17,7 +17,12 @@
   var RT = 'https://cdn.jsdelivr.net/npm/@rive-app/canvas@2.44.0/+esm';
   var SRC = (window.__resources && window.__resources.sparkRiv) || 'spark.riv';
   var BOX = 220;                       // Spark box size in css px
+  var SCALE = 0.5;                     // the artboard's scale on the goal thread: half the Chapter Journey's Spark
   var SPEED = 0.42;                    // px of path per ms while travelling
+  // Mock: this long after he first reaches the active module, that module is marked done and he
+  // walks on to the next, which becomes the active one. 0 turns the mock off; the Progress demo
+  // panel's "Advance node" runs the same step by hand.
+  var AUTO_ADVANCE_MS = 1800;
   var S = { on: false, ready: false, vi: null, r: null, path: null, svg: null, len: 0, raf: 0, at: null, travelling: false, lastAct: Date.now() };
   var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -38,7 +43,8 @@
   function bool(n, v) { try { vm().boolean(n).value = v; } catch (e) {} }
   function expr(v) { try { vm().enum('expression').value = v; } catch (e) {} }
   function look(dir) { ['LB', 'LT', 'RB', 'RT'].forEach(function (d) { bool('look' + d, d === dir); }); }
-  function centre() { var c = CW / 2; num('sparkPositionX', c); num('sparkPositionY', c); num('chatPositionX', c); num('chatPositionY', c); }
+  // the box centre in artboard units (the artboard is laid out at SCALE, so one unit is SCALE css px)
+  function centre() { var c = CW / 2 / SCALE; num('sparkPositionX', c); num('sparkPositionY', c); num('chatPositionX', c); num('chatPositionY', c); }
 
   // ---- geometry ----
   function view() { var v = document.querySelector('.cd-modeview'); if (!v) return null; var r = v.getBoundingClientRect(); return r.width > 0 && r.height > 0 ? v : null; }
@@ -102,12 +108,41 @@
     resize(); centre(); expr('neutral'); look(null);
     bool('moduleJourney', false); bool('moduleJouneyMoving', false); iconArrived(false);
     place(); box.style.opacity = '1'; hit.style.pointerEvents = 'auto';
+    // the box is in the document only from place() on: size the drawing surface now, not before
+    resize();
     cancelAnimationFrame(S.raf); S.raf = requestAnimationFrame(loop);
     var target = lengthAt(a); S.at = a;
-    setTimeout(function () { if (S.on) travel(target, function () { if (S.at === a) { bool('moduleJourney', true); iconArrived(true); layer(true); } }); }, reduced ? 0 : 350);
+    setTimeout(function () { if (S.on) travel(target, function () {
+      if (S.at !== a) return;
+      bool('moduleJourney', true); iconArrived(true); layer(true);
+      if (AUTO_ADVANCE_MS && !S.advanced) { S.advanced = true; S.advanceT = setTimeout(advance, AUTO_ADVANCE_MS); }
+    }); }, reduced ? 0 : 350);
+  }
+  /* The module he stands at is done; the next one on the thread becomes the active module and he
+     walks to it. The icons follow: the one he leaves raises `completed` (its sparkAtActive drops
+     with him), the one he reaches raises `sparkAtActive` on arrival. The cards' own state classes
+     move with them so their styling follows. */
+  function advance() {
+    if (!S.on || S.travelling || !S.at) return false;
+    var mods = [].slice.call(document.querySelectorAll('.cd-modeview .cd-mod'));
+    var cur = S.at, next = mods[mods.indexOf(cur) + 1];
+    if (!next) return false;
+    var mi = window.__moduleIconRive;
+    S.lastAct = Date.now();
+    bool('moduleJourney', false); iconArrived(false); layer(false);
+    cur.classList.remove('cd-mod-active', 'cd-mod-available'); cur.classList.add('cd-mod-completed');
+    if (mi && mi.setState) mi.setState(cur, 'completed');
+    next.classList.remove('cd-mod-locked', 'cd-mod-future', 'cd-mod-available'); next.classList.add('cd-mod-active');
+    if (mi && mi.setState) mi.setState(next, 'active');
+    S.at = next;
+    setTimeout(function () {
+      if (!S.on || S.at !== next) return;
+      travel(lengthAt(next), function () { if (S.at === next) { bool('moduleJourney', true); iconArrived(true); layer(true); } });
+    }, reduced ? 0 : 500);
+    return true;
   }
   function exit() {
-    S.on = false; S.at = null; cancelAnimationFrame(S.raf); hit.style.pointerEvents = 'none'; box.style.opacity = '0'; layer(false);
+    S.on = false; S.at = null; S.advanced = false; clearTimeout(S.advanceT); cancelAnimationFrame(S.raf); hit.style.pointerEvents = 'none'; box.style.opacity = '0'; layer(false);
     bool('moduleJouneyMoving', false); bool('moduleJourney', false); iconArrived(false);
   }
   function iconArrived(v) { var mi = window.__moduleIconRive; if (mi && mi.setArrived) mi.setArrived(v); }
@@ -133,6 +168,8 @@
   // this app does not want. His gaze is the file's own, plus the idle glance below.
   function resize() { if (S.r) { try { S.r.resizeDrawingSurfaceToCanvas(Math.max(window.devicePixelRatio || 1, 1) * 2); } catch (e) {} centre(); } }
   window.addEventListener('resize', resize);
+  // and whenever the canvas itself is laid out or re-laid out (first mount, a zoom change)
+  if (window.ResizeObserver) new ResizeObserver(function () { if (S.r) resize(); }).observe(cv);
 
   // watch the DOM for the module view opening/closing
   function check() { if (!S.ready) return; var v = view(); if (v && !S.on) enter(); else if (!v && S.on) exit(); }
@@ -151,7 +188,7 @@
   function boot(R) {
     var r = new R.Rive({
       src: SRC, canvas: cv, artboard: 'Spark', stateMachine: 'SparkCharacter', autoplay: true, autoBind: true,
-      layout: new R.Layout({ fit: R.Fit.Layout }),
+      layout: new R.Layout({ fit: R.Fit.Layout, layoutScaleFactor: SCALE }),
       onLoad: function () { S.r = r; S.vi = r.viewModelInstance; S.ready = !!S.vi; resize(); if (S.ready) check(); }
     });
   }
@@ -160,5 +197,5 @@
       .catch(function () { if (window.rive && window.rive.Rive) boot(window.rive); });
   }
   if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
-  window.__sparkJourney = { state: S, box: box, enter: enter, exit: exit, travel: travel, BOX: BOX };
+  window.__sparkJourney = { state: S, box: box, enter: enter, exit: exit, travel: travel, advance: advance, BOX: BOX };
 })();

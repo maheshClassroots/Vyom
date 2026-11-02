@@ -36,8 +36,8 @@ export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome, onClose }:
       </div>
 
       <div style={css('display:flex;align-items:center;gap:9px;flex:0 1 auto;min-width:0;padding:9px 16px 9px 0;border-radius:12px;')}>
-        <span style={css('font-size:14px;font-weight:700;color:#5d5880;flex:none;')}>Lesson</span>
-        <i className="ti ti-chevron-right" style={css('font-size:13px;color:#8b86a6;flex:none;')} />
+        <span style={css('font-size:14px;font-weight:700;color:#4a4568;flex:none;')}>Lesson</span>
+        <i className="ti ti-chevron-right" style={css('font-size:13px;color:#7b7696;flex:none;')} />
         <span style={css('font-size:14px;font-weight:800;color:#5f3dc4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;')}>
           Area of a trapezoid
         </span>
@@ -52,7 +52,7 @@ export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome, onClose }:
           style={css('display:flex;align-items:center;gap:8px;padding:8px 15px 8px 12px;border-radius:12px;')}
           title="Experience points"
         >
-          <i className="ti ti-star-filled" style={css('font-size:20px;color:#fab005;filter:drop-shadow(0 1px 2px rgba(180,120,0,.35));')} />
+          <i className="ti ti-star-filled" style={css('font-size:20px;color:#f08c00;filter:drop-shadow(0 1px 2px rgba(180,120,0,.35));')} />
           <span style={css('font-weight:800;color:#7a4700;font-size:18px;letter-spacing:-.01em;')}>{points}</span>
         </div>
 
@@ -67,7 +67,7 @@ export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome, onClose }:
           style={css('display:flex;align-items:center;gap:8px;padding:8px 16px 8px 13px;border-radius:12px;')}
           title="Energy orbs"
         >
-          <span style={css('width:18px;height:18px;flex:none;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff,#ffe066 42%,#ff922b 78%,#e8590c);box-shadow:0 0 10px rgba(255,193,7,.95),0 0 3px rgba(255,255,255,.9);')} />
+          <span style={css('width:18px;height:18px;flex:none;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff,#ffe066 42%,#e8590c 78%,#e8590c);box-shadow:0 0 10px rgba(255,193,7,.95),0 0 3px rgba(255,255,255,.9);')} />
           <span style={css('font-weight:800;color:#7a4700;font-size:18px;letter-spacing:-.01em;')}>{orbs}</span>
         </div>
       </div>
@@ -75,7 +75,7 @@ export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome, onClose }:
       <div style={css('position:relative;flex:none;margin-left:auto;')}>
         <div
           title="Report an issue"
-          style={css('width:44px;height:44px;background:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid transparent;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#6b6580;font-size:20px;')}
+          style={css('width:44px;height:44px;background:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid transparent;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#4a4568;font-size:20px;')}
         >
           <i className="ti ti-flag-3" />
         </div>
@@ -84,7 +84,7 @@ export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome, onClose }:
       <div style={css('position:relative;flex:none;')}>
         <div
           title="Audio settings"
-          style={css('width:44px;height:44px;background:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid transparent;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#6b6580;font-size:20px;')}
+          style={css('width:44px;height:44px;background:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid transparent;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#4a4568;font-size:20px;')}
         >
           <i className="ti ti-volume" />
         </div>
@@ -100,7 +100,7 @@ export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome, onClose }:
           event.preventDefault();
           onClose?.();
         }}
-        style={css('width:44px;height:44px;flex:none;background:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#6b6580;font-size:20px;')}
+        style={css('width:44px;height:44px;flex:none;background:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;box-shadow:0 8px 22px rgba(150,120,215,.14);border-radius:11px;display:grid;place-items:center;cursor:pointer;color:#4a4568;font-size:20px;')}
       >
         <i className="ti ti-x" />
       </div>

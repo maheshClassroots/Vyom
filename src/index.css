@@ -1,12 +1,12 @@
+@import './tokens.css';
+
 :root {
-  --bg: #f4f4f2;
-  --surface: #ffffff;
-  --line: #d9d9d6;
-  --line-strong: #6f6f6f;
-  --ink: #1c1c1a;
-  --ink-soft: #6a6a66;
-  --accent: #2f5fd8;
-  --radius: 14px;
+  --bg: var(--surface-tint);
+  --line-strong: var(--ink-300);
+  --ink: var(--ink-900);
+  --ink-soft: var(--ink-500);
+  --accent: var(--primary);
+  --radius: var(--r-card);
   --panel-w: 300px;
 
   color-scheme: light;

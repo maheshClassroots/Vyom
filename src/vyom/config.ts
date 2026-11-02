@@ -97,6 +97,9 @@ export const READ_ONLY_PROPERTIES = new Set([
   'yref',
   'refPosX',
   'refPosY',
+  // Where the artboard is drawing him, in artboard units.
+  'actualPosX',
+  'actualPosY',
 ]);
 
 export const SLOT_LIST = Object.values(STAGE_SLOTS) as SlotDefinition[];

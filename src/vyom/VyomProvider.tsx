@@ -130,6 +130,12 @@ export interface StageOffset extends Point {
  * destination is always the most recent one asked for.
  */
 const ENTRANCE_RETRIES_MS = [0, 300, 700, 1100, 1600];
+/**
+ * How close `refPosX/Y` has to be to a slot's last synced point for him to
+ * count as parked at that slot — the artboard writes the slot's own value
+ * there at the end of a walk, so this only has to absorb rounding.
+ */
+const HOLD_TOLERANCE_PX = 2;
 
 /**
  * How long to wait for an animation frame before syncing the slots anyway.
@@ -266,6 +272,9 @@ export function VyomProvider({ children }: { children: ReactNode }) {
   const manualSlotsRef = useRef(manualSlots);
   const frameRef = useRef<number | null>(null);
   const syncFallbackRef = useRef<number | null>(null);
+  // Each slot's last synced point: how a later sync tells which slot he was
+  // parked at before the layout changed.
+  const lastSyncedRef = useRef<Record<string, Point>>({});
 
   binderRef.current = binder;
   manualSlotsRef.current = manualSlots;
@@ -303,6 +312,20 @@ export function VyomProvider({ children }: { children: ReactNode }) {
     const activeBinder = binderRef.current;
     if (!activeBinder || !stageCanvasRef.current) return;
 
+    // The slot he is parked at, if any: the one whose last synced point is
+    // where the artboard says he is parked (`refPosX/Y`). Read before the
+    // slots move, so a layout change can carry him along.
+    const parked = { x: activeBinder.getNumber('refPosX'), y: activeBinder.getNumber('refPosY') };
+    let held: string | null = null;
+    if (parked.x !== null && parked.y !== null) {
+      for (const [slotId, point] of Object.entries(lastSyncedRef.current)) {
+        if (Math.abs(point.x - parked.x) <= HOLD_TOLERANCE_PX && Math.abs(point.y - parked.y) <= HOLD_TOLERANCE_PX) {
+          held = slotId;
+          break;
+        }
+      }
+    }
+
     const next: Record<string, Point> = {};
 
     anchorsRef.current.forEach(({ slot }, slotId) => {
@@ -313,6 +336,24 @@ export function VyomProvider({ children }: { children: ReactNode }) {
       activeBinder.setNumber(slot.yProperty, point.y);
       next[slotId] = point;
     });
+
+    // Position numbers alone never move him; a walk consumes them. So when the
+    // slot he stands at has moved under him (a resize, a panel opening), his
+    // parked position is written to the slot's new point as well, which the
+    // artboard shows at once — no `moveToPoint`, no walk across the screen.
+    const moved = held ? next[held] : undefined;
+    if (held && moved && parked.x !== null && parked.y !== null && (moved.x !== parked.x || moved.y !== parked.y)) {
+      // Written straight to the properties: the artboard rewrites these at the
+      // end of every walk, so the binder's last-written cache cannot be trusted
+      // to know whether a write is needed.
+      const rx = activeBinder.number('refPosX');
+      const ry = activeBinder.number('refPosY');
+      if (rx && ry) {
+        rx.value = moved.x;
+        ry.value = moved.y;
+      }
+    }
+    lastSyncedRef.current = { ...lastSyncedRef.current, ...next };
 
     if (Object.keys(next).length > 0) {
       setSlotPositions((previous) => {

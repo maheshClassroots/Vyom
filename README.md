@@ -332,6 +332,23 @@ he becomes visible. The root fix is artboard-side — if the default state place
 him on the canvas, or the state machine reported its state, none of this
 scaffolding would be needed.
 
+## Design tokens
+
+Every page draws from one design system, `src/tokens.css`: violet is the
+only primary; colour otherwise means something (`--now`, `--good`, `--bad`,
+`--reward`) or is grey (one violet-biased ink ramp and one line colour);
+three radii (control, card, pill); two shadows; type on a fixed scale with
+weights 500/700/800. The app's stylesheets reference the custom properties.
+
+The hosted design-package pages and the ported teaching room paint with
+literals (inline styles, SVG attributes, template strings), so they are
+recoloured by value: `scripts/design/tokens.mjs` holds the same colours and
+the map from every colour the packages used onto them, and the importer runs
+it over each page on the way in. The Chapter Journey, which cannot be
+re-imported, and the room's prototype port were recoloured in place with the
+same map. Run the map again after any manual edit to a hosted page; it is
+safe to repeat.
+
 ## Rive files
 
 Every `.riv` lives once, in `public/characters/` — one file per character:
