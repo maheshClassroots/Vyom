@@ -125,6 +125,7 @@
     else if (d.action === 'zero') M.zero();
     else if (d.action === 'demo') runDemo();
     else if (d.action === 'stop') stopDemo();
+    else if (d.action === 'advance') { var sj = window.__sparkJourney; if (sj && sj.advance) sj.advance(); }
   });
   window.__goalPathRive = M;
 })();

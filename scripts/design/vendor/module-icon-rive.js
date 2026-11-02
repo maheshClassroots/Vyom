@@ -108,6 +108,13 @@
     .catch(function () { if (window.rive && window.rive.Rive) boot(window.rive); });
   M.arrived = false;
   // active icon stays false until Spark arrives (spark-journey sets this alongside moduleJourney = true)
+  // A module's state set by the page's scripts (spark-journey's advance): the card's node takes it as
+  // its own, over the template's attribute, and the flags follow through `apply`.
+  M.setState = function (card, state) {
+    var node = card && card.querySelector('.mc-node[data-mi-type]'), m = node && M.mounted.get(node);
+    if (!m) return false;
+    m.userState = state; apply(m); return true;
+  };
   M.setArrived = function (v) { M.arrived = !!v; M.mounted.forEach(function (m) { try { apply(m); } catch (e) {} }); };
   window.__moduleIconRive = M;
 })();

@@ -41,6 +41,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GOAL_EXTRAS, GOAL_REPLACE } from './design/goal-patches.mjs';
+import { recolor } from './design/tokens.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT_ROOT = resolve(HERE, '..', 'public', 'design');
@@ -100,6 +101,10 @@ const SITES = {
     // instead — the same `byjus-rail` the Goal Page and the home use. The
     // file is borrowed from the goal site's folder, so import `goal` first.
     borrow: { 'nav-rail.js': 'goal', 'aarav-avatar.png': 'goal' },
+    // The app's own rules for this page, appended after the recolour so they
+    // win over the package's: the chapter card's play control as the system's
+    // secondary button.
+    appendCss: resolve(HERE, 'design', 'journey-overrides.css'),
     replace: [
       [
         '<mobile-nav active="journey" always=""></mobile-nav>',
@@ -208,6 +213,16 @@ function patch(name, text, replace = [], site = {}) {
     const hits = out.split(from).length - 1;
     if (hits !== 1) throw new Error(`${name}: expected one match for ${JSON.stringify(from.slice(0, 60))}, found ${hits}`);
     out = out.replace(from, to);
+  }
+  // The app's design system, by value: the packages' blues, violets, inks and
+  // tints become the tokens' colours (design/tokens.mjs).
+  out = recolor(out);
+  if (site.appendCss) {
+    // At the end of the document: the packages keep their stylesheets in the
+    // body, so a sheet in the head would lose to them at equal weight.
+    const at = out.lastIndexOf('</body>');
+    if (at === -1) throw new Error(`${name}: no </body> to append the site stylesheet before`);
+    out = `${out.slice(0, at)}<style>\n${readFileSync(site.appendCss, 'utf8')}</style>\n${out.slice(at)}`;
   }
   const anchor = '<meta name="viewport"';
   const at = out.indexOf(anchor);

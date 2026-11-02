@@ -39,20 +39,20 @@ export function Mcq({ question, onAnswer }: McqProps) {
 
         // Colour rules lifted from the prototype: the pick is marked, and once
         // answered the correct row is always shown green.
-        let borderColor = '#e7e2f2';
+        let borderColor = '#e4e0f2';
         let bg = '#fff';
         let letterBg = '#eceef1';
-        let letterColor = '#495057';
-        let textColor = '#343a40';
+        let letterColor = '#4a4568';
+        let textColor = '#1f1a3d';
         let mark = '';
         let markColor = 'transparent';
 
         if (chosen && !correct) {
           borderColor = '#e03131'; bg = '#fff5f5'; letterBg = '#e03131';
-          letterColor = '#fff'; textColor = '#c92a2a'; mark = '✕'; markColor = '#e03131';
+          letterColor = '#fff'; textColor = '#e03131'; mark = '✕'; markColor = '#e03131';
         } else if (answered && correct) {
-          borderColor = '#2f9e44'; bg = '#ebfbee'; letterBg = '#2f9e44';
-          letterColor = '#fff'; textColor = '#2b8a3e'; mark = '✓'; markColor = '#2f9e44';
+          borderColor = '#2f9e44'; bg = '#e9f8ec'; letterBg = '#2f9e44';
+          letterColor = '#fff'; textColor = '#2f9e44'; mark = '✓'; markColor = '#2f9e44';
         }
 
         return (

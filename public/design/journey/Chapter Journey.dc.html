@@ -77,7 +77,7 @@ document.addEventListener('click', function (e) {
 
   html,body{margin:0;background:var(--cv-base);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
   *{box-sizing:border-box;}
-  a{color:#4dabf7;} a:hover{color:#74c0fc;}
+  a{color:#b8a6ff;} a:hover{color:#b8a6ff;}
   .cj-scroll{scrollbar-width:thin;scrollbar-color:#dcd8e6 transparent;}
   .cj-scroll::-webkit-scrollbar{width:9px;height:10px;}
   .cj-scroll::-webkit-scrollbar-thumb{background:#dcd8e6;border-radius:999px;}
@@ -121,7 +121,7 @@ document.addEventListener('click', function (e) {
   .cj-isl-num{font-size:14px;font-weight:var(--fw-heavy);letter-spacing:.12em;color:rgba(33,26,74,.72);line-height:1;}
   /* the count is INK, not a status tint — status is already carried by the icon bloom and the trail,
      and an 11px coloured label on a translucent card cannot reach AA contrast */
-  .cj-isl-count{font-size:14px;font-weight:var(--fw-heavy);letter-spacing:.02em;color:#3f3a63;line-height:1;}
+  .cj-isl-count{font-size:14px;font-weight:var(--fw-heavy);letter-spacing:.02em;color:#4a4568;line-height:1;}
   /* the icon is the only elastic element — it absorbs whatever the lane compression takes */
   .cj-isl-icon{position:relative;flex:1 1 auto;min-height:62px;max-height:80px;width:100%;display:flex;align-items:center;justify-content:center;}
   .cj-isl-bloom{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:172%;aspect-ratio:1;border-radius:50%;pointer-events:none;transition:opacity .18s ease;}
@@ -135,7 +135,7 @@ document.addEventListener('click', function (e) {
   /* the 40px reserve keeps every card's footer on the same line whether the title runs to one or two
      lines — so the text is centred inside it, or a one-line title leaves a visible hole beneath it */
   .cj-node-name{flex:none;width:100%;height:50px;display:flex;align-items:center;justify-content:center;}
-  .cj-node-name>span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:20px;font-weight:var(--fw-bold);color:#1b1442;text-align:center;line-height:1.25;letter-spacing:-.012em;text-wrap:balance;overflow:hidden;}
+  .cj-node-name>span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:20px;font-weight:var(--fw-bold);color:#1f1a3d;text-align:center;line-height:1.25;letter-spacing:-.012em;text-wrap:balance;overflow:hidden;}
   .cj-isl-new .cj-node-name>span{color:#3d3663;}
   /* while the camera is zoomed, the tile chrome drops away so only the badge reads as travelling
      to the panel — the other islands are already at opacity 0, so this only shows on the selected one */
@@ -151,19 +151,19 @@ document.addEventListener('click', function (e) {
   .cj-zoomed .cj-planet:hover .cj-tip{opacity:0 !important;}
   /* The CTA is the project's primary blue (Mantine blue-5 → blue-7) — the one saturated element on the
      tile. One third of the card's width. */
-  .cj-isl-play{width:33.33%;height:48px;flex:none;border-radius:11px;background:linear-gradient(180deg,#339af0,#1c7ed6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;transition:transform .18s cubic-bezier(.2,.8,.3,1);}
+  .cj-isl-play{width:33.33%;height:48px;flex:none;border-radius:11px;background:linear-gradient(180deg,#5f3dc4,#5f3dc4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;transition:transform .18s cubic-bezier(.2,.8,.3,1);}
   .cj-planet:hover .cj-isl-play{transform:scale(1.08);}
   .cj-isl-locked{width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;color:#8f8aa8;}
   /* completed chapters show what was earned instead of an action */
   .cj-isl-stars{height:38px;flex:none;display:flex;align-items:center;justify-content:center;gap:9px;font-size:28px;line-height:1;}
   /* what the chapter earned — orbs and XP, one compact row. Colours are darkened from the detail
-     page's #1c7ed6 / #f08c00 because 11px bold has to clear AA on the near-white tile. */
+     page's #5f3dc4 / #f08c00 because 11px bold has to clear AA on the near-white tile. */
   .cj-isl-earn{flex:none;height:20px;display:flex;align-items:center;justify-content:center;gap:18px;}
   .cj-isl-earn span{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:var(--fw-heavy);line-height:1;letter-spacing:.01em;}
   .cj-isl-earn i{font-size:15px;}
   /* in-progress: the card's bottom edge IS the progress bar — no number, no track chrome */
   .cj-isl-bar{position:absolute;left:0;right:0;bottom:0;height:calc(5px / var(--cj-scale,1));background:rgba(33,26,74,.10);}
-  .cj-isl-fill{height:100%;background:linear-gradient(90deg,#ffa94d,#e8590c);}
+  .cj-isl-fill{height:100%;background:linear-gradient(90deg,#e8590c,#e8590c);}
   .cj-stage{transition:transform .42s cubic-bezier(.42,0,.58,1);will-change:transform;}
   .cj-planet{cursor:pointer;transform:translate(calc(-50% + var(--push,0px)),-50%);transition:transform .42s cubic-bezier(.2,.8,.3,1),opacity .3s ease;}
   .cj-planet:hover{z-index:60 !important;}
@@ -181,8 +181,8 @@ document.addEventListener('click', function (e) {
   .border-glow-card{--edge-proximity:100;--cursor-angle:45deg;--edge-sensitivity:26;--color-sensitivity:calc(var(--edge-sensitivity) + 20);--border-radius:22px;--glow-padding:34px;--cone-spread:24;position:absolute;border-radius:var(--border-radius);isolation:isolate;border:1px solid rgba(28,18,74,.12);background:#ffffff;box-shadow:0 20px 54px rgba(28,18,74,.22);animation:cjCardIn .3s cubic-bezier(.2,.8,.3,1) both,cjBgAngle 13s linear infinite;}
   @keyframes cjCardIn{from{opacity:0;transform:translateX(-50%) translateY(12px) scale(.95)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
   @keyframes cj2Twk{0%,100%{opacity:.25}50%{opacity:.9}}
-  .ftue-star-bottom{position:absolute;width:300%;height:50%;opacity:.85;bottom:-14px;right:-250%;border-radius:50%;background:radial-gradient(circle,#ffa94d,transparent 10%);animation:ftueStarBottom 4s linear infinite alternate;z-index:0;}
-  .ftue-star-top{position:absolute;width:300%;height:50%;opacity:.85;top:-14px;left:-250%;border-radius:50%;background:radial-gradient(circle,#ffa94d,transparent 10%);animation:ftueStarTop 4s linear infinite alternate;z-index:0;}
+  .ftue-star-bottom{position:absolute;width:300%;height:50%;opacity:.85;bottom:-14px;right:-250%;border-radius:50%;background:radial-gradient(circle,#e8590c,transparent 10%);animation:ftueStarBottom 4s linear infinite alternate;z-index:0;}
+  .ftue-star-top{position:absolute;width:300%;height:50%;opacity:.85;top:-14px;left:-250%;border-radius:50%;background:radial-gradient(circle,#e8590c,transparent 10%);animation:ftueStarTop 4s linear infinite alternate;z-index:0;}
   @keyframes ftueStarBottom{0%{transform:translate(0%,0%);opacity:1}100%{transform:translate(-100%,0%);opacity:0}}
   @keyframes ftueStarTop{0%{transform:translate(0%,0%);opacity:1}100%{transform:translate(100%,0%);opacity:0}}
   @keyframes cjBgAngle{to{--cursor-angle:405deg}}
@@ -272,16 +272,16 @@ document.addEventListener('click', function (e) {
   /* Two lines are reserved whether the title needs them or not, so the card height — and the pager
      below it — never shifts between chapters. Must stay a block: the title is two inline spans
      (lead + tail), and flex would lay them out side by side instead of letting them wrap. */
-  .cd-h1{margin:0;font-size:44px;font-weight:700;line-height:1.08;letter-spacing:-.02em;color:#211a4a;text-wrap:balance;min-height:95px;}
-  .cd-modpill{display:inline-flex;align-items:baseline;gap:7px;padding:9px 16px;border-radius:999px;font-size:var(--fs-secondary);font-weight:var(--fw-bold);color:#5d5880;white-space:nowrap;}
+  .cd-h1{margin:0;font-size:44px;font-weight:700;line-height:1.08;letter-spacing:-.02em;color:#1f1a3d;text-wrap:balance;min-height:95px;}
+  .cd-modpill{display:inline-flex;align-items:baseline;gap:7px;padding:9px 16px;border-radius:999px;font-size:var(--fs-secondary);font-weight:var(--fw-bold);color:#4a4568;white-space:nowrap;}
   .cd-modpill .cd-modpill-done{font-size:var(--fs-body);font-weight:var(--fw-heavy);letter-spacing:-.01em;}
   .cd-stats-row{display:flex;gap:14px;justify-content:center;width:100%;}
   /* the detail hero inherits the island's material: one plain gradient, nothing else */
   .cd-card{position:relative;flex:none;width:100%;max-width:372px;display:flex;flex-direction:column;align-items:center;padding:28px 26px;border-radius:20px;background:linear-gradient(158deg,#ffffff 0%,#fbfaff 48%,#e6e2f5 100%);box-shadow:0 10px 22px -10px rgba(70,46,146,.26);margin-top:-10px;}
   .cd-card-handle{display:none;}
   .cd-seg{position:sticky;top:0;z-index:20;display:inline-flex;gap:0;padding:4px;border-radius:11px;background:transparent;border:none;box-shadow:0 8px 22px rgba(150,120,215,.14);margin-bottom:28px;}
-  .cd-seg-btn{padding:9px 18px;border-radius:8px;font-size:14px;font-weight:700;color:#5d5880;background:transparent;cursor:pointer;transition:color .16s ease,background .16s ease;white-space:nowrap;}
-  .cd-seg-btn.on{color:#ffffff;background:#1971c2;}
+  .cd-seg-btn{padding:9px 18px;border-radius:8px;font-size:14px;font-weight:700;color:#4a4568;background:transparent;cursor:pointer;transition:color .16s ease,background .16s ease;white-space:nowrap;}
+  .cd-seg-btn.on{color:#ffffff;background:#4b2fb5;}
   .cd-seg-btn:not(.on):hover{background:#f4f1fe;}
   .cd-modeview{animation:cdFade .24s ease both;}
   @keyframes cdFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -297,35 +297,35 @@ document.addEventListener('click', function (e) {
   .cd-pcard:hover{transform:translateY(-1px);box-shadow:0 1px 2px rgba(33,26,74,.05),0 16px 30px -16px rgba(33,26,74,.44);}
   .cd-pico{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;}
   .cd-pico i{font-size:27px;color:#fff;}
-  .cd-ptitle{font-size:16px;font-weight:700;color:#211a4a;line-height:1.25;letter-spacing:-.01em;}
+  .cd-ptitle{font-size:16px;font-weight:700;color:#1f1a3d;line-height:1.25;letter-spacing:-.01em;}
   .cd-pmeta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:5px;
-    font-size:12.5px;font-weight:700;color:#6b6786;}
+    font-size:12.5px;font-weight:700;color:#4a4568;}
   .cd-pchip{display:inline-flex;align-items:center;padding:2px 8px;border-radius:6px;
     font-size:11.5px;font-weight:800;white-space:nowrap;}
   .cd-pbtn{flex:none;display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 16px;
-    border-radius:10px;background:#228be6;color:#fff;font-size:13.5px;font-weight:700;white-space:nowrap;
+    border-radius:10px;background:#5f3dc4;color:#fff;font-size:13.5px;font-weight:700;white-space:nowrap;
     cursor:pointer;transition:background .14s ease;}
-  .cd-pbtn:hover{background:#1c7ed6;}
-  .cd-pbtn-q{background:rgba(120,90,200,.12);color:#3f3a63;}
-  .cd-pbtn-q:hover{background:rgba(120,90,200,.2);color:#211a4a;}
-  .cd-pseg{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#6b6786;
+  .cd-pbtn:hover{background:#5f3dc4;}
+  .cd-pbtn-q{background:rgba(120,90,200,.12);color:#4a4568;}
+  .cd-pbtn-q:hover{background:rgba(120,90,200,.2);color:#1f1a3d;}
+  .cd-pseg{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#4a4568;
     margin:0 0 11px;display:flex;align-items:center;gap:9px;}
   .cd-pbar{width:112px;height:4px;border-radius:999px;background:rgba(33,26,74,.12);overflow:hidden;}
   .cd-pbar > div{height:100%;border-radius:999px;}
   .cd-score{display:inline-flex;align-items:baseline;gap:2px;font-size:17px;font-weight:800;letter-spacing:-.012em;}
-  .cd-score span{font-size:12px;font-weight:700;color:#6b6786;}
+  .cd-score span{font-size:12px;font-weight:700;color:#4a4568;}
   .cd-snack{position:sticky;bottom:14px;margin-top:18px;align-self:center;display:inline-flex;align-items:center;gap:9px;
-    padding:11px 16px;border-radius:12px;background:#211a4a;color:#fff;font-size:13.5px;font-weight:700;
+    padding:11px 16px;border-radius:12px;background:#1f1a3d;color:#fff;font-size:13.5px;font-weight:700;
     box-shadow:0 14px 30px -12px rgba(33,26,74,.6);animation:cdFade .2s ease both;}
   .cd-pgauge > div{height:100%;border-radius:999px;}
   .cd-prow::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;pointer-events:none;
     background:linear-gradient(90deg,rgba(120,90,200,0),rgba(120,90,200,.2) 4%,rgba(120,90,200,.2) 96%,rgba(120,90,200,0));}
   .cd-pbtn{flex:none;display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 20px;
-    border-radius:10px;background:#228be6;color:#fff;font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer;transition:background .14s ease;}
-  .cd-pbtn:hover{background:#1c7ed6;}
+    border-radius:10px;background:#5f3dc4;color:#fff;font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer;transition:background .14s ease;}
+  .cd-pbtn:hover{background:#5f3dc4;}
   .cd-pbtn-alt{background:#6741d9;}
   .cd-pbtn-alt:hover{background:#5f3dc4;}
-  .cd-libhead{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b6786;margin-bottom:16px;}
+  .cd-libhead{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4a4568;margin-bottom:16px;}
   .cd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(198px,1fr));gap:16px;}
   /* Time intents are the entry point, so they outrank every other card in the pane. */
   .cd-intents{display:grid;grid-template-columns:repeat(auto-fit,minmax(176px,1fr));gap:14px;grid-auto-rows:1fr;}
@@ -336,29 +336,29 @@ document.addEventListener('click', function (e) {
   .cd-intent:hover{transform:translateY(-3px);border-color:rgba(255,255,255,1);box-shadow:0 2px 5px rgba(33,26,74,.07),0 18px 34px -20px rgba(33,26,74,.46);}
   .cd-intent-mark{position:absolute;right:-14px;bottom:-12px;line-height:0;opacity:.13;pointer-events:none;transform:rotate(-10deg);}
   .cd-intent-mins{position:relative;font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1;}
-  .cd-intent-name{position:relative;font-size:15px;font-weight:700;color:#211a4a;margin-top:9px;line-height:1.25;}
+  .cd-intent-name{position:relative;font-size:15px;font-weight:700;color:#1f1a3d;margin-top:9px;line-height:1.25;}
   .cd-intent-best{display:flex;flex-direction:column;gap:5px;margin-top:auto;}
   .cd-intent-bar{display:flex;height:6px;border-radius:999px;overflow:hidden;background:rgba(33,26,74,.09);}
   .cd-intent-bar > div{height:100%;}
-  .cd-intent-gear{margin-top:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:#5d5880;}
-  .cd-intent-for{position:relative;font-size:12.5px;font-weight:500;color:#5d5880;line-height:1.45;margin-top:5px;min-height:36px;text-wrap:pretty;}
+  .cd-intent-gear{margin-top:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:#4a4568;}
+  .cd-intent-for{position:relative;font-size:12.5px;font-weight:500;color:#4a4568;line-height:1.45;margin-top:5px;min-height:36px;text-wrap:pretty;}
   .cd-tile{border-radius:14px;overflow:hidden;background:rgba(255,255,255,.34);border:1px solid rgba(255,255,255,.6);cursor:pointer;box-shadow:0 1px 2px rgba(33,26,74,.05),0 8px 20px -16px rgba(33,26,74,.3);transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;}
   .cd-tile:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.95);box-shadow:0 2px 4px rgba(33,26,74,.06),0 14px 28px -18px rgba(33,26,74,.42);}
   .cd-thumb{position:relative;aspect-ratio:16/9;display:grid;place-items:center;}
   .cd-thumb>i{font-size:30px;color:#fff;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));}
   .cd-tile-check{position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;background:#2f9e44;display:grid;place-items:center;color:#fff;font-size:12px;}
   .cd-tile-body{padding:11px 13px 13px;}
-  .cd-tile-title{font-size:14px;font-weight:700;color:#211a4a;line-height:1.3;margin-bottom:5px;}
-  .cd-tile-meta{font-size:12px;font-weight:700;color:#6b6786;display:flex;align-items:center;gap:6px;}
+  .cd-tile-title{font-size:14px;font-weight:700;color:#1f1a3d;line-height:1.3;margin-bottom:5px;}
+  .cd-tile-meta{font-size:12px;font-weight:700;color:#4a4568;display:flex;align-items:center;gap:6px;}
   .cd-tile-done{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.42);box-shadow:0 1px 2px rgba(33,26,74,.04),0 6px 14px -14px rgba(33,26,74,.22);}
   .cd-tile-done .cd-thumb{filter:saturate(.55) opacity(.72);}
   .cd-tile-done:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.8);}
-  .cd-tile-score{position:absolute;top:8px;right:8px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap;background:rgba(255,255,255,.94);color:#211a4a;box-shadow:0 1px 3px rgba(28,18,74,.2);}
+  .cd-tile-score{position:absolute;top:8px;right:8px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap;background:rgba(255,255,255,.94);color:#1f1a3d;box-shadow:0 1px 3px rgba(28,18,74,.2);}
   .cd-tile-tag{position:absolute;top:8px;right:8px;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap;box-shadow:0 1px 3px rgba(28,18,74,.18);}
   .cd-tile-bar{display:block;height:5px;border-radius:999px;background:rgba(33,26,74,.10);overflow:hidden;margin:0 0 7px;}
   .cd-tile-cta{display:flex;align-items:center;gap:5px;margin-top:9px;font-size:12px;font-weight:800;letter-spacing:.01em;}
   /* ---- FTUE ---- */
-  .ftue-lock{position:absolute;width:96px;height:96px;border-radius:50%;background:#fff;border:2px solid #e6e3f5;display:grid;place-items:center;z-index:3;box-shadow:0 8px 30px rgba(28,18,74,.18);transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .5s ease;}
+  .ftue-lock{position:absolute;width:96px;height:96px;border-radius:50%;background:#fff;border:2px solid #e4e0f2;display:grid;place-items:center;z-index:3;box-shadow:0 8px 30px rgba(28,18,74,.18);transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .5s ease;}
   .ftue-lock i{position:absolute;font-size:44px;color:#6741d9;transition:opacity .3s ease;}
   .ftue-lock .ti-lock-open{opacity:0;}
   .ftue-lock.open .ti-lock{opacity:0;}
@@ -381,38 +381,38 @@ document.addEventListener('click', function (e) {
   .ftue-qchips{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px;}
   .ftue-chip{text-align:center;}
   .ftue-qprogress{display:flex;gap:8px;margin-bottom:22px;}
-  .ftue-qbar{flex:1;height:5px;border-radius:999px;background:#e6e3f5;overflow:hidden;position:relative;}
-  .ftue-qbar.done::after{content:"";position:absolute;inset:0;border-radius:999px;background:linear-gradient(90deg,#4dabf7,#1c7ed6);animation:ftueBarFill .4s ease both;}
+  .ftue-qbar{flex:1;height:5px;border-radius:999px;background:#e4e0f2;overflow:hidden;position:relative;}
+  .ftue-qbar.done::after{content:"";position:absolute;inset:0;border-radius:999px;background:linear-gradient(90deg,#b8a6ff,#5f3dc4);animation:ftueBarFill .4s ease both;}
   @keyframes ftueBarFill{from{transform:scaleX(0);transform-origin:left;}to{transform:scaleX(1);transform-origin:left;}}
   .ftue-chip{display:flex;align-items:center;justify-content:center;text-align:center;min-height:52px;padding:12px 18px;border-radius:16px;background:rgba(33,26,74,.04);color:#3a2e63;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s ease;}
   .ftue-chip:hover{background:rgba(77,171,247,.14);}
   .ftue-sparkfield{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;overflow:hidden;border-radius:22px;}
   .ftue-spark{position:absolute;border-radius:50%;opacity:0;filter:blur(.4px);animation-name:ftueSparkTwinkle;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
   @keyframes ftueSparkTwinkle{0%,100%{opacity:0;transform:scale(.5) translateY(0);}50%{opacity:.75;transform:scale(1.15) translateY(-6px);}}
-  .ftue-spinner{width:48px;height:48px;margin:0 auto;border-radius:50%;border:3px solid #e6e3f5;border-top-color:#4dabf7;animation:ftueSpin 1s linear infinite;}
+  .ftue-spinner{width:48px;height:48px;margin:0 auto;border-radius:50%;border:3px solid #e4e0f2;border-top-color:#b8a6ff;animation:ftueSpin 1s linear infinite;}
   @keyframes ftueSpin{to{transform:rotate(360deg);}}
   @keyframes ftueVyomLand{from{opacity:0;transform:translateY(-40px) scale(.7)}to{opacity:1;transform:translateY(0) scale(1)}}
-  .ftue-modal{width:420px;max-width:88vw;background:#fff;border:1px solid #e6e3f5;border-radius:22px;box-shadow:0 24px 60px rgba(28,18,74,.2);padding:30px 30px 28px;text-align:center;animation:cdFade .3s ease both;}
+  .ftue-modal{width:420px;max-width:88vw;background:#fff;border:1px solid #e4e0f2;border-radius:22px;box-shadow:0 24px 60px rgba(28,18,74,.2);padding:30px 30px 28px;text-align:center;animation:cdFade .3s ease both;}
   .ftue-modal-buddies{display:flex;align-items:flex-end;justify-content:center;gap:14px;height:104px;margin-bottom:20px;}
   .ftue-modal-vyom{width:96px;height:96px;object-fit:contain;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));animation:ftueVyomLand .5s cubic-bezier(.3,1.3,.5,1) both;}
   .ftue-modal-spark{width:66px;height:66px;object-fit:contain;margin-bottom:6px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.4));animation:ftueSparkIn .5s cubic-bezier(.3,1.4,.5,1) both;}
   @keyframes ftueSparkIn{from{opacity:0;transform:translateX(60px) scale(.6)}to{opacity:1;transform:translateX(0) scale(1)}}
-  .ftue-modal-title{font-size:20px;font-weight:700;color:#211a4a;line-height:1.35;}
-  .ftue-modal-sub{font-size:14px;font-weight:700;color:#6b6786;line-height:1.5;margin-top:8px;}
+  .ftue-modal-title{font-size:20px;font-weight:700;color:#1f1a3d;line-height:1.35;}
+  .ftue-modal-sub{font-size:14px;font-weight:700;color:#4a4568;line-height:1.5;margin-top:8px;}
   .ftue-modal-actions{display:flex;flex-direction:column;gap:10px;margin-top:22px;}
-  .ftue-btn-primary{padding:14px 22px;border-radius:999px;background:linear-gradient(180deg,#4dabf7,#1c7ed6);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(28,126,214,.38);transition:filter .15s ease;}
+  .ftue-btn-primary{padding:14px 22px;border-radius:999px;background:linear-gradient(180deg,#b8a6ff,#5f3dc4);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(28,126,214,.38);transition:filter .15s ease;}
   .ftue-btn-primary:hover{filter:brightness(1.07);}
   .ftue-btn-ghost{padding:13px 22px;border-radius:999px;background:#fff;border:1px solid #e0ddf0;color:#4c4870;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s ease;}
-  .ftue-btn-ghost:hover{background:#e6e3f5;}
+  .ftue-btn-ghost:hover{background:#e4e0f2;}
   .ftue-vyom-rest{width:84px;height:84px;object-fit:contain;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));animation:ftueVyomLand .6s cubic-bezier(.3,1.3,.5,1) both,bob 3.4s ease-in-out 1s infinite;}
-  .ftue-speech{max-width:520px;background:rgba(255,255,255,.92);color:#211a4a;font-size:24px;font-weight:700;line-height:1.3;letter-spacing:-.01em;padding:16px 26px;border-radius:18px;text-align:center;animation:cdFade .4s ease both;}
-  .ftue-resume{display:inline-flex;align-items:center;gap:9px;padding:15px 30px;border-radius:999px;background:linear-gradient(180deg,#4dabf7,#1c7ed6);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(28,126,214,.38);pointer-events:auto;transition:filter .15s ease,transform .15s ease;animation:cdFade .4s ease both;}
+  .ftue-speech{max-width:520px;background:rgba(255,255,255,.92);color:#1f1a3d;font-size:24px;font-weight:700;line-height:1.3;letter-spacing:-.01em;padding:16px 26px;border-radius:18px;text-align:center;animation:cdFade .4s ease both;}
+  .ftue-resume{display:inline-flex;align-items:center;gap:9px;padding:15px 30px;border-radius:999px;background:linear-gradient(180deg,#b8a6ff,#5f3dc4);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(28,126,214,.38);pointer-events:auto;transition:filter .15s ease,transform .15s ease;animation:cdFade .4s ease both;}
   .ftue-resume:hover{filter:brightness(1.07);transform:translateY(-1px);}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   @media (prefers-reduced-motion: reduce){.ftue-ring,.ftue-glow,.ftue-vyom-land,.ftue-vyom-rest,.ftue-modal-spark,.ftue-lock{animation:none !important;}}
   .cd-stat{flex:1;max-width:150px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 8px;border-radius:14px;}
   .cd-stat-val{display:flex;align-items:center;gap:6px;font-size:24px;font-weight:700;line-height:1;}
-  .cd-stat-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5d5880;}
+  .cd-stat-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4a4568;}
   .cd-path-svg{position:absolute;left:0;top:0;pointer-events:none;z-index:1;}
   .cd-seg-draw{stroke-dasharray:1;animation:cdSegDraw .7s ease forwards;}
   @keyframes cdSegDraw{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
@@ -432,15 +432,15 @@ document.addEventListener('click', function (e) {
   .cd-badge-done{background:rgba(47,158,68,.94);}
   .cd-badge-lock{width:42px;height:42px;background:rgba(33,26,74,.09);}
   .cd-badge-lock i{color:#726d8c;}
-  .cd-badge-active{border-radius:11px;background:linear-gradient(180deg,#339af0,#1c7ed6);}
+  .cd-badge-active{border-radius:11px;background:linear-gradient(180deg,#5f3dc4,#5f3dc4);}
   .cd-mod-label{position:absolute;top:50%;transform:translateY(-50%);right:auto;box-sizing:border-box;padding:16px 20px 15px;border-radius:20px;background:linear-gradient(158deg,#ffffff 0%,#fbfaff 48%,#e6e2f5 100%);box-shadow:0 10px 22px -10px rgba(70,46,146,.26);transition:transform .2s cubic-bezier(.2,.8,.3,1);box-sizing:border-box;overflow:hidden;}
   .cd-mod:hover .cd-mod-label,.cd-mod:focus-visible .cd-mod-label{transform:translateY(-50%) translateY(-4px);}
   .cd-mod-completed .cd-mod-label{background:linear-gradient(158deg,#ffffff 0%,#f7fdf8 46%,#dcf7e1 100%);}
   .cd-mod-active .cd-mod-label{background:linear-gradient(158deg,#ffffff 0%,#fffaf3 44%,#ffe4c6 100%);}
   .cd-label-handle{display:none;}
-  .cd-mod-label-num{font-size:12px;font-weight:var(--fw-heavy);letter-spacing:.1em;color:#5d5880;margin-bottom:6px;}
-  .cd-mod-label-name{font-size:18px;font-weight:var(--fw-bold);color:#1b1442;line-height:1.26;letter-spacing:-.012em;margin-bottom:6px;}
-  .cd-mod-label-desc{font-size:14px;font-weight:500;color:#5d5880;line-height:1.45;margin-bottom:0;text-wrap:pretty;}
+  .cd-mod-label-num{font-size:12px;font-weight:var(--fw-heavy);letter-spacing:.1em;color:#4a4568;margin-bottom:6px;}
+  .cd-mod-label-name{font-size:18px;font-weight:var(--fw-bold);color:#1f1a3d;line-height:1.26;letter-spacing:-.012em;margin-bottom:6px;}
+  .cd-mod-label-desc{font-size:14px;font-weight:500;color:#4a4568;line-height:1.45;margin-bottom:0;text-wrap:pretty;}
   .cd-mod-label-status{font-size:var(--fs-secondary);font-weight:var(--fw-bold);}
   /* thin named rule marking each group of modules within the chapter */
   @keyframes cdJugnu{0%,100%{opacity:.85;r:4}50%{opacity:1;r:5}}
@@ -448,7 +448,7 @@ document.addEventListener('click', function (e) {
   .cd-band{position:absolute;left:-40px;right:-2400px;pointer-events:none;z-index:0;border-radius:0;}
   .cd-band.alt{background-image:linear-gradient(180deg,rgba(120,90,200,0) 0%,rgba(120,90,200,.06) 22%,rgba(120,90,200,.06) 74%,rgba(120,90,200,0) 100%);}
   .cd-band .cd-group-label{position:absolute;left:40px;top:16px;}
-  .cd-group-label{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#5d5880;white-space:nowrap;}
+  .cd-group-label{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#4a4568;white-space:nowrap;}
   .cd-lockmsg{position:absolute;left:calc(100% + 8px);top:50%;transform:translateY(-50%);background:rgba(255,255,255,.9);color:#4c4870;font-size:12px;font-weight:700;padding:8px 12px;border-radius:10px;white-space:nowrap;z-index:20;animation:cjCardIn .2s ease both;}
   .cd-right-in{animation:cdPanelIn .42s cubic-bezier(.22,.61,.36,1) both;}
   @keyframes cdPanelIn{from{opacity:0;transform:translateX(44px)}to{opacity:1;transform:translateX(0)}}
@@ -486,9 +486,9 @@ document.addEventListener('click', function (e) {
   .cj-goalw-pop{position:absolute;left:-18px;top:-16px;z-index:60;width:376px;padding:16px 18px;overflow:hidden;
     border-radius:16px;background:var(--cv-linear);
     box-shadow:0 18px 38px -14px rgba(70,46,146,.42);animation:cjGoalIn .2s ease both;}
-  .cj-goalw:not(.cj-goalw-open):focus-visible{box-shadow:0 0 0 2px #228be6;}
+  .cj-goalw:not(.cj-goalw-open):focus-visible{box-shadow:0 0 0 2px #5f3dc4;}
   .cj-goalw-track{width:340px;height:5px;margin-top:7px;border-radius:999px;background:rgba(33,26,74,.13);overflow:hidden;}
-  .cj-goalw-fill{height:100%;background:#d9480f;border-radius:999px;transition:width .7s cubic-bezier(.2,.8,.3,1);}
+  .cj-goalw-fill{height:100%;background:#e8590c;border-radius:999px;transition:width .7s cubic-bezier(.2,.8,.3,1);}
   .cj-goalw-row{animation:cjGoalIn .3s ease both;}
   .cj-goalw-row + .cj-goalw-row{margin-top:12px;padding-top:12px;border-top:1px solid rgba(120,90,200,.18);}
   .cj-goal-line{overflow:hidden;text-overflow:ellipsis;animation:cjGoalIn .5s cubic-bezier(.2,.8,.3,1) both;}
@@ -499,25 +499,25 @@ document.addEventListener('click', function (e) {
   .mc-press{position:absolute;inset:0;transition:transform .38s cubic-bezier(.3,1.6,.5,1);}
   .cd-mod:active .mc-press{transform:translateY(4px);transition:transform .1s ease;}
   .mc-node{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;
-    background:linear-gradient(180deg,#c5b8fe 0%,#beb1fa 50%,#b09ff4 100%);box-shadow:0 6px 0 #9c88ee,0 14px 22px -10px rgba(75,47,181,.45);
-    display:flex;align-items:center;justify-content:center;color:#5c46cf;font-size:40px;z-index:2;
+    background:linear-gradient(180deg,#c5b8fe 0%,#beb1fa 50%,#b09ff4 100%);box-shadow:0 6px 0 #b8a6ff,0 14px 22px -10px rgba(75,47,181,.45);
+    display:flex;align-items:center;justify-content:center;color:#5f3dc4;font-size:40px;z-index:2;
     transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease;}
   .mc-node i{transform:translateX(3px);}
-  .cd-mod:active .mc-node{box-shadow:0 2px 0 #9c88ee,0 6px 12px -8px rgba(75,47,181,.45);transition:box-shadow .1s ease;}
+  .cd-mod:active .mc-node{box-shadow:0 2px 0 #b8a6ff,0 6px 12px -8px rgba(75,47,181,.45);transition:box-shadow .1s ease;}
   .cd-mod:hover .mc-node{transform:scale(1.04);}
   .mc-card{position:absolute;top:50%;transform:translateY(-50%);box-sizing:border-box;padding:18px 24px 20px;border-radius:22px;background:#fff;
-    box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35);display:flex;flex-direction:column;align-items:flex-start;gap:6px;z-index:1;
+    box-shadow:0 6px 0 #e4e0f2,0 18px 30px -18px rgba(75,47,181,.35);display:flex;flex-direction:column;align-items:flex-start;gap:6px;z-index:1;
     transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease;}
   .cd-mod:hover .mc-card{transform:translateY(-50%) translateY(-3px);}
-  .cd-mod:active .mc-card{box-shadow:0 2px 0 #eae6fd,0 8px 16px -12px rgba(75,47,181,.35);transform:translateY(-50%);transition:box-shadow .1s ease,transform .1s ease;}
-  .mc-pill{padding:4px 10px;border-radius:999px;background:#e3dbff;color:#4b2fb5;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1.2;}
+  .cd-mod:active .mc-card{box-shadow:0 2px 0 #e4e0f2,0 8px 16px -12px rgba(75,47,181,.35);transform:translateY(-50%);transition:box-shadow .1s ease,transform .1s ease;}
+  .mc-pill{padding:4px 10px;border-radius:999px;background:#ebe5fb;color:#4b2fb5;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1.2;}
   .mc-title{font-size:18px;font-weight:800;color:#2d1985;line-height:1.25;letter-spacing:-.012em;margin-top:2px;}
   .mc-desc{font-size:14px;font-weight:500;color:#6f62b8;line-height:1.45;text-wrap:pretty;}
   .mc-track{width:56%;height:8px;border-radius:999px;background:#e9e4fc;overflow:hidden;margin-top:6px;}
-  .mc-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#8e7be9,#5c46cf);transform-origin:left center;animation:mcFill .9s cubic-bezier(.2,.8,.3,1) .35s both;}
+  .mc-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#b8a6ff,#5f3dc4);transform-origin:left center;animation:mcFill .9s cubic-bezier(.2,.8,.3,1) .35s both;}
   @keyframes mcFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
   /* active: soft halo that breathes + two twinkling sparks */
-  .mc-halo{position:absolute;left:50%;top:50%;width:140px;height:140px;margin:-70px 0 0 -70px;border-radius:50%;background:#eae6fd;z-index:0;animation:mcHalo 2.4s ease-in-out infinite;}
+  .mc-halo{position:absolute;left:50%;top:50%;width:140px;height:140px;margin:-70px 0 0 -70px;border-radius:50%;background:#e4e0f2;z-index:0;animation:mcHalo 2.4s ease-in-out infinite;}
   @keyframes mcHalo{0%,100%{transform:scale(.92);opacity:.85}50%{transform:scale(1.05);opacity:1}}
   .mc-sparks{position:absolute;left:50%;top:50%;width:0;height:0;z-index:3;}
   .mc-sparks i{position:absolute;width:4px;height:13px;border-radius:3px;background:#f8cd5c;animation:mcSpark 1.6s ease-in-out infinite;}
@@ -532,10 +532,10 @@ document.addEventListener('click', function (e) {
   /* inactive: grey node + lock, card content faded */
   .cd-mod-locked .mc-node{background:linear-gradient(180deg,#d8d8e3 0%,#c9c9d6 50%,#9c9caf 100%);box-shadow:0 6px 0 #8a8a9e,0 14px 22px -10px rgba(60,60,90,.3);color:#fff;font-size:34px;}
   .cd-mod-locked .mc-node i{transform:none;}
-  .cd-mod-locked .mc-pill{background:#f0edfb;color:#9482d5;}
-  .cd-mod-locked .mc-title{color:#8c81bc;}
-  .cd-mod-locked .mc-desc{color:#b4aed4;}
-  .cd-mod-locked .mc-track{background:#f3f0fd;}
+  .cd-mod-locked .mc-pill{background:#f1edfb;color:#7b7696;}
+  .cd-mod-locked .mc-title{color:#7b7696;}
+  .cd-mod-locked .mc-desc{color:#b4afc9;}
+  .cd-mod-locked .mc-track{background:#f1edfb;}
   .cd-mod-locked:hover .mc-node{transform:none;}
   .cd-mod:focus-visible{box-shadow:none;} .cd-mod:focus-visible .mc-node{outline:3px solid rgba(77,171,247,.65);outline-offset:4px;}
   .cd-mod .cd-mod-label.mc-card{background:#fff;padding:18px 24px 20px;border-radius:22px;}
@@ -544,66 +544,66 @@ document.addEventListener('click', function (e) {
   .mc-node .mi-canvas{position:absolute !important;left:50% !important;top:50% !important;right:auto !important;bottom:auto !important;margin:0 !important;transform:translate(-50%,-50%) !important;}
   /* ---- sketch layout: small icons, big current icon, flat lavender cards with a lip ---- */
   .cd-mod .mc-node .mi-canvas,.cd-mod-active .mc-node .mi-canvas{width:300px !important;height:300px !important;}
-  .cd-mod .cd-mod-label.mc-card{background:#f1effe !important;box-shadow:none !important;border-radius:20px !important;padding:18px 24px 24px !important;}
+  .cd-mod .cd-mod-label.mc-card{background:#f1edfb !important;box-shadow:none !important;border-radius:20px !important;padding:18px 24px 24px !important;}
   .cd-mod-active .cd-mod-label.mc-card{background:linear-gradient(158deg,#fffaeb 0%,#fff6dc 55%,#ffefc7 100%) !important;}
   .cd-mod:hover .cd-mod-label.mc-card{box-shadow:none !important;}
   .cd-mod:active .cd-mod-label.mc-card{box-shadow:none !important;}
   .cd-mod .mc-card .mc-track{position:absolute !important;left:0;right:0;bottom:0;width:auto !important;height:4px !important;margin:0 !important;border-radius:0 0 20px 20px !important;background:rgba(93,88,128,.12) !important;overflow:hidden;}
   .cd-mod .mc-card .mc-fill{border-radius:0;background:linear-gradient(90deg,rgba(142,123,233,.55),rgba(92,70,207,.6));}
   .cd-mod .mc-halo,.cd-mod .mc-sparks{display:none;}
-  .cd-mod .mc-track{background:#e2dcfb;}
+  .cd-mod .mc-track{background:#e4e0f2;}
   @media (prefers-reduced-motion: reduce){.mc-halo,.mc-sparks i,.mc-fill,.cd-mod-completed .mc-node i{animation:none;}}
 
   /* ===== Page-wide card language (taken from the module card) =====
-     white surface · lavender lip (0 6px 0 #eae6fd) · soft violet shadow · 22px radius
-     pill labels #e3dbff/#4b2fb5 · titles #2d1985 · secondary #6f62b8 · tracks #e9e4fc, fills #8e7be9→#5c46cf
+     white surface · lavender lip (0 6px 0 #e4e0f2) · soft violet shadow · 22px radius
+     pill labels #ebe5fb/#4b2fb5 · titles #2d1985 · secondary #6f62b8 · tracks #e9e4fc, fills #b8a6ff→#5f3dc4
      raised purple controls with a darker lip · press = dip + lip shrinks, springy release */
-  .cj-node-card{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease !important;}
-  .cj-planet:hover .cj-node-card{box-shadow:0 8px 0 #e3dbff,0 24px 36px -18px rgba(75,47,181,.42) !important;}
-  .cj-planet:active .cj-node-card{translate:0 4px;box-shadow:0 2px 0 #eae6fd,0 8px 16px -12px rgba(75,47,181,.35) !important;transition:box-shadow .1s ease,translate .1s ease !important;}
+  .cj-node-card{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #e4e0f2,0 18px 30px -18px rgba(75,47,181,.35) !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1),transform .25s ease !important;}
+  .cj-planet:hover .cj-node-card{box-shadow:0 8px 0 #ebe5fb,0 24px 36px -18px rgba(75,47,181,.42) !important;}
+  .cj-planet:active .cj-node-card{translate:0 4px;box-shadow:0 2px 0 #e4e0f2,0 8px 16px -12px rgba(75,47,181,.35) !important;transition:box-shadow .1s ease,translate .1s ease !important;}
   .cj-isl-ongoing{box-shadow:0 18px 30px -16px rgba(75,47,181,.45) !important;}
   .cj-planet:hover .cj-isl-ongoing{box-shadow:0 24px 36px -18px rgba(75,47,181,.5) !important;}
   .cj-planet:active .cj-isl-ongoing{box-shadow:0 8px 16px -12px rgba(75,47,181,.4) !important;}
   .cj-zoomed .cj-node-card,.cj-zoomed .cj-planet:hover .cj-node-card{background:none !important;box-shadow:none !important;translate:none;}
-  .cj-isl-num{top:14px;left:14px;padding:4px 10px;border-radius:999px;background:#e3dbff;color:#4b2fb5;font-size:12px;font-weight:800;letter-spacing:.08em;line-height:1.2;}
+  .cj-isl-num{top:14px;left:14px;padding:4px 10px;border-radius:999px;background:#ebe5fb;color:#4b2fb5;font-size:12px;font-weight:800;letter-spacing:.08em;line-height:1.2;}
   .cj-isl-count{top:18px;right:18px;color:#6f62b8;font-size:14px;font-weight:800;line-height:1.2;}
   .cj-node-name>span{color:#2d1985;font-weight:800;}
   .cj-isl-new .cj-node-name>span{color:#2d1985;}
   .cj-isl-bar{background:#e9e4fc !important;}
-  .cj-isl-fill{background:linear-gradient(90deg,#8e7be9,#5c46cf) !important;}
-  .cj-isl-play{background:linear-gradient(180deg,#c5b8fe 0%,#beb1fa 50%,#b09ff4 100%) !important;color:#5c46cf !important;box-shadow:0 4px 0 #9c88ee !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1);}
-  .cj-planet:active .cj-isl-play{translate:0 3px;box-shadow:0 1px 0 #9c88ee !important;}
-  .cj-back{background:#fff !important;border-radius:14px !important;box-shadow:0 4px 0 #eae6fd,0 10px 18px -12px rgba(75,47,181,.35) !important;color:#4b2fb5 !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1);}
+  .cj-isl-fill{background:linear-gradient(90deg,#b8a6ff,#5f3dc4) !important;}
+  .cj-isl-play{background:linear-gradient(180deg,#c5b8fe 0%,#beb1fa 50%,#b09ff4 100%) !important;color:#5f3dc4 !important;box-shadow:0 4px 0 #b8a6ff !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1);}
+  .cj-planet:active .cj-isl-play{translate:0 3px;box-shadow:0 1px 0 #b8a6ff !important;}
+  .cj-back{background:#fff !important;border-radius:14px !important;box-shadow:0 4px 0 #e4e0f2,0 10px 18px -12px rgba(75,47,181,.35) !important;color:#4b2fb5 !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1);}
   .cj-back:hover{background:#fbfaff !important;}
-  .cj-back:active{translate:0 3px;box-shadow:0 1px 0 #eae6fd !important;}
-  .cj-goalw::before{background:#fff !important;border-radius:18px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;}
-  .cj-goalw-pop{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;}
+  .cj-back:active{translate:0 3px;box-shadow:0 1px 0 #e4e0f2 !important;}
+  .cj-goalw::before{background:#fff !important;border-radius:18px !important;box-shadow:0 6px 0 #e4e0f2,0 18px 30px -18px rgba(75,47,181,.35) !important;}
+  .cj-goalw-pop{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #e4e0f2,0 18px 30px -18px rgba(75,47,181,.35) !important;}
   .cj-goalw-track{background:#e9e4fc !important;}
   /* detail view */
-  .cd-card{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;}
-  .cd-modpill{background:#f3f0ff;color:#4b2fb5;}
+  .cd-card{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #e4e0f2,0 18px 30px -18px rgba(75,47,181,.35) !important;}
+  .cd-modpill{background:#f1edfb;color:#4b2fb5;}
   .cd-stat{background:#f8f6ff;}
   .cd-stat-label{color:#6f62b8 !important;}
   .cd-seg{background:#fff !important;border-radius:16px !important;padding:5px !important;box-shadow:none !important;}
   .cd-seg-btn{border-radius:11px !important;color:#4b2fb5 !important;font-weight:800 !important;transition:background .16s ease,box-shadow .3s cubic-bezier(.3,1.6,.5,1),translate .3s cubic-bezier(.3,1.6,.5,1) !important;}
-  .cd-seg-btn.on{background:linear-gradient(180deg,#8e7be9,#5c46cf) !important;color:#fff !important;box-shadow:0 3px 0 #4b2fb5 !important;}
-  .cd-seg-btn:not(.on):hover{background:#f3f0ff !important;}
+  .cd-seg-btn.on{background:linear-gradient(180deg,#b8a6ff,#5f3dc4) !important;color:#fff !important;box-shadow:0 3px 0 #4b2fb5 !important;}
+  .cd-seg-btn:not(.on):hover{background:#f1edfb !important;}
   .cd-seg-btn:active{translate:0 2px;}
-  .cd-group-label{padding:4px 10px;border-radius:999px;background:#e3dbff;color:#4b2fb5 !important;letter-spacing:.08em !important;}
+  .cd-group-label{padding:4px 10px;border-radius:999px;background:#ebe5fb;color:#4b2fb5 !important;letter-spacing:.08em !important;}
   .cd-libhead{color:#4b2fb5 !important;font-weight:800 !important;}
-  .cd-tile,.cd-pcard,.cd-intent{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #eae6fd,0 18px 30px -18px rgba(75,47,181,.35) !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1) !important;}
-  .cd-tile:hover,.cd-pcard:hover,.cd-intent:hover{translate:0 -3px;box-shadow:0 8px 0 #e3dbff,0 24px 36px -18px rgba(75,47,181,.42) !important;}
-  .cd-tile:active,.cd-pcard:active,.cd-intent:active{translate:0 4px;box-shadow:0 2px 0 #eae6fd,0 8px 16px -12px rgba(75,47,181,.35) !important;transition:box-shadow .1s ease,translate .1s ease !important;}
+  .cd-tile,.cd-pcard,.cd-intent{background:#fff !important;border-radius:22px !important;box-shadow:0 6px 0 #e4e0f2,0 18px 30px -18px rgba(75,47,181,.35) !important;transition:box-shadow .38s cubic-bezier(.3,1.6,.5,1),translate .38s cubic-bezier(.3,1.6,.5,1) !important;}
+  .cd-tile:hover,.cd-pcard:hover,.cd-intent:hover{translate:0 -3px;box-shadow:0 8px 0 #ebe5fb,0 24px 36px -18px rgba(75,47,181,.42) !important;}
+  .cd-tile:active,.cd-pcard:active,.cd-intent:active{translate:0 4px;box-shadow:0 2px 0 #e4e0f2,0 8px 16px -12px rgba(75,47,181,.35) !important;transition:box-shadow .1s ease,translate .1s ease !important;}
   .cd-tile-done{background:#fbfaff !important;}
   .cd-tile-title,.cd-ptitle,.cd-intent-name{color:#2d1985 !important;}
   .cd-tile-meta,.cd-pmeta,.cd-intent-for{color:#6f62b8 !important;}
   .cd-pico{box-shadow:0 4px 0 rgba(75,47,181,.14);}
   .cd-pbar,.cd-intent-bar,.cd-tile-bar{background:#e9e4fc !important;}
-  .cd-pbtn,.cd-pbtn-alt{background:linear-gradient(180deg,#8e7be9,#5c46cf) !important;color:#fff !important;border-radius:12px !important;box-shadow:0 3px 0 #4b2fb5 !important;transition:box-shadow .3s cubic-bezier(.3,1.6,.5,1),translate .3s cubic-bezier(.3,1.6,.5,1) !important;}
+  .cd-pbtn,.cd-pbtn-alt{background:linear-gradient(180deg,#b8a6ff,#5f3dc4) !important;color:#fff !important;border-radius:12px !important;box-shadow:0 3px 0 #4b2fb5 !important;transition:box-shadow .3s cubic-bezier(.3,1.6,.5,1),translate .3s cubic-bezier(.3,1.6,.5,1) !important;}
   .cd-pbtn:active,.cd-pbtn-alt:active{translate:0 2px;box-shadow:0 1px 0 #4b2fb5 !important;}
-  .cd-pbtn-q{background:#f3f0ff !important;color:#4b2fb5 !important;box-shadow:0 3px 0 #e3dbff !important;}
-  .cd-lockmsg{background:#fff !important;border-radius:12px !important;box-shadow:0 4px 0 #eae6fd,0 10px 18px -12px rgba(75,47,181,.35);color:#4b2fb5 !important;}
-  .cj-goalw-fill{background:linear-gradient(90deg,#8e7be9,#5c46cf) !important;}
+  .cd-pbtn-q{background:#f1edfb !important;color:#4b2fb5 !important;box-shadow:0 3px 0 #ebe5fb !important;}
+  .cd-lockmsg{background:#fff !important;border-radius:12px !important;box-shadow:0 4px 0 #e4e0f2,0 10px 18px -12px rgba(75,47,181,.35);color:#4b2fb5 !important;}
+  .cj-goalw-fill{background:linear-gradient(90deg,#b8a6ff,#5f3dc4) !important;}
   .cj-goal-line,.cj-goalw-row>div:first-child{color:#2d1985 !important;}
   @media (prefers-reduced-motion: reduce){.cj-node-card,.cd-tile,.cd-pcard,.cd-intent,.cd-seg-btn,.cj-back{transition:none !important;}}
 </style>
@@ -616,16 +616,16 @@ document.addEventListener('click', function (e) {
   <div style="position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:99;pointer-events:none;display:inline-block;max-width:min(640px,90vw);border-radius:14px;overflow:hidden;padding:2px 0;animation:cjCardIn .4s ease both;">
     <div class="ftue-star-bottom"></div>
     <div class="ftue-star-top"></div>
-    <div style="position:relative;z-index:1;text-align:center;background:#fff;border:1px solid #e6e3f5;box-shadow:0 14px 40px rgba(28,18,74,.18);border-radius:14px;padding:16px 26px;">
-      <span style="font-size:var(--fs-subheading);font-weight:var(--fw-bold);color:#211a4a;letter-spacing:-.01em;line-height:1.35;">{{ ftueLandText }}</span>
+    <div style="position:relative;z-index:1;text-align:center;background:#fff;border:1px solid #e4e0f2;box-shadow:0 14px 40px rgba(28,18,74,.18);border-radius:14px;padding:16px 26px;">
+      <span style="font-size:var(--fs-subheading);font-weight:var(--fw-bold);color:#1f1a3d;letter-spacing:-.01em;line-height:1.35;">{{ ftueLandText }}</span>
     </div>
   </div>
 </sc-if>
 
 <sc-if value="{{ ftueEndToast }}" hint-placeholder-val="{{ false }}">
-  <div style="position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:99;pointer-events:none;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid #e6e3f5;box-shadow:0 14px 40px rgba(28,18,74,.18);border-radius:14px;padding:16px 24px;max-width:min(560px,90vw);animation:cjCardIn .4s ease both;">
+  <div style="position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:99;pointer-events:none;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid #e4e0f2;box-shadow:0 14px 40px rgba(28,18,74,.18);border-radius:14px;padding:16px 24px;max-width:min(560px,90vw);animation:cjCardIn .4s ease both;">
     <i class="ti ti-sparkles" style="font-size:22px;color:#2f9e44;flex:none;"></i>
-    <span style="font-size:var(--fs-subheading);font-weight:var(--fw-bold);color:#211a4a;letter-spacing:-.01em;line-height:1.35;">You're all set — explore any chapter, anytime.</span>
+    <span style="font-size:var(--fs-subheading);font-weight:var(--fw-bold);color:#1f1a3d;letter-spacing:-.01em;line-height:1.35;">You're all set — explore any chapter, anytime.</span>
   </div>
 </sc-if>
 
@@ -647,7 +647,7 @@ document.addEventListener('click', function (e) {
       <div class="cd-card">
         <div class="cd-card-handle" style="background:{{ ch.accent }};"></div>
         <div class="cd-hero-text">
-          <div style="font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5d5880;margin:0 0 12px;">Chapter {{ ch.numLabel }}</div>
+          <div style="font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4a4568;margin:0 0 12px;">Chapter {{ ch.numLabel }}</div>
           <h1 class="cd-h1">{{ ch.nameLead }}<span>{{ ch.nameTail }}</span></h1>
         </div>
 
@@ -677,8 +677,8 @@ document.addEventListener('click', function (e) {
         <div style="position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;pointer-events:none;">
           <div style="width:120px;height:120px;border-radius:50%;background:linear-gradient(158deg,rgba(255,255,255,.72),rgba(214,208,240,.6));border:1px solid rgba(255,255,255,.8);display:grid;place-items:center;box-shadow:0 20px 40px -18px rgba(70,46,146,.34),inset 0 1px 0 rgba(255,255,255,.9);"><i class="ti ti-lock" style="font-size:58px;color:#6b6690;"></i></div>
           <div style="text-align:center;max-width:300px;">
-            <div style="font-size:20px;font-weight:700;color:#211a4a;margin-bottom:8px;">Chapter locked</div>
-            <div style="font-size:14px;font-weight:700;color:#6b6786;line-height:1.5;">Finish the earlier chapters to unlock these lessons.</div>
+            <div style="font-size:20px;font-weight:700;color:#1f1a3d;margin-bottom:8px;">Chapter locked</div>
+            <div style="font-size:14px;font-weight:700;color:#4a4568;line-height:1.5;">Finish the earlier chapters to unlock these lessons.</div>
           </div>
         </div>
       </sc-if>
@@ -718,7 +718,7 @@ document.addEventListener('click', function (e) {
                questions, which topics, how hard — is the product's job, decided live. -->
           <div class="cd-libsec">
             <div class="cd-libhead" style="margin-bottom:6px;">How long have you got?</div>
-            <div style="font-size:13.5px;font-weight:500;color:#5d5880;line-height:1.5;margin-bottom:16px;max-width:520px;text-wrap:pretty;">Pick the time. Vyom builds the set around what you have already mastered, and keeps changing it as you go.</div>
+            <div style="font-size:13.5px;font-weight:500;color:#4a4568;line-height:1.5;margin-bottom:16px;max-width:520px;text-wrap:pretty;">Pick the time. Vyom builds the set around what you have already mastered, and keeps changing it as you go.</div>
             <div class="cd-intents">
               <sc-for list="{{ cdIntents }}" as="i" hint-placeholder-count="4">
                 <div class="cd-intent" onClick="{{ i.start }}" role="button" tabindex="0">
@@ -728,15 +728,15 @@ document.addEventListener('click', function (e) {
                   <div class="cd-intent-for">{{ i.blurb }}</div>
                   <div class="cd-intent-best">
                     <div style="display:flex;align-items:baseline;gap:7px;">
-                      <span style="font-size:11px;font-weight:800;letter-spacing:.07em;white-space:nowrap;color:#495057;">{{ i.bestCap }}</span>
+                      <span style="font-size:11px;font-weight:800;letter-spacing:.07em;white-space:nowrap;color:#4a4568;">{{ i.bestCap }}</span>
                       <span style="font-size:19px;font-weight:800;letter-spacing:-.02em;color:{{ i.fg }};">{{ i.best }}</span>
                     </div>
                     <div class="cd-intent-bar">
-                      <div style="width:{{ i.w1 }};background:#40c057;"></div>
-                      <div style="width:{{ i.w2 }};background:#fab005;"></div>
+                      <div style="width:{{ i.w1 }};background:#2f9e44;"></div>
+                      <div style="width:{{ i.w2 }};background:#f08c00;"></div>
                       <div style="width:{{ i.w3 }};background:#e8590c;"></div>
                     </div>
-                    <div style="font-size:11.5px;font-weight:700;white-space:nowrap;color:#6b6786;">{{ i.bestFoot }}</div>
+                    <div style="font-size:11.5px;font-weight:700;white-space:nowrap;color:#4a4568;">{{ i.bestFoot }}</div>
                   </div>
                   <sc-if value="{{ i.soloGear }}" hint-placeholder-val="{{ false }}">
                     <div class="cd-intent-gear">one gear · no breaks</div>
@@ -864,9 +864,9 @@ document.addEventListener('click', function (e) {
 <sc-if value="{{ isMap }}" hint-placeholder-val="{{ true }}">
 <div class="cj-field" style="position:relative;width:100vw;height:100vh;overflow:hidden;background-image:var(--cv-linear);background-size:100% 100%;">
   <div class="cj-wake" aria-hidden="true"></div>
-  <span class="cj2-tw" style="position:absolute;left:16%;top:26%;width:4px;height:4px;border-radius:50%;background:#7950f2;box-shadow:0 0 8px 2px rgba(121,80,242,.4);z-index:0;animation:cj2Twk 4s ease-in-out infinite;"></span>
-  <span class="cj2-tw" style="position:absolute;left:58%;top:16%;width:5px;height:5px;border-radius:50%;background:#4c6ef5;box-shadow:0 0 8px 2px rgba(76,110,245,.4);z-index:0;animation:cj2Twk 4s ease-in-out 1.2s infinite;"></span>
-  <span class="cj2-tw" style="position:absolute;left:82%;top:60%;width:4px;height:4px;border-radius:50%;background:#40c057;box-shadow:0 0 8px 2px rgba(64,192,87,.4);z-index:0;animation:cj2Twk 4s ease-in-out .6s infinite;"></span>
+  <span class="cj2-tw" style="position:absolute;left:16%;top:26%;width:4px;height:4px;border-radius:50%;background:#5f3dc4;box-shadow:0 0 8px 2px rgba(121,80,242,.4);z-index:0;animation:cj2Twk 4s ease-in-out infinite;"></span>
+  <span class="cj2-tw" style="position:absolute;left:58%;top:16%;width:5px;height:5px;border-radius:50%;background:#5f3dc4;box-shadow:0 0 8px 2px rgba(76,110,245,.4);z-index:0;animation:cj2Twk 4s ease-in-out 1.2s infinite;"></span>
+  <span class="cj2-tw" style="position:absolute;left:82%;top:60%;width:4px;height:4px;border-radius:50%;background:#2f9e44;box-shadow:0 0 8px 2px rgba(64,192,87,.4);z-index:0;animation:cj2Twk 4s ease-in-out .6s infinite;"></span>
 
   <sc-if value="{{ ftueModal }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:rgba(8,6,22,.58);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);">
@@ -959,7 +959,7 @@ document.addEventListener('click', function (e) {
         <div class="cj-goalw-rows" style="width:340px;min-width:0;">
             <div style="position:relative;width:340px;height:26px;overflow:hidden;">
               <sc-for list="{{ goalRow }}" as="g" hint-placeholder-count="1">
-                <div class="cj-goal-line" style="position:absolute;left:0;bottom:0;width:340px;font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;white-space:nowrap;"><span style="color:#5c46cf;font-weight:800;font-size:18px;">{{ g.pctLabel }}</span> {{ g.label }}</div>
+                <div class="cj-goal-line" style="position:absolute;left:0;bottom:0;width:340px;font-size:14px;font-weight:700;color:#1f1a3d;line-height:1.4;white-space:nowrap;"><span style="color:#5f3dc4;font-weight:800;font-size:18px;">{{ g.pctLabel }}</span> {{ g.label }}</div>
               </sc-for>
             </div>
             <div class="cj-goalw-track"><div class="cj-goalw-fill" style="width:{{ goalPct }}%;"></div></div>
@@ -968,7 +968,7 @@ document.addEventListener('click', function (e) {
           <div class="cj-goalw-pop">
               <sc-for list="{{ openGoals }}" as="g" hint-placeholder-count="3">
                 <div class="cj-goalw-row">
-                  <div style="max-width:340px;font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;white-space:normal;text-wrap:pretty;"><span style="color:#5c46cf;font-weight:800;font-size:18px;">{{ g.pctLabel }}</span> {{ g.label }}</div>
+                  <div style="max-width:340px;font-size:14px;font-weight:700;color:#1f1a3d;line-height:1.4;white-space:normal;text-wrap:pretty;"><span style="color:#5f3dc4;font-weight:800;font-size:18px;">{{ g.pctLabel }}</span> {{ g.label }}</div>
                   <div class="cj-goalw-track"><div class="cj-goalw-fill" style="width:{{ g.pctLabel }};"></div></div>
                 </div>
               </sc-for>
@@ -981,9 +981,9 @@ document.addEventListener('click', function (e) {
   <div style="position:absolute;top:24px;right:28px;z-index:30;display:flex;align-items:flex-start;gap:24px;opacity:{{ hintOpacity }};pointer-events:{{ topWidgetsPE }};transition:opacity .3s ease;">
     <div style="position:relative;top:-4px;min-width:0;display:none;">
       <div style="width:228px;height:26px;display:flex;align-items:flex-end;justify-content:flex-end;gap:9px;">
-        <div style="font-size:14px;font-weight:700;color:#211a4a;line-height:1.4;text-align:right;white-space:nowrap;"><span style="font-weight:800;color:#5c46cf;font-size:18px;">{{ doneCount }}</span> of {{ totalCount }} chapters done</div>
+        <div style="font-size:14px;font-weight:700;color:#1f1a3d;line-height:1.4;text-align:right;white-space:nowrap;"><span style="font-weight:800;color:#5f3dc4;font-size:18px;">{{ doneCount }}</span> of {{ totalCount }} chapters done</div>
       </div>
-      <div style="width:228px;height:5px;margin-top:7px;border-radius:999px;background:#e9e4fc;overflow:hidden;"><div style="height:100%;width:{{ overallPct }}%;background:linear-gradient(90deg,#8e7be9,#5c46cf);border-radius:999px;transition:width .7s cubic-bezier(.2,.8,.3,1);"></div></div>
+      <div style="width:228px;height:5px;margin-top:7px;border-radius:999px;background:#e9e4fc;overflow:hidden;"><div style="height:100%;width:{{ overallPct }}%;background:linear-gradient(90deg,#b8a6ff,#5f3dc4);border-radius:999px;transition:width .7s cubic-bezier(.2,.8,.3,1);"></div></div>
     </div>
   </div>
 
@@ -1110,7 +1110,7 @@ class Component extends DCLogic {
     if (this._sparkCache) return this._sparkCache;
     let s = 918273;
     const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
-    const cols = ['#8bf5d6', '#a5d8ff', '#d0bfff', '#ffe066'];
+    const cols = ['#8bf5d6', '#ebe5fb', '#d0bfff', '#ffe066'];
     this._sparkCache = Array.from({ length: 34 }, () => ({
       x: +(rnd() * 100).toFixed(1), y: +(rnd() * 100).toFixed(1),
       sz: +(2 + rnd() * 3).toFixed(1), delay: +(rnd() * 4).toFixed(2), dur: +(2.4 + rnd() * 2.4).toFixed(2),
@@ -1729,14 +1729,14 @@ class Component extends DCLogic {
   get HISTORY_TABLE() {
     return {
       8: [
-        { key:'s1', band:'easy', title:'10-minute sprint', icon:'ti-stopwatch', tint:'linear-gradient(140deg,#4dabf7,#12558f)', date:'24 Aug', got:7, of:10 },
-        { key:'s3', band:'easy', title:'Quick drill', icon:'ti-bolt', tint:'linear-gradient(140deg,#51cf66,#1f7a35)', date:'19 Aug', got:6, of:6 },
-        { key:'s4', band:'easy', title:'Quick drill', icon:'ti-bolt', tint:'linear-gradient(140deg,#51cf66,#1f7a35)', date:'16 Aug', got:4, of:6 },
-        { key:'s2', band:'hard', title:'Work on paper', icon:'ti-camera', tint:'linear-gradient(140deg,#ff922b,#a34a00)', date:'21 Aug', got:16, of:20 },
+        { key:'s1', band:'easy', title:'10-minute sprint', icon:'ti-stopwatch', tint:'linear-gradient(140deg,#b8a6ff,#12558f)', date:'24 Aug', got:7, of:10 },
+        { key:'s3', band:'easy', title:'Quick drill', icon:'ti-bolt', tint:'linear-gradient(140deg,#2f9e44,#1f7a35)', date:'19 Aug', got:6, of:6 },
+        { key:'s4', band:'easy', title:'Quick drill', icon:'ti-bolt', tint:'linear-gradient(140deg,#2f9e44,#1f7a35)', date:'16 Aug', got:4, of:6 },
+        { key:'s2', band:'hard', title:'Work on paper', icon:'ti-camera', tint:'linear-gradient(140deg,#e8590c,#a34a00)', date:'21 Aug', got:16, of:20 },
       ],
       6: [
-        { key:'c1', band:'easy', title:'Quick drill', icon:'ti-bolt', tint:'linear-gradient(140deg,#51cf66,#1f7a35)', date:'22 Aug', got:5, of:6 },
-        { key:'c2', band:'easy', title:'10-minute sprint', icon:'ti-stopwatch', tint:'linear-gradient(140deg,#4dabf7,#12558f)', date:'18 Aug', got:6, of:10 },
+        { key:'c1', band:'easy', title:'Quick drill', icon:'ti-bolt', tint:'linear-gradient(140deg,#2f9e44,#1f7a35)', date:'22 Aug', got:5, of:6 },
+        { key:'c2', band:'easy', title:'10-minute sprint', icon:'ti-stopwatch', tint:'linear-gradient(140deg,#b8a6ff,#12558f)', date:'18 Aug', got:6, of:10 },
       ],
     };
   }
@@ -1769,9 +1769,9 @@ class Component extends DCLogic {
     const starCount = status === 'done' ? (c.mastery >= 85 ? 3 : (c.mastery >= 68 ? 2 : 1)) : 0;
     const crown = status === 'done' && c.mastery >= 90;
     const map = {
-      done:    { color:'#2f9e44', color2:'#8ce99a', light:'#ebfbee', bg:'#2f9e44', pillBg:'#d3f9d8', pillFg:'#2b8a3e', pillText:'Completed' },
-      ongoing: { color:'#228be6', color2:'#74c0fc', light:'#e7f5ff', bg:'#fff',    pillBg:'#d0ebff', pillFg:'#1971c2', pillText:'In progress' },
-      new:     { color:'#adb5bd', color2:'#ced4da', light:'#f8f9fa', bg:'#fff',    pillBg:'#f1f3f5', pillFg:'#868e96', pillText:'Not started' },
+      done:    { color:'#2f9e44', color2:'#8ce99a', light:'#e9f8ec', bg:'#2f9e44', pillBg:'#d3f9d8', pillFg:'#2f9e44', pillText:'Completed' },
+      ongoing: { color:'#5f3dc4', color2:'#b8a6ff', light:'#ebe5fb', bg:'#fff',    pillBg:'#ebe5fb', pillFg:'#4b2fb5', pillText:'In progress' },
+      new:     { color:'#7b7696', color2:'#b4afc9', light:'#f8f9fa', bg:'#fff',    pillBg:'#f1f3f5', pillFg:'#7b7696', pillText:'Not started' },
     }[status];
     return { ...c, status, pct, xp, orbs, starCount, crown, ...map };
   }
@@ -1855,15 +1855,15 @@ class Component extends DCLogic {
       const art = this.buildArt({ id: ch.id * 100 + i, status: artStatus }, ['crater','bands','swirl'][i % 3], podSize, 6, (i % 4) * 0.4);
       const meta = {
         completed: { text:'Completed', color:'#1e6b2e' },
-        active:    { text:'Current lesson', color:'#ff922b' },
-        available: { text:'Available', color:'#a5d8ff' },
+        active:    { text:'Current lesson', color:'#e8590c' },
+        available: { text:'Available', color:'#ebe5fb' },
         future:    { text:'Upcoming', color:'#8f8ab0' },
         locked:    { text:'Locked', color:'#726d8c' },
       }[st];
       const key = 'm' + i;
       mods.push({
         key, n: i + 1, numLabel: String(i + 1).padStart(2, '0'),
-        accent: st === 'completed' ? 'linear-gradient(90deg,#69db7c,#2f9e44)' : (st === 'active' ? 'linear-gradient(90deg,#ffa94d,#e8590c)' : 'linear-gradient(90deg,rgba(154,147,201,.85),rgba(122,114,178,.85))'),
+        accent: st === 'completed' ? 'linear-gradient(90deg,#2f9e44,#2f9e44)' : (st === 'active' ? 'linear-gradient(90deg,#e8590c,#e8590c)' : 'linear-gradient(90deg,rgba(154,147,201,.85),rgba(122,114,178,.85))'),
         name: names[i % names.length], desc: descs[i % descs.length], x, y, podSize, enterDelay: +(0.04 + i * 0.045).toFixed(2),
         labelLeft: Math.round(podSize / 2 + (st === 'active' ? 112 : 58)),
         // Rive module card: node centre sits on (x,y); card reaches 575 artboard units to the right
@@ -1890,7 +1890,7 @@ class Component extends DCLogic {
     // pitch, tangent-rotated, docking at each pod's rim instead of its centre
     // trail: one solid stroke per segment, same vocabulary as the journey rail —
     // colour + weight from the EARLIER pod's status, docking on each pod's rim
-    const CD_TRAIL = { done: '#8ce99a', active: '#ffa94d', locked: '#d2cbe4' };
+    const CD_TRAIL = { done: '#8ce99a', active: '#e8590c', locked: '#d2cbe4' };
     const segs = [];
     for (let i = 0; i < mods.length - 1; i++) {
       const a = mods[i], b = mods[i + 1];
@@ -1996,8 +1996,8 @@ class Component extends DCLogic {
   // ---- Kurzgesagt-style planet art (decorative SVG, recolored by status) ----
   buildArt(c, arch, size, bob, bobDelay) {
     const pal = {
-      done:    { base:'#2f9e44', light:'#8ce99a', dark:'#1e6b2e', rim:'#d3f9d8', spot:'#69db7c' },
-      ongoing: { base:'#3b8ef0', light:'#a5d8ff', dark:'#1864ab', rim:'#e7f5ff', spot:'#74c0fc' },
+      done:    { base:'#2f9e44', light:'#8ce99a', dark:'#1e6b2e', rim:'#d3f9d8', spot:'#2f9e44' },
+      ongoing: { base:'#3b8ef0', light:'#ebe5fb', dark:'#4b2fb5', rim:'#ebe5fb', spot:'#b8a6ff' },
       new:     { base:'#cfccdf', light:'#e8e6f1', dark:'#b4b0c9', rim:'#efedf6', spot:'#c2bed6' },
     }[c.status];
     let s = (c.id * 2654435761) % 2147483647;
@@ -2056,8 +2056,8 @@ class Component extends DCLogic {
       else st = 'locked';
       const style = {
         done:    { bg:'#2f9e44', fg:'#fff', bd:'#2f9e44', shadow:'0 4px 10px rgba(47,158,68,.3)', isIcon:true, isNum:false, icon:'ti ti-check' },
-        current: { bg:'#fff', fg:'#228be6', bd:'#228be6', shadow:'0 4px 14px rgba(34,139,230,.4)', isIcon:true, isNum:false, icon:'ti ti-player-play-filled' },
-        locked:  { bg:'#fff', fg:'#adb5bd', bd:'#e0dced', shadow:'0 2px 5px rgba(0,0,0,.06)', isIcon:false, isNum:true, icon:'' },
+        current: { bg:'#fff', fg:'#5f3dc4', bd:'#5f3dc4', shadow:'0 4px 14px rgba(34,139,230,.4)', isIcon:true, isNum:false, icon:'ti ti-player-play-filled' },
+        locked:  { bg:'#fff', fg:'#7b7696', bd:'#e0dced', shadow:'0 2px 5px rgba(0,0,0,.06)', isIcon:false, isNum:true, icon:'' },
       }[st];
       beads.push({ n:i+1, x, y, open:this.open(ch.id), ...style });
       pts.push([x,y]);
@@ -2226,7 +2226,7 @@ class Component extends DCLogic {
         ringSize: size + 20, ringColor: 'rgba(116,192,252,.85)',
         tipStatus: c.status === 'done' ? 'Completed' : (c.status === 'ongoing' ? 'In progress' : 'Not started'),
         tipProgress: c.done + '/' + c.count,
-        tipColor: c.status === 'done' ? '#8ce99a' : (c.status === 'ongoing' ? '#a5d8ff' : '#b8bdc4'),
+        tipColor: c.status === 'done' ? '#8ce99a' : (c.status === 'ongoing' ? '#ebe5fb' : '#b8bdc4'),
         tipPos: '',
         open: this.open(c.id),
       };
@@ -2257,24 +2257,24 @@ class Component extends DCLogic {
       // everything else starts at the centre and hides behind the sphere, never showing a gap
       p.stemTop = p.isOngoing ? 'calc(50% + ' + ringEdge + 'px)' : '50%';
       p.stemH = p.isOngoing ? (drop - ringEdge) : drop;
-      p.stemColor = p.isLocked ? '#cfcbe4' : (p.status === 'done' ? '#51cf66' : '#4dabf7');
+      p.stemColor = p.isLocked ? '#cfcbe4' : (p.status === 'done' ? '#2f9e44' : '#b8a6ff');
       p.isUnlocked = !p.isLocked;
       p.glowClass = p.status === 'done' ? 'glow-done' : (p.status === 'ongoing' ? 'glow-ongoing' : 'glow-locked');
-      p.ctaBg = p.status === 'done' ? 'linear-gradient(180deg,#51cf66,#2f9e44)' : 'linear-gradient(180deg,#4dabf7,#1c7ed6)';
+      p.ctaBg = p.status === 'done' ? 'linear-gradient(180deg,#2f9e44,#2f9e44)' : 'linear-gradient(180deg,#b8a6ff,#5f3dc4)';
       p.ctaShadow = p.status === 'done' ? 'rgba(47,158,68,.4)' : 'rgba(28,126,214,.42)';
-      p.tipColor2 = p.status === 'done' ? '#2f9e44' : (p.isOngoing ? '#d9480f' : '#8b86a6');
+      p.tipColor2 = p.status === 'done' ? '#2f9e44' : (p.isOngoing ? '#e8590c' : '#7b7696');
       // one glass material for all three states; only the wash strength, bloom hue and shadow change
       const glass = {
         done: {
           bg: 'linear-gradient(158deg,#ffffff 0%,#f7fdf8 46%,#dcf7e1 100%)',
           shadow: '0 30px 58px -22px rgba(70,46,146,.44),0 4px 12px rgba(70,46,146,.14),inset 0 1px 0 rgba(255,255,255,.92)',
-          accent: 'linear-gradient(90deg,#69db7c,#2f9e44)',
+          accent: 'linear-gradient(90deg,#2f9e44,#2f9e44)',
           bloom: 'radial-gradient(circle,rgba(47,158,68,.30) 0%,rgba(47,158,68,.10) 52%,rgba(47,158,68,0) 72%)',
         },
         ongoing: {
           bg: 'linear-gradient(158deg,#ffffff 0%,#fffaf3 44%,#ffe4c6 100%)',
           shadow: '0 38px 70px -24px rgba(186,104,18,.5),0 5px 14px rgba(90,52,140,.16),inset 0 1px 0 rgba(255,255,255,.95)',
-          accent: 'linear-gradient(90deg,#ffa94d,#e8590c)',
+          accent: 'linear-gradient(90deg,#e8590c,#e8590c)',
           bloom: 'radial-gradient(circle,rgba(247,103,7,.30) 0%,rgba(247,103,7,.11) 52%,rgba(247,103,7,0) 72%)',
         },
         new: {
@@ -2343,7 +2343,7 @@ class Component extends DCLogic {
       w: +(p.halfW * 2).toFixed(1), h: +(p.halfH * 2).toFixed(1),
       r: +(16 * cjScale).toFixed(1),
     }));
-    const trailColor = { done: '#8ce99a', ongoing: '#ffa94d', new: '#d2cbe4' };
+    const trailColor = { done: '#8ce99a', ongoing: '#e8590c', new: '#d2cbe4' };
     const trailSegs = planets.slice(0, -1).map((p, i) => {
       const next = planets[i + 1];
       const st = next.isLocked ? 'new' : p.status;   // grey as soon as the line leads into locked territory
@@ -2446,7 +2446,7 @@ class Component extends DCLogic {
       o: +(0.4 + srnd() * 0.4).toFixed(2),
     });
 
-    const pcols = ['#40c057','#4c6ef5','#7950f2','#228be6','#2f9e44'];
+    const pcols = ['#2f9e44','#5f3dc4','#5f3dc4','#5f3dc4','#2f9e44'];
     const particles = [];
     const pCount = Math.max(220, Math.round(contentW / 20));
     const laneSpan = maxSize / 2 + 26;
@@ -2508,8 +2508,8 @@ class Component extends DCLogic {
       ch = { ...c };
       // FTUE target chapter renders as an in-progress (ongoing) chapter, not locked
       if (this.state.ftue && ch.id === this._ftueTarget()) {
-        ch.status = 'ongoing'; ch.color = '#228be6'; ch.color2 = '#74c0fc';
-        ch.pillBg = '#d0ebff'; ch.pillFg = '#1971c2'; ch.pillText = 'In progress';
+        ch.status = 'ongoing'; ch.color = '#5f3dc4'; ch.color2 = '#b8a6ff';
+        ch.pillBg = '#ebe5fb'; ch.pillFg = '#4b2fb5'; ch.pillText = 'In progress';
       }
       const _nw = String(ch.name || '').trim().split(' ');
       ch.nameTail = _nw.pop() || '';
@@ -2522,8 +2522,8 @@ class Component extends DCLogic {
       ch.heroDash = (ch.pct / 100 * heroCirc).toFixed(1) + ' ' + heroCirc.toFixed(1);
       ch.chLocked = false;
       ch.contentBlur = ch.chLocked ? 'blur(7px)' : 'none';
-      ch.accent = ch.status === 'done' ? 'linear-gradient(90deg,#69db7c,#2f9e44)'
-        : (ch.status === 'ongoing' ? 'linear-gradient(90deg,#ffa94d,#e8590c)'
+      ch.accent = ch.status === 'done' ? 'linear-gradient(90deg,#2f9e44,#2f9e44)'
+        : (ch.status === 'ongoing' ? 'linear-gradient(90deg,#e8590c,#e8590c)'
         : 'linear-gradient(90deg,rgba(154,147,201,.9),rgba(122,114,178,.9))');
       ch.numLabel = String(ch.id).padStart(2, '0');
       // the island's badge art and status bloom, so the hero reads as the same object enlarged
@@ -2547,7 +2547,7 @@ class Component extends DCLogic {
         done: i < Math.round(vc * doneRatio), onClick: () => this.openLibItem(),
       }));
       libApplets = Array.from({ length: ac }, (_, i) => ({
-        title: appNames[i % appNames.length], meta: 'Interactive', grad: 'linear-gradient(135deg,#7048e855,#171335)', icon: 'ti ti-box-multiple',
+        title: appNames[i % appNames.length], meta: 'Interactive', grad: 'linear-gradient(135deg,#5f3dc455,#171335)', icon: 'ti ti-box-multiple',
         done: false, onClick: () => this.openLibItem(),
       }));
     }
@@ -2585,31 +2585,31 @@ class Component extends DCLogic {
 
     const MODES = [
       { key:'warm', band:'easy', going: warmDone > 0, title:'Quick drill', icon:'ti-bolt',
-        tint:'linear-gradient(140deg,#51cf66,#1f7a35)', hasBar:true,
+        tint:'linear-gradient(140deg,#2f9e44,#1f7a35)', hasBar:true,
         pct: Math.round((warmDone / 24) * 100) + '%', fill:'linear-gradient(90deg,#8ce99a,#2f9e44)',
         meta: warmDone + ' of 24 done', cta: warmDone > 0 ? 'Continue' : 'Start' },
       { key:'sprint', band:'easy', going: !!bestSprint, title:'10-minute sprint', icon:'ti-stopwatch',
-        tint:'linear-gradient(140deg,#4dabf7,#12558f)',
+        tint:'linear-gradient(140deg,#b8a6ff,#12558f)',
         meta:'10 questions', hasChip: !!bestSprint, chip: bestSprint ? ('Best ' + bestSprint.got + '/' + bestSprint.of) : '',
-        chipBg:'#e7f1ff', chipFg:'#1864ab', cta: bestSprint ? 'Go again' : 'Start' },
+        chipBg:'#e7f1ff', chipFg:'#4b2fb5', cta: bestSprint ? 'Go again' : 'Start' },
       { key:'facts', band:'easy', going:false, title:'Did you know?', icon:'ti-sparkles',
         tint:'linear-gradient(140deg,#22b8cf,#0b5566)', meta:'5 cards \u00b7 2 min', cta:'Read', btnCls:'cd-pbtn-q' },
       { key:'paper', band:'hard', going: !!paperPast, title:'Work on paper', icon:'ti-camera',
-        tint:'linear-gradient(140deg,#ff922b,#a34a00)', meta:'6 problems',
-        hasChip: !!paperPast, chip:'1 marked', chipBg:'#fff4e6', chipFg:'#8a3d05', cta:'Snap it' },
+        tint:'linear-gradient(140deg,#e8590c,#a34a00)', meta:'6 problems',
+        hasChip: !!paperPast, chip:'1 marked', chipBg:'#fff1e6', chipFg:'#8a3d05', cta:'Snap it' },
       { key:'deep', band:'hard', going:false, title:'Hard problems', icon:'ti-mountain',
-        tint:'linear-gradient(140deg,#845ef7,#3b1e94)', meta:'18 questions', cta:'Start' },
+        tint:'linear-gradient(140deg,#5f3dc4,#3b1e94)', meta:'18 questions', cta:'Start' },
       { key:'test', band:'hard', going:false, title:'Chapter test', icon:'ti-file-check',
         tint:'linear-gradient(140deg,#f06595,#8c1741)', hasBar:true, pct: covered + '%',
-        fill: covered >= 75 ? 'linear-gradient(90deg,#8ce99a,#2f9e44)' : 'linear-gradient(90deg,#ffa94d,#e8590c)',
+        fill: covered >= 75 ? 'linear-gradient(90deg,#8ce99a,#2f9e44)' : 'linear-gradient(90deg,#e8590c,#e8590c)',
         meta: covered + '% ready', cta:'Take it', btnCls: covered >= 45 ? '' : 'cd-pbtn-q' },
     ].map(m => ({ ...m, btnCls: m.btnCls || '',
-      ctaFg: m.btnCls === 'cd-pbtn-q' ? '#6b6580' : '#1864ab',
+      ctaFg: m.btnCls === 'cd-pbtn-q' ? '#4a4568' : '#4b2fb5',
       start: () => this._openPractice(m.key, m.title) }));
 
-    const BAND_OF = (p) => p >= 85 ? { word:'Great', bg:'#ebfbee', fg:'#1b5e2a' }
-      : p >= 65 ? { word:'Good', bg:'#e7f1ff', fg:'#1864ab' }
-      : p >= 45 ? { word:'Okay', bg:'#fff4e6', fg:'#8a3d05' }
+    const BAND_OF = (p) => p >= 85 ? { word:'Great', bg:'#e9f8ec', fg:'#1b5e2a' }
+      : p >= 65 ? { word:'Good', bg:'#e7f1ff', fg:'#4b2fb5' }
+      : p >= 45 ? { word:'Okay', bg:'#fff1e6', fg:'#8a3d05' }
       : { word:'Try again', bg:'#fff5f5', fg:'#a51111' };
 
     /* Seconds a format costs a student. The question COUNT is derived from the time budget
@@ -2653,7 +2653,7 @@ class Component extends DCLogic {
     const cdIntents = [
       { key:'warmup', name:'Warm-up', mins:10, icon:'ti-feather', fg:'#237032',
         base:[.7,.3,0], blurb:'A gentle restart. Mostly things you already know.' },
-      { key:'sprint', name:'Sprint', mins:20, icon:'ti-bolt', fg:'#1864ab',
+      { key:'sprint', name:'Sprint', mins:20, icon:'ti-bolt', fg:'#4b2fb5',
         base:[.4,.45,.15], blurb:'Steady practice across the whole chapter.' },
       { key:'endurance', name:'Endurance', mins:40, icon:'ti-flame', fg:'#ad4d0a',
         base:[.25,.45,.3], blurb:'Longer questions, and the topics you keep slipping on.' },
@@ -2718,7 +2718,7 @@ class Component extends DCLogic {
       return {
         key: 'mini' + p.id,
         left: +((p.x / contentW) * 100).toFixed(2),
-        color: p.isLocked ? '#d2cbe4' : (p.isOngoing ? '#ffa94d' : '#8ce99a'),
+        color: p.isLocked ? '#d2cbe4' : (p.isOngoing ? '#e8590c' : '#8ce99a'),
         op: p.isLocked ? 0.7 : 1,
         cls: p.isOngoing ? 'cur' : '',
       };
@@ -2950,5 +2950,12 @@ class Component extends DCLogic {
   }
 }
 </script>
+<style>
+/* Added by scripts/import-design.mjs: the app's secondary button for the chapter card's play control —
+   soft violet, ink-violet glyph, control radius, no pressed edge. */
+.cj-isl-play{background:#ebe5fb !important;color:#4b2fb5 !important;box-shadow:none !important;border-radius:12px !important;translate:none !important;transition:background .18s ease,transform .18s cubic-bezier(.2,.8,.3,1) !important;}
+.cj-planet:hover .cj-isl-play{background:#e2d9fb !important;}
+.cj-planet:active .cj-isl-play{background:#d6cbf9 !important;translate:none !important;box-shadow:none !important;}
+</style>
 </body>
 </html>

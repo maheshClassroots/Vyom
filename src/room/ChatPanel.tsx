@@ -109,14 +109,14 @@ export function ChatPanel({
                 return message.who === 'vyom' ? (
                   <div className="brow" key={message.id} style={{ ...css('gap:10px;align-items:flex-start;'), ...rowStyle }}>
                     <div style={css('min-width:0;')}>
-                      <div className={view.fsClass} style={css('background:rgba(244,241,255,.95);color:#3a3450;padding:10px 13px;border-radius:14px 14px 14px 4px;font-size:14px;line-height:1.5;')}>
+                      <div className={view.fsClass} style={css('background:rgba(244,241,255,.95);color:#1f1a3d;padding:10px 13px;border-radius:14px 14px 14px 4px;font-size:14px;line-height:1.5;')}>
                         {message.text}
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="brow" key={message.id} style={{ ...css('justify-content:flex-end;'), ...rowStyle }}>
-                    <div className={view.fsClass} style={css('max-width:82%;background:linear-gradient(45deg,rgba(34,139,230,.95),rgba(21,170,191,.95));color:#fff;padding:10px 13px;border-radius:14px 14px 4px 14px;font-size:14px;line-height:1.5;')}>
+                    <div className={view.fsClass} style={css('max-width:82%;background:linear-gradient(45deg,rgba(95, 61, 196,.95),rgba(21,170,191,.95));color:#fff;padding:10px 13px;border-radius:14px 14px 4px 14px;font-size:14px;line-height:1.5;')}>
                       {message.text}
                     </div>
                   </div>
@@ -124,10 +124,10 @@ export function ChatPanel({
               })}
               {typing && (
                 <div style={css('display:flex;gap:10px;align-items:center;')}>
-                  <div style={css('background:#f4f1ff;padding:12px 15px;border-radius:14px 14px 14px 4px;display:flex;gap:5px;')}>
-                    <span style={css('width:7px;height:7px;border-radius:50%;background:#adb5bd;animation:dots 1.2s infinite;')} />
-                    <span style={css('width:7px;height:7px;border-radius:50%;background:#adb5bd;animation:dots 1.2s .2s infinite;')} />
-                    <span style={css('width:7px;height:7px;border-radius:50%;background:#adb5bd;animation:dots 1.2s .4s infinite;')} />
+                  <div style={css('background:#f1edfb;padding:12px 15px;border-radius:14px 14px 14px 4px;display:flex;gap:5px;')}>
+                    <span style={css('width:7px;height:7px;border-radius:50%;background:#7b7696;animation:dots 1.2s infinite;')} />
+                    <span style={css('width:7px;height:7px;border-radius:50%;background:#7b7696;animation:dots 1.2s .2s infinite;')} />
+                    <span style={css('width:7px;height:7px;border-radius:50%;background:#7b7696;animation:dots 1.2s .4s infinite;')} />
                   </div>
                 </div>
               )}
@@ -169,7 +169,7 @@ export function ChatPanel({
         >
           <div
             style={{
-              ...css('position:absolute;inset:0;background:linear-gradient(45deg,#0c8599,#15aabf);transition:opacity .4s ease;pointer-events:none;'),
+              ...css('position:absolute;inset:0;background:linear-gradient(45deg,#4b2fb5,#5f3dc4);transition:opacity .4s ease;pointer-events:none;'),
               opacity: open ? 0 : 1,
             }}
           />
@@ -207,7 +207,7 @@ export function ChatPanel({
               pointerEvents: open ? 'auto' : 'none',
             }}
           >
-            <i className="ti ti-paperclip" style={css('font-size:16px;color:#adb5bd;cursor:pointer;flex:none;')} />
+            <i className="ti ti-paperclip" style={css('font-size:16px;color:#7b7696;cursor:pointer;flex:none;')} />
             {recording ? (
               <div style={css('flex:1;min-width:0;display:flex;align-items:center;gap:8px;color:#e03131;font-size:12px;font-weight:700;')}>
                 <span style={css('width:9px;height:9px;border-radius:50%;background:#e03131;animation:recpulse 1s infinite;')} />
@@ -227,14 +227,14 @@ export function ChatPanel({
                 }}
                 placeholder="What's on your mind?"
                 aria-label="Message Vyom"
-                style={css('flex:1;min-width:0;border:none;outline:none;background:transparent;font-size:12px;font-weight:500;color:#212529;font-family:inherit;')}
+                style={css('flex:1;min-width:0;border:none;outline:none;background:transparent;font-size:12px;font-weight:500;color:#1f1a3d;font-family:inherit;')}
               />
             )}
             <div
               onClick={onToggleMic}
               style={{
                 ...css('width:32px;height:32px;flex:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;'),
-                color: recording ? '#fff' : '#868e96',
+                color: recording ? '#fff' : '#7b7696',
                 background: recording ? '#e03131' : '#f1f3f5',
               }}
             >
@@ -242,7 +242,7 @@ export function ChatPanel({
             </div>
             <div
               onClick={onSend}
-              style={css('width:34px;height:34px;flex:none;border-radius:10px;display:grid;place-items:center;cursor:pointer;color:#fff;background:linear-gradient(45deg,#228be6,#15aabf);box-shadow:0 3px 8px rgba(34,139,230,.35);')}
+              style={css('width:34px;height:34px;flex:none;border-radius:10px;display:grid;place-items:center;cursor:pointer;color:#fff;background:linear-gradient(45deg,#5f3dc4,#5f3dc4);box-shadow:0 3px 8px rgba(95, 61, 196,.35);')}
             >
               <i className="ti ti-send" style={css('font-size:16px;')} />
             </div>

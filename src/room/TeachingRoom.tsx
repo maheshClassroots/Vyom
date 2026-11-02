@@ -263,7 +263,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
       // No background here: `.surface` paints it, and goes on painting it
       // while this room is unmounted. The class is kept because the room's
       // own chrome still reads `--room-bg`-era variables from it.
-      style={css('height:100%;display:flex;flex-direction:column;position:relative;color:#212529;overflow:hidden;')}
+      style={css('height:100%;display:flex;flex-direction:column;position:relative;color:#1f1a3d;overflow:hidden;')}
     >
       {/* ambient light — spans the whole room with no clip boundary */}
       <div aria-hidden="true" style={css('position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;')}>
@@ -310,7 +310,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                   style={css('position:absolute;top:18px;bottom:18px;left:0;width:18px;z-index:26;cursor:pointer;display:flex;align-items:center;')}
                 >
                   <div style={css('position:absolute;left:0;top:-18px;bottom:-18px;width:1px;background:#e5dbff;transition:opacity .34s ease;')} />
-                  <div style={css('position:absolute;left:0;top:50%;transform:translateY(-50%);width:5px;height:190px;border-radius:0 5px 5px 0;background:linear-gradient(180deg,#228be6,#6741d9);')} />
+                  <div style={css('position:absolute;left:0;top:50%;transform:translateY(-50%);width:5px;height:190px;border-radius:0 5px 5px 0;background:linear-gradient(180deg,#5f3dc4,#6741d9);')} />
                   <div style={css('position:absolute;left:5px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;padding:26px 3px;background:#fff;border:1px solid #e5dbff;border-left:none;border-radius:0 10px 10px 0;box-shadow:4px 0 16px rgba(120,90,200,.16);color:#6741d9;')}>
                     <i className={`ti ${chatOpen ? 'ti-chevron-left' : 'ti-chevron-right'}`} style={css('font-size:16px;')} />
                   </div>
@@ -347,7 +347,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                         data-hidden={introHidden}
                         style={css('position:relative;flex:none;margin-bottom:14px;')}
                       >
-                        <h1 style={css('margin:0;font-size:38px;line-height:1.1;font-weight:800;color:#212529;letter-spacing:-.01em;')}>
+                        <h1 style={css('margin:0;font-size:38px;line-height:1.1;font-weight:800;color:#1f1a3d;letter-spacing:-.01em;')}>
                           <span className={`title-hi${titleHi ? ' title-hi-on' : ''}`} style={css('display:inline-block;padding:2px 14px;')}>{current.title}</span>
                         </h1>
                         <SparkRive size={144} style={css('position:absolute;left:100%;bottom:0;margin-left:6px;filter:drop-shadow(0 10px 13px rgba(253,126,20,.3));')} />
@@ -355,18 +355,18 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                       <p
                         data-xit-intro="2"
                         data-hidden={introHidden}
-                        style={css('margin:0 0 20px;font-size:20px;font-weight:500;color:#495057;max-width:560px;line-height:1.5;')}
+                        style={css('margin:0 0 20px;font-size:20px;font-weight:500;color:#4a4568;max-width:560px;line-height:1.5;')}
                       >
                         {current.sub}
                       </p>
                       <div
                         data-xit-intro="3"
                         data-hidden={introHidden}
-                        style={css('display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;border-radius:16px;padding:12px 26px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#212529;white-space:nowrap;line-height:1.1;')}
+                        style={css('display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;border-radius:16px;padding:12px 26px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#1f1a3d;white-space:nowrap;line-height:1.1;')}
                       >
                         Area = {' '}
-                        <span style={css('display:inline-flex;flex-direction:column;align-items:center;font-size:20px;font-weight:800;color:#7950f2;line-height:1.05;')}>
-                          <span style={css('border-bottom:2px solid #7950f2;padding:0 5px 2px;')}>b + a</span>
+                        <span style={css('display:inline-flex;flex-direction:column;align-items:center;font-size:20px;font-weight:800;color:#5f3dc4;line-height:1.05;')}>
+                          <span style={css('border-bottom:2px solid #5f3dc4;padding:0 5px 2px;')}>b + a</span>
                           <span style={css('padding-top:2px;')}>2</span>
                         </span>{' '}
                         × <span style={css('color:#e8590c;')}>h</span>
@@ -383,7 +383,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                         </div>
                       )}
 
-                      <h2 style={css('margin:0 0 18px;font-size:30px;font-weight:800;color:#212529;')}>{current.title}</h2>
+                      <h2 style={css('margin:0 0 18px;font-size:30px;font-weight:800;color:#1f1a3d;')}>{current.title}</h2>
 
                       {current.bullets ? (
                         <div style={css('display:flex;flex-direction:column;gap:10px;width:min(620px,100%);text-align:left;')}>
@@ -403,24 +403,24 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                                 <div className={`lo-badge${done ? ' lo-done' : ''}`} style={css('width:32px;height:32px;flex:none;border-radius:10px;color:#fff;display:grid;place-items:center;font-size:14px;font-weight:800;')}>
                                   {done ? <i className="ti ti-check lo-tick" style={css('font-size:19px;')} /> : <span>{index + 1}</span>}
                                 </div>
-                                <div style={css('font-size:20px;font-weight:500;color:#495057;line-height:1.35;padding-top:2px;')}>{bullet}</div>
+                                <div style={css('font-size:20px;font-weight:500;color:#4a4568;line-height:1.35;padding-top:2px;')}>{bullet}</div>
                               </div>
                             );
                           })}
                           {current.id === 'obj' && (
                             <div
                               onClick={() => go(step + 1)}
-                              style={css('flex:none;align-self:center;margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #e9ecef;color:#495057;font-size:14px;font-weight:700;padding:12px 22px;border-radius:12px;cursor:pointer;')}
+                              style={css('flex:none;align-self:center;margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #e9ecef;color:#4a4568;font-size:14px;font-weight:700;padding:12px 22px;border-radius:12px;cursor:pointer;')}
                             >
                               <i className="ti ti-checks" />I already know these
                             </div>
                           )}
                         </div>
                       ) : (
-                        <div style={css('display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;padding:16px 28px;border-radius:16px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#212529;')}>
+                        <div style={css('display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9ecef;padding:16px 28px;border-radius:16px;box-shadow:0 2px 6px -3px rgba(70,46,146,.16);font-size:30px;font-weight:800;color:#1f1a3d;')}>
                           Area =
-                          <span style={css('display:inline-flex;flex-direction:column;align-items:center;font-size:20px;font-weight:800;color:#7950f2;line-height:1.15;')}>
-                            <span style={css('border-bottom:2px solid #7950f2;padding:0 6px 3px;')}>b + a</span>
+                          <span style={css('display:inline-flex;flex-direction:column;align-items:center;font-size:20px;font-weight:800;color:#5f3dc4;line-height:1.15;')}>
+                            <span style={css('border-bottom:2px solid #5f3dc4;padding:0 6px 3px;')}>b + a</span>
                             <span style={css('padding-top:3px;')}>2</span>
                           </span>
                           × <span style={css('color:#e8590c;')}>h</span>
@@ -431,8 +431,8 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
 
                   {current.mode === 'quiz' && current.question && (
                     <div className="bpop" style={css('position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:20px;overflow:auto;padding:44px 34px 20px;text-align:center;')}>
-                      <div style={css('position:absolute;top:16px;left:18px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;letter-spacing:.09em;color:#1c7ed6;background:#e7f5ff;padding:6px 12px;border-radius:999px;')}>EXPLORE</div>
-                      <h2 style={css('margin:0;font-size:30px;font-weight:800;color:#212529;max-width:720px;line-height:1.25;')}>
+                      <div style={css('position:absolute;top:16px;left:18px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;letter-spacing:.09em;color:#5f3dc4;background:#ebe5fb;padding:6px 12px;border-radius:999px;')}>EXPLORE</div>
+                      <h2 style={css('margin:0;font-size:30px;font-weight:800;color:#1f1a3d;max-width:720px;line-height:1.25;')}>
                         {current.question.q}
                       </h2>
                       <Mcq key={current.id} question={current.question} onAnswer={onAnswer} />
@@ -470,8 +470,8 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                 onClick={() => go(step - 1)}
                 title="Previous"
                 style={{
-                  ...css('display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;flex:none;background:#fff;border:1.5px solid #dee2e6;border-radius:12px;'),
-                  color: step === 0 ? '#ced4da' : '#495057',
+                  ...css('display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;flex:none;background:#fff;border:1.5px solid #e4e0f2;border-radius:12px;'),
+                  color: step === 0 ? '#b4afc9' : '#4a4568',
                   cursor: step === 0 ? 'default' : 'pointer',
                   opacity: step === 0 ? 0.5 : 1,
                 }}
@@ -481,7 +481,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
 
               <div style={css('position:relative;flex:none;width:min(714px,80%);min-width:294px;height:16px;')}>
                 <div style={css('position:absolute;left:6px;right:6px;top:50%;transform:translateY(-50%);height:6px;background:#dcd8e6;border-radius:999px;overflow:hidden;')}>
-                  <div style={{ ...css('height:100%;background:#228be6;border-radius:999px;transition:width .4s cubic-bezier(.2,.7,.3,1);'), width: `${nodeFillPct}%` }} />
+                  <div style={{ ...css('height:100%;background:#5f3dc4;border-radius:999px;transition:width .4s cubic-bezier(.2,.7,.3,1);'), width: `${nodeFillPct}%` }} />
                 </div>
                 {MILESTONES.map((milestoneStep, index) => {
                   const left = MILESTONES.length > 1 ? (index / (MILESTONES.length - 1)) * 100 : 0;
@@ -513,9 +513,9 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                   ...css('position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;flex:none;border-radius:12px;'),
                   // The prototype keeps the intro's button white and fills it;
                   // every later slide uses the solid blue affordance.
-                  background: isIntroStep ? '#fff' : '#228be6',
-                  color: isIntroStep ? '#343a40' : '#fff',
-                  border: isIntroStep ? '1.5px solid #dee2e6' : '1.5px solid transparent',
+                  background: isIntroStep ? '#fff' : '#5f3dc4',
+                  color: isIntroStep ? '#1f1a3d' : '#fff',
+                  border: isIntroStep ? '1.5px solid #e4e0f2' : '1.5px solid transparent',
                   cursor: step === STEPS.length - 1 ? 'default' : 'pointer',
                   opacity: step === STEPS.length - 1 ? 0.5 : 1,
                 }}

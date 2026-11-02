@@ -1,0 +1,65 @@
+/* ---------------------------------------------------------------- tokens */
+/*
+ * The one design system every page draws from. See the design review
+ * ("Vyom Design System"): violet is the only primary, colour otherwise
+ * means something (now / good / bad / reward) or is grey, one violet-biased
+ * ink ramp, three radii, two shadows, type on a fixed scale.
+ *
+ * Hosted design-package pages and the ported teaching room cannot read these
+ * properties from inside their own files, so scripts/design/tokens.mjs holds
+ * the same values as literals and maps the packages' colours onto them.
+ */
+:root {
+  /* brand */
+  --primary: #5f3dc4;
+  --primary-ink: #4b2fb5;
+  --primary-soft: #ebe5fb;
+  --primary-200: #b8a6ff;
+
+  /* ink ramp */
+  --ink-900: #1f1a3d;
+  --ink-700: #4a4568;
+  --ink-500: #7b7696;
+  --ink-300: #b4afc9;
+  --line: #e4e0f2;
+
+  /* surfaces */
+  --surface: #ffffff;
+  --surface-tint: #f1edfb;
+  --canvas-top: #eee9fd;
+  --canvas-mid: #f8f5fe;
+  --canvas-bot: #fdfaf0;
+
+  /* meaning */
+  --now: #e8590c;
+  --now-soft: #fff1e6;
+  --good: #2f9e44;
+  --good-soft: #e9f8ec;
+  --bad: #e03131;
+  --bad-soft: #fff0f0;
+  --reward: #f08c00;
+  --reward-ink: #7a4700;
+  --reward-soft: #fff4e0;
+
+  /* shape and depth */
+  --r-control: 12px;
+  --r-card: 20px;
+  --r-pill: 999px;
+  --shadow-card: 0 10px 24px -14px rgba(60, 40, 140, 0.28);
+  --shadow-float: 0 18px 40px -18px rgba(60, 40, 140, 0.45);
+  --ring: inset 0 0 0 1px rgba(95, 61, 196, 0.1);
+
+  /* type */
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --fs-display: 32px;
+  --fs-title: 24px;
+  --fs-heading: 20px;
+  --fs-body: 16px;
+  --fs-secondary: 14px;
+  --fs-caption: 12px;
+  --fs-eyebrow: 11px;
+  --fs-numeral: 44px;
+  --fw-regular: 500;
+  --fw-bold: 700;
+  --fw-heavy: 800;
+}

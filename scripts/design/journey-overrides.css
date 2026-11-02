@@ -1,0 +1,5 @@
+/* Added by scripts/import-design.mjs: the app's secondary button for the chapter card's play control —
+   soft violet, ink-violet glyph, control radius, no pressed edge. */
+.cj-isl-play{background:#ebe5fb !important;color:#4b2fb5 !important;box-shadow:none !important;border-radius:12px !important;translate:none !important;transition:background .18s ease,transform .18s cubic-bezier(.2,.8,.3,1) !important;}
+.cj-planet:hover .cj-isl-play{background:#e2d9fb !important;}
+.cj-planet:active .cj-isl-play{background:#d6cbf9 !important;translate:none !important;box-shadow:none !important;}
