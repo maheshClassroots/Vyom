@@ -16,6 +16,11 @@ interface ControlProps {
   vmi: ViewModelInstance | null;
 }
 
+/** The line under a control saying what the property is for, when config has one. */
+function Description({ property }: { property: VyomProperty }) {
+  return property.meta.description ? <p className="ctrl__desc">{property.meta.description}</p> : null;
+}
+
 /**
  * Renders the right control for a property based on the type reported by the
  * ViewModel at runtime. Each control is its own component so the panel can
@@ -105,7 +110,7 @@ function BooleanControl({ property, vmi }: ControlProps) {
   );
 }
 
-function NumberControl({ property, vmi }: ControlProps) {
+export function NumberControl({ property, vmi, onWrite }: ControlProps & { onWrite?: () => void }) {
   const { value, setValue } = useViewModelInstanceNumber(property.name, vmi);
   const { min = -1000, max = 1000, step = 1 } = property.meta;
   const reported = value ?? 0;
@@ -139,9 +144,11 @@ function NumberControl({ property, vmi }: ControlProps) {
         onChange={(event) => {
           const next = Number(event.target.value);
           setDraft(next);
+          onWrite?.();
           setValue(next);
         }}
       />
+      <Description property={property} />
     </div>
   );
 }
@@ -221,6 +228,7 @@ function ReadOnlyBoolean({ property, vmi }: ControlProps) {
     <div className="ctrl ctrl--readonly">
       <span className="ctrl__label">{property.name}</span>
       <span className={`ctrl__flag${value ? ' ctrl__flag--on' : ''}`}>{value ? 'true' : 'false'}</span>
+      <Description property={property} />
     </div>
   );
 }

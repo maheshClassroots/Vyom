@@ -31,6 +31,24 @@ export interface PropertyMeta {
   min?: number;
   max?: number;
   step?: number;
+  /** One line shown under the control: what the property is for. */
+  description?: string;
+}
+
+/**
+ * A pair of coordinate properties shown together in the panel's Positioning
+ * group, with what each is for. Presentation only: the properties themselves
+ * are still found by name in the ViewModel.
+ */
+export interface PositionBlockDefinition {
+  title: string;
+  /** The ViewModel number properties holding the coordinates. */
+  x: string;
+  y: string;
+  /** What to use the pair for, one note per use. */
+  notes: string[];
+  /** The Vyom slot these coordinates belong to, when the layout writes them. */
+  slotId?: string;
 }
 
 /** A ViewModel property discovered at runtime, decorated with display metadata. */

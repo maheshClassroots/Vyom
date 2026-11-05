@@ -231,20 +231,21 @@ input[type='text'], input[type='search'], select {
 
 /* ---------------------------------------------------------------- slots */
 
-.slots { display: flex; flex-direction: column; gap: 0.5rem; }
-.slot { border: 1px solid var(--line); border-radius: 9px; padding: 0.5rem; }
-.slot--active { border-color: var(--accent); }
-.slot__head { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; }
-.slot__go { padding: 0.25rem 0.5rem; font-size: 0.78rem; }
 .slot__manual { display: flex; align-items: center; gap: 0.25rem; font-size: 0.72rem; color: var(--ink-soft); }
-.slot__coords { display: flex; gap: 0.4rem; margin-top: 0.35rem; }
-.slot__coords code { font-size: 0.7rem; color: var(--ink-soft); background: #f4f4f2; border-radius: 5px; padding: 0.1rem 0.3rem; }
-/* The coordinate read-outs double as drag sources for the sequencer, so each
-   carries the same grip the control rows use. */
-.slot__coord { display: inline-flex; align-items: center; gap: 0.15rem; }
-.slot__coord:hover .ctrl-row__grip { color: var(--ink-soft); }
-.slot__sliders { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.35rem; }
-.slot__sliders input { width: 100%; }
+
+/* The Positioning group: each pair of coordinates under a title, with what it
+   is for written beneath. Shared by Vyom's panel and Spark's. */
+.posblocks { display: flex; flex-direction: column; gap: 0.5rem; }
+.posblock { border: 1px solid var(--line); border-radius: 9px; padding: 0.5rem 0.55rem 0.55rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.posblock__head { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; }
+.posblock__head h4 { margin: 0; font-size: 0.82rem; }
+.posblock__props { align-self: flex-start; font-size: 0.7rem; color: var(--ink-soft); background: #f4f4f2; border-radius: 5px; padding: 0.1rem 0.3rem; }
+.posblock__notes { margin: 0.2rem 0 0; padding-left: 1rem; display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.72rem; line-height: 1.4; color: var(--ink-soft); }
+
+/* A line under a control saying what the property is for. */
+.ctrl__desc { margin: 0.2rem 0 0; font-size: 0.72rem; line-height: 1.4; color: var(--ink-soft); font-weight: 400; }
+.ctrl--readonly { flex-wrap: wrap; }
+.ctrl--readonly .ctrl__desc { flex-basis: 100%; }
 
 /* ---------------------------------------------------------- spark panel */
 
