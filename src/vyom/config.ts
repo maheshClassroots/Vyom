@@ -169,6 +169,7 @@ export const PROPERTY_META: Record<string, PropertyMeta> = {
   actionPlaying: { group: 'presence' },
   scaleFull: { group: 'presence' },
   scaleSmall: { group: 'presence' },
+  exapndCollapse: { group: 'presence' },
 
   isListening: { group: 'communication' },
   isThinking: { group: 'communication' },
@@ -198,4 +199,18 @@ export const PROPERTY_META: Record<string, PropertyMeta> = {
   lookAtY: { group: 'gaze', min: -2000, max: 4000, step: 1 },
 
   isDarkMode: { group: 'appearance' },
+  // A percentage of his normal size, 100 being that: the slider has to sit
+  // around 100, not scrub the default -1000..1000.
+  scale: { group: 'appearance', min: 20, max: 150, step: 1 },
 };
+
+/**
+ * Triggers that start something the busy flag does not report.
+ *
+ * Measured from idle: every other trigger raises `actionPlaying` within ~10 ms
+ * of being sent and holds it for its length. These three do not — the scales
+ * run without it, and a move to where he already stands starts nothing — so a
+ * trigger that fails to raise the flag is a swallowed one for everything
+ * *except* these, and only those are not re-sent when it stays low.
+ */
+export const TRIGGERS_WITHOUT_BUSY = new Set(['moveToPoint', 'scaleSmall', 'scaleFull']);

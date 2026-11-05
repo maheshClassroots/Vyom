@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@rive-app/react-canvas": "^4.32.0",
+    "lottie-web": "^5.12.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

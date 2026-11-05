@@ -1,0 +1,221 @@
+/* ------------------------------------------------------ module complete */
+/* Over the lesson's body, under the header chrome (so the counters stay in
+   view for the reward to fly into). Tokens from src/tokens.css. */
+
+.mc {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 24px;
+  border-radius: 24px;
+  background:
+    radial-gradient(60% 50% at 50% 30%, rgba(255, 212, 168, 0.35), transparent 70%),
+    linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 46%, var(--canvas-bot) 100%);
+  animation: mc-in 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+@keyframes mc-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---- his seat: where the learn slot's anchor is while this is up ---- */
+.mc__seat {
+  position: relative;
+  width: 260px;
+  height: 220px;
+  flex: none;
+}
+.mc__seat .vyom-anchor { position: absolute; pointer-events: none; }
+.mc__halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 280px;
+  height: 220px;
+  transform: translate(-50%, -50%) scale(0.6);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 212, 168, 0.7), rgba(184, 166, 255, 0.4) 46%, transparent 72%);
+  filter: blur(16px);
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.9s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+.mc--burst .mc__halo,
+.mc--settled .mc__halo {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: mc-halo 4s ease-in-out 0.9s infinite;
+}
+@keyframes mc-halo {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* ---- confetti, out of his centre ---- */
+.mc__confetti {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+}
+.mc__confetti i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--size);
+  height: calc(var(--size) * 0.6);
+  border-radius: 2px;
+  opacity: 0;
+  animation: mc-burst 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes mc-burst {
+  0% { transform: translate(0, 0) rotate(0deg) scale(0.4); opacity: 0; }
+  12% { opacity: 1; }
+  100% { transform: translate(var(--dx), calc(var(--dy) + 120px)) rotate(var(--rot)) scale(1); opacity: 0; }
+}
+
+/* ---- the reward in flight ---- */
+.mc__sky { z-index: 40; }
+.mc-token {
+  position: absolute;
+  left: -14px;
+  top: -14px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  will-change: transform, opacity;
+}
+.mc-token--star {
+  color: var(--reward);
+  font-size: 26px;
+  filter: drop-shadow(0 2px 6px rgba(240, 140, 0, 0.45));
+}
+.mc-token--coin {
+  color: var(--reward);
+  font-size: 24px;
+  filter: drop-shadow(0 2px 6px rgba(240, 140, 0, 0.45));
+}
+
+/* ---- the card ---- */
+.mc__card {
+  width: min(520px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 22px 26px 24px;
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-card), var(--ring);
+  opacity: 0;
+  transform: translateY(18px) scale(0.96);
+  animation: mc-rise 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 0.55s both;
+}
+@keyframes mc-rise {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.mc__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-heavy);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--reward-ink);
+  background: var(--reward-soft);
+  border-radius: var(--r-pill);
+  padding: 5px 11px;
+}
+.mc__eyebrow .ti { font-size: 14px; color: var(--reward); }
+.mc__title {
+  margin: 4px 0 0;
+  font-size: var(--fs-title);
+  font-weight: var(--fw-heavy);
+  color: var(--ink-900);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.mc__sub {
+  margin: 0;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  color: var(--ink-700);
+  line-height: 1.45;
+}
+.mc__sub strong { color: var(--primary); font-weight: var(--fw-bold); }
+
+.mc__reward {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.mc__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  background: var(--reward-soft);
+  color: var(--reward-ink);
+  font-size: var(--fs-secondary);
+  font-weight: var(--fw-bold);
+  transform: scale(0.9);
+  opacity: 0.55;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1.3), opacity 0.35s ease;
+}
+.mc__chip b { font-size: var(--fs-heading); font-weight: var(--fw-heavy); font-variant-numeric: tabular-nums; }
+.mc__chip .ti { color: var(--reward); font-size: 18px; }
+.mc--settled .mc__chip { transform: scale(1); opacity: 1; }
+
+/* ---- the choice ---- */
+.mc__actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: mc-rise 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) 1.5s both;
+}
+.mc__btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 52px;
+  padding: 0 18px;
+  border-radius: var(--r-control);
+  font: inherit;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-heavy);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.mc__btn .ti { font-size: 18px; }
+.mc__btn:active { transform: translateY(1px); }
+.mc__btn--primary {
+  border: 1.5px solid transparent;
+  background: linear-gradient(180deg, var(--primary), #6741d9);
+  color: #fff;
+  box-shadow: 0 10px 26px -12px rgba(103, 65, 217, 0.6);
+}
+.mc__btn--primary:hover { box-shadow: 0 14px 30px -12px rgba(103, 65, 217, 0.7); transform: translateY(-1px); }
+.mc__btn--secondary {
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--primary);
+}
+.mc__btn--secondary:hover { background: var(--surface-tint); }
+
+.room-root--dark .mc__card { background: #241f44; }
+.room-root--dark .mc__title { color: #fff; }
+.room-root--dark .mc__sub { color: #c9c3e6; }

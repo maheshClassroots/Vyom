@@ -1,0 +1,45 @@
+/* Mantine spacing, radius, shadows, breakpoints, z-index. */
+:root {
+  /* spacing scale */
+  --mantine-spacing-xs: 0.625rem;  /* 10px */
+  --mantine-spacing-sm: 0.75rem;   /* 12px */
+  --mantine-spacing-md: 1rem;      /* 16px */
+  --mantine-spacing-lg: 1.25rem;   /* 20px */
+  --mantine-spacing-xl: 2rem;      /* 32px */
+
+  /* radius scale — default radius is `md` (8px) */
+  --mantine-radius-xs: 0.125rem;   /* 2px */
+  --mantine-radius-sm: 0.25rem;    /* 4px */
+  --mantine-radius-md: 0.5rem;     /* 8px */
+  --mantine-radius-lg: 1rem;       /* 16px */
+  --mantine-radius-xl: 2rem;       /* 32px */
+  --mantine-radius-default: var(--mantine-radius-md);
+
+  /* shadow scale — layered, soft, low-opacity black */
+  --mantine-shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  --mantine-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 0 10px 15px -5px, rgba(0, 0, 0, 0.04) 0 7px 7px -5px;
+  --mantine-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 0 20px 25px -5px, rgba(0, 0, 0, 0.04) 0 10px 10px -5px;
+  --mantine-shadow-lg: 0 1px 3px rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 0 28px 23px -7px, rgba(0, 0, 0, 0.04) 0 12px 12px -7px;
+  --mantine-shadow-xl: 0 1px 3px rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 0 36px 28px -7px, rgba(0, 0, 0, 0.04) 0 17px 17px -7px;
+
+  /* breakpoints (em) */
+  --mantine-breakpoint-xs: 36em;   /* 576px */
+  --mantine-breakpoint-sm: 48em;   /* 768px */
+  --mantine-breakpoint-md: 62em;   /* 992px */
+  --mantine-breakpoint-lg: 75em;   /* 1200px */
+  --mantine-breakpoint-xl: 88em;   /* 1408px */
+
+  /* z-index */
+  --mantine-z-index-app: 100;       /* @kind other */
+  --mantine-z-index-modal: 200;     /* @kind other */
+  --mantine-z-index-popover: 300;   /* @kind other */
+  --mantine-z-index-overlay: 400;   /* @kind other */
+  --mantine-z-index-max: 9999;      /* @kind other */
+
+  /* component sizing — heights shared by Button / Input / Select etc. */
+  --mantine-size-xs: 30px;
+  --mantine-size-sm: 36px;
+  --mantine-size-md: 42px;
+  --mantine-size-lg: 50px;
+  --mantine-size-xl: 60px;
+}

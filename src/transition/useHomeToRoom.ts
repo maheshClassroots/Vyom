@@ -6,12 +6,14 @@ import {
   nextFrame,
   sleep,
   STATE_SETTLE_MS,
+  triggerWhenIdle,
   waitFor,
   waitUntilBusy,
   waitWhileBusy,
   writeWhenIdle,
 } from '../vyom/sequencing';
 import { cssDurationMs } from './css';
+import type { LaunchHandle } from '../onboarding';
 
 /**
  * Where the transition has got to.
@@ -44,6 +46,9 @@ const REVEAL_GRACE_MS = 2000;
  * first half-second of it, and Vyom is alone for the rest.
  */
 const LOAD_MS = 4000;
+/** After the launch piece, how long his collapsed shape holds before the room comes up. */
+const ONBOARDING_LOAD_MS = 600;
+
 
 interface HomeToRoomOptions {
   /** Mounts the teaching room. Called once the module has reported loaded. */
@@ -120,6 +125,12 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
    */
   const fireSpark = (name: string) => {
     sparkVmi.current?.trigger(name)?.trigger();
+  };
+
+  /** Sets Spark's expression, if her file has it. */
+  const sparkFace = (name: string) => {
+    const e = sparkVmi.current?.enum('expression');
+    if (e) e.value = name;
   };
 
   /** Writes Spark's own position pair, so a move trigger has somewhere to go. */
@@ -200,6 +211,91 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
       warnIfStalled(name, finished);
     },
     [isBusy, alive],
+  );
+
+  /**
+   * From the launch pose into the room — the second half of `begin`, and
+   * the whole of what follows the onboarding animation: Vyom is in the
+   * middle in his `moduleStart` halo, the frame is blank, and the module is
+   * about to report loaded.
+   */
+  const settleIntoRoom = useCallback(
+    async (lessonId: string, options: { moduleBeat?: boolean } = {}) => {
+      // ---- 3. the room comes up ------------------------------------------
+      // The module beat is the home page's: after the onboarding's piece
+      // Vyom has just folded back from his expansion, and the room comes
+      // up from that without a load animation.
+      if (options.moduleBeat !== false) {
+        await fire('moduleStartLoaded');
+        fireSpark('moduleStartLoaded');
+        if (!running.current) return;
+      }
+
+      // Mounted while the frame is still blank, so the room is laid out and
+      // ready before anything about it is visible.
+      mountRoom(lessonId);
+      // Two frames: one for React to commit the room, one for the browser to
+      // lay it out.
+      await nextFrame();
+      if (!running.current) return;
+
+      // Vyom's place on the canvas, read now — laid out, but before the
+      // arrival animation has put a transform on anything.
+      //
+      // Measuring it later, once the room is visible, would be the obvious
+      // thing and is a trap: the frame is scaling as it fades in, so every
+      // rect inside it carries that scale until the last frame. Worse, the
+      // transform is only guaranteed to have finished if the animation
+      // timeline actually advanced — and it stops advancing whenever the
+      // document is not being painted, so a student who switches tabs
+      // mid-fade would come back to Vyom parked wherever the canvas had got
+      // to. Layout does not move during the fade; only the transform does. So
+      // the honest moment to read a layout position is before it exists.
+      const canvasPoint = measureSlot('learn');
+
+      // The beat between the module reporting loaded and the room appearing.
+      await sleep(cssDurationMs('--xit-gap', GAP_MS));
+      if (!running.current) return;
+
+      setPhase('fading-in');
+      await sleep(cssDurationMs('--xit-in', IN_MS));
+      if (!running.current) return;
+
+      // ---- 4. up to the top of the canvas --------------------------------
+      // Written, not handed back to the layout to sync itself there. The
+      // automatic sync is coalesced into an animation frame and skipped for
+      // manual slots, so asking for it here competes with whatever frame the
+      // fade has already queued — and a step that has to happen *now* cannot
+      // be left to win that race. The position was read before the fade
+      // began; see where `canvasPoint` is taken.
+      if (canvasPoint) setSlotPosition('learn', canvasPoint);
+      else console.warn('[transition] no learn anchor in the room — Vyom stays put');
+      await nextFrame();
+      await fireAndWait('moveToPoint');
+      if (!running.current) return;
+
+      // Back under the layout's control now the scripted move is done, so the
+      // rest of the lesson behaves normally.
+      setSlotManual('learn', false);
+
+      // ---- 5. present, and then let the slide speak ----------------------
+      // The gesture leads and the words follow it: `present` goes out while
+      // the title, description and formula are still hidden, and they fade up
+      // only once it is visibly under way. Waiting on the busy flag rather
+      // than a timer ties the reveal to the animation actually starting —
+      // and `waitUntilBusy` gives up after its grace, so a `present` that
+      // drives nothing still lets the slide speak rather than silencing it.
+      setPhase('presenting');
+      await triggerWhenIdle(() => vmi.current, 'present', { shouldContinue: alive });
+      await waitUntilBusy(isBusy, alive);
+      if (!running.current) return;
+
+      running.current = false;
+      // Back to `idle`, which is also what uncovers the slide's content: the
+      // page at rest is the page with its words on it.
+      setPhase('idle');
+    },
+    [fire, fireAndWait, isBusy, alive, measureSlot, mountRoom, setSlotManual, setSlotPosition],
   );
 
   const begin = useCallback(
@@ -290,88 +386,80 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
       await sleep(Math.max(0, LOAD_MS - (performance.now() - startedAt)));
       if (!running.current) return;
 
-      // ---- 3. the room comes up ------------------------------------------
-      await fire('moduleStartLoaded');
-      fireSpark('moduleStartLoaded');
-      if (!running.current) return;
-
-      // Mounted while the frame is still blank, so the room is laid out and
-      // ready before anything about it is visible.
-      mountRoom(lessonId);
-      // Two frames: one for React to commit the room, one for the browser to
-      // lay it out.
-      await nextFrame();
-      if (!running.current) return;
-
-      // Vyom's place on the canvas, read now — laid out, but before the
-      // arrival animation has put a transform on anything.
-      //
-      // Measuring it later, once the room is visible, would be the obvious
-      // thing and is a trap: the frame is scaling as it fades in, so every
-      // rect inside it carries that scale until the last frame. Worse, the
-      // transform is only guaranteed to have finished if the animation
-      // timeline actually advanced — and it stops advancing whenever the
-      // document is not being painted, so a student who switches tabs
-      // mid-fade would come back to Vyom parked wherever the canvas had got
-      // to. Layout does not move during the fade; only the transform does. So
-      // the honest moment to read a layout position is before it exists.
-      const canvasPoint = measureSlot('learn');
-
-      // The beat between the module reporting loaded and the room appearing.
-      await sleep(cssDurationMs('--xit-gap', GAP_MS));
-      if (!running.current) return;
-
-      setPhase('fading-in');
-      await sleep(cssDurationMs('--xit-in', IN_MS));
-      if (!running.current) return;
-
-      // ---- 4. up to the top of the canvas --------------------------------
-      // Written, not handed back to the layout to sync itself there. The
-      // automatic sync is coalesced into an animation frame and skipped for
-      // manual slots, so asking for it here competes with whatever frame the
-      // fade has already queued — and a step that has to happen *now* cannot
-      // be left to win that race. The position was read before the fade
-      // began; see where `canvasPoint` is taken.
-      if (canvasPoint) setSlotPosition('learn', canvasPoint);
-      else console.warn('[transition] no learn anchor in the room — Vyom stays put');
-      await nextFrame();
-      await fireAndWait('moveToPoint');
-      if (!running.current) return;
-
-      // Back under the layout's control now the scripted move is done, so the
-      // rest of the lesson behaves normally.
-      setSlotManual('learn', false);
-
-      // ---- 5. present, and then let the slide speak ----------------------
-      // The gesture leads and the words follow it: `present` goes out while
-      // the title, description and formula are still hidden, and they fade up
-      // only once it is visibly under way. Waiting on the busy flag rather
-      // than a timer ties the reveal to the animation actually starting —
-      // and `waitUntilBusy` gives up after its grace, so a `present` that
-      // drives nothing still lets the slide speak rather than silencing it.
-      setPhase('presenting');
-      vmi.current?.trigger('present')?.trigger();
-      await waitUntilBusy(isBusy, alive);
-      if (!running.current) return;
-
-      running.current = false;
-      // Back to `idle`, which is also what uncovers the slide's content: the
-      // page at rest is the page with its words on it.
-      setPhase('idle');
+      await settleIntoRoom(lessonId);
     },
     [
       fire,
-      fireAndWait,
       fireTogether,
       isBusy,
       isVisible,
       alive,
-      measureSlot,
-      mountRoom,
       setSlotManual,
       setSlotPosition,
       waitForEntrance,
+      settleIntoRoom,
     ],
+  );
+
+  /**
+   * From the onboarding's Start into the first class, keys 5 to 14 of the
+   * storyboard.
+   *
+   * Both characters are already on the page — Vyom in the cast box, Spark
+   * by the chapter search bar — so on Start they walk together into the
+   * middle while the page fades: Vyom's learn window to the centre of the
+   * screen with `moveToPoint`, Spark to the launch piece's opening point
+   * beside him with hers. Then the piece (`OnboardingLaunch`): Vyom
+   * expands, the network plays inside him, Spark tours it and flies back
+   * into him, he collapses. From his collapsed shape the module starts,
+   * and the room is settled into exactly as from the home page's cards.
+   */
+  const launchFromOnboarding = useCallback(
+    async (lessonId: string, overlay: LaunchHandle, unmountPage: () => void) => {
+      if (running.current) return;
+      running.current = true;
+      await overlay.ready();
+      if (!running.current) return;
+
+      // ---- key 5: the page goes out, and the two walk into the middle -----
+      const centre = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      setSlotManual('learn', true);
+      setSlotPosition('learn', centre);
+      placeSpark(overlay.sparkStart());
+      sparkFace('delighted');
+      setPhase('fading-out');
+      // Together, the moment the page starts to go.
+      await fireTogether('moveToPoint');
+      fireSpark('moveToPoint');
+      // She scales down as she walks, and is gone into him by the time she arrives.
+      void overlay.shrinkSpark();
+      await sleep(cssDurationMs('--xit-out', OUT_MS));
+      if (!running.current) return;
+      setPhase('blank');
+      unmountPage();
+
+      // Vyom's walk: the rise and fall of the busy flag.
+      await sleep(STATE_SETTLE_MS);
+      await waitUntilBusy(isBusy, alive);
+      await waitWhileBusy(isBusy, alive);
+      if (!running.current) return;
+
+      // ---- keys 6 to 12: the piece ----------------------------------------
+      await overlay.play();
+      if (!running.current) return;
+      overlay.fadeOut();
+
+      // ---- keys 13 and 14: the room, straight from his collapsed shape ----
+      // No module start or loaded beats here: the piece was the load, and
+      // he has just folded back from it. Spark is inside him (her position
+      // pair points at his centre), ready for the room.
+      placeSpark(centre);
+      await sleep(ONBOARDING_LOAD_MS);
+      if (!running.current) return;
+
+      await settleIntoRoom(lessonId, { moduleBeat: false });
+    },
+    [fireTogether, isBusy, alive, setSlotManual, setSlotPosition, settleIntoRoom],
   );
 
   /**
@@ -479,5 +567,5 @@ export function useHomeToRoom({ mountRoom }: HomeToRoomOptions) {
     [fire, waitForEntrance],
   );
 
-  return { phase, begin, leave, swap, isRunning: phase !== 'idle' };
+  return { phase, begin, launchFromOnboarding, leave, swap, isRunning: phase !== 'idle' };
 }

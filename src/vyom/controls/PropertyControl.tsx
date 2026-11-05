@@ -4,10 +4,11 @@ import {
   useViewModelInstanceEnum,
   useViewModelInstanceNumber,
   useViewModelInstanceString,
-  useViewModelInstanceTrigger,
   type ViewModelInstance,
 } from '@rive-app/react-canvas';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { TRIGGERS_WITHOUT_BUSY } from '../config';
+import { triggerWhenIdle } from '../sequencing';
 import type { VyomProperty } from '../types';
 
 interface ControlProps {
@@ -46,11 +47,46 @@ export function PropertyControl({ property, vmi }: ControlProps) {
   }
 }
 
+/**
+ * A trigger button that plays the animation as authored.
+ *
+ * A bare `.trigger()` is lost whenever the artboard is mid-animation, and
+ * still goes wrong for a while after `actionPlaying` falls: sent into that
+ * tail it chains onto the last animation (`pointDown` drops its look-down)
+ * or is swallowed. So a click joins the shared line — sent once the previous
+ * animation has ended and the artboard has had its quiet moment, re-sent if
+ * the artboard swallowed it — and the button shows it is waiting its turn.
+ */
 function TriggerControl({ property, vmi }: ControlProps) {
-  const { trigger } = useViewModelInstanceTrigger(property.name, vmi);
+  const [waiting, setWaiting] = useState(0);
+  const vmiRef = useRef(vmi);
+  vmiRef.current = vmi;
+  const alive = useRef(true);
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
+
+  const send = () => {
+    setWaiting((n) => n + 1);
+    void triggerWhenIdle(() => vmiRef.current, property.name, {
+      expectRise: !TRIGGERS_WITHOUT_BUSY.has(property.name),
+    }).finally(() => {
+      if (alive.current) setWaiting((n) => n - 1);
+    });
+  };
+
   return (
-    <button type="button" className="ctrl ctrl--trigger" onClick={trigger}>
+    <button
+      type="button"
+      className={`ctrl ctrl--trigger${waiting > 0 ? ' ctrl--pending' : ''}`}
+      onClick={send}
+      title={waiting > 0 ? 'Waiting for the previous animation to finish' : undefined}
+    >
       {property.name}
+      {waiting > 0 && <span className="ctrl__badge">{waiting > 1 ? `queued ×${waiting}` : 'queued'}</span>}
     </button>
   );
 }

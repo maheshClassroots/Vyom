@@ -4,7 +4,7 @@ import { useSpark } from '../../spark';
 import { slotForProperty } from '../config';
 import { useVyom } from '../hooks';
 import type { Point, PropertyMeta, VyomProperty } from '../types';
-import { BUSY_TIMEOUT_MS, driveStep, sleep } from '../sequencing';
+import { BUSY_TIMEOUT_MS, driveStep, QUIET_AFTER_BUSY_MS, sleep } from '../sequencing';
 import { readDragPayload, type SequenceCharacter } from './sequenceDrag';
 import { useDraggable } from './useDraggable';
 import {
@@ -322,6 +322,7 @@ function SequenceLane({
         },
         isBusy,
         () => runningRef.current,
+        QUIET_AFTER_BUSY_MS,
       );
 
       if (!finished) {

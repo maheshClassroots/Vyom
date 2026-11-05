@@ -90,7 +90,7 @@ play once Vyom arrives, so the character choreography is data, not control flow:
 ```
 
 Milestones (`intro`, `lo1`, `lo2`, `outro`) fire `celebration`, pay out XP and
-an orb, and pop their node on the progress track. Chat interactions drive
+a coin, and pop their node on the progress track. Chat interactions drive
 `listening` on focus, `thinking` on send and `speaking` on reply.
 
 ## The home chat
@@ -129,6 +129,68 @@ mid-flight measures where the element is, not where it will stop — and a new
 row's rise is waited out by the clock, as is the time he is given to reach a
 line before its text appears, since the artboard never raises its busy flag
 for a walk.
+
+## The onboarding
+
+The app opens on the onboarding (the `Onboarding_export` mockup, hosted as
+a design page like the others — `node scripts/import-design.mjs onboarding
+<folder>`) until it has been completed on this browser; `?onboarding` on
+the URL replays it, and so does the home rail's profile tile. The journey
+follows the storyboard in `onboardingFrames.zip`, key by key:
+
+**Keys 1 to 4 — the questions.** The mockup draws no characters of its
+own: where it drew them it leaves empty boxes (`[data-cast="vyom"]`,
+`[data-cast="spark"]`) and posts its state to the shell — the step, whether
+it has an answer, whether Spark has been met and is speaking — and the
+app's own Vyom and Spark stand on the page and play along
+(`src/onboarding/OnboardingCast.tsx`). Vyom appears in his box at the size
+he has on the home page and is written to it every frame (his parked pair,
+`refPosX/Y`, so a layout change carries him, no walk); the question sits
+below him, left-aligned with the input, and there is no dialogue box for
+him. Continue has him pivot to the next question (`pivot`), which lands with
+him pointing down at it (`pointDown`). On the
+grade step the button reads Submit: Submit brings Spark, who flies from
+Vyom's centre (her chat position) to her spot above the right end of the
+answers, while Vyom turns to look at her (`lookAtX/Y`, `isLookingAtPoint`),
+confused; as she says her line — speaking, delighted — he turns happy; then
+both settle and the student taps Continue. On the chapter step she stays
+where she is (the search bar sits where the options were) and glances down
+at it (`lookLB`). Nothing is written into a busy artboard:
+gestures wait their turn.
+
+**Key 5 — Start.** Spark lights up, and the page fades while the two walk
+together into the middle: Vyom's learn window to the centre of the screen
+(`moveToPoint`), Spark to where the Lottie's Spark will appear beside him
+(`launchFromOnboarding` in `useHomeToRoom.ts`).
+
+**Keys 6 to 12 — the piece** (`src/onboarding/OnboardingLaunch.tsx`).
+Vyom expands (`exapndCollapse`, as the file spells it) and the app's own
+Spark shrinks away into the expansion (and leaves the stage under cover of
+it). Half a second after the expansion is triggered the "With Spark"
+Lottie plays over him from its Start marker to its End marker
+(`public/onboarding/launch/with-spark.json`): the network, the cards, the
+gold path, and Spark herself on it — her image sequence, arriving and
+leaving as the Lottie has it. A second before it ends he collapses.
+
+**Keys 13 and 14 — the class.** From his collapsed shape the room comes
+up directly — no `moduleStart` or `moduleStartLoaded` beats, the piece was
+the load — through the second half of the home page's sequence
+(`settleIntoRoom` without its module beat): the room mounts and fades in,
+he walks up to its canvas and presents.
+
+## Module complete
+
+The last slide's Next is a Finish: it brings up the completion screen over
+the lesson (`src/room/ModuleComplete.tsx`, styles in `complete.css`). The
+learn slot's anchor moves to the middle of the screen (the canvas's own
+steps aside), Vyom walks there (`moveToPoint`) and celebrates
+(`celebrate`, `emotion = happy`, Spark delighted), and the module's reward
+— `MODULE_REWARD`, 50 XP as eight stars and 3 coins — bursts out of him
+with confetti and flies up into the header's counters, which tick up as
+each one lands; the card's chips count the same way. Two choices follow:
+**Practice now** (primary; leaves to the home page, where practice lives,
+via `onPractice`) and **Watch next module** (secondary; the mockup has one
+module, so it plays again from the top).
 
 ## The design packages' pages
 

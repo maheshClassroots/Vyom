@@ -168,6 +168,12 @@ export function SparkProvider({ children }: { children: ReactNode }) {
     if (status === 'failed') setLoadError(`Could not load ${SPARK_CONFIG.src}`);
   }, [status]);
 
+  // Dev-only console handle, the counterpart of `__vyom`.
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    (window as unknown as Record<string, unknown>).__spark = { rive, viewModel, viewModelInstance, binder };
+  }, [rive, viewModel, viewModelInstance, binder]);
+
   const fire = useCallback((name: string) => binder?.fire(name) ?? false, [binder]);
   const setFlag = useCallback(
     (name: string, value: boolean) => binder?.setBoolean(name, value) ?? false,
