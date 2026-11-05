@@ -1,0 +1,16 @@
+/* The launch piece's Lottie: the network inside Vyom. Laid over his stage
+   (same tier, later in the tree) so the cards read as inside him; the app's
+   own Spark stays on her stage beneath both, under Vyom, as she is
+   everywhere else. Letterboxed to the comp's 16:9 inside the viewport by the
+   Lottie's own fit. */
+.launch {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-vyom-stage);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.launch[data-on='true'] { opacity: 1; }
+.launch[data-on='false'] { transition-duration: 0.5s; }
+.launch > svg { display: block; width: 100%; height: 100%; }

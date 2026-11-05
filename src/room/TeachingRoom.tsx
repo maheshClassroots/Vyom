@@ -7,6 +7,7 @@ import { RoomChrome } from './RoomChrome';
 import { ASSET, HAS_VIDEO_FILE, css } from './css';
 import { Mcq } from './Mcq';
 import { SparkRive } from './SparkRive';
+import { ModuleComplete } from './ModuleComplete';
 import './prototype.css';
 import './room.css';
 
@@ -44,9 +45,11 @@ const AMBIENT = [
 interface TeachingRoomProps {
   /** Leaves the lesson and returns to the home page. */
   onExit?: () => void;
+  /** "Practice now" on the completion screen; falls back to leaving. */
+  onPractice?: () => void;
 }
 
-export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
+export function TeachingRoom({ onExit, onPractice }: TeachingRoomProps = {}) {
   const { fire, setFlag, isReady, entranceComplete } = useVyom();
   const { moveTo } = useVyomStage();
 
@@ -57,10 +60,12 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
   const [recording, setRecording] = useState(false);
   const [draft, setDraft] = useState('');
   const [points, setPoints] = useState(120);
-  const [orbs, setOrbs] = useState(6);
+  const [coins, setCoins] = useState(6);
   const [pulse, setPulse] = useState(false);
   const [celebratingDot, setCelebratingDot] = useState<number | null>(null);
   const [celebrating, setCelebrating] = useState(false);
+  /** The module is done: the completion screen is up over the lesson. */
+  const [complete, setComplete] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   /** The intro title's highlight paints on shortly after the slide lands. */
   const [titleHi, setTitleHi] = useState(false);
@@ -148,7 +153,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
     if (step > 0) scheduleMessages();
 
     // The opening slide is a milestone on the track but pays nothing — the
-    // prototype shows 120 XP / 6 orbs until the first objective is earned.
+    // prototype shows 120 XP / 6 coins until the first objective is earned.
     if (current.milestone && step > 0 && !paidMilestones.current.has(step)) {
       paidMilestones.current.add(step);
       const dot = MILESTONES.indexOf(step);
@@ -156,7 +161,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
         setCelebrating(true);
         setCelebratingDot(dot);
         setPoints((value) => value + REWARD.xp);
-        setOrbs((value) => value + REWARD.orbs);
+        setCoins((value) => value + REWARD.coins);
         setPulse(true);
         fire('celebrate');
       }, CUE_DELAY_MS + 340);
@@ -189,6 +194,18 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
   /* ------------------------------------------------------------ interaction */
 
   const go = useCallback((next: number) => setStep(Math.max(0, Math.min(STEPS.length - 1, next))), []);
+  /** Next on the last slide finishes the module. */
+  const advance = useCallback(() => {
+    if (step === STEPS.length - 1) setComplete(true);
+    else go(step + 1);
+  }, [go, step]);
+  /** "Watch next module": the mockup has one module, so it is watched again from the top. */
+  const restart = useCallback(() => {
+    setComplete(false);
+    setMessages([]);
+    paidMilestones.current.clear();
+    setStep(0);
+  }, []);
 
   const openChat = useCallback(
     (mode: 'message' | 'mic') => {
@@ -272,9 +289,9 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
 
       <RoomChrome
         points={points}
-        orbs={orbs}
+        coins={coins}
         xpPulse={pulse}
-        orbPulse={pulse}
+        coinPulse={pulse}
         onHome={onExit}
         onClose={onExit}
       />
@@ -323,7 +340,7 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                       than to any one slide, so it stays put as the journey
                       moves; the offset is viewport-relative so it holds its
                       proportion as the room resizes. */}
-                  <VyomAnchor slot="learn" x="50%" y="10vh" />
+                  {!complete && <VyomAnchor slot="learn" x="50%" y="10vh" />}
 
                   {current.mode === 'intro' && (
                     <div className="bpop" style={css('position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:safe center;overflow:auto;padding:24px 34px 20px;text-align:center;')}>
@@ -507,8 +524,8 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
               </div>
 
               <div
-                onClick={() => go(step + 1)}
-                title="Next"
+                onClick={advance}
+                title={step === STEPS.length - 1 ? 'Finish' : 'Next'}
                 style={{
                   ...css('position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;flex:none;border-radius:12px;'),
                   // The prototype keeps the intro's button white and fills it;
@@ -516,14 +533,29 @@ export function TeachingRoom({ onExit }: TeachingRoomProps = {}) {
                   background: isIntroStep ? '#fff' : '#5f3dc4',
                   color: isIntroStep ? '#1f1a3d' : '#fff',
                   border: isIntroStep ? '1.5px solid #e4e0f2' : '1.5px solid transparent',
-                  cursor: step === STEPS.length - 1 ? 'default' : 'pointer',
-                  opacity: step === STEPS.length - 1 ? 0.5 : 1,
+                  cursor: 'pointer',
                 }}
               >
-                <i className="ti ti-chevron-right" style={css('font-size:22px;')} />
+                <i className={`ti ${step === STEPS.length - 1 ? 'ti-check' : 'ti-chevron-right'}`} style={css('font-size:22px;')} />
               </div>
             </div>
           </div>
+
+          {complete && (
+            <ModuleComplete
+              studentName={STUDENT_NAME}
+              lessonTitle={STEPS[0].title}
+              objectives={MILESTONES.length}
+              onReward={(xp, earned) => {
+                setPoints((value) => value + xp);
+                setCoins((value) => value + earned);
+                setPulse(true);
+                later(() => setPulse(false), 600);
+              }}
+              onPractice={onPractice ?? onExit ?? (() => undefined)}
+              onNextModule={restart}
+            />
+          )}
         </div>
       </div>
     </div>

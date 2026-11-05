@@ -42,6 +42,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GOAL_EXTRAS, GOAL_REPLACE } from './design/goal-patches.mjs';
 import { recolor } from './design/tokens.mjs';
+import { ONBOARDING_REPLACE } from './design/onboarding-patches.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT_ROOT = resolve(HERE, '..', 'public', 'design');
@@ -131,6 +132,18 @@ const SITES = {
         '.cj-wake{display:none;position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .32s ease;',
       ],
     ],
+  },
+  onboarding: {
+    file: 'Onboarding.dc.html',
+    // The mockup folder ships less than the packages: no phone nav, no
+    // canvas stylesheet, no icons. Its own common set.
+    common: ['support.js', 'logo.png', 'vyom-mascot.png'],
+    commonDirs: ['_ds'],
+    plain: ['spark-mascot-sm.png'],
+    optional: [],
+    dirs: [],
+    extras: {},
+    replace: ONBOARDING_REPLACE,
   },
   goal: {
     file: 'Goal Page.dc.html',
@@ -238,10 +251,12 @@ function main() {
   const [id, input] = process.argv.slice(2);
   const site = SITES[id];
   if (!site || !input) {
-    console.error('usage: node scripts/import-design.mjs <journey|goal> "<package dir or .zip>"');
+    console.error('usage: node scripts/import-design.mjs <journey|goal|onboarding> "<package dir or .zip>"');
     process.exit(1);
   }
   const out = join(OUT_ROOT, id);
+  const common = site.common ?? COMMON;
+  const commonDirs = site.commonDirs ?? COMMON_DIRS;
 
   let root = resolve(input);
   let scratch = null;
@@ -249,10 +264,10 @@ function main() {
     scratch = mkdtempSync(join(tmpdir(), 'design-'));
     const members = [
       site.file,
-      ...COMMON,
+      ...common,
       ...site.plain,
       ...site.optional,
-      ...[...COMMON_DIRS, ...site.dirs].map((d) => `${d}/*`),
+      ...[...commonDirs, ...site.dirs].map((d) => `${d}/*`),
     ];
     // Exit 11 is unzip's "some names matched nothing" — the optional files.
     // Anything required that is missing is caught below, by name.
@@ -266,7 +281,7 @@ function main() {
     root = scratch;
   }
 
-  for (const name of [site.file, ...COMMON, ...site.plain, ...COMMON_DIRS, ...site.dirs]) {
+  for (const name of [site.file, ...common, ...site.plain, ...commonDirs, ...site.dirs]) {
     if (!existsSync(join(root, name))) {
       console.error(`"${name}" not found in ${root}`);
       process.exit(1);
@@ -276,14 +291,14 @@ function main() {
   rmSync(out, { recursive: true, force: true });
   mkdirSync(out, { recursive: true });
 
-  for (const name of [...COMMON, ...site.plain]) cpSync(join(root, name), join(out, name));
+  for (const name of [...common, ...site.plain]) cpSync(join(root, name), join(out, name));
   for (const [name, source] of Object.entries(OVERRIDES)) cpSync(source, join(out, name));
   for (const [name, source] of Object.entries(site.extras ?? {})) cpSync(source, join(out, name));
   for (const name of site.optional) {
     if (existsSync(join(root, name))) cpSync(join(root, name), join(out, name));
     else console.log(`${name}: not in this package, skipped`);
   }
-  for (const dir of [...COMMON_DIRS, ...site.dirs]) {
+  for (const dir of [...commonDirs, ...site.dirs]) {
     cpSync(join(root, dir), join(out, dir), { recursive: true });
   }
   for (const [name, fromSite] of Object.entries(site.borrow ?? {})) {

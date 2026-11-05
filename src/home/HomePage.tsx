@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ASSET } from '../room/css';
 import { useVyom, VyomAnchor } from '../vyom';
-import { nextFrame, sleep, STATE_SETTLE_MS, waitFor, waitUntilBusy, waitWhileBusy } from '../vyom/sequencing';
+import { nextFrame, sleep, triggerWhenIdle, waitFor, waitWhileBusy } from '../vyom/sequencing';
 import { vyomOwner } from './chat';
 import { ChatThread, Composer } from './HomeChat';
 import { LESSONS, STATS, type LessonCard } from './lessons';
@@ -63,6 +63,8 @@ interface HomePageProps {
   onOpenJourney: () => void;
   /** Opens the Goals Journey — the design's Goal Page. */
   onOpenGoal: () => void;
+  /** The profile tile: replays the onboarding. */
+  onOpenOnboarding: () => void;
   /** Opened from the Goal Page's "set / change goal": the chat starts in that thread. */
   goalChat?: GoalChat | null;
   studentName: string;
@@ -99,6 +101,7 @@ export function HomePage({
   onOpenChallenges,
   onOpenJourney,
   onOpenGoal,
+  onOpenOnboarding,
   goalChat = null,
   studentName,
   disabled = false,
@@ -137,7 +140,7 @@ export function HomePage({
     const from = applied.current;
     if (from === owner) return;
     let alive = true;
-    const fire = (name: string) => vmi.current?.trigger(name)?.trigger();
+    const fire = (name: string) => triggerWhenIdle(() => vmi.current, name, { shouldContinue: () => alive });
     const isBusy = () => vmi.current?.boolean('actionPlaying')?.value === true;
     const stillAlive = () => alive;
     // The `learn` slot is his seat: once the page has stopped moving, its
@@ -148,7 +151,7 @@ export function HomePage({
       requestSlotSync();
       await nextFrame();
       if (!alive) return false;
-      fire('moveToPoint');
+      await fire('moveToPoint');
       return true;
     };
     // The hero and the thread slide in and out; a seat inside either is only
@@ -163,16 +166,14 @@ export function HomePage({
         // timer, so a line landing mid-walk cannot cancel it.
         if (!(await seatThenMove(() => atRest(thread.current)))) return;
         window.clearTimeout(entryScale.current);
-        entryScale.current = window.setTimeout(() => fire('scaleSmall'), WALK_MS);
+        entryScale.current = window.setTimeout(() => void fire('scaleSmall'), WALK_MS);
       } else if (owner === 'hero') {
         // Home: full size first, then the walk. Unlike the scale-down, the
         // scale-up raises the busy flag and drops it, so it is waited out —
         // sent together, the move is lost — and the hero has slid back into
         // place by the time it has.
         window.clearTimeout(entryScale.current);
-        fire('scaleFull');
-        await sleep(STATE_SETTLE_MS);
-        await waitUntilBusy(isBusy, stillAlive);
+        await fire('scaleFull');
         await waitWhileBusy(isBusy, stillAlive);
         if (!alive) return;
         if (!(await seatThenMove(() => atRest(hero.current)))) return;
@@ -218,7 +219,7 @@ export function HomePage({
   const openLesson = (id: string) => {
     // Back to full size before the walk to the centre — the lesson's own
     // sequence waits for the artboard to be free before it sends him.
-    if (owner !== 'hero') vmi.current?.trigger('scaleFull')?.trigger();
+    if (owner !== 'hero') void triggerWhenIdle(() => vmi.current, 'scaleFull');
     onOpenLesson(id);
   };
 
@@ -258,7 +259,7 @@ export function HomePage({
             <i className="ti ti-trophy" />
           </button>
           <span className="home__rail-rule home__rail-rule--inner" aria-hidden="true" />
-          <button type="button" className="home__rail-item home__rail-item--profile" title="Profile" aria-label="Profile" disabled>
+          <button type="button" className="home__rail-item home__rail-item--profile" title="Profile · replay onboarding" aria-label="Profile, replays the onboarding" onClick={onOpenOnboarding} disabled={disabled}>
             <img src="/home/aarav-avatar.png" alt="" />
           </button>
         </div>

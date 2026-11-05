@@ -11,6 +11,8 @@ export const DESIGN_PAGES = {
   journey: { dir: 'journey', file: 'Chapter Journey.dc.html', title: 'Chapter Journey' },
   /** The later package's Goal Page: the "Unit test 2" step thread with the rail. */
   goal: { dir: 'goal', file: 'Goal Page.dc.html', title: 'Goals Journey' },
+  /** The onboarding mockup: sign-up, name, board, grade, chapter, then the first class. */
+  onboarding: { dir: 'onboarding', file: 'Onboarding.dc.html', title: 'Onboarding' },
 } as const;
 
 export type DesignPageId = keyof typeof DESIGN_PAGES;
@@ -32,6 +34,7 @@ function classify(file: string): DesignDestination {
   // "Goals" to a Goal Page and "Chapters" to a Chapter Journey variant.
   if (file.startsWith('Goal Page')) return 'goal';
   if (file.startsWith('Chapter Journey')) return 'journey';
+  if (file.startsWith('Onboarding')) return 'onboarding';
   return 'unknown';
 }
 

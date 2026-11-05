@@ -1,7 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ChallengesPage } from '../challenges';
 import { HomePage, type GoalChat } from '../home';
 import { DesignPage, GoalPathDevPanel, type DesignDestination, type DesignPageId } from '../design';
+import { FIRST_LESSON, ONBOARDED_KEY, OnboardingCast, OnboardingLaunch, startsOnOnboarding, type LaunchHandle } from '../onboarding';
 import { TeachingRoom } from '../room/TeachingRoom';
 import { Surface, TransitionContext, useHomeToRoom } from '../transition';
 import { SequenceComposer, useVyomBooleanValue, VyomDevPanel, VyomStage } from '../vyom';
@@ -10,22 +11,6 @@ import '../transition/transition.css';
 
 const STUDENT_NAME = 'Aarav';
 
-/**
- * The platform frame, and the one place that decides which screen is showing.
- *
- * The app opens on the home page; choosing a lesson plays the transition, which
- * empties the screen toward Vyom, sends him to the centre while the module
- * loads, and then builds the teaching room back out of him. Going back plays
- * the same gesture, shorter. The shell owns both because it is the only thing
- * that sees both screens — neither is mounted or unmounted by the click, but
- * partway through the sequence it starts.
- *
- * Both character stages and all three dev surfaces are mounted for the life of
- * the app, above whichever screen is showing. The characters are one artboard
- * each from first paint to last, and the dev tools are reachable from the home
- * page as well as the lesson — a sequence is built and played against the same
- * two artboards either way.
- */
 export function AppShell() {
   const [lessonId, setLessonId] = useState<string | null>(null);
   const inLesson = lessonId !== null;
@@ -34,7 +19,7 @@ export function AppShell() {
   // leaves the way he does for Challenges, and a module tapped there opens
   // the lesson with the same load sequence as from home, with him
   // reappearing in the middle of it.
-  const [designPage, setDesignPage] = useState<DesignPageId | null>(null);
+  const [designPage, setDesignPage] = useState<DesignPageId | null>(() => (startsOnOnboarding() ? 'onboarding' : null));
   // The Goal Page's "set / change goal" taps open the home chat in that
   // thread; the mode travels in the query of the file it asked for.
   const [goalChat, setGoalChat] = useState<GoalChat | null>(null);
@@ -49,7 +34,33 @@ export function AppShell() {
     setLessonId(id);
     setDesignPage(null);
   }, []);
-  const { phase, begin, leave, swap, isRunning } = useHomeToRoom({ mountRoom });
+  const { phase, begin, launchFromOnboarding, leave, swap, isRunning } = useHomeToRoom({ mountRoom });
+
+  // The onboarding's launch animation, mounted for the run from Start into
+  // the first class and taken down once the room is up.
+  const [launching, setLaunching] = useState(false);
+  const launch = useRef<LaunchHandle>(null);
+  const startFirstClass = useCallback(() => {
+    try {
+      localStorage.setItem(ONBOARDED_KEY, '1');
+    } catch {
+      /* storage may be unavailable; the onboarding will show again */
+    }
+    // The cast follower stands down; the sequence takes the two characters
+    // on from where it left them.
+    setLaunching(true);
+    // The overlay mounts on the next commit; the sequence waits on its
+    // handle through `ready`, so everything it needs is loaded before
+    // anything is fired.
+    void (async () => {
+      const handle = await new Promise<LaunchHandle>((resolve) => {
+        const poll = () => (launch.current ? resolve(launch.current) : requestAnimationFrame(poll));
+        poll();
+      });
+      await launchFromOnboarding(FIRST_LESSON, handle, () => setDesignPage(null));
+      setLaunching(false);
+    })();
+  }, [launchFromOnboarding]);
 
   // The surface follows the character's own theme, which is where the room's
   // background used to read it from.
@@ -92,23 +103,27 @@ export function AppShell() {
           setDesignPage(null);
           setGoalChat(mode ? { mode, goal: query.get('goal') } : null);
         }, { in: 'appear' });
+      } else if (to === 'lesson' && designPage === 'onboarding') {
+        // The onboarding's Start: through the launch animation into the
+        // first class.
+        startFirstClass();
       } else if (to === 'lesson') {
         // The same load sequence as from home; Vyom is off stage here, and
         // the sequence sees that for itself.
         void begin('fractions');
-      } else if (to === 'journey' || to === 'goal') {
+      } else if (to === 'journey' || to === 'goal' || to === 'onboarding') {
         // Page to page: he is off stage on both, so no cue either way.
         void swap(() => setDesignPage(to));
       } else {
         console.warn(`[design] "${file}" is not part of this build`);
       }
     },
-    [begin, swap],
+    [begin, swap, designPage, startFirstClass],
   );
 
   return (
     <TransitionContext.Provider value={phase}>
-      <div className={`shell${phase !== 'idle' ? ` xit--${phase}` : ''}`}>
+      <div className={`shell${phase !== 'idle' ? ` xit--${phase}` : ''}`} data-launch={launching || undefined}>
         <main className="shell__frame">
           {/* Painted once and never faded. Its colour is the cue that the room
               has loaded: it follows `inLesson`, which flips the moment the
@@ -133,6 +148,7 @@ export function AppShell() {
                 onOpenChallenges={openChallenges}
                 onOpenJourney={() => openDesignPage('journey')}
                 onOpenGoal={() => openDesignPage('goal')}
+                onOpenOnboarding={() => openDesignPage('onboarding')}
                 goalChat={goalChat}
                 disabled={isRunning}
               />
@@ -145,7 +161,12 @@ export function AppShell() {
             overlays, which climb into the thousands. Which screen is showing
             only decides where the slot anchors sit, so moving between them is a
             move within the artboard rather than a teardown. */}
+        {designPage === 'onboarding' && !launching && <OnboardingCast />}
         <VyomStage />
+        {/* Between the two stages: the launch piece's network draws over Vyom
+            and under Spark (the shell lifts her stage while it plays). Mounted
+            with the onboarding page, so its Lottie is loaded before Start. */}
+        {(designPage === 'onboarding' || launching) && <OnboardingLaunch ref={launch} lessonId={FIRST_LESSON} />}
         <SparkStage />
         <VyomDevPanel />
         <SparkDevPanel />

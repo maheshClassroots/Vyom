@@ -29,7 +29,7 @@ import {
   STAGE_SLOTS,
 } from './config';
 import { VyomBinder } from './binder';
-import { nextFrame } from './sequencing';
+import { nextFrame, triggerWhenIdle } from './sequencing';
 import { RiveComponentContext } from './RiveComponentContext';
 import { resolveArtboard } from './resolveArtboard';
 import { embeddedRive } from './embedded';
@@ -180,7 +180,17 @@ function describeProperties(instanceProperties: { name: string; type: string }[]
   });
 }
 
-export function VyomProvider({ children }: { children: ReactNode }) {
+interface VyomProviderProps {
+  children: ReactNode;
+  /**
+   * Whether he makes his opening entrance on load (`LOAD_TRIGGER`). The app
+   * declines it when it opens on a page he is not on — the onboarding — and
+   * brings him on itself later.
+   */
+  entrance?: boolean;
+}
+
+export function VyomProvider({ children, entrance = true }: VyomProviderProps) {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [activeSlot, setActiveSlot] = useState<SlotId>(DEFAULT_SLOT);
   const [slotPositions, setSlotPositions] = useState<Record<string, Point>>({});
@@ -241,6 +251,9 @@ export function VyomProvider({ children }: { children: ReactNode }) {
 
   // Passing `rive` binds the instance to the state machine automatically.
   const viewModelInstance = useViewModelInstance(viewModel, { rive });
+
+  const vmiRef = useRef(viewModelInstance);
+  vmiRef.current = viewModelInstance;
 
   const binder = useMemo(
     () => (viewModelInstance ? new VyomBinder(viewModelInstance) : null),
@@ -489,9 +502,12 @@ export function VyomProvider({ children }: { children: ReactNode }) {
       // Every app-driven trigger goes through here, so one gate silences them
       // all. Panel controls write to the ViewModel directly and are unaffected.
       if (!AUTO_DRIVE_ENABLED) return false;
-      const fired = binderRef.current?.fire(name) ?? false;
-      if (!fired) console.warn(`[vyom] no trigger named "${name}" on the ViewModel.`);
-      return fired;
+      // Sent once the previous animation has finished (`actionPlaying` false),
+      // in the order asked; true here means the trigger exists and is queued.
+      const exists = Boolean(binderRef.current?.trigger(name));
+      if (!exists) console.warn(`[vyom] no trigger named "${name}" on the ViewModel.`);
+      else void triggerWhenIdle(() => vmiRef.current, name);
+      return exists;
     },
     [],
   );
@@ -613,7 +629,7 @@ export function VyomProvider({ children }: { children: ReactNode }) {
   // part of `AUTO_DRIVE_ENABLED`.
   const appeared = useRef(false);
   useEffect(() => {
-    if (!isReady || !LOAD_TRIGGER) return;
+    if (!isReady || !LOAD_TRIGGER || !entrance) return;
     void (async () => {
       // A frame first, so the page has laid out and the anchors are where they
       // will stay.
@@ -633,7 +649,7 @@ export function VyomProvider({ children }: { children: ReactNode }) {
       appeared.current = true;
       binderRef.current?.fire(LOAD_TRIGGER);
     })();
-  }, [isReady, syncSlots]);
+  }, [isReady, syncSlots, entrance]);
 
   // Send Vyom to the starting slot once everything is bound.
   // See ENTRANCE_RETRIES_MS for why this is a schedule rather than one call.
