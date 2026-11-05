@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useVyom } from '../hooks';
+import { PANEL_READOUTS, VYOM_POSITION_BLOCKS } from '../config';
 import { DraggableControl } from './DraggableControl';
+import { PositionGroup } from './PositionGroup';
 import { PropertyControl, ReadOnlyControl } from './PropertyControl';
-import { SlotControls } from './SlotControls';
 import { useDraggable } from './useDraggable';
 
 /**
@@ -14,8 +15,18 @@ import { useDraggable } from './useDraggable';
  * decides is which heading it sits under.
  */
 export function VyomDevPanel() {
-  const { properties, isReady, loadError, viewModelInstance, artboardName, availableArtboards } =
-    useVyom();
+  const {
+    properties,
+    isReady,
+    loadError,
+    viewModelInstance,
+    artboardName,
+    availableArtboards,
+    slotPositions,
+    manualSlots,
+    setSlotManual,
+    setSlotPosition,
+  } = useVyom();
   // Collapsed by default: this panel is for development, not for the
   // student. It reopens from the button in the top-right corner.
   const [open, setOpen] = useState(false);
@@ -32,12 +43,16 @@ export function VyomDevPanel() {
     const needle = query.trim().toLowerCase();
     const matches = (name: string) => (needle ? name.toLowerCase().includes(needle) : true);
     return {
-      // Slot coordinates are written by the layout and have their own section.
+      // The coordinates have their own group (Positioning), and the artboard's
+      // wiring is read-out only.
       controls: properties.filter(
         (p) => !p.isSlotDriven && !p.isInternal && matches(p.name),
       ),
-      // Rive's internal wiring — read-out only, never written from here.
-      readOnly: properties.filter((p) => p.isInternal && matches(p.name)),
+      // Rive internals: just where he is being drawn and whether an animation
+      // is running, in the order the panel lists them.
+      readOnly: PANEL_READOUTS.map((name) => properties.find((p) => p.name === name)).filter(
+        (p): p is (typeof properties)[number] => Boolean(p) && matches(p!.name),
+      ),
     };
   }, [properties, query]);
 
@@ -74,11 +89,6 @@ export function VyomDevPanel() {
         </button>
       </header>
 
-      <section className="devpanel__section">
-        <h3>Slots</h3>
-        <SlotControls />
-      </section>
-
       <input
         className="devpanel__search"
         type="search"
@@ -88,6 +98,14 @@ export function VyomDevPanel() {
       />
 
       <div className="devpanel__scroll">
+        <PositionGroup
+          blocks={VYOM_POSITION_BLOCKS}
+          properties={properties}
+          vmi={viewModelInstance}
+          character="vyom"
+          query={query}
+          slots={{ positions: slotPositions, manual: manualSlots, setManual: setSlotManual, setPosition: setSlotPosition }}
+        />
         <section className="devpanel__section">
           <h3>
             State machine

@@ -1,4 +1,4 @@
-import type { PropertyMeta } from '../vyom/types';
+import type { PositionBlockDefinition, PropertyMeta } from '../vyom/types';
 
 /**
  * Everything the runtime needs to find Spark inside its .riv file.
@@ -52,6 +52,17 @@ export const SPARK_PROPERTY_META: Record<string, PropertyMeta> = {
   sparkPositionY: { group: 'position', min: -2000, max: 4000, step: 1 },
   chatPositionX: { group: 'position', min: -2000, max: 4000, step: 1 },
   chatPositionY: { group: 'position', min: -2000, max: 4000, step: 1 },
+  // Where the artboard parks her: written to position her in real time.
+  positionXRef: { group: 'position', min: -2000, max: 4000, step: 1 },
+  positionYRef: { group: 'position', min: -2000, max: 4000, step: 1 },
+  // A percentage of her normal size, 100 being that.
+  scale: {
+    group: 'appearance',
+    min: 20,
+    max: 150,
+    step: 1,
+    description: "Use this value for varying Spark's size.",
+  },
 
   // The module beats, mirroring Vyom's: the file now carries the same three
   // triggers, so Spark can react to a lesson loading alongside him.
@@ -70,3 +81,27 @@ export const SPARK_PROPERTY_META: Record<string, PropertyMeta> = {
   lookLB: { group: 'gaze' },
   lookRB: { group: 'gaze' },
 };
+
+/**
+ * The panel's Positioning group: each pair of coordinates, and what it is for.
+ * Her chat position is left as the plain sliders it was.
+ */
+export const SPARK_POSITION_BLOCKS: PositionBlockDefinition[] = [
+  {
+    title: 'sparkPosition',
+    x: 'sparkPositionX',
+    y: 'sparkPositionY',
+    notes: [
+      'Set this position to direct where Spark will land on flyIn.',
+      'Set this position to where you want to move Spark using moveToPoint.',
+    ],
+  },
+  {
+    title: 'Responsive ref position',
+    x: 'positionXRef',
+    y: 'positionYRef',
+    notes: [
+      'This is the live position of Spark. Use it to position Spark in real time — for responsive positioning.',
+    ],
+  },
+];

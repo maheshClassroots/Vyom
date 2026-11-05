@@ -1,4 +1,4 @@
-import type { PropertyGroupId, SlotDefinition, PropertyMeta } from './types';
+import type { PositionBlockDefinition, PropertyGroupId, SlotDefinition, PropertyMeta } from './types';
 
 /**
  * Everything the runtime needs to find the character inside the .riv file.
@@ -133,7 +133,7 @@ export const DEFAULT_SLOT = 'learn';
  */
 export const PROPERTY_GROUPS: Record<PropertyGroupId, { label: string; order: number }> = {
   navigation: { label: 'Navigation', order: 0 },
-  position: { label: 'Position', order: 1 },
+  position: { label: 'Positioning', order: 1 },
   presence: { label: 'Presence', order: 2 },
   communication: { label: 'Communication', order: 3 },
   feedback: { label: 'Feedback', order: 4 },
@@ -166,7 +166,10 @@ export const PROPERTY_META: Record<string, PropertyMeta> = {
   disappear: { group: 'presence' },
   isWaiting: { group: 'presence' },
   vyomVisible: { group: 'presence' },
-  actionPlaying: { group: 'presence' },
+  actionPlaying: {
+    group: 'presence',
+    description: 'Wait for this flag to fall to false before triggering next animation.',
+  },
   scaleFull: { group: 'presence' },
   scaleSmall: { group: 'presence' },
   exapndCollapse: { group: 'presence' },
@@ -201,8 +204,59 @@ export const PROPERTY_META: Record<string, PropertyMeta> = {
   isDarkMode: { group: 'appearance' },
   // A percentage of his normal size, 100 being that: the slider has to sit
   // around 100, not scrub the default -1000..1000.
-  scale: { group: 'appearance', min: 20, max: 150, step: 1 },
+  scale: {
+    group: 'appearance',
+    min: 20,
+    max: 150,
+    step: 1,
+    description: "Use this value for varying Vyom's size.",
+  },
+  // Where the artboard parks him: written to position him in real time.
+  refPosX: { group: 'position', min: -2000, max: 4000, step: 1 },
+  refPosY: { group: 'position', min: -2000, max: 4000, step: 1 },
 };
+
+/**
+ * The panel's Positioning group: each pair of coordinates, and what it is for.
+ * The two slot pairs are written by the layout from the DOM; moving one by
+ * hand takes its slot off automatic so the value stays put.
+ */
+export const VYOM_POSITION_BLOCKS: PositionBlockDefinition[] = [
+  {
+    title: 'Learning Canvas',
+    x: 'learnWindowX',
+    y: 'learnWindowY',
+    slotId: 'learn',
+    notes: [
+      'When Vyom needs to jump between the content canvas and the chat, hook this value to the content canvas position and use learnToChat / chatToLearn.',
+      'When Vyom needs to move to a position in an animated way, with trails, use this value to set the new position and then trigger moveToPoint.',
+    ],
+  },
+  {
+    title: 'Chat Window',
+    x: 'chatposX',
+    y: 'chatposY',
+    slotId: 'chat',
+    notes: [
+      'When Vyom needs to jump between the content canvas and the chat, hook this value to the chat position.',
+    ],
+  },
+  {
+    title: 'Responsive ref position',
+    x: 'refPosX',
+    y: 'refPosY',
+    notes: [
+      'This is the live position of Vyom. Use it to position Vyom in real time — for responsive positioning.',
+    ],
+  },
+];
+
+/**
+ * The only read-outs the panel lists under "Rive internals": where the artboard
+ * is drawing him, and whether an animation is running. The rest of the
+ * artboard's own wiring (`xref`, `yref`, `vyomVisible`) is not shown.
+ */
+export const PANEL_READOUTS = ['actualPosX', 'actualPosY', 'actionPlaying'];
 
 /**
  * Triggers that start something the busy flag does not report.
