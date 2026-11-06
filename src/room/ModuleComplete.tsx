@@ -1,5 +1,6 @@
 import * as riveRuntime from '@rive-app/react-canvas';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import { useSpark } from '../spark';
 import { useVyom, VyomAnchor } from '../vyom';
 import { triggerWhenIdle } from '../vyom/sequencing';
@@ -41,15 +42,17 @@ const LEAD_FRAMES = 24;
 const FPS = 30;
 /** The package's cues, in its frames. */
 const F_LOOK_ON = 30;
-const F_HAPPY = 40;
 const F_STARS = 44;
 const F_STAR_LANDS = [80, 84, 88];
 const F_ORBS = 119;
 const F_ORB_LANDS = [160, 164];
 const F_LOOK_OFF = 164;
 const F_CELEBRATE = 176;
-/** How long `celebrate` runs (measured: 2 s), with a little over. */
-const CELEBRATE_MS = 2100;
+/**
+ * When the rewards come in, counted from the start of `celebrate` (which runs
+ * 2 s): over its last half second, so there is no pause between the two.
+ */
+const REWARDS_AFTER_CELEBRATE_MS = 1500;
 /** How long `moduleComplete` runs (measured: 3.28 s), with a little over. */
 const MODULE_COMPLETE_MS = 3400;
 /** The rewards' own entrance, before their pills can be measured for the flights. */
@@ -185,6 +188,39 @@ export function ModuleComplete({ studentName, onReward, onPractice, onNextModule
     return () => setSlotManual('learn', false);
   }, [setSlotManual]);
 
+  // Vyom's stage is one canvas over the whole app, above every page. For him
+  // to stand behind the words and buttons, they are drawn on a layer of
+  // their own above that canvas: laid exactly over this screen, with the
+  // room's type carried across (it is outside the room's own tree).
+  const back = useRef<HTMLDivElement>(null);
+  const [frame, setFrame] = useState<CSSProperties | null>(null);
+  const [dark, setDark] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  useLayoutEffect(() => {
+    const el = back.current;
+    if (!el) return;
+    const measure = () => {
+      const r = el.getBoundingClientRect();
+      const cs = getComputedStyle(el);
+      setFrame({ left: r.left, top: r.top, width: r.width, height: r.height, fontFamily: cs.fontFamily, color: cs.color });
+      setDark(Boolean(el.closest('.room-root--dark')));
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    window.addEventListener('resize', measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, []);
+  // The layer is outside the page the shell fades on the way out, so it goes
+  // by itself as a choice is made.
+  const choose = (then: () => void) => () => {
+    setLeaving(true);
+    then();
+  };
+
   useEffect(() => {
     let alive = true;
     const timers: number[] = [];
@@ -273,9 +309,17 @@ export function ModuleComplete({ studentName, onReward, onPractice, onNextModule
       const at = (frame: number) => REWARDS_IN_MS + ((frame - LEAD_FRAMES) / FPS) * 1000;
 
       // ---- 2. he watches ------------------------------------------------
+      // As the rewards rise in he turns to them and brightens, all at once:
+      // his eyes go to the XP pill, and from the package's look-on frame they
+      // follow its track (the pills have settled and can be measured by then).
+      const pill = centreOf(xpIcon.current);
+      if (pill) lookAt(pill);
+      looking(true);
+      mood('happy');
+      const e = sparkVmi.current?.enum('expression');
+      if (e) e.value = 'delighted';
       later(at(F_LOOK_ON), () => {
         layAll();
-        looking(true);
         const started = performance.now();
         const gaze = window.setInterval(() => {
           if (!alive) return;
@@ -296,11 +340,6 @@ export function ModuleComplete({ studentName, onReward, onPractice, onNextModule
           );
         }, 1000 / FPS);
         timers.push(gaze);
-      });
-      later(at(F_HAPPY), () => {
-        mood('happy');
-        const e = sparkVmi.current?.enum('expression');
-        if (e) e.value = 'delighted';
       });
 
       // ---- 3. the stars, then the orbs ----------------------------------
@@ -332,7 +371,7 @@ export function ModuleComplete({ studentName, onReward, onPractice, onNextModule
     // His seat is written as the walk's destination (the stage canvas's
     // pixels) and he is sent there; once he has arrived the slot goes back to
     // the provider, which keeps him on it through a resize. The celebration
-    // waits in line behind the walk, and the rewards wait for the celebration.
+    // waits in line behind the walk, and the rewards come in over the end of the celebration.
     later(80, () => {
       const to = centreOf(seat.current?.querySelector('.vyom-anchor'));
       const stage = document.querySelector('.vyom-stage__canvas')?.getBoundingClientRect();
@@ -347,7 +386,7 @@ export function ModuleComplete({ studentName, onReward, onPractice, onNextModule
           setSlotManual('learn', false);
           fire('celebrate', () => {
             setParty(true);
-            later(CELEBRATE_MS, rewards);
+            later(REWARDS_AFTER_CELEBRATE_MS, rewards);
           });
         }),
       );
@@ -368,17 +407,8 @@ export function ModuleComplete({ studentName, onReward, onPractice, onNextModule
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div className={`mc mc--beat-${beat}`} role="dialog" aria-label="Module complete">
-      <span className="mc__twinkles" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-        <i />
-        <i />
-        <i />
-      </span>
-
+  const front = (
+    <>
       <header className="mc__head">
         <h2 className="mc__title">Module Complete!</h2>
         <p className="mc__sub">Great job, {studentName}!</p>
@@ -425,19 +455,44 @@ export function ModuleComplete({ studentName, onReward, onPractice, onNextModule
       </section>
 
       <div className="mc__actions">
-        <button type="button" className="mc__btn mc__btn--primary" onClick={onPractice}>
+        <button type="button" className="mc__btn mc__btn--primary" onClick={choose(onPractice)}>
           <i className="ti ti-target" /> Practice now
         </button>
-        <button type="button" className="mc__btn mc__btn--secondary" onClick={onNextModule}>
+        <button type="button" className="mc__btn mc__btn--secondary" onClick={choose(onNextModule)}>
           <i className="ti ti-player-play-filled" /> Watch next module
         </button>
       </div>
 
-      {/* the rewards in flight, above everything in the room */}
+      {/* the rewards in flight, above him and everything in the room */}
       <div className="mc__sky" aria-hidden="true">
         <canvas ref={canvases.stars} width={BOX} height={BOX} />
         <canvas ref={canvases.orbs} width={BOX} height={BOX} />
       </div>
+    </>
+  );
+
+  return (
+    <div className="mc" ref={back}>
+      <span className="mc__twinkles" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+        <i />
+        <i />
+        <i />
+      </span>
+      {/* Mounted from the first render (the refs inside are needed at once), shown once it has been laid over this screen. */}
+      {createPortal(
+        <div
+          className={`mc-front mc--beat-${beat}${dark ? ' mc-front--dark' : ''}${leaving ? ' mc-front--leaving' : ''}`}
+          style={frame ?? { visibility: 'hidden' }}
+          role="dialog"
+          aria-label="Module complete"
+        >
+          {front}
+        </div>,
+        document.body,
+      )}
     </div>
   );
 }

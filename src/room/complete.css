@@ -1,5 +1,5 @@
 /* ------------------------------------------------------ module complete */
-/* A flash screen over the lesson's body, under the header chrome (so its
+/* A flash screen in place of the lesson's body, under the header chrome (so its
    counters stay in view for the rewards to fly into). One column, centred:
    title, Vyom, rewards, the two choices. Tokens from src/tokens.css. */
 
@@ -7,15 +7,8 @@
   position: absolute;
   inset: 0;
   z-index: 30;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(10px, 2.2vh, 22px);
-  padding: 16px 24px 20px;
   border-radius: 24px;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 46%, var(--canvas-bot) 100%);
   animation: mc-in 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) both;
 }
 @keyframes mc-in {
@@ -26,6 +19,33 @@
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* The screen has no fill of its own: it stands on the room's surface. The
+   lesson under it steps out instead of being covered. */
+.room-card--complete > :not(.mc) {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* The words, rewards and buttons: a layer of their own above Vyom's stage
+   (which is above every page), laid over the screen by the component, so
+   he stands behind them. It lets clicks through except on the buttons. */
+.mc-front {
+  position: fixed;
+  z-index: calc(var(--z-vyom-stage) + 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2.2vh, 22px);
+  padding: 16px 24px 20px;
+  box-sizing: border-box;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.mc-front--leaving { opacity: 0; }
+.mc-front .vyom-anchor { position: absolute; pointer-events: none; }
 
 /* a few slow stars in the wash */
 .mc__twinkles i {
@@ -79,7 +99,6 @@
   height: clamp(150px, 26vh, 220px);
   flex: none;
 }
-.mc__seat .vyom-anchor { position: absolute; pointer-events: none; }
 /* ---- confetti, out of his centre, when he celebrates ---- */
 .mc__confetti {
   position: absolute;
@@ -232,10 +251,9 @@
   will-change: transform;
 }
 
-.room-root--dark .mc { background: linear-gradient(180deg, #1c1838 0%, #241f44 100%); }
-.room-root--dark .mc__title,
-.room-root--dark .mc__eyebrow { color: #fff; }
-.room-root--dark .mc__sub { color: #c9c3e6; }
+.mc-front--dark .mc__title,
+.mc-front--dark .mc__eyebrow { color: #fff; }
+.mc-front--dark .mc__sub { color: #c9c3e6; }
 
 @media (prefers-reduced-motion: reduce) {
   .mc, .mc__head, .mc__rewards, .mc__actions { animation-duration: 0.01s; animation-delay: 0s; }

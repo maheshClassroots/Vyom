@@ -298,7 +298,7 @@ export function TeachingRoom({ onExit, onPractice }: TeachingRoomProps = {}) {
 
       {/* body: single unified card */}
       <div style={css('flex:1;display:flex;padding:4px 18px 18px;min-height:0;position:relative;z-index:1;')}>
-        <div style={css('flex:1;display:flex;min-height:0;background:transparent;border:4px solid transparent;border-radius:24px;overflow:hidden;transition:border-color .55s ease-in-out,box-shadow .55s ease-in-out;box-shadow:none;position:relative;')}>
+        <div className={complete ? 'room-card--complete' : undefined} style={css('flex:1;display:flex;min-height:0;background:transparent;border:4px solid transparent;border-radius:24px;overflow:hidden;transition:border-color .55s ease-in-out,box-shadow .55s ease-in-out;box-shadow:none;position:relative;')}>
           <ChatPanel
             open={chatOpen}
             messages={messages}
