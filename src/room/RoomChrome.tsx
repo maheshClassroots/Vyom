@@ -2,9 +2,9 @@ import { ASSET, css } from './css';
 
 interface RoomChromeProps {
   points: number;
-  coins: number;
+  orbs: number;
   xpPulse: boolean;
-  coinPulse: boolean;
+  orbPulse: boolean;
   /** Leaves the lesson and returns to the home page. */
   onHome?: () => void;
   /** The close button: also back to the home page. */
@@ -15,7 +15,7 @@ interface RoomChromeProps {
  * Floating top chrome — markup and inline styles taken verbatim from the
  * prototype's "FLOATING TOP CHROME" block.
  */
-export function RoomChrome({ points, coins, xpPulse, coinPulse, onHome, onClose }: RoomChromeProps) {
+export function RoomChrome({ points, orbs, xpPulse, orbPulse, onHome, onClose }: RoomChromeProps) {
   return (
     <div style={css('flex:none;position:relative;z-index:2;display:flex;align-items:center;gap:14px;padding:24px 20px 4px 28px;')}>
       {/* The prototype's logo was decorative; it is the way back to the home
@@ -62,13 +62,13 @@ export function RoomChrome({ points, coins, xpPulse, coinPulse, onHome, onClose 
         />
 
         <div
-          id="coinWidget"
-          className={coinPulse ? 'rw-pulse' : ''}
+          id="orbWidget"
+          className={orbPulse ? 'rw-pulse' : ''}
           style={css('display:flex;align-items:center;gap:8px;padding:8px 16px 8px 13px;border-radius:12px;')}
-          title="Coins"
+          title="Energy orbs"
         >
-          <i className="ti ti-coin-filled" style={css('font-size:20px;color:#f08c00;filter:drop-shadow(0 1px 2px rgba(180,120,0,.35));')} />
-          <span style={css('font-weight:800;color:#7a4700;font-size:18px;letter-spacing:-.01em;')}>{coins}</span>
+          <span style={css('width:18px;height:18px;flex:none;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff,#ffe066 42%,#e8590c 78%,#e8590c);box-shadow:0 0 10px rgba(255,193,7,.95),0 0 3px rgba(255,255,255,.9);')} />
+          <span style={css('font-weight:800;color:#7a4700;font-size:18px;letter-spacing:-.01em;')}>{orbs}</span>
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 /* ------------------------------------------------------ module complete */
-/* Over the lesson's body, under the header chrome (so the counters stay in
-   view for the reward to fly into). Tokens from src/tokens.css. */
+/* A flash screen over the lesson's body, under the header chrome (so its
+   counters stay in view for the rewards to fly into). One column, centred:
+   title, Vyom, rewards, the two choices. Tokens from src/tokens.css. */
 
 .mc {
   position: absolute;
@@ -10,52 +11,76 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  padding: 24px;
+  gap: clamp(10px, 2.2vh, 22px);
+  padding: 16px 24px 20px;
   border-radius: 24px;
-  background:
-    radial-gradient(60% 50% at 50% 30%, rgba(255, 212, 168, 0.35), transparent 70%),
-    linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 46%, var(--canvas-bot) 100%);
-  animation: mc-in 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 46%, var(--canvas-bot) 100%);
+  animation: mc-in 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) both;
 }
 @keyframes mc-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@keyframes mc-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-/* ---- his seat: where the learn slot's anchor is while this is up ---- */
+/* a few slow stars in the wash */
+.mc__twinkles i {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.9);
+  animation: mc-twinkle 3.6s ease-in-out infinite;
+}
+.mc__twinkles i:nth-child(1) { left: 11%; top: 14%; }
+.mc__twinkles i:nth-child(2) { left: 87%; top: 9%; animation-delay: 0.7s; }
+.mc__twinkles i:nth-child(3) { left: 8%; top: 46%; animation-delay: 1.4s; }
+.mc__twinkles i:nth-child(4) { left: 91%; top: 52%; animation-delay: 2.1s; }
+.mc__twinkles i:nth-child(5) { left: 16%; top: 80%; animation-delay: 1s; width: 4px; height: 4px; }
+.mc__twinkles i:nth-child(6) { left: 82%; top: 84%; animation-delay: 2.6s; width: 4px; height: 4px; }
+@keyframes mc-twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* ---- the words ---- */
+.mc__head {
+  /* Lifted clear of his head: the column stays centred, the words sit higher. */
+  position: relative;
+  top: -40px;
+  text-align: center;
+  animation: mc-rise 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) 0.15s both;
+}
+.mc__title {
+  margin: 0;
+  font-size: clamp(26px, 4.4vh, var(--fs-display));
+  font-weight: var(--fw-heavy);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ink-900);
+}
+.mc__sub {
+  margin: 6px 0 0;
+  font-size: var(--fs-heading);
+  font-weight: var(--fw-regular);
+  color: var(--ink-700);
+  line-height: 1.3;
+}
+
+/* ---- his seat ---- */
 .mc__seat {
   position: relative;
-  width: 260px;
-  height: 220px;
+  width: 280px;
+  height: clamp(150px, 26vh, 220px);
   flex: none;
 }
 .mc__seat .vyom-anchor { position: absolute; pointer-events: none; }
-.mc__halo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 280px;
-  height: 220px;
-  transform: translate(-50%, -50%) scale(0.6);
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(255, 212, 168, 0.7), rgba(184, 166, 255, 0.4) 46%, transparent 72%);
-  filter: blur(16px);
-  opacity: 0;
-  transition: opacity 0.6s ease, transform 0.9s cubic-bezier(0.2, 0.8, 0.3, 1);
-}
-.mc--burst .mc__halo,
-.mc--settled .mc__halo {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  animation: mc-halo 4s ease-in-out 0.9s infinite;
-}
-@keyframes mc-halo {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -50%) scale(1.08); }
-}
-
-/* ---- confetti, out of his centre ---- */
+/* ---- confetti, out of his centre, when he celebrates ---- */
 .mc__confetti {
   position: absolute;
   left: 50%;
@@ -79,118 +104,90 @@
   100% { transform: translate(var(--dx), calc(var(--dy) + 120px)) rotate(var(--rot)) scale(1); opacity: 0; }
 }
 
-/* ---- the reward in flight ---- */
-.mc__sky { z-index: 40; }
-.mc-token {
-  position: absolute;
-  left: -14px;
-  top: -14px;
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  will-change: transform, opacity;
-}
-.mc-token--star {
-  color: var(--reward);
-  font-size: 26px;
-  filter: drop-shadow(0 2px 6px rgba(240, 140, 0, 0.45));
-}
-.mc-token--coin {
-  color: var(--reward);
-  font-size: 24px;
-  filter: drop-shadow(0 2px 6px rgba(240, 140, 0, 0.45));
-}
-
-/* ---- the card ---- */
-.mc__card {
-  width: min(520px, 100%);
+/* ---- the rewards ---- */
+.mc__rewards {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  gap: 8px;
-  padding: 22px 26px 24px;
-  background: var(--surface);
-  border-radius: var(--r-card);
-  box-shadow: var(--shadow-card), var(--ring);
+  gap: 12px;
+  /* held back until he has celebrated; its place in the column is kept */
   opacity: 0;
-  transform: translateY(18px) scale(0.96);
-  animation: mc-rise 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 0.55s both;
 }
-@keyframes mc-rise {
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
+.mc--beat-2 .mc__rewards,
+.mc--beat-3 .mc__rewards { animation: mc-rise 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) both; }
 .mc__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--fs-eyebrow);
-  font-weight: var(--fw-heavy);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--reward-ink);
-  background: var(--reward-soft);
-  border-radius: var(--r-pill);
-  padding: 5px 11px;
-}
-.mc__eyebrow .ti { font-size: 14px; color: var(--reward); }
-.mc__title {
-  margin: 4px 0 0;
-  font-size: var(--fs-title);
-  font-weight: var(--fw-heavy);
-  color: var(--ink-900);
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-}
-.mc__sub {
   margin: 0;
-  font-size: var(--fs-body);
-  font-weight: var(--fw-regular);
-  color: var(--ink-700);
-  line-height: 1.45;
+  font-size: var(--fs-secondary);
+  font-weight: var(--fw-heavy);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-900);
 }
-.mc__sub strong { color: var(--primary); font-weight: var(--fw-bold); }
-
-.mc__reward {
+.mc__chips {
   display: flex;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 12px;
 }
 .mc__chip {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 14px;
+  gap: 10px;
+  padding: 10px 20px 10px 16px;
   border-radius: var(--r-pill);
-  background: var(--reward-soft);
+  background: #fff8ec;
+  border: 1.5px solid #ffe2b8;
+  box-shadow: 0 8px 18px -12px rgba(240, 140, 0, 0.55);
   color: var(--reward-ink);
-  font-size: var(--fs-secondary);
-  font-weight: var(--fw-bold);
-  transform: scale(0.9);
-  opacity: 0.55;
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1.3), opacity 0.35s ease;
+  font-size: var(--fs-heading);
+  font-weight: var(--fw-heavy);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
-.mc__chip b { font-size: var(--fs-heading); font-weight: var(--fw-heavy); font-variant-numeric: tabular-nums; }
-.mc__chip .ti { color: var(--reward); font-size: 18px; }
-.mc--settled .mc__chip { transform: scale(1); opacity: 1; }
+.mc__icon {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.mc__icon .ti {
+  font-size: 22px;
+  color: var(--reward);
+  filter: drop-shadow(0 1px 2px rgba(180, 120, 0, 0.35));
+}
+.mc__orb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #fff, #ffe066 42%, #e8590c 78%, #e8590c);
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.9), 0 0 3px rgba(255, 255, 255, 0.9);
+}
+/* a pill gives up its reward: one kick, its icon dimmed while they are away */
+.mc__chip--kick { animation: mc-kick 0.5s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes mc-kick {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.1) rotate(-2deg); }
+  100% { transform: scale(1); }
+}
 
 /* ---- the choice ---- */
 .mc__actions {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  width: 100%;
-  margin-top: 12px;
+  width: min(440px, 100%);
+  /* last: with his module-complete animation */
   opacity: 0;
-  transform: translateY(10px);
-  animation: mc-rise 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) 1.5s both;
+  pointer-events: none;
+}
+.mc--beat-3 .mc__actions {
+  pointer-events: auto;
+  animation: mc-rise 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) both;
 }
 .mc__btn {
-  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 10px;
   height: 52px;
   padding: 0 18px;
   border-radius: var(--r-control);
@@ -200,7 +197,7 @@
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
-.mc__btn .ti { font-size: 18px; }
+.mc__btn .ti { font-size: 19px; }
 .mc__btn:active { transform: translateY(1px); }
 .mc__btn--primary {
   border: 1.5px solid transparent;
@@ -210,12 +207,37 @@
 }
 .mc__btn--primary:hover { box-shadow: 0 14px 30px -12px rgba(103, 65, 217, 0.7); transform: translateY(-1px); }
 .mc__btn--secondary {
-  border: 1.5px solid var(--line);
-  background: var(--surface);
+  border: 1.5px solid var(--primary-200);
+  background: rgba(255, 255, 255, 0.6);
   color: var(--primary);
 }
 .mc__btn--secondary:hover { background: var(--surface-tint); }
 
-.room-root--dark .mc__card { background: #241f44; }
-.room-root--dark .mc__title { color: #fff; }
+/* ---- the rewards in flight: the two Rive pieces, each laid out by a
+   transform from its own artboard onto this screen ---- */
+.mc__sky {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mc__sky canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1000px;
+  height: 1000px;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.room-root--dark .mc { background: linear-gradient(180deg, #1c1838 0%, #241f44 100%); }
+.room-root--dark .mc__title,
+.room-root--dark .mc__eyebrow { color: #fff; }
 .room-root--dark .mc__sub { color: #c9c3e6; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mc, .mc__head, .mc__rewards, .mc__actions { animation-duration: 0.01s; animation-delay: 0s; }
+  .mc__twinkles i { animation: none; }
+}

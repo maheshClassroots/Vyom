@@ -16,6 +16,7 @@
   },
   "ignorePatterns": [
     "scripts/design/vendor/**",
+    "src/onboarding/vyom-rive-lottie.js",
     "public/**"
   ]
 }

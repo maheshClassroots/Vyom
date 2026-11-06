@@ -69,6 +69,9 @@ const EPSILON_PX = 0.25;
 const SPARK_FLY_IN_MS = 1000;
 /** How far her spot may shift between steps before she is sent to it. */
 const SPARK_STAY_PX = 60;
+/** Where she stands relative to her box: up and in from it when she is met on the grade step, a little below it once she lands on the next. */
+const SPARK_MET_OFFSET = { x: -40, y: -30 };
+const SPARK_LANDED_OFFSET = { x: 0, y: 10 };
 /** How long Spark's line takes her to say. */
 const SPARK_LINE_MS = 3200;
 /** How long Vyom's happy moment after an answer lasts. */
@@ -207,6 +210,8 @@ export function OnboardingCast() {
     // ---- Spark -------------------------------------------------------------
     let sparkShown = false;
     let sparkTarget: Point | null = null;
+    // The step her spot was last chosen for.
+    let sparkStep = -1;
     let sparkMoveAt = 0;
     const sparkFire = (name: string) => sparkVmi.current?.trigger(name)?.trigger();
     const sparkSet = (name: string, value: number) => {
@@ -376,10 +381,13 @@ export function OnboardingCast() {
       }
       if (!settled) return;
 
-      // Her spot is her box, at the right end of the question row: the row
-      // is laid out the same on every step, so she stays put from one to the next.
+      // Her spot is by her box, at the right end of the question row: on
+      // the grade step, where she is met, a little up and in from it (under
+      // her line); from the next step on she lands a little lower, on it.
       const sparkBox = boxOf(iframe, doc.querySelector('[data-cast="spark"]'));
-      const target: Point | null = sparkBox ? centreOf(sparkBox) : null;
+      const offset = st.step >= STEP_CHAPTER ? SPARK_LANDED_OFFSET : SPARK_MET_OFFSET;
+      const boxCentre = sparkBox ? centreOf(sparkBox) : null;
+      const target: Point | null = boxCentre ? { x: boxCentre.x + offset.x, y: boxCentre.y + offset.y } : null;
       if (!target) return;
 
       if (!sparkShown) {
@@ -399,6 +407,7 @@ export function OnboardingCast() {
         sparkFire('flyIn');
         sparkShown = true;
         sparkTarget = target;
+        sparkStep = st.step;
         sparkMoveAt = now;
         // Her line waits for her: the page shows it once she has landed.
         later(SPARK_FLY_IN_MS, () => {
@@ -427,12 +436,19 @@ export function OnboardingCast() {
 
       // The search bar sits a little above where the options were; that is
       // not a move. Only a real one — the layout changing under her — is.
-      const moved = !sparkTarget || Math.abs(target.x - sparkTarget.x) > SPARK_STAY_PX || Math.abs(target.y - sparkTarget.y) > SPARK_STAY_PX;
+      // Her spot also changes with the step (met up here, landed down there).
+      const stepMoved = sparkStep !== st.step;
+      const moved =
+        !sparkTarget ||
+        Math.abs(target.x - sparkTarget.x) > SPARK_STAY_PX ||
+        Math.abs(target.y - sparkTarget.y) > SPARK_STAY_PX ||
+        (stepMoved && (Math.abs(target.x - sparkTarget.x) > 1 || Math.abs(target.y - sparkTarget.y) > 1));
       // A new place to be (another step, a resize): one move, not one per frame.
       if (moved && now - sparkMoveAt > ENTER_SETTLE_MS) {
         placeSpark(target);
         sparkFire('moveToPoint');
         sparkTarget = target;
+        sparkStep = st.step;
         sparkMoveAt = now;
         glancedAtInput = false;
       }

@@ -41,7 +41,7 @@ export interface Step {
    * set here and cleared when the step changes.
    */
   flags?: Record<string, boolean>;
-  /** Milestones pay out XP and a coin, and fire `celebrate`. */
+  /** Milestones pay out XP and an orb, and fire `celebrate`. */
   milestone?: boolean;
   /** Question shown on a `quiz` board. */
   question?: Question;
@@ -158,7 +158,7 @@ export const STEPS: Step[] = [
   {
     id: 'outro',
     mode: 'teach',
-    title: 'Module complete!',
+    title: 'What we have learnt',
     chip: true,
     outro: true,
     bullets: OBJECTIVES,
@@ -182,4 +182,4 @@ export const STEP_INDEX: Record<string, number> = Object.fromEntries(
 /** Steps that pay out rewards, in order — these are the dots on the track. */
 export const MILESTONES = STEPS.map((s, i) => (s.milestone ? i : -1)).filter((i) => i >= 0);
 
-export const REWARD = { xp: 20, coins: 1 };
+export const REWARD = { xp: 20, orbs: 1 };
