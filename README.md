@@ -90,7 +90,7 @@ play once Vyom arrives, so the character choreography is data, not control flow:
 ```
 
 Milestones (`intro`, `lo1`, `lo2`, `outro`) fire `celebration`, pay out XP and
-a coin, and pop their node on the progress track. Chat interactions drive
+an orb, and pop their node on the progress track. Chat interactions drive
 `listening` on focus, `thinking` on send and `speaking` on reply.
 
 ## The home chat
@@ -191,16 +191,33 @@ he walks up to its canvas and presents.
 ## Module complete
 
 The last slide's Next is a Finish: it brings up the completion screen over
-the lesson (`src/room/ModuleComplete.tsx`, styles in `complete.css`). The
-learn slot's anchor moves to the middle of the screen (the canvas's own
-steps aside), Vyom walks there (`moveToPoint`) and celebrates
-(`celebrate`, `emotion = happy`, Spark delighted), and the module's reward
-— `MODULE_REWARD`, 50 XP as eight stars and 3 coins — bursts out of him
-with confetti and flies up into the header's counters, which tick up as
-each one lands; the card's chips count the same way. Two choices follow:
-**Practice now** (primary; leaves to the home page, where practice lives,
-via `onPractice`) and **Watch next module** (secondary; the mockup has one
+the lesson (`src/room/ModuleComplete.tsx`, styles in `complete.css`) — a
+flash screen in one centred column: "Module Complete!" and "Great job,
+<name>!", Vyom on his own, "Your rewards" with the XP and
+orb pills, then **Practice now** (primary; leaves to the home page via
+`onPractice`) and **Watch next module** (secondary; the mockup has one
 module, so it plays again from the top).
+
+The screen is revealed in three beats. First the heading, while the learn
+slot's anchor moves to the middle of the screen (the canvas's own steps
+aside), Vyom walks there (`moveToPoint`) and celebrates (`celebrate`, with
+confetti). Then "Your rewards" appears and plays the reward story of the
+design package `module-complete-lottie-rive`, with that package's order and
+timing: he brightens and watches (`isLookingAtPoint`, `lookAtX/Y` from the
+package's look track, `emotion = happy`); the XP pill kicks and its stars
+burst out, hover and swoop into the header's star counter; the orb pill's
+orbs do the same. The header counters tick up as each star and orb lands
+(`MODULE_REWARD`, 50 XP and 3 orbs). Last, he plays `moduleComplete` and
+the two buttons appear.
+
+The flights are the package's own Rive pieces, `collect-stars.riv` and
+`collect-orbs.riv` (`public/room/complete/`, one `collect` trigger each).
+Each is a 1000-unit artboard whose flight runs from the pill to the HUD of
+the package's layout; its canvas is laid over the screen with the one
+rotate-scale-move transform that puts those two points on this screen's
+pill icon and this header's counter, measured when it plays and on resize.
+The look track goes through the same transform. The package's Lottie
+(title, HUD and pills) is not used: the app draws those itself.
 
 ## The design packages' pages
 

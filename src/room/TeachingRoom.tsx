@@ -60,7 +60,7 @@ export function TeachingRoom({ onExit, onPractice }: TeachingRoomProps = {}) {
   const [recording, setRecording] = useState(false);
   const [draft, setDraft] = useState('');
   const [points, setPoints] = useState(120);
-  const [coins, setCoins] = useState(6);
+  const [orbs, setOrbs] = useState(6);
   const [pulse, setPulse] = useState(false);
   const [celebratingDot, setCelebratingDot] = useState<number | null>(null);
   const [celebrating, setCelebrating] = useState(false);
@@ -153,7 +153,7 @@ export function TeachingRoom({ onExit, onPractice }: TeachingRoomProps = {}) {
     if (step > 0) scheduleMessages();
 
     // The opening slide is a milestone on the track but pays nothing — the
-    // prototype shows 120 XP / 6 coins until the first objective is earned.
+    // prototype shows 120 XP / 6 orbs until the first objective is earned.
     if (current.milestone && step > 0 && !paidMilestones.current.has(step)) {
       paidMilestones.current.add(step);
       const dot = MILESTONES.indexOf(step);
@@ -161,7 +161,7 @@ export function TeachingRoom({ onExit, onPractice }: TeachingRoomProps = {}) {
         setCelebrating(true);
         setCelebratingDot(dot);
         setPoints((value) => value + REWARD.xp);
-        setCoins((value) => value + REWARD.coins);
+        setOrbs((value) => value + REWARD.orbs);
         setPulse(true);
         fire('celebrate');
       }, CUE_DELAY_MS + 340);
@@ -289,9 +289,9 @@ export function TeachingRoom({ onExit, onPractice }: TeachingRoomProps = {}) {
 
       <RoomChrome
         points={points}
-        coins={coins}
+        orbs={orbs}
         xpPulse={pulse}
-        coinPulse={pulse}
+        orbPulse={pulse}
         onHome={onExit}
         onClose={onExit}
       />
@@ -544,11 +544,9 @@ export function TeachingRoom({ onExit, onPractice }: TeachingRoomProps = {}) {
           {complete && (
             <ModuleComplete
               studentName={STUDENT_NAME}
-              lessonTitle={STEPS[0].title}
-              objectives={MILESTONES.length}
               onReward={(xp, earned) => {
                 setPoints((value) => value + xp);
-                setCoins((value) => value + earned);
+                setOrbs((value) => value + earned);
                 setPulse(true);
                 later(() => setPulse(false), 600);
               }}

@@ -52,7 +52,7 @@ Tut/Vyom/                      (not a git repo)
   (`pointDown` 200 ms after `pointDown`). From ~400 ms it plays clean (`pointDown` alone = 1.19 s with the
   look-down; pupils drop). So every app trigger waits for idle **and** 500 ms quiet.
 - Durations from idle: pivot 0.95 s, pointDown 1.19, acknowledge 1.49, correct 1.19, wrong 2.51,
-  pointUp 2.01, pointLeft 3.01, pointRight 1.67, present 0.69, celebrate 2.27, walk (`moveToPoint`) ~1.0 s.
+  pointUp 2.01, pointLeft 3.01, pointRight 1.67, present 0.69, celebrate 2.27, moduleComplete 3.28, walk (`moveToPoint`) ~1.0 s.
 - `typingPos` rests at 1; the name step uses 3. `isTyping` must be switched off by hand.
 - `moveToPoint` walks from `refPos` to `learnWindow`; the artboard sets `refPos` on arrival (the cast uses
   that to detect landing). Writing `refPos` + `learnWindow` together sets him down instantly.
