@@ -164,13 +164,23 @@ together into the middle: Vyom's learn window to the centre of the screen
 (`launchFromOnboarding` in `useHomeToRoom.ts`).
 
 **Keys 6 to 12 — the piece** (`src/onboarding/OnboardingLaunch.tsx`).
-Vyom expands (`exapndCollapse`, as the file spells it) and the app's own
-Spark shrinks away into the expansion (and leaves the stage under cover of
-it). Half a second after the expansion is triggered the "With Spark"
-Lottie plays over him from its Start marker to its End marker
-(`public/onboarding/launch/with-spark.json`): the network, the cards, the
-gold path, and Spark herself on it — her image sequence, arriving and
-leaving as the Lottie has it. A second before it ends he collapses.
+The design package `vyom-onboarding-launchwithspark`, composed the way the
+package composes it. Vyom expands (`exapndCollapse`, as the file spells
+it), the app's own Spark having scaled away into him on the walk in. Half
+a second after the expansion is triggered, two layers play over him:
+the package's Lottie (`public/onboarding/launch/vyom-onboarding.json`, no
+images) as the whole timeline — the network, the cards, the gold trail and
+the Goal icon, from its Start marker to its End marker — and, laid on top,
+`sparkstatemachine.riv` live on its own canvas. The package's connector
+(`src/onboarding/vyom-rive-lottie.js`, vendored as-is) moves that canvas
+onto the Lottie's invisible `Spark` placeholder layer every frame drawn
+and fires the Lottie's markers into her view model (which way she looks,
+flight by flight). Its warm-up cues are run from the launch piece against
+the moment the Lottie really starts: her fly-in and expression as Start is
+tapped, the last one 0.37 s before the first frame. She grows out of
+Vyom's centre at comp frame 31 and fades back into it at the end. A second
+before the Lottie ends he collapses. To update the piece, copy the
+package's three files over the app's copies.
 
 **Keys 13 and 14 — the class.** From his collapsed shape the room comes
 up directly — no `moduleStart` or `moduleStartLoaded` beats, the piece was
